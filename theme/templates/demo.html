@@ -654,6 +654,96 @@
         </div>
     </section>
 
+    <!-- Seção: Componentes de Interação -->
+    <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-6">Componentes de Interação</h2>
+        
+        <!-- Toggle -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium mb-4">Toggle</h3>
+            <div class="flex gap-4 mb-4">
+                {% include "components/toggle.html" with text="Favorito" pressed=False %}
+                {% include "components/toggle.html" with text="Notificações" pressed=True variant="outline" %}
+                {% include "components/toggle.html" with icon="<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' d='M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z' /></svg>" pressed=False size="sm" %}
+                {% include "components/toggle.html" with text="Modo Escuro" pressed=False size="lg" %}
+            </div>
+        </div>
+        
+        <!-- Toggle Group -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium mb-4">Toggle Group</h3>
+            <div class="space-y-4">
+                <div>
+                    <p class="text-sm text-muted-foreground mb-2">Alinhamento de texto (single):</p>
+                    {% include "components/toggle-group.html" with items="left,center,right" labels="Esquerda,Centro,Direita" value="center" type="single" name="alignment" %}
+                </div>
+                <div>
+                    <p class="text-sm text-muted-foreground mb-2">Formatação (multiple):</p>
+                    {% include "components/toggle-group.html" with items="bold,italic,underline" labels="Negrito,Itálico,Sublinhado" value="bold,italic" type="multiple" name="formatting" variant="outline" %}
+                </div>
+                <div>
+                    <p class="text-sm text-muted-foreground mb-2">Tamanhos:</p>
+                    {% include "components/toggle-group.html" with items="sm,md,lg" labels="Pequeno,Médio,Grande" value="md" size="sm" %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slider -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium mb-4">Slider</h3>
+            <div class="space-y-6">
+                <div>
+                    {% include "components/slider.html" with min=0 max=100 value=25 label="Volume" show_value=True name="volume" %}
+                </div>
+                <div>
+                    {% include "components/slider.html" with min=0 max=1000 value="200,800" step=50 label="Faixa de Preço" show_value=True name="price_range" %}
+                </div>
+                <div class="flex gap-8">
+                    <div class="w-24">
+                        {% include "components/slider.html" with min=0 max=100 value=60 orientation="vertical" label="Vertical" show_value=True name="vertical" %}
+                    </div>
+                    <div class="flex-1">
+                        {% include "components/slider.html" with min=0 max=10 value=5 step=1 label="Avaliação" show_value=True name="rating" %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Popover -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium mb-4">Popover</h3>
+            <div class="flex gap-4 mb-4">
+                {% include "components/popover.html" with trigger="<button class='inline-flex items-center justify-center gap-2 rounded-md px-4 py-2 text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90'>Clique aqui</button>" title="Informações" content="<p>Este é um popover com informações úteis sobre o elemento.</p>" placement="top" %}
+                
+                {% include "components/popover.html" with trigger="<button class='inline-flex items-center justify-center gap-2 rounded-md px-4 py-2 text-sm font-medium border border-input bg-background hover:bg-accent hover:text-accent-foreground'>Hover aqui</button>" content="<div class='space-y-2'><p class='font-medium'>Dica rápida</p><p class='text-sm text-muted-foreground'>Passe o mouse sobre elementos para ver dicas úteis.</p></div>" placement="bottom" trigger_event="hover" close_button=True %}
+                
+                {% include "components/popover.html" with trigger="<button class='inline-flex items-center justify-center gap-2 rounded-md px-4 py-2 text-sm font-medium bg-secondary text-secondary-foreground hover:bg-secondary/80'>Formulário</button>" title="Contato Rápido" content="<form class='space-y-3'><input type='text' placeholder='Nome' class='w-full px-3 py-2 border rounded-md text-sm'><input type='email' placeholder='Email' class='w-full px-3 py-2 border rounded-md text-sm'><button type='submit' class='w-full px-3 py-2 bg-primary text-primary-foreground rounded-md text-sm hover:bg-primary/90'>Enviar</button></form>" placement="right" width="w-80" %}
+            </div>
+        </div>
+        
+        <!-- Hover Card -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium mb-4">Hover Card</h3>
+            <div class="space-y-4">
+                <p>Passe o mouse sobre {% include "components/hover-card.html" with trigger="<span class='underline text-blue-600 cursor-pointer'>@usuario</span>" title="João Silva" avatar="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face" content="<p class='text-sm'>Desenvolvedor Frontend especializado em React e Vue.js. Trabalha com tecnologias modernas há mais de 5 anos.</p><div class='flex items-center gap-4 mt-3 text-xs text-muted-foreground'><span>👥 1.2k seguidores</span><span>📍 São Paulo, SP</span></div>" placement="top" %} para ver seu perfil.</p>
+                
+                <p>Confira também {% include "components/hover-card.html" with trigger="<span class='underline text-green-600 cursor-pointer'>este projeto</span>" title="Sistema de Gestão" content="<div class='space-y-2'><p class='text-sm'>Sistema completo de gestão empresarial desenvolvido com Django e React.</p><div class='flex gap-2'><span class='px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded'>Django</span><span class='px-2 py-1 bg-green-100 text-green-800 text-xs rounded'>React</span><span class='px-2 py-1 bg-purple-100 text-purple-800 text-xs rounded'>PostgreSQL</span></div></div>" placement="bottom" width="w-80" %} interessante.</p>
+            </div>
+        </div>
+        
+        <!-- Alert Dialog -->
+        <div class="mb-8">
+            <h3 class="text-lg font-medium mb-4">Alert Dialog</h3>
+            <div class="flex gap-4 mb-4">
+                {% include "components/alert-dialog.html" with trigger="<button class='inline-flex items-center justify-center gap-2 rounded-md px-4 py-2 text-sm font-medium bg-destructive text-destructive-foreground hover:bg-destructive/90'>Deletar Item</button>" title="Confirmar exclusão" description="Esta ação não pode ser desfeita. O item será permanentemente removido do sistema." action_text="Sim, deletar" action_onclick="alert('Item deletado com sucesso!')" %}
+                
+                {% include "components/alert-dialog.html" with trigger="<button class='inline-flex items-center justify-center gap-2 rounded-md px-4 py-2 text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90'>Sair da Conta</button>" title="Confirmar logout" description="Você tem certeza que deseja sair da sua conta? Será necessário fazer login novamente." action_text="Sair" cancel_text="Cancelar" action_variant="default" action_onclick="alert('Logout realizado!')" %}
+                
+                {% include "components/alert-dialog.html" with trigger="<button class='inline-flex items-center justify-center gap-2 rounded-md px-4 py-2 text-sm font-medium border border-input bg-background hover:bg-accent hover:text-accent-foreground'>Resetar Dados</button>" title="Resetar configurações" description="Todas as suas configurações personalizadas serão perdidas e retornadas ao padrão." action_text="Resetar" icon="<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' d='M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z' /></svg>" size="lg" action_onclick="alert('Dados resetados!')" %}
+            </div>
+        </div>
+    </section>
+
     <!-- Seção: Sheet -->
     <section class="mb-12">
         <h2 class="text-2xl font-semibold mb-6">Sheet</h2>

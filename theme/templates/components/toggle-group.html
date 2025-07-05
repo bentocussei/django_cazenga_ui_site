@@ -1,73 +1,97 @@
-"use client"
+{# 
+Componente: Toggle Group
+Uso: include "components/toggle-group.html" with items="item1,item2,item3" value="item1"
 
-import * as React from "react"
-import * as ToggleGroupPrimitive from "@radix-ui/react-toggle-group"
-import { type VariantProps } from "class-variance-authority"
+Parâmetros:
+- items: Lista de itens separados por vírgula (obrigatório)
+- labels: Lista de labels separados por vírgula (opcional, usa items se não fornecido)
+- icons: Lista de ícones SVG separados por vírgula (opcional)
+- value: Valor selecionado inicial (single) ou valores separados por vírgula (multiple)
+- type: single, multiple (padrão: single)
+- variant: default, outline (padrão: default)
+- size: default, sm, lg (padrão: default)
+- name: Nome do input hidden (obrigatório para formulários)
+- disabled: true/false (padrão: false)
+- class: Classes CSS adicionais (opcional)
+- onchange: Função JavaScript para executar na mudança (opcional)
 
-import { cn } from "@/lib/utils"
-import { toggleVariants } from "@/components/ui/toggle"
+Exemplo:
+{% include "components/toggle-group.html" with 
+    items="left,center,right" 
+    labels="Esquerda,Centro,Direita"
+    value="center"
+    type="single"
+    name="alignment" %}
+#}
 
-const ToggleGroupContext = React.createContext<
-  VariantProps<typeof toggleVariants>
->({
-  size: "default",
-  variant: "default",
-})
-
-function ToggleGroup({
-  className,
-  variant,
-  size,
-  children,
-  ...props
-}: React.ComponentProps<typeof ToggleGroupPrimitive.Root> &
-  VariantProps<typeof toggleVariants>) {
-  return (
-    <ToggleGroupPrimitive.Root
-      data-slot="toggle-group"
-      data-variant={variant}
-      data-size={size}
-      className={cn(
-        "group/toggle-group flex w-fit items-center rounded-md data-[variant=outline]:shadow-xs",
-        className
-      )}
-      {...props}
-    >
-      <ToggleGroupContext.Provider value={{ variant, size }}>
-        {children}
-      </ToggleGroupContext.Provider>
-    </ToggleGroupPrimitive.Root>
-  )
-}
-
-function ToggleGroupItem({
-  className,
-  children,
-  variant,
-  size,
-  ...props
-}: React.ComponentProps<typeof ToggleGroupPrimitive.Item> &
-  VariantProps<typeof toggleVariants>) {
-  const context = React.useContext(ToggleGroupContext)
-
-  return (
-    <ToggleGroupPrimitive.Item
-      data-slot="toggle-group-item"
-      data-variant={context.variant || variant}
-      data-size={context.size || size}
-      className={cn(
-        toggleVariants({
-          variant: context.variant || variant,
-          size: context.size || size,
-        }),
-        "min-w-0 flex-1 shrink-0 rounded-none shadow-none first:rounded-l-md last:rounded-r-md focus:z-10 focus-visible:z-10 data-[variant=outline]:border-l-0 data-[variant=outline]:first:border-l",
-        className
-      )}
-      {...props}
-    >
-      {children}
-    </ToggleGroupPrimitive.Item>
-  )
-}
-
-export { ToggleGroup, ToggleGroupItem }
+{% with type=type|default:"single" variant=variant|default:"default" size=size|default:"default" disabled=disabled|default:False %}
+{% with item_list=items|split:"," label_list=labels|default:items|split:"," icon_list=icons|default:""|split:"," %}
+<div 
+    x-data="{ 
+        selectedValues: '{{ type }}' === 'multiple' ? '{{ value|default:'' }}'.split(',').filter(v => v) : ['{{ value|default:'' }}'].filter(v => v),
+        type: '{{ type }}',
+        
+        isSelected(value) {
+            return this.selectedValues.includes(value);
+        },
+        
+        toggle(value) {
+            if ({{ disabled|yesno:'true,false' }}) return;
+            
+            if (this.type === 'single') {
+                this.selectedValues = this.selectedValues[0] === value ? [] : [value];
+            } else {
+                const index = this.selectedValues.indexOf(value);
+                if (index === -1) {
+                    this.selectedValues.push(value);
+                } else {
+                    this.selectedValues.splice(index, 1);
+                }
+            }
+            
+            {% if onchange %}{{ onchange }}{% endif %}
+        }
+    }"
+    class="flex w-fit items-center rounded-md {% if variant == 'outline' %}shadow-sm{% endif %} {{ class|default:'' }}"
+    role="group"
+    {% if disabled %}aria-disabled="true"{% endif %}
+>
+    {% for item in item_list %}
+        <button
+            @click="toggle('{{ item }}')"
+            :class="{ 'bg-accent text-accent-foreground': isSelected('{{ item }}') }"
+            type="button"
+            {% if disabled %}disabled{% endif %}
+            class="inline-flex items-center justify-center gap-2 text-sm font-medium hover:bg-muted hover:text-muted-foreground disabled:pointer-events-none disabled:opacity-50 transition-colors whitespace-nowrap min-w-0 flex-1 shrink-0 rounded-none shadow-none focus:z-10 focus-visible:z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2
+                {% if forloop.first %}rounded-l-md{% endif %}
+                {% if forloop.last %}rounded-r-md{% endif %}
+                {% if variant == 'default' %}bg-transparent
+                {% elif variant == 'outline' %}border border-input bg-transparent hover:bg-accent hover:text-accent-foreground
+                    {% if not forloop.first %}border-l-0{% endif %}
+                {% else %}bg-transparent{% endif %}
+                {% if size == 'sm' %}h-8 px-1.5 min-w-8
+                {% elif size == 'lg' %}h-10 px-2.5 min-w-10
+                {% else %}h-9 px-2 min-w-9{% endif %}"
+            :aria-pressed="isSelected('{{ item }}')"
+        >
+            {% if icon_list|length >= forloop.counter and icon_list|slice:forloop.counter0:forloop.counter|join:"" %}
+                <span class="[&_svg]:size-4 [&_svg]:shrink-0 [&_svg]:pointer-events-none">
+                    {{ icon_list|slice:forloop.counter0:forloop.counter|join:""|safe }}
+                </span>
+            {% endif %}
+            
+            {% if label_list|length >= forloop.counter %}
+                <span>{{ label_list|slice:forloop.counter0:forloop.counter|join:"" }}</span>
+            {% endif %}
+        </button>
+    {% endfor %}
+    
+    <!-- Hidden inputs para formulários -->
+    {% if name %}
+        <template x-for="value in selectedValues" :key="value">
+            <input type="hidden" :name="type === 'multiple' ? '{{ name }}[]' : '{{ name }}'" :value="value">
+        </template>
+    {% endif %}
+</div>
+{% endwith %}
+{% endwith %}
