@@ -1,167 +1,102 @@
-"use client"
+{# 
+Componente: Form
+Uso: include "components/form.html" with fields=form_fields action="/submit" method="POST"
 
-import * as React from "react"
-import * as LabelPrimitive from "@radix-ui/react-label"
-import { Slot } from "@radix-ui/react-slot"
-import {
-  Controller,
-  FormProvider,
-  useFormContext,
-  useFormState,
-  type ControllerProps,
-  type FieldPath,
-  type FieldValues,
-} from "react-hook-form"
+Parâmetros:
+- fields: Lista de campos do formulário (obrigatório)
+- action: URL de ação do formulário (opcional)
+- method: GET, POST (padrão: POST)
+- enctype: application/x-www-form-urlencoded, multipart/form-data (opcional)
+- novalidate: true/false - desabilitar validação HTML5 (padrão: false)
+- class: Classes CSS adicionais (opcional)
+- x_data: Dados Alpine.js adicionais (opcional)
+- on_submit: Função JavaScript no submit (opcional)
 
-import { cn } from "@/lib/utils"
-import { Label } from "@/components/ui/label"
+Exemplo de fields:
+[
+    {
+        "type": "text",
+        "name": "name", 
+        "label": "Nome",
+        "placeholder": "Digite seu nome",
+        "required": true,
+        "description": "Nome completo"
+    },
+    {
+        "type": "email",
+        "name": "email",
+        "label": "Email", 
+        "required": true,
+        "error": "Email inválido"
+    }
+]
+#}
 
-const Form = FormProvider
-
-type FormFieldContextValue<
-  TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
-> = {
-  name: TName
-}
-
-const FormFieldContext = React.createContext<FormFieldContextValue>(
-  {} as FormFieldContextValue
-)
-
-const FormField = <
-  TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
->({
-  ...props
-}: ControllerProps<TFieldValues, TName>) => {
-  return (
-    <FormFieldContext.Provider value={{ name: props.name }}>
-      <Controller {...props} />
-    </FormFieldContext.Provider>
-  )
-}
-
-const useFormField = () => {
-  const fieldContext = React.useContext(FormFieldContext)
-  const itemContext = React.useContext(FormItemContext)
-  const { getFieldState } = useFormContext()
-  const formState = useFormState({ name: fieldContext.name })
-  const fieldState = getFieldState(fieldContext.name, formState)
-
-  if (!fieldContext) {
-    throw new Error("useFormField should be used within <FormField>")
-  }
-
-  const { id } = itemContext
-
-  return {
-    id,
-    name: fieldContext.name,
-    formItemId: `${id}-form-item`,
-    formDescriptionId: `${id}-form-item-description`,
-    formMessageId: `${id}-form-item-message`,
-    ...fieldState,
-  }
-}
-
-type FormItemContextValue = {
-  id: string
-}
-
-const FormItemContext = React.createContext<FormItemContextValue>(
-  {} as FormItemContextValue
-)
-
-function FormItem({ className, ...props }: React.ComponentProps<"div">) {
-  const id = React.useId()
-
-  return (
-    <FormItemContext.Provider value={{ id }}>
-      <div
-        data-slot="form-item"
-        className={cn("grid gap-2", className)}
-        {...props}
-      />
-    </FormItemContext.Provider>
-  )
-}
-
-function FormLabel({
-  className,
-  ...props
-}: React.ComponentProps<typeof LabelPrimitive.Root>) {
-  const { error, formItemId } = useFormField()
-
-  return (
-    <Label
-      data-slot="form-label"
-      data-error={!!error}
-      className={cn("data-[error=true]:text-destructive", className)}
-      htmlFor={formItemId}
-      {...props}
-    />
-  )
-}
-
-function FormControl({ ...props }: React.ComponentProps<typeof Slot>) {
-  const { error, formItemId, formDescriptionId, formMessageId } = useFormField()
-
-  return (
-    <Slot
-      data-slot="form-control"
-      id={formItemId}
-      aria-describedby={
-        !error
-          ? `${formDescriptionId}`
-          : `${formDescriptionId} ${formMessageId}`
-      }
-      aria-invalid={!!error}
-      {...props}
-    />
-  )
-}
-
-function FormDescription({ className, ...props }: React.ComponentProps<"p">) {
-  const { formDescriptionId } = useFormField()
-
-  return (
-    <p
-      data-slot="form-description"
-      id={formDescriptionId}
-      className={cn("text-muted-foreground text-sm", className)}
-      {...props}
-    />
-  )
-}
-
-function FormMessage({ className, ...props }: React.ComponentProps<"p">) {
-  const { error, formMessageId } = useFormField()
-  const body = error ? String(error?.message ?? "") : props.children
-
-  if (!body) {
-    return null
-  }
-
-  return (
-    <p
-      data-slot="form-message"
-      id={formMessageId}
-      className={cn("text-destructive text-sm", className)}
-      {...props}
-    >
-      {body}
-    </p>
-  )
-}
-
-export {
-  useFormField,
-  Form,
-  FormItem,
-  FormLabel,
-  FormControl,
-  FormDescription,
-  FormMessage,
-  FormField,
-}
+{% with method=method|default:"POST" novalidate=novalidate|default:False %}
+<form
+    {% if action %}action="{{ action }}"{% endif %}
+    method="{{ method }}"
+    {% if enctype %}enctype="{{ enctype }}"{% endif %}
+    {% if novalidate %}novalidate{% endif %}
+    {% if on_submit %}@submit="{{ on_submit }}"{% endif %}
+    {% if x_data %}x-data="{{ x_data }}"{% endif %}
+    class="space-y-6 {{ class|default:'' }}"
+>
+    {% for field in fields %}
+        <div class="grid gap-2">
+            <!-- Label -->
+            {% if field.label %}
+                {% include "components/label.html" with text=field.label for=field.name required=field.required class=field.error|yesno:"text-destructive," %}
+            {% endif %}
+            
+            <!-- Field -->
+            <div class="space-y-1">
+                {% if field.type == "textarea" %}
+                    {% include "components/textarea.html" with name=field.name id=field.name placeholder=field.placeholder value=field.value rows=field.rows disabled=field.disabled readonly=field.readonly required=field.required maxlength=field.maxlength class=field.error|yesno:"border-destructive," %}
+                
+                {% elif field.type == "select" %}
+                    {% include "components/select.html" with name=field.name options=field.options placeholder=field.placeholder value=field.value disabled=field.disabled searchable=field.searchable class=field.error|yesno:"border-destructive," %}
+                
+                {% elif field.type == "checkbox" %}
+                    {% include "components/checkbox.html" with name=field.name label=field.label checked=field.checked disabled=field.disabled %}
+                
+                {% elif field.type == "radio" %}
+                    {% include "components/radio-group.html" with name=field.name options=field.options value=field.value orientation=field.orientation disabled=field.disabled %}
+                
+                {% elif field.type == "switch" %}
+                    {% include "components/switch.html" with name=field.name label=field.label checked=field.checked disabled=field.disabled %}
+                
+                {% else %}
+                    <!-- Input padrão (text, email, password, etc.) -->
+                    {% include "components/input.html" with type=field.type name=field.name id=field.name placeholder=field.placeholder value=field.value disabled=field.disabled readonly=field.readonly required=field.required maxlength=field.maxlength minlength=field.minlength pattern=field.pattern icon=field.icon class=field.error|yesno:"border-destructive," %}
+                {% endif %}
+                
+                <!-- Description -->
+                {% if field.description %}
+                    <p class="text-muted-foreground text-sm">
+                        {{ field.description }}
+                    </p>
+                {% endif %}
+                
+                <!-- Error Message -->
+                {% if field.error %}
+                    <p class="text-destructive text-sm">
+                        {{ field.error }}
+                    </p>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+    
+    <!-- Submit Button -->
+    {% if submit_button != False %}
+        <div class="flex justify-end gap-3">
+            {% if cancel_button %}
+                {% include "components/button.html" with text=cancel_button.text|default:"Cancelar" variant="outline" type="button" onclick=cancel_button.onclick href=cancel_button.href %}
+            {% endif %}
+            
+            {% include "components/button.html" with text=submit_button.text|default:"Enviar" variant=submit_button.variant|default:"default" type="submit" disabled=submit_button.disabled %}
+        </div>
+    {% endif %}
+</form>
+{% endwith %}

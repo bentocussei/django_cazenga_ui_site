@@ -341,5 +341,201 @@
             </div>
         </div>
     </section>
+
+    <!-- Seção: Buttons (Novo) -->
+    <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-6">Buttons</h2>
+        
+        <div class="space-y-6">
+            <!-- Variantes -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Variantes</h3>
+                <div class="flex flex-wrap gap-3">
+                    {% include "components/button.html" with text="Default" variant="default" %}
+                    {% include "components/button.html" with text="Destructive" variant="destructive" %}
+                    {% include "components/button.html" with text="Outline" variant="outline" %}
+                    {% include "components/button.html" with text="Secondary" variant="secondary" %}
+                    {% include "components/button.html" with text="Ghost" variant="ghost" %}
+                    {% include "components/button.html" with text="Link" variant="link" %}
+                </div>
+            </div>
+            
+            <!-- Tamanhos -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Tamanhos</h3>
+                <div class="flex flex-wrap items-center gap-3">
+                    {% include "components/button.html" with text="Small" size="sm" %}
+                    {% include "components/button.html" with text="Default" size="default" %}
+                    {% include "components/button.html" with text="Large" size="lg" %}
+                    {% include "components/button.html" with text="Icon" size="icon" icon='<svg class="size-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>' %}
+                </div>
+            </div>
+            
+            <!-- Com ícones -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Com Ícones</h3>
+                <div class="flex flex-wrap gap-3">
+                    {% include "components/button.html" with text="Download" icon='<svg class="size-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" /></svg>' %}
+                    {% include "components/button.html" with text="Enviar" icon='<svg class="size-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" /></svg>' icon_position="right" %}
+                </div>
+            </div>
+            
+            <!-- Como links -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Como Links</h3>
+                <div class="flex flex-wrap gap-3">
+                    {% include "components/button.html" with text="Ir para Google" href="https://google.com" target="_blank" %}
+                    {% include "components/button.html" with text="Link Interno" href="/demo/" variant="outline" %}
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Seção: Select -->
+    <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-6">Select</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Select básico -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Select Básico</h3>
+                {% include "components/select.html" with name="country" options='[{"value":"br","label":"Brasil"},{"value":"us","label":"Estados Unidos"},{"value":"ca","label":"Canadá"}]' placeholder="Selecione um país" %}
+            </div>
+            
+            <!-- Select com busca -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Com Busca</h3>
+                {% include "components/select.html" with name="city" options='[{"value":"sp","label":"São Paulo"},{"value":"rj","label":"Rio de Janeiro"},{"value":"bh","label":"Belo Horizonte"},{"value":"df","label":"Brasília"}]' placeholder="Selecione uma cidade" searchable=True %}
+            </div>
+        </div>
+    </section>
+    
+    <!-- Seção: Textarea -->
+    <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-6">Textarea</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Básico</h3>
+                {% include "components/textarea.html" with name="message" placeholder="Digite sua mensagem..." %}
+            </div>
+            
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Com Limite</h3>
+                {% include "components/textarea.html" with name="bio" placeholder="Fale sobre você..." maxlength=200 rows=6 %}
+            </div>
+        </div>
+    </section>
+    
+    <!-- Seção: Dialog -->
+    <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-6">Dialog</h2>
+        
+        <div class="flex flex-wrap gap-3">
+            {% include "components/dialog.html" with trigger='<button class="btn btn-primary">Abrir Dialog</button>' title="Confirmar Ação" description="Tem certeza que deseja continuar?" content="<p>Esta ação não pode ser desfeita.</p>" footer='<button class="btn btn-outline" @click="open = false">Cancelar</button><button class="btn btn-destructive" @click="open = false">Confirmar</button>' %}
+            
+            {% include "components/dialog.html" with trigger='<button class="btn btn-outline">Dialog Grande</button>' title="Formulário Completo" size="lg" content="<p>Aqui você pode colocar um formulário completo ou muito conteúdo.</p><br><p>Este dialog é maior que o padrão.</p>" %}
+        </div>
+    </section>
+    
+    <!-- Seção: Table -->
+    <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-6">Table</h2>
+        
+        <div class="space-y-6">
+            <!-- Tabela básica -->
+            <div>
+                <h3 class="text-lg font-medium mb-3">Tabela Básica</h3>
+                {% include "components/table.html" with headers='["Nome", "Email", "Status"]' data='[["João Silva", "joao@email.com", "Ativo"], ["Maria Santos", "maria@email.com", "Inativo"], ["Pedro Costa", "pedro@email.com", "Ativo"]]' %}
+            </div>
+            
+            <!-- Tabela com recursos -->
+            <div>
+                <h3 class="text-lg font-medium mb-3">Com Ordenação e Seleção</h3>
+                {% include "components/table.html" with headers='["ID", "Nome", "Idade"]' data='[["1", "Ana", "25"], ["2", "Bruno", "30"], ["3", "Carlos", "28"]]' sortable=True selectable=True striped=True %}
+            </div>
+        </div>
+    </section>
+    
+    <!-- Seção: Accordion -->
+    <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-6">Accordion</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Single -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Single (apenas um aberto)</h3>
+                {% include "components/accordion.html" with items='[{"title":"O que é Django?","content":"Django é um framework web em Python.","open":true},{"title":"O que é Tailwind CSS?","content":"Tailwind é um framework CSS utility-first."},{"title":"O que é Alpine.js?","content":"Alpine.js é um framework JavaScript minimalista."}]' type="single" %}
+            </div>
+            
+            <!-- Multiple -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Multiple (vários abertos)</h3>
+                {% include "components/accordion.html" with items='[{"title":"Recursos","content":"<ul><li>Responsivo</li><li>Acessível</li><li>Customizável</li></ul>"},{"title":"Suporte","content":"Documentação completa e exemplos.","open":true},{"title":"Licença","content":"MIT License - uso livre.","open":true}]' type="multiple" %}
+            </div>
+        </div>
+    </section>
+    
+    <!-- Seção: Breadcrumb -->
+    <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-6">Breadcrumb</h2>
+        
+        <div class="space-y-6">
+            <div>
+                <h3 class="text-lg font-medium mb-3">Navegação Simples</h3>
+                {% include "components/breadcrumb.html" with items='[{"label":"Home","href":"/"},{"label":"Produtos","href":"/produtos"},{"label":"Eletrônicos","href":"/produtos/eletronicos"},{"label":"Smartphone"}]' %}
+            </div>
+            
+            <div>
+                <h3 class="text-lg font-medium mb-3">Com Ellipsis (muitos itens)</h3>
+                {% include "components/breadcrumb.html" with items='[{"label":"Home","href":"/"},{"label":"Categoria 1","href":"/cat1"},{"label":"Categoria 2","href":"/cat2"},{"label":"Categoria 3","href":"/cat3"},{"label":"Categoria 4","href":"/cat4"},{"label":"Categoria 5","href":"/cat5"},{"label":"Produto Final"}]' max_items=4 %}
+            </div>
+        </div>
+    </section>
+    
+    <!-- Seção: Pagination -->
+    <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-6">Pagination</h2>
+        
+        <div class="space-y-6">
+            <div>
+                <h3 class="text-lg font-medium mb-3">Com Links</h3>
+                {% include "components/pagination.html" with current_page=5 total_pages=20 base_url="/demo" %}
+            </div>
+            
+            <div>
+                <h3 class="text-lg font-medium mb-3">Com JavaScript</h3>
+                {% include "components/pagination.html" with current_page=3 total_pages=10 on_page_change="(page) => alert('Página ' + page)" %}
+            </div>
+        </div>
+    </section>
+    
+    <!-- Seção: Radio Group -->
+    <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-6">Radio Group</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Vertical -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Vertical</h3>
+                {% include "components/radio-group.html" with name="payment" options='[{"value":"card","label":"Cartão de Crédito","description":"Pagar com cartão"},{"value":"pix","label":"PIX","description":"Pagamento instantâneo"},{"value":"boleto","label":"Boleto","description":"Vencimento em 3 dias"}]' value="card" %}
+            </div>
+            
+            <!-- Horizontal -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Horizontal</h3>
+                {% include "components/radio-group.html" with name="size" options='[{"value":"s","label":"P"},{"value":"m","label":"M"},{"value":"l","label":"G"},{"value":"xl","label":"GG"}]' orientation="horizontal" value="m" %}
+            </div>
+        </div>
+    </section>
+    
+    <!-- Seção: Form -->
+    <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-6">Form</h2>
+        
+        <div class="max-w-2xl">
+            {% include "components/form.html" with fields='[{"type":"text","name":"name","label":"Nome Completo","placeholder":"Digite seu nome","required":true,"description":"Nome como aparece no documento"},{"type":"email","name":"email","label":"Email","placeholder":"seu@email.com","required":true},{"type":"select","name":"country","label":"País","options":[{"value":"br","label":"Brasil"},{"value":"us","label":"Estados Unidos"}],"placeholder":"Selecione um país"},{"type":"textarea","name":"message","label":"Mensagem","placeholder":"Digite sua mensagem...","rows":4},{"type":"checkbox","name":"terms","label":"Aceito os termos e condições","required":true},{"type":"radio","name":"contact","label":"Forma de contato preferida","options":[{"value":"email","label":"Email"},{"value":"phone","label":"Telefone"}],"value":"email"}]' action="/submit" submit_button='{"text":"Enviar Formulário"}' cancel_button='{"text":"Cancelar","href":"/"}' %}
+        </div>
+    </section>
 </div>
 {% endblock %} 
