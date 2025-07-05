@@ -107,6 +107,97 @@
         </div>
     </section>
     
+    <!-- Seção: Separators -->
+    <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-6">Separators</h2>
+        
+        <div class="space-y-8">
+            <div>
+                <p class="mb-4">Texto antes do separador</p>
+                {% include "components/separator.html" %}
+                <p class="mt-4">Texto depois do separador</p>
+            </div>
+            
+            <div class="flex items-center gap-4">
+                <span>Item 1</span>
+                {% include "components/separator.html" with orientation="vertical" class="h-6" %}
+                <span>Item 2</span>
+                {% include "components/separator.html" with orientation="vertical" class="h-6" %}
+                <span>Item 3</span>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Seção: Labels -->
+    <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-6">Labels</h2>
+        
+        <div class="space-y-4 max-w-md">
+            <div>
+                {% include "components/label.html" with text="Nome completo" for="name" %}
+                {% include "components/input.html" with type="text" id="name" placeholder="Digite seu nome" %}
+            </div>
+            
+            <div>
+                {% include "components/label.html" with text="Email" for="email" required=True %}
+                {% include "components/input.html" with type="email" id="email" placeholder="seu@email.com" %}
+            </div>
+        </div>
+    </section>
+    
+    <!-- Seção: Cards -->
+    <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-6">Cards</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% include "components/card.html" with title="Card Simples" description="Este é um card básico com título e descrição" content="<p>Conteúdo do card pode incluir qualquer HTML.</p>" %}
+            
+            {% include "components/card.html" with title="Card com Ação" description="Card com botão de ação" action='<button class="btn btn-ghost btn-sm">⋮</button>' content="<p>Este card tem uma ação no header.</p>" footer='<button class="btn btn-primary btn-sm">Confirmar</button>' %}
+            
+            {% include "components/card.html" with title="Card com Divisores" description="Card mostrando divisores entre seções" content="<p>Conteúdo principal do card.</p><p class=\"mt-2\">Mais informações aqui.</p>" footer='<div class="flex gap-2"><button class="btn btn-outline btn-sm">Cancelar</button><button class="btn btn-primary btn-sm">Salvar</button></div>' show_dividers=True %}
+        </div>
+    </section>
+    
+    <!-- Seção: Avatars -->
+    <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-6">Avatars</h2>
+        
+        <div class="space-y-6">
+            <!-- Tamanhos -->
+            <div>
+                <h3 class="text-lg font-medium mb-3">Tamanhos</h3>
+                <div class="flex items-center gap-4">
+                    {% include "components/avatar.html" with size="xs" fallback="XS" %}
+                    {% include "components/avatar.html" with size="sm" fallback="SM" %}
+                    {% include "components/avatar.html" with size="md" fallback="MD" %}
+                    {% include "components/avatar.html" with size="lg" fallback="LG" %}
+                    {% include "components/avatar.html" with size="xl" fallback="XL" %}
+                </div>
+            </div>
+            
+            <!-- Com imagens e status -->
+            <div>
+                <h3 class="text-lg font-medium mb-3">Com Status</h3>
+                <div class="flex items-center gap-4">
+                    {% include "components/avatar.html" with fallback="ON" status="online" %}
+                    {% include "components/avatar.html" with fallback="AW" status="away" %}
+                    {% include "components/avatar.html" with fallback="BS" status="busy" %}
+                    {% include "components/avatar.html" with fallback="OF" status="offline" %}
+                </div>
+            </div>
+            
+            <!-- Formas -->
+            <div>
+                <h3 class="text-lg font-medium mb-3">Formas</h3>
+                <div class="flex items-center gap-4">
+                    {% include "components/avatar.html" with shape="circle" fallback="CR" %}
+                    {% include "components/avatar.html" with shape="square" fallback="SQ" %}
+                    {% include "components/avatar.html" with shape="square" fallback="ST" status="online" %}
+                </div>
+            </div>
+        </div>
+    </section>
+    
     <!-- Seção: Usando componentes de botão -->
     <section class="mb-12">
         <h2 class="text-2xl font-semibold mb-6">Componentes de Botão Reutilizáveis</h2>

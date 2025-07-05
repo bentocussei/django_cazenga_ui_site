@@ -1,28 +1,23 @@
-"use client"
+{# 
+Componente: Separator
+Uso: include "components/separator.html"
 
-import * as React from "react"
-import * as SeparatorPrimitive from "@radix-ui/react-separator"
+Parâmetros:
+- orientation: horizontal, vertical (padrão: horizontal)
+- decorative: true/false - se é apenas decorativo ou tem significado semântico (padrão: true)
+- class: Classes CSS adicionais (opcional)
+#}
 
-import { cn } from "@/lib/utils"
-
-function Separator({
-  className,
-  orientation = "horizontal",
-  decorative = true,
-  ...props
-}: React.ComponentProps<typeof SeparatorPrimitive.Root>) {
-  return (
-    <SeparatorPrimitive.Root
-      data-slot="separator"
-      decorative={decorative}
-      orientation={orientation}
-      className={cn(
-        "bg-border shrink-0 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px",
-        className
-      )}
-      {...props}
-    />
-  )
-}
-
-export { Separator }
+{% with orientation=orientation|default:"horizontal" decorative=decorative|default:True %}
+<div 
+    {% if not decorative %}role="separator"{% endif %}
+    aria-orientation="{{ orientation }}"
+    class="bg-border shrink-0 
+        {% if orientation == 'vertical' %}
+            h-full w-px
+        {% else %}
+            h-px w-full
+        {% endif %}
+        {{ class|default:'' }}"
+></div>
+{% endwith %}
