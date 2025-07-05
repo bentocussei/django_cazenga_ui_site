@@ -165,62 +165,7 @@
     <!-- Parâmetros -->
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Parâmetros</h2>
-        <div class="border rounded-lg overflow-hidden">
-            <table class="w-full">
-                <thead class="bg-muted">
-                    <tr>
-                        <th class="text-left p-3 font-medium">Parâmetro</th>
-                        <th class="text-left p-3 font-medium">Tipo</th>
-                        <th class="text-left p-3 font-medium">Padrão</th>
-                        <th class="text-left p-3 font-medium">Descrição</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y">
-                    <tr>
-                        <td class="p-3 font-mono text-sm">text</td>
-                        <td class="p-3 text-sm">string</td>
-                        <td class="p-3 text-sm">-</td>
-                        <td class="p-3 text-sm">Texto do botão</td>
-                    </tr>
-                    <tr>
-                        <td class="p-3 font-mono text-sm">variant</td>
-                        <td class="p-3 text-sm">string</td>
-                        <td class="p-3 text-sm">default</td>
-                        <td class="p-3 text-sm">Variante do botão: default, secondary, destructive, outline, ghost, link</td>
-                    </tr>
-                    <tr>
-                        <td class="p-3 font-mono text-sm">size</td>
-                        <td class="p-3 text-sm">string</td>
-                        <td class="p-3 text-sm">md</td>
-                        <td class="p-3 text-sm">Tamanho do botão: sm, md, lg</td>
-                    </tr>
-                    <tr>
-                        <td class="p-3 font-mono text-sm">type</td>
-                        <td class="p-3 text-sm">string</td>
-                        <td class="p-3 text-sm">button</td>
-                        <td class="p-3 text-sm">Tipo do botão: button, submit, reset</td>
-                    </tr>
-                    <tr>
-                        <td class="p-3 font-mono text-sm">disabled</td>
-                        <td class="p-3 text-sm">boolean</td>
-                        <td class="p-3 text-sm">false</td>
-                        <td class="p-3 text-sm">Se o botão está desabilitado</td>
-                    </tr>
-                    <tr>
-                        <td class="p-3 font-mono text-sm">x_click</td>
-                        <td class="p-3 text-sm">string</td>
-                        <td class="p-3 text-sm">-</td>
-                        <td class="p-3 text-sm">Evento Alpine.js para clique</td>
-                    </tr>
-                    <tr>
-                        <td class="p-3 font-mono text-sm">class</td>
-                        <td class="p-3 text-sm">string</td>
-                        <td class="p-3 text-sm">-</td>
-                        <td class="p-3 text-sm">Classes CSS adicionais</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        {% include "components/table.html" with headers=button_params.headers data=button_params.data caption="Parâmetros disponíveis para o componente Button" %}
     </div>
 
 </div>

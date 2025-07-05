@@ -1,8 +1,8 @@
 {% load static tailwind_tags %}
 <!DOCTYPE html>
-<html lang="pt-BR" x-data="{ darkMode: false }" :class="{ 'dark': darkMode }">
+<html lang="pt-BR" :class="{ 'dark': darkMode }">
 	<head>
-		<title>Django + Tailwind + Alpine.js</title>
+		<title>{% block title %}Django + Tailwind + Alpine.js{% endblock %}</title>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -11,55 +11,56 @@
 		<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 		<!-- Chart.js -->
 		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+		{% load static %}
+		<link rel="stylesheet" href="{% static 'css/dist/styles.css' %}">
 	</head>
 
-	<body class="bg-background text-foreground transition-colors duration-300">
+	<body class="bg-background text-foreground transition-colors duration-300" 
+		  x-data="{ darkMode: localStorage.getItem('darkMode') === 'true' || false }"
+		  x-init="$watch('darkMode', val => localStorage.setItem('darkMode', val))"
+		  x-cloak>
 		<!-- Container principal -->
 		<div class="container py-8">
 			<!-- Header com toggle de tema -->
-			<header class="mb-12">
-				<div class="flex items-center justify-between">
-					<div class="flex items-center gap-8">
-						<h1 class="text-3xl font-bold">Django + Tailwind + Alpine.js</h1>
-						<nav class="hidden md:flex items-center gap-6">
-							<a href="/" class="text-sm font-medium hover:text-primary transition-colors">Início</a>
-							<a href="/components/" class="text-sm font-medium hover:text-primary transition-colors">Componentes</a>
-							<a href="/demo-clean/" class="text-sm font-medium hover:text-primary transition-colors">Visão Geral</a>
-							<a href="/demo/" class="text-sm font-medium hover:text-primary transition-colors">Demo Completa</a>
-						</nav>
+			<header class="border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+				<div class="container mx-auto px-4 py-4">
+					<div class="flex items-center justify-between">
+						<div class="flex items-center space-x-6">
+							<h1 class="text-xl font-bold">Django + Tailwind + Alpine.js</h1>
+							<nav class="hidden md:flex space-x-4">
+								<a href="/" class="text-sm font-medium hover:text-primary transition-colors">Início</a>
+								<a href="/components/" class="text-sm font-medium hover:text-primary transition-colors">Componentes</a>
+								<a href="/demo/" class="text-sm font-medium hover:text-primary transition-colors">Demo Completa</a>
+							</nav>
+						</div>
+						<div class="flex items-center space-x-4">
+							{% include "components/button.html" with text="🌙" variant="outline" size="md" x_click="darkMode = !darkMode" x_show="!darkMode" %}
+							{% include "components/button.html" with text="☀️" variant="outline" size="md" x_click="darkMode = !darkMode" x_show="darkMode" %}
+						</div>
 					</div>
-					                <!-- Toggle de tema escuro -->
-                <button
-                    @click="darkMode = !darkMode"
-                    class="btn btn-outline btn-md"
-                    :aria-label="darkMode ? 'Ativar modo claro' : 'Ativar modo escuro'"
-                >
-                    <span x-show="!darkMode">🌙 Modo Escuro</span>
-                    <span x-show="darkMode">☀️ Modo Claro</span>
-                </button>
 				</div>
 			</header>
 
 			<!-- Conteúdo da página -->
-			{% block page_content %}
-			<div class="text-center py-20">
-				<div class="max-w-2xl mx-auto">
-					<div class="text-6xl mb-8">🎨</div>
-					<h2 class="text-4xl font-bold mb-4">Sistema de Componentes</h2>
-					<p class="text-xl text-muted-foreground mb-8">
-						Biblioteca de componentes reutilizáveis construída com Django, Tailwind CSS e Alpine.js
-					</p>
+			<main class="container mx-auto px-4 py-8">
+				{% block page_content %}
+				<div class="text-center py-16">
+					<h1 class="text-4xl font-bold mb-4">Bem-vindo!</h1>
+					<p class="text-xl text-muted-foreground mb-8">Sistema de componentes usando Django, Tailwind CSS e Alpine.js</p>
+					
 					<div class="flex flex-col sm:flex-row gap-4 justify-center">
-						<a href="/components/" class="btn btn-primary btn-lg">
-							Ver Componentes
-						</a>
-						<a href="/demo-clean/" class="btn btn-outline btn-lg">
-							Visão Geral
-						</a>
+						{% include "components/button.html" with text="Ver Componentes" variant="default" size="lg" x_click="window.location.href='/components/'" %}
+						{% include "components/button.html" with text="Demo Completa" variant="outline" size="lg" x_click="window.location.href='/demo/'" %}
 					</div>
 				</div>
-			</div>
-			{% endblock %}
+				{% endblock %}
+			</main>
+
+			<footer class="border-t border-border bg-muted/50 mt-16">
+				<div class="container mx-auto px-4 py-8 text-center text-sm text-muted-foreground">
+					<p>© 2024 Django + Tailwind + Alpine.js. Sistema de componentes moderno.</p>
+				</div>
+			</footer>
 		</div>
 
 		{% block content %}

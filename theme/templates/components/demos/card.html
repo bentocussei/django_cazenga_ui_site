@@ -104,50 +104,7 @@
     <!-- Parâmetros -->
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Parâmetros</h2>
-        <div class="border rounded-lg overflow-hidden">
-            <table class="w-full">
-                <thead class="bg-muted">
-                    <tr>
-                        <th class="text-left p-3 font-medium">Parâmetro</th>
-                        <th class="text-left p-3 font-medium">Tipo</th>
-                        <th class="text-left p-3 font-medium">Padrão</th>
-                        <th class="text-left p-3 font-medium">Descrição</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y">
-                    <tr>
-                        <td class="p-3 font-mono text-sm">title</td>
-                        <td class="p-3 text-sm">string</td>
-                        <td class="p-3 text-sm">-</td>
-                        <td class="p-3 text-sm">Título do card</td>
-                    </tr>
-                    <tr>
-                        <td class="p-3 font-mono text-sm">description</td>
-                        <td class="p-3 text-sm">string</td>
-                        <td class="p-3 text-sm">-</td>
-                        <td class="p-3 text-sm">Descrição do card</td>
-                    </tr>
-                    <tr>
-                        <td class="p-3 font-mono text-sm">content</td>
-                        <td class="p-3 text-sm">string/HTML</td>
-                        <td class="p-3 text-sm">-</td>
-                        <td class="p-3 text-sm">Conteúdo principal do card (aceita HTML)</td>
-                    </tr>
-                    <tr>
-                        <td class="p-3 font-mono text-sm">footer</td>
-                        <td class="p-3 text-sm">string/HTML</td>
-                        <td class="p-3 text-sm">-</td>
-                        <td class="p-3 text-sm">Conteúdo do footer (aceita HTML)</td>
-                    </tr>
-                    <tr>
-                        <td class="p-3 font-mono text-sm">class</td>
-                        <td class="p-3 text-sm">string</td>
-                        <td class="p-3 text-sm">-</td>
-                        <td class="p-3 text-sm">Classes CSS adicionais</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        {% include "components/table.html" with headers=card_params.headers data=card_params.data caption="Parâmetros disponíveis para o componente Card" %}
     </div>
 
 </div>

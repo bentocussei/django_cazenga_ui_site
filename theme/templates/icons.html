@@ -1,0 +1,241 @@
+{% extends "components_base.html" %}
+{% load static %}
+
+{% block title %}Ícones{% endblock %}
+{% block page_title %}Ícones Radix{% endblock %}
+{% block page_description %}{{ total_icons }} ícones disponíveis da biblioteca Radix Icons - Carregamento dinâmico{% endblock %}
+
+{% block component_content %}
+<div class="max-w-6xl mx-auto space-y-8">
+    
+    <!-- Introdução -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Sistema de Ícones Dinâmico</h2>
+        <div class="bg-muted rounded-lg p-6 space-y-4">
+            <p class="text-sm">Os ícones são carregados dinamicamente da pasta <code class="bg-background px-2 py-1 rounded">static/radix-icons/</code></p>
+            <p class="text-sm">✨ <strong>Novidade:</strong> Agora você pode usar qualquer ícone SVG da pasta radix-icons automaticamente!</p>
+            
+            <div class="space-y-3">
+                <h3 class="font-medium">Método 1: Componente Icon (Recomendado)</h3>
+                <div class="bg-background rounded p-3 text-sm">
+                    <code>{% verbatim %}{% include "components/icon.html" with name="heart" size="size-6" css_class="text-destructive" %}{% endverbatim %}</code>
+                </div>
+            </div>
+            
+            <div class="space-y-3">
+                <h3 class="font-medium">Método 2: Tag img direta</h3>
+                <div class="bg-background rounded p-3 text-sm">
+                    <pre><code>{% verbatim %}{% load static %}
+&lt;img src="{% static 'radix-icons/heart.svg' %}" class="size-6" alt="Heart"&gt;{% endverbatim %}</code></pre>
+                </div>
+            </div>
+            
+            <div class="space-y-3">
+                <h3 class="font-medium">Método 3: Inline com controle de cor</h3>
+                <div class="bg-background rounded p-3 text-sm">
+                    <pre><code>{% verbatim %}&lt;img src="{% static 'radix-icons/heart.svg' %}" class="size-6 text-destructive" alt="Heart"&gt;{% endverbatim %}</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Barra de Busca -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Biblioteca de Ícones</h2>
+        <div x-data="{ 
+            search: '',
+            get filteredIcons() {
+                if (this.search === '') return {{ icons|length }};
+                const searchTerm = this.search.toLowerCase();
+                return [{% for icon in icons %}'{{ icon.display_name|lower }}|{{ icon.name }}'{% if not forloop.last %},{% endif %}{% endfor %}].filter(icon => icon.includes(searchTerm)).length;
+            }
+        }" class="space-y-6">
+            <!-- Campo de busca -->
+            <div class="max-w-md">
+                {% include "components/input.html" with name="search" placeholder="Buscar ícones..." x_model="search" %}
+            </div>
+            
+            <!-- Grid de ícones -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4">
+                {% for icon in icons %}
+                <div 
+                    x-show="search === '' || '{{ icon.display_name|lower }}'.includes(search.toLowerCase()) || '{{ icon.name }}'.includes(search.toLowerCase())"
+                    class="group relative flex flex-col items-center p-4 border rounded-lg hover:bg-accent transition-colors cursor-pointer"
+                    x-data="{ copied: false }"
+                    @click="
+                        navigator.clipboard.writeText('{{ icon.name }}');
+                        copied = true;
+                        setTimeout(() => copied = false, 2000);
+                    "
+                >
+                    <!-- Ícone -->
+                    <div class="flex items-center justify-center size-8 mb-2 text-foreground group-hover:text-primary transition-colors">
+                        <img src="{% static icon.static_path %}" alt="{{ icon.name }}" class="size-8">
+                    </div>
+                    
+                    <!-- Nome -->
+                    <div class="text-xs text-center text-muted-foreground group-hover:text-foreground transition-colors">
+                        <div class="font-medium">{{ icon.display_name }}</div>
+                        <div class="text-xs opacity-70">{{ icon.name }}</div>
+                    </div>
+                    
+                    <!-- Feedback de cópia -->
+                    <div 
+                        x-show="copied"
+                        x-transition
+                        class="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-foreground text-background text-xs px-2 py-1 rounded shadow-lg"
+                        style="display: none;"
+                    >
+                        Copiado!
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <!-- Mensagem quando não há resultados -->
+            <div 
+                x-show="search !== '' && filteredIcons === 0"
+                x-transition
+                class="text-center py-12 text-muted-foreground"
+            >
+                <div class="text-4xl mb-4">🔍</div>
+                <h3 class="text-lg font-medium mb-2">Nenhum ícone encontrado</h3>
+                <p>Tente buscar por outro termo</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Exemplos de uso -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Exemplos de Uso</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            <!-- Exemplo 1: Botões com ícones -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Botões com Ícones</h3>
+                <div class="border rounded-lg p-4 space-y-3">
+                    <div class="flex gap-2">
+                        <button class="btn btn-primary flex items-center gap-2">
+                            {% include "components/icon.html" with name="heart" size="size-4" css_class="text-destructive" %}
+                            Favoritar
+                        </button>
+                        <button class="btn btn-outline flex items-center gap-2">
+                            {% include "components/icon.html" with name="copy" size="size-4" %}
+                            Copiar
+                        </button>
+                        <button class="btn btn-destructive flex items-center gap-2">
+                            {% include "components/icon.html" with name="archive" size="size-4" %}
+                            Arquivar
+                        </button>
+                    </div>
+                    <div class="bg-muted rounded p-3 text-sm">
+                        <code>{% verbatim %}{% include "components/icon.html" with name="heart" size="size-4" css_class="text-destructive" %}{% endverbatim %}</code>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exemplo 2: Cards com ícones -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Cards com Ícones</h3>
+                <div class="border rounded-lg p-4">
+                    <div class="flex items-center gap-3 p-3 bg-muted rounded">
+                        {% include "components/icon.html" with name="rocket" size="size-8" css_class="text-primary" %}
+                        <div>
+                            <h4 class="font-medium">Projeto Lançado</h4>
+                            <p class="text-sm text-muted-foreground">Seu projeto está online</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Controle de Cores -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Controle de Cores</h2>
+        <div class="bg-muted rounded-lg p-6 space-y-4">
+            <p class="text-sm">Use classes CSS para controlar as cores dos ícones:</p>
+            
+            <div class="flex flex-wrap gap-4 items-center">
+                <div class="flex items-center gap-2">
+                    <img src="{% static 'radix-icons/heart.svg' %}" class="size-6 text-destructive" alt="Heart">
+                    <code class="text-xs">text-destructive</code>
+                </div>
+                <div class="flex items-center gap-2">
+                    <img src="{% static 'radix-icons/star.svg' %}" class="size-6 text-primary" alt="Star">
+                    <code class="text-xs">text-primary</code>
+                </div>
+                <div class="flex items-center gap-2">
+                    <img src="{% static 'radix-icons/rocket.svg' %}" class="size-6 text-primary" alt="Rocket">
+                    <code class="text-xs">text-primary</code>
+                </div>
+                <div class="flex items-center gap-2">
+                    <img src="{% static 'radix-icons/lightning-bolt.svg' %}" class="size-6 text-muted-foreground" alt="Lightning">
+                    <code class="text-xs">text-muted-foreground</code>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vantagens do Sistema Dinâmico -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Vantagens do Sistema Dinâmico</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            
+            <div class="border rounded-lg p-4">
+                <div class="flex items-center gap-3 mb-3">
+                    <img src="{% static 'radix-icons/lightning-bolt.svg' %}" class="size-6 text-primary" alt="Lightning">
+                    <h3 class="font-medium">Automático</h3>
+                </div>
+                <p class="text-sm text-muted-foreground">Adicione qualquer arquivo SVG na pasta e ele estará disponível automaticamente</p>
+            </div>
+            
+            <div class="border rounded-lg p-4">
+                <div class="flex items-center gap-3 mb-3">
+                    <img src="{% static 'radix-icons/magic-wand.svg' %}" class="size-6 text-primary" alt="Magic Wand">
+                    <h3 class="font-medium">Flexível</h3>
+                </div>
+                <p class="text-sm text-muted-foreground">Controle total sobre tamanho, cor e classes CSS dos ícones</p>
+            </div>
+            
+            <div class="border rounded-lg p-4">
+                <div class="flex items-center gap-3 mb-3">
+                    <img src="{% static 'radix-icons/hand.svg' %}" class="size-6 text-primary" alt="Hand">
+                    <h3 class="font-medium">Fácil de Usar</h3>
+                </div>
+                <p class="text-sm text-muted-foreground">Sintaxe simples e intuitiva para incluir ícones em qualquer template</p>
+            </div>
+            
+        </div>
+    </div>
+
+    <!-- Adicionar Novos Ícones -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Como Adicionar Novos Ícones</h2>
+        <div class="bg-muted rounded-lg p-6 space-y-4">
+            <div class="space-y-3">
+                <h3 class="font-medium">1. Adicione o arquivo SVG</h3>
+                <p class="text-sm">Coloque o arquivo SVG na pasta <code class="bg-background px-2 py-1 rounded">theme/static/radix-icons/</code></p>
+            </div>
+            
+            <div class="space-y-3">
+                <h3 class="font-medium">2. Use imediatamente</h3>
+                <p class="text-sm">O ícone estará disponível instantaneamente usando o nome do arquivo (sem extensão)</p>
+                <div class="bg-background rounded p-3 text-sm">
+                    <code>{% verbatim %}{% include "components/icon.html" with name="meu-novo-icone" %}{% endverbatim %}</code>
+                </div>
+            </div>
+            
+            <div class="space-y-3">
+                <h3 class="font-medium">3. Personalizar cores</h3>
+                <p class="text-sm">Use classes CSS para personalizar cores usando o sistema de temas</p>
+                <div class="bg-background rounded p-3 text-sm">
+                    <code>{% verbatim %}{% include "components/icon.html" with name="meu-icone" css_class="text-primary" %}{% endverbatim %}</code>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %} 

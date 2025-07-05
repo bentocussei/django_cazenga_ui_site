@@ -1,6 +1,8 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import Http404
 import json
+import os
+from django.conf import settings
 
 # Lista de componentes disponíveis
 COMPONENTS_LIST = [
@@ -23,6 +25,49 @@ COMPONENTS_LIST = [
     {'name': 'Textarea', 'slug': 'textarea'},
     {'name': 'Tooltip', 'slug': 'tooltip'},
 ]
+
+# Dados das tabelas de parâmetros
+BUTTON_PARAMS = {
+    'headers': ['Parâmetro', 'Tipo', 'Padrão', 'Descrição'],
+    'data': [
+        ['<code>text</code>', 'string', '-', 'Texto do botão'],
+        ['<code>variant</code>', 'string', 'default', 'Variante do botão: default, secondary, destructive, outline, ghost, link'],
+        ['<code>size</code>', 'string', 'md', 'Tamanho do botão: sm, md, lg'],
+        ['<code>type</code>', 'string', 'button', 'Tipo do botão: button, submit, reset'],
+        ['<code>disabled</code>', 'boolean', 'false', 'Se o botão está desabilitado'],
+        ['<code>x_click</code>', 'string', '-', 'Evento Alpine.js para clique'],
+        ['<code>class</code>', 'string', '-', 'Classes CSS adicionais'],
+    ]
+}
+
+CARD_PARAMS = {
+    'headers': ['Parâmetro', 'Tipo', 'Padrão', 'Descrição'],
+    'data': [
+        ['<code>title</code>', 'string', '-', 'Título do card'],
+        ['<code>description</code>', 'string', '-', 'Descrição do card'],
+        ['<code>content</code>', 'string/HTML', '-', 'Conteúdo principal do card (aceita HTML)'],
+        ['<code>footer</code>', 'string/HTML', '-', 'Conteúdo do footer (aceita HTML)'],
+        ['<code>class</code>', 'string', '-', 'Classes CSS adicionais'],
+    ]
+}
+
+INPUT_PARAMS = {
+    'headers': ['Parâmetro', 'Tipo', 'Padrão', 'Descrição'],
+    'data': [
+        ['<code>name</code>', 'string', '-', 'Nome do campo (obrigatório para formulários)'],
+        ['<code>type</code>', 'string', 'text', 'Tipo do input: text, email, password, number, etc.'],
+        ['<code>id</code>', 'string', 'name', 'ID do elemento'],
+        ['<code>placeholder</code>', 'string', '-', 'Texto de placeholder'],
+        ['<code>value</code>', 'string', '-', 'Valor inicial'],
+        ['<code>required</code>', 'boolean', 'false', 'Se o campo é obrigatório'],
+        ['<code>disabled</code>', 'boolean', 'false', 'Se o campo está desabilitado'],
+        ['<code>readonly</code>', 'boolean', 'false', 'Se o campo é somente leitura'],
+        ['<code>x_model</code>', 'string', '-', 'Modelo Alpine.js para two-way binding'],
+        ['<code>class</code>', 'string', '-', 'Classes CSS adicionais'],
+        ['<code>min</code>', 'number', '-', 'Valor mínimo (para type="number")'],
+        ['<code>max</code>', 'number', '-', 'Valor máximo (para type="number")'],
+    ]
+}
 
 # Create your views here.
 
@@ -159,139 +204,38 @@ def demo(request):
         'chart_bar_data': json.dumps(chart_bar_data),
         'chart_pie_data': json.dumps(chart_pie_data),
     }
+    
     return render(request, "demo.html", context)
 
-def test(request):
-    return render(request, "test.html")
-
-def demo_simple(request):
-    return render(request, "demo_simple.html")
-
-def demo_especializado(request):
-    return render(request, "demo_especializado.html")
-
-def demo_clean(request):
-    return render(request, "demo_clean.html")
-
-def navigation_demo(request):
-    """Página de demonstração dos componentes de navegação"""
-    # Menu simples para o simple-nav
-    nav_menu = [
-        {'title': 'Início', 'href': '/'},
-        {'title': 'Componentes', 'href': '/components/'},
-        {'title': 'Visão Geral', 'href': '/demo-clean/'},
-        {'title': 'Demo Completa', 'href': '/demo/'},
-    ]
-    
-    # Menu complexo para o navigation-menu
-    complex_nav_menu = [
-        {
-            'title': 'Produtos',
-            'href': '/produtos',
-            'description': 'Nossos produtos e serviços',
-            'submenu': [
-                {'title': 'Categoria A', 'href': '/produtos/categoria-a', 'description': 'Produtos da categoria A'},
-                {'title': 'Categoria B', 'href': '/produtos/categoria-b', 'description': 'Produtos da categoria B'},
-                {'title': 'Categoria C', 'href': '/produtos/categoria-c', 'description': 'Produtos da categoria C'},
-            ]
-        },
-        {
-            'title': 'Serviços',
-            'href': '/servicos',
-            'description': 'Nossos serviços especializados',
-            'submenu': [
-                {'title': 'Consultoria', 'href': '/servicos/consultoria', 'description': 'Consultoria especializada'},
-                {'title': 'Desenvolvimento', 'href': '/servicos/desenvolvimento', 'description': 'Desenvolvimento de software'},
-                {'title': 'Suporte', 'href': '/servicos/suporte', 'description': 'Suporte técnico'},
-            ]
-        },
-        {
-            'title': 'Sobre',
-            'href': '/sobre'
-        },
-        {
-            'title': 'Contato',
-            'href': '/contato'
-        }
-    ]
-    
-    # Menubar para demo
-    demo_menubar = [
-        {
-            'title': 'Arquivo',
-            'items': [
-                {'title': 'Novo', 'shortcut': 'Ctrl+N', 'action': 'alert("Novo arquivo")'},
-                {'title': 'Abrir', 'shortcut': 'Ctrl+O', 'action': 'alert("Abrir arquivo")'},
-                {'title': 'Salvar', 'shortcut': 'Ctrl+S', 'action': 'alert("Salvar arquivo")'},
-                {'separator': True},
-                {'title': 'Sair', 'shortcut': 'Ctrl+Q', 'action': 'alert("Sair")', 'variant': 'destructive'}
-            ]
-        },
-        {
-            'title': 'Editar',
-            'items': [
-                {'title': 'Desfazer', 'shortcut': 'Ctrl+Z', 'action': 'alert("Desfazer")'},
-                {'title': 'Refazer', 'shortcut': 'Ctrl+Y', 'action': 'alert("Refazer")'},
-                {'separator': True},
-                {'title': 'Copiar', 'shortcut': 'Ctrl+C', 'action': 'alert("Copiar")'},
-                {'title': 'Colar', 'shortcut': 'Ctrl+V', 'action': 'alert("Colar")'}
-            ]
-        },
-        {
-            'title': 'Visualizar',
-            'items': [
-                {'title': 'Zoom In', 'shortcut': 'Ctrl++', 'action': 'alert("Zoom In")'},
-                {'title': 'Zoom Out', 'shortcut': 'Ctrl+-', 'action': 'alert("Zoom Out")'},
-                {'title': 'Tela Cheia', 'shortcut': 'F11', 'action': 'alert("Tela Cheia")'}
-            ]
-        }
-    ]
-    
-    context = {
-        'nav_menu': nav_menu,
-        'complex_nav_menu': complex_nav_menu,
-        'demo_menubar': demo_menubar,
-    }
-    return render(request, 'navigation-demo.html', context)
-
 def components_list(request):
-    """Página principal dos componentes com sidebar"""
     # Menu de navegação
     nav_menu = [
-        {'title': 'Início', 'href': '/'},
-        {'title': 'Componentes', 'href': '/components/'},
-        {'title': 'Visão Geral', 'href': '/demo-clean/'},
-        {'title': 'Demo Completa', 'href': '/demo/'},
-    ]
-    
-    # Conteúdo da sidebar
-    sidebar_content = {
-        'header': {
-            'title': 'Componentes',
-            'logo': '<svg class="size-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12a7.5 7.5 0 0015 0m-15 0a7.5 7.5 0 1115 0m-15 0H3m16.5 0H21m-1.5 0H12m-8.457 3.077l1.41-.513m14.095-5.13l1.41-.513M5.106 17.785l1.15-.964m11.49-9.642l1.149-.964M7.501 19.795l.75-1.3m7.5-12.99l.75-1.3m-6.063 16.658l.26-1.477m2.605-14.772l.26-1.477m0 17.726l-.26-1.477M10.698 4.614l-.26-1.477M16.5 19.794l-.75-1.299M7.5 4.205L12 12m6.894 5.785l-1.149-.964M6.256 7.178l-1.15-.964m15.352 8.864l-1.41-.513M4.954 9.435l-1.41-.513M12.002 12l-3.75 6.495"/></svg>'
+        {
+            "title": "Início",
+            "href": "/",
         },
-        'menu': []
-    }
-    
-    # Adicionar componentes ao menu da sidebar
-    for component in COMPONENTS_LIST:
-        sidebar_content['menu'].append({
-            'title': component['name'],
-            'href': f"/components/{component['slug']}/",
-            'active': False
-        })
+        {
+            "title": "Demo",
+            "href": "/demo/",
+        },
+        {
+            "title": "Componentes",
+            "href": "/components/",
+        },
+        {
+            "title": "Ícones",
+            "href": "/icons/",
+        }
+    ]
     
     context = {
         'components_list': COMPONENTS_LIST,
-        'current_component': None,
         'nav_menu': nav_menu,
-        'sidebar_content': sidebar_content,
     }
-    return render(request, 'components_base.html', context)
+    return render(request, "components_base.html", context)
 
 def component_detail(request, component_slug):
-    """Página de demonstração de um componente específico"""
-    # Verificar se o componente existe
+    # Encontrar o componente
     component = None
     for comp in COMPONENTS_LIST:
         if comp['slug'] == component_slug:
@@ -303,41 +247,102 @@ def component_detail(request, component_slug):
     
     # Menu de navegação
     nav_menu = [
-        {'title': 'Início', 'href': '/'},
-        {'title': 'Componentes', 'href': '/components/'},
-        {'title': 'Visão Geral', 'href': '/demo-clean/'},
-        {'title': 'Demo Completa', 'href': '/demo/'},
+        {
+            "title": "Início",
+            "href": "/",
+        },
+        {
+            "title": "Demo",
+            "href": "/demo/",
+        },
+        {
+            "title": "Componentes",
+            "href": "/components/",
+        },
+        {
+            "title": "Ícones",
+            "href": "/icons/",
+        }
     ]
     
-    # Conteúdo da sidebar
-    sidebar_content = {
-        'header': {
-            'title': 'Componentes',
-            'logo': '<svg class="size-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12a7.5 7.5 0 0015 0m-15 0a7.5 7.5 0 1115 0m-15 0H3m16.5 0H21m-1.5 0H12m-8.457 3.077l1.41-.513m14.095-5.13l1.41-.513M5.106 17.785l1.15-.964m11.49-9.642l1.149-.964M7.501 19.795l.75-1.3m7.5-12.99l.75-1.3m-6.063 16.658l.26-1.477m2.605-14.772l.26-1.477m0 17.726l-.26-1.477M10.698 4.614l-.26-1.477M16.5 19.794l-.75-1.299M7.5 4.205L12 12m6.894 5.785l-1.149-.964M6.256 7.178l-1.15-.964m15.352 8.864l-1.41-.513M4.954 9.435l-1.41-.513M12.002 12l-3.75 6.495"/></svg>'
-        },
-        'menu': []
+    # Preparar contexto base
+    context = {
+        'component': component,
+        'components_list': COMPONENTS_LIST,
+        'nav_menu': nav_menu,
+        'current_component': component_slug,
     }
     
-    # Adicionar componentes ao menu da sidebar
-    for comp in COMPONENTS_LIST:
-        sidebar_content['menu'].append({
-            'title': comp['name'],
-            'href': f"/components/{comp['slug']}/",
-            'active': comp['slug'] == component_slug
+    # Adicionar dados específicos do componente
+    if component_slug == 'button':
+        context.update({
+            'button_params': BUTTON_PARAMS,
+        })
+    elif component_slug == 'card':
+        context.update({
+            'card_params': CARD_PARAMS,
+        })
+    elif component_slug == 'input':
+        context.update({
+            'input_params': INPUT_PARAMS,
         })
     
+    # Tentar renderizar template específico, senão usar o padrão
+    try:
+        return render(request, f"components/demos/{component_slug}.html", context)
+    except:
+        return render(request, "components/demos/default.html", context)
+
+def icons_page(request):
+    import os
+    from django.conf import settings
+    
+    # Menu de navegação
+    nav_menu = [
+        {
+            "title": "Início",
+            "href": "/",
+        },
+        {
+            "title": "Demo",
+            "href": "/demo/",
+        },
+        {
+            "title": "Componentes",
+            "href": "/components/",
+        },
+        {
+            "title": "Ícones",
+            "href": "/icons/",
+        }
+    ]
+    
+    # Caminho para os ícones na pasta static
+    icons_path = os.path.join(settings.BASE_DIR, 'theme', 'static', 'radix-icons')
+    icons = []
+    
+    try:
+        # Listar todos os arquivos SVG
+        for filename in os.listdir(icons_path):
+            if filename.endswith('.svg'):
+                icon_name = filename.replace('.svg', '')
+                
+                icons.append({
+                    'name': icon_name,
+                    'filename': filename,
+                    'display_name': icon_name.replace('-', ' ').title(),
+                    'static_path': f'radix-icons/{filename}'
+                })
+    except FileNotFoundError:
+        pass
+    
+    # Ordenar ícones por nome
+    icons.sort(key=lambda x: x['name'])
+    
     context = {
-        'components_list': COMPONENTS_LIST,
-        'current_component': component_slug,
-        'component': component,
         'nav_menu': nav_menu,
-        'sidebar_content': sidebar_content,
+        'icons': icons,
+        'total_icons': len(icons)
     }
     
-    # Tentar renderizar template específico do componente
-    template_name = f'components/demos/{component_slug}.html'
-    try:
-        return render(request, template_name, context)
-    except:
-        # Se não existir template específico, usar template padrão
-        return render(request, 'components/demos/default.html', context)
+    return render(request, "icons.html", context)

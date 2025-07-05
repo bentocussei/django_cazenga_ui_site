@@ -1,90 +1,44 @@
 {% extends "base.html" %}
 
+{% block title %}Django + Tailwind + Alpine.js{% endblock %}
+
 {% block page_content %}
-<div class="text-center py-20">
-    <div class="max-w-3xl mx-auto">
-        <div class="text-6xl mb-8">🎨</div>
-        <h2 class="text-4xl font-bold mb-4">Sistema de Componentes</h2>
-        <p class="text-xl text-muted-foreground mb-8">
-            Biblioteca de componentes reutilizáveis construída com Django, Tailwind CSS e Alpine.js
-        </p>
-        <div class="flex flex-col sm:flex-row gap-4 justify-center mb-16">
-            <a href="/components/" class="btn btn-primary btn-lg">
-                Ver Componentes
-            </a>
-            <a href="/demo-clean/" class="btn btn-outline btn-lg">
-                Visão Geral
-            </a>
-            <a href="/navigation-demo/" class="btn btn-outline btn-lg">
-                Demo Navegação
-            </a>
-        </div>
+<div class="text-center py-16">
+    <h1 class="text-4xl font-bold mb-4">Sistema de Componentes</h1>
+    <p class="text-xl text-muted-foreground mb-8">Django + Tailwind CSS + Alpine.js</p>
+    
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        {% include "components/button.html" with text="Ver Componentes" variant="default" size="lg" x_click="window.location.href='/components/'" %}
     </div>
 </div>
 
-<!-- Seção de Features -->
-<div class="py-16 border-t">
-    <div class="max-w-6xl mx-auto">
-        <h3 class="text-2xl font-bold text-center mb-12">Características</h3>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="text-center">
-                <div class="w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-4">
-                    <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-                    </svg>
-                </div>
-                <h4 class="text-lg font-semibold mb-2">Fácil de Usar</h4>
-                <p class="text-muted-foreground">Componentes simples e intuitivos com documentação completa</p>
-            </div>
-            <div class="text-center">
-                <div class="w-16 h-16 bg-secondary/10 rounded-lg flex items-center justify-center mx-auto mb-4">
-                    <svg class="w-8 h-8 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                    </svg>
-                </div>
-                <h4 class="text-lg font-semibold mb-2">Rápido</h4>
-                <p class="text-muted-foreground">Otimizado para performance com Tailwind CSS e Alpine.js</p>
-            </div>
-            <div class="text-center">
-                <div class="w-16 h-16 bg-accent/10 rounded-lg flex items-center justify-center mx-auto mb-4">
-                    <svg class="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4"/>
-                    </svg>
-                </div>
-                <h4 class="text-lg font-semibold mb-2">Customizável</h4>
-                <p class="text-muted-foreground">Totalmente personalizável com sistema de temas</p>
-            </div>
-        </div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 py-16">
+    <div class="text-center">
+        <div class="text-4xl mb-4">🎨</div>
+        <h3 class="text-xl font-semibold mb-2">Componentes Reutilizáveis</h3>
+        <p class="text-muted-foreground">Sistema completo de componentes UI prontos para uso</p>
+    </div>
+    
+    <div class="text-center">
+        <div class="text-4xl mb-4">⚡</div>
+        <h3 class="text-xl font-semibold mb-2">Performance</h3>
+        <p class="text-muted-foreground">Tailwind CSS otimizado com Alpine.js para interatividade</p>
+    </div>
+    
+    <div class="text-center">
+        <div class="text-4xl mb-4">🔧</div>
+        <h3 class="text-xl font-semibold mb-2">Fácil Customização</h3>
+        <p class="text-muted-foreground">Sistema de temas flexível e componentes configuráveis</p>
     </div>
 </div>
 
-<!-- Seção de Tecnologias -->
-<div class="py-16 border-t">
-    <div class="max-w-4xl mx-auto text-center">
-        <h3 class="text-2xl font-bold mb-8">Tecnologias Utilizadas</h3>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="space-y-4">
-                <div class="w-20 h-20 bg-green-100 dark:bg-green-900/20 rounded-lg flex items-center justify-center mx-auto">
-                    <span class="text-2xl font-bold text-green-600">DJ</span>
-                </div>
-                <h4 class="text-lg font-semibold">Django</h4>
-                <p class="text-sm text-muted-foreground">Framework web Python robusto e escalável</p>
-            </div>
-            <div class="space-y-4">
-                <div class="w-20 h-20 bg-blue-100 dark:bg-blue-900/20 rounded-lg flex items-center justify-center mx-auto">
-                    <span class="text-2xl font-bold text-blue-600">TW</span>
-                </div>
-                <h4 class="text-lg font-semibold">Tailwind CSS</h4>
-                <p class="text-sm text-muted-foreground">Framework CSS utilitário para design rápido</p>
-            </div>
-            <div class="space-y-4">
-                <div class="w-20 h-20 bg-purple-100 dark:bg-purple-900/20 rounded-lg flex items-center justify-center mx-auto">
-                    <span class="text-2xl font-bold text-purple-600">A</span>
-                </div>
-                <h4 class="text-lg font-semibold">Alpine.js</h4>
-                <p class="text-sm text-muted-foreground">Framework JavaScript minimalista para interatividade</p>
-            </div>
-        </div>
+<div class="bg-muted rounded-lg p-8 text-center">
+    <h2 class="text-2xl font-bold mb-4">Tecnologias Utilizadas</h2>
+    <div class="flex flex-wrap justify-center gap-4">
+        {% include "components/badge.html" with text="Django" variant="primary" %}
+        {% include "components/badge.html" with text="Tailwind CSS" variant="secondary" %}
+        {% include "components/badge.html" with text="Alpine.js" variant="outline" %}
+        {% include "components/badge.html" with text="OKLCH Colors" variant="outline" %}
     </div>
 </div>
 {% endblock %} 

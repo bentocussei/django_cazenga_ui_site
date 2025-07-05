@@ -136,6 +136,50 @@
   [x-cloak] { 
     display: none !important; 
   }
+
+  /* Estilos para ícones SVG - Suporte a modo escuro */
+  img[src*=".svg"] {
+    filter: brightness(0) saturate(100%) invert(14%) sepia(5%) saturate(1000%) hue-rotate(285deg) brightness(90%) contrast(90%);
+    transition: filter 0.2s ease;
+  }
+
+  .dark img[src*=".svg"] {
+    filter: brightness(0) saturate(100%) invert(98%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%);
+  }
+
+  /* Ícones com cores específicas */
+  .text-primary img[src*=".svg"] {
+    filter: brightness(0) saturate(100%) invert(42%) sepia(93%) saturate(1352%) hue-rotate(215deg) brightness(119%) contrast(119%);
+  }
+
+  .dark .text-primary img[src*=".svg"] {
+    filter: brightness(0) saturate(100%) invert(71%) sepia(50%) saturate(1000%) hue-rotate(215deg) brightness(100%) contrast(100%);
+  }
+
+  .text-muted-foreground img[src*=".svg"] {
+    filter: brightness(0) saturate(100%) invert(55%) sepia(16%) saturate(285%) hue-rotate(285deg) brightness(90%) contrast(90%);
+  }
+
+  .dark .text-muted-foreground img[src*=".svg"] {
+    filter: brightness(0) saturate(100%) invert(70%) sepia(15%) saturate(286%) hue-rotate(285deg) brightness(100%) contrast(100%);
+  }
+
+  .text-destructive img[src*=".svg"] {
+    filter: brightness(0) saturate(100%) invert(58%) sepia(25%) saturate(1000%) hue-rotate(27deg) brightness(100%) contrast(100%);
+  }
+
+  .dark .text-destructive img[src*=".svg"] {
+    filter: brightness(0) saturate(100%) invert(70%) sepia(19%) saturate(1000%) hue-rotate(22deg) brightness(100%) contrast(100%);
+  }
+
+  /* Hover effects para ícones */
+  .hover\:text-primary:hover img[src*=".svg"] {
+    filter: brightness(0) saturate(100%) invert(42%) sepia(93%) saturate(1352%) hue-rotate(215deg) brightness(119%) contrast(119%);
+  }
+
+  .dark .hover\:text-primary:hover img[src*=".svg"] {
+    filter: brightness(0) saturate(100%) invert(71%) sepia(50%) saturate(1000%) hue-rotate(215deg) brightness(100%) contrast(100%);
+  }
 }
 
 /* Container */
