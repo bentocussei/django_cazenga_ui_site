@@ -55,7 +55,7 @@
         <!-- Header da Sidebar -->
         <div class="flex h-14 items-center gap-2 border-b px-3 flex-shrink-0">
             <div class="flex size-8 items-center justify-center">
-                {% include "components/icon.html" with name="layout" size="size-6" %}
+                {% include "components/icon.html" with name="component-1" size="size-6" %}
             </div>
             
             <div x-show="!collapsed || isMobile" class="flex-1">
@@ -78,21 +78,21 @@
                         <!-- Ícone do componente -->
                         <div class="flex size-5 items-center justify-center flex-shrink-0">
                             {% if component.slug == 'button' %}
-                                {% include "components/icon.html" with name="cursor-arrow" size="size-4" %}
+                                {% include "components/icon.html" with name="button" size="size-4" %}
                             {% elif component.slug == 'input' %}
-                                {% include "components/icon.html" with name="keyboard" size="size-4" %}
+                                {% include "components/icon.html" with name="input" size="size-4" %}
                             {% elif component.slug == 'card' %}
                                 {% include "components/icon.html" with name="card-stack" size="size-4" %}
                             {% elif component.slug == 'table' %}
-                                {% include "components/icon.html" with name="bar-chart" size="size-4" %}
+                                {% include "components/icon.html" with name="table" size="size-4" %}
                             {% elif component.slug == 'alert' %}
-                                {% include "components/icon.html" with name="lightning-bolt" size="size-4" %}
+                                {% include "components/icon.html" with name="bell" size="size-4" %}
                             {% elif component.slug == 'avatar' %}
                                 {% include "components/icon.html" with name="avatar" size="size-4" %}
                             {% elif component.slug == 'badge' %}
-                                {% include "components/icon.html" with name="star" size="size-4" %}
+                                {% include "components/icon.html" with name="badge" size="size-4" %}
                             {% elif component.slug == 'checkbox' %}
-                                {% include "components/icon.html" with name="circle" size="size-4" %}
+                                {% include "components/icon.html" with name="checkbox" size="size-4" %}
                             {% elif component.slug == 'accordion' %}
                                 {% include "components/icon.html" with name="chevron-left" size="size-4" %}
                             {% elif component.slug == 'progress' %}
@@ -110,7 +110,7 @@
                             {% elif component.slug == 'textarea' %}
                                 {% include "components/icon.html" with name="text-align-top" size="size-4" %}
                             {% elif component.slug == 'tooltip' %}
-                                {% include "components/icon.html" with name="speech-bubble" size="size-4" %}
+                                {% include "components/icon.html" with name="dot" size="size-4" %}
                             {% elif component.slug == 'label' %}
                                 {% include "components/icon.html" with name="pilcrow" size="size-4" %}
                             {% else %}
