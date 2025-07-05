@@ -1,0 +1,177 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="pt-BR" x-data="{ darkMode: false }" :class="{ 'dark': darkMode }">
+	<head>
+		<title>Django + Tailwind + Alpine.js</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		{% tailwind_css %}
+		<!-- Alpine.js -->
+		<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+	</head>
+
+	<body class="bg-background text-foreground transition-colors duration-300">
+		<!-- Container principal -->
+		<div class="container py-8">
+			<!-- Header com toggle de tema -->
+			<header class="mb-12">
+				<div class="flex items-center justify-between">
+					<h1 class="text-3xl font-bold">Django + Tailwind + Alpine.js</h1>
+					
+					                <!-- Toggle de tema escuro -->
+                <button
+                    @click="darkMode = !darkMode"
+                    class="btn btn-outline btn-md"
+                    :aria-label="darkMode ? 'Ativar modo claro' : 'Ativar modo escuro'"
+                >
+                    <span x-show="!darkMode">🌙 Modo Escuro</span>
+                    <span x-show="darkMode">☀️ Modo Claro</span>
+                </button>
+				</div>
+			</header>
+
+			<!-- Demonstração de componentes -->
+			<div class="space-y-12">
+				<!-- Seção de Botões -->
+				<section>
+					<h2 class="text-2xl font-semibold mb-6">Botões</h2>
+					                <div class="flex flex-wrap gap-4">
+                    <button class="btn btn-primary btn-md">Primário</button>
+                    <button class="btn btn-secondary btn-md">Secundário</button>
+                    <button class="btn btn-destructive btn-md">Destrutivo</button>
+                    <button class="btn btn-outline btn-md">Outline</button>
+                    <button class="btn btn-ghost btn-md">Ghost</button>
+                    <button class="btn btn-link btn-md">Link</button>
+                </div>
+					
+					<!-- Tamanhos de botão -->
+					<div class="mt-6">
+						<h3 class="text-lg font-medium mb-3">Tamanhos</h3>
+						<div class="flex items-end gap-4">
+							<button class="btn btn-primary btn-sm">Pequeno</button>
+							<button class="btn btn-primary btn-md">Médio</button>
+							<button class="btn btn-primary btn-lg">Grande</button>
+						</div>
+					</div>
+				</section>
+
+				<!-- Seção de Cards -->
+				<section>
+					<h2 class="text-2xl font-semibold mb-6">Cards</h2>
+					<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+						<!-- Card exemplo -->
+						<div class="card">
+							<div class="card-header">
+								<h3 class="card-title">Título do Card</h3>
+								<p class="card-description">Esta é uma descrição do card usando o sistema de cores.</p>
+							</div>
+							<div class="card-content">
+								<p>Conteúdo do card com texto usando a cor <span class="text-primary">primária</span> e <span class="text-secondary">secundária</span>.</p>
+							</div>
+							<div class="card-footer">
+								<button class="btn btn-primary btn-sm">Ação</button>
+							</div>
+						</div>
+
+						<!-- Card com Alpine.js -->
+						<div class="card" x-data="{ expanded: false }">
+							<div class="card-header">
+								<h3 class="card-title">Card Interativo</h3>
+								<p class="card-description">Clique para expandir</p>
+							</div>
+							<div class="card-content">
+								<button @click="expanded = !expanded" class="btn btn-outline btn-sm mb-4">
+									<span x-text="expanded ? 'Recolher' : 'Expandir'"></span>
+								</button>
+								<div x-show="expanded" x-transition class="space-y-2">
+									<p class="text-muted-foreground">Conteúdo adicional que aparece ao expandir.</p>
+									<p>Usando Alpine.js para interatividade!</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+
+				<!-- Seção de Formulários -->
+				<section>
+					<h2 class="text-2xl font-semibold mb-6">Formulários</h2>
+					<div class="max-w-md">
+						<form class="space-y-4" x-data="{ formData: { nome: '', email: '', mensagem: '' } }">
+							<div>
+								<label for="nome" class="label">Nome</label>
+								<input 
+									type="text" 
+									id="nome" 
+									class="input" 
+									placeholder="Seu nome"
+									x-model="formData.nome"
+								>
+							</div>
+							
+							<div>
+								<label for="email" class="label">Email</label>
+								<input 
+									type="email" 
+									id="email" 
+									class="input" 
+									placeholder="seu@email.com"
+									x-model="formData.email"
+								>
+							</div>
+							
+							<div>
+								<label for="mensagem" class="label">Mensagem</label>
+								<textarea 
+									id="mensagem" 
+									class="textarea" 
+									placeholder="Digite sua mensagem..."
+									x-model="formData.mensagem"
+								></textarea>
+							</div>
+							
+							<div class="flex gap-4">
+								<button type="submit" class="btn btn-primary btn-md">Enviar</button>
+								<button type="reset" class="btn btn-outline btn-md" @click="formData = { nome: '', email: '', mensagem: '' }">Limpar</button>
+							</div>
+						</form>
+					</div>
+				</section>
+
+				<!-- Seção de Cores -->
+				<section>
+					<h2 class="text-2xl font-semibold mb-6">Paleta de Cores</h2>
+					<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+						<div class="space-y-2">
+							<div class="h-20 bg-primary rounded-md"></div>
+							<p class="text-sm font-medium">Primary</p>
+						</div>
+						<div class="space-y-2">
+							<div class="h-20 bg-secondary rounded-md"></div>
+							<p class="text-sm font-medium">Secondary</p>
+						</div>
+						<div class="space-y-2">
+							<div class="h-20 bg-accent rounded-md"></div>
+							<p class="text-sm font-medium">Accent</p>
+						</div>
+						<div class="space-y-2">
+							<div class="h-20 bg-muted rounded-md"></div>
+							<p class="text-sm font-medium">Muted</p>
+						</div>
+						<div class="space-y-2">
+							<div class="h-20 bg-destructive rounded-md"></div>
+							<p class="text-sm font-medium">Destructive</p>
+						</div>
+						<div class="space-y-2">
+							<div class="h-20 bg-card rounded-md border"></div>
+							<p class="text-sm font-medium">Card</p>
+						</div>
+					</div>
+				</section>
+			</div>
+		</div>
+
+		{% block content %}
+		{% endblock %}
+	</body>
+</html>

@@ -1,0 +1,24 @@
+{# 
+Componente: Button
+Uso: include "components/button.html" with text="Clique aqui" variant="primary" size="md"
+
+Parâmetros:
+- text: Texto do botão
+- variant: primary, secondary, destructive, outline, ghost, link (padrão: primary)
+- size: sm, md, lg (padrão: md)
+- type: button, submit, reset (padrão: button)
+- x_click: Evento Alpine.js para @click (opcional)
+- disabled: true/false (padrão: false)
+- class: Classes CSS adicionais (opcional)
+#}
+
+{% with variant=variant|default:"primary" size=size|default:"md" type=type|default:"button" %}
+<button 
+    type="{{ type }}"
+    class="btn btn-{{ variant }} btn-{{ size }} {{ class|default:'' }}"
+    {% if x_click %}@click="{{ x_click }}"{% endif %}
+    {% if disabled %}disabled{% endif %}
+>
+    {{ text }}
+</button>
+{% endwith %} 

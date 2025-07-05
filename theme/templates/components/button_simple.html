@@ -1,0 +1,15 @@
+{# 
+Componente: Button Simple
+Versão simplificada do botão para uso interno em outros componentes
+Evita recursão ao ser usado dentro de modal.html e dropdown.html
+#}
+
+<button 
+    type="{{ type|default:'button' }}"
+    class="btn btn-{{ variant|default:'primary' }} btn-{{ size|default:'md' }} {{ class|default:'' }}"
+    {% if x_click %}@click="{{ x_click }}"{% endif %}
+    {% if disabled %}disabled{% endif %}
+>
+    {{ text|default:'' }}
+    {% if content %}{{ content|safe }}{% endif %}
+</button> 

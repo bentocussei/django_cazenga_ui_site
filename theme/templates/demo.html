@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-12">
+    <h1 class="text-4xl font-bold mb-8">Demonstração de Componentes</h1>
+    
+    <!-- Seção: Usando componentes de botão -->
+    <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-6">Componentes de Botão Reutilizáveis</h2>
+        
+        <div class="space-y-4">
+            <div class="flex flex-wrap gap-4">
+                {% include "components/button.html" with text="Botão Primário" variant="primary" %}
+                {% include "components/button.html" with text="Botão Secundário" variant="secondary" %}
+                {% include "components/button.html" with text="Botão Destrutivo" variant="destructive" %}
+            </div>
+            
+            <div class="flex flex-wrap gap-4">
+                {% include "components/button.html" with text="Pequeno" size="sm" %}
+                {% include "components/button.html" with text="Médio" size="md" %}
+                {% include "components/button.html" with text="Grande" size="lg" %}
+            </div>
+            
+            <!-- Botão com Alpine.js -->
+            <div x-data="{ count: 0 }">
+                <p class="mb-2">Contador: <span x-text="count" class="font-bold text-primary"></span></p>
+                {% include "components/button.html" with text="Incrementar" x_click="count++" variant="primary" %}
+            </div>
+        </div>
+    </section>
+    
+    <!-- Seção: Modal -->
+    <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-6">Componente Modal</h2>
+        
+        <div class="space-y-4">
+            <div class="flex gap-4">
+                <!-- Botão para abrir modal simples -->
+                {% include "components/button.html" with text="Abrir Modal de Exemplo" variant="primary" x_click="open_modal1 = true" %}
+                
+                <!-- Botão para abrir modal grande -->
+                {% include "components/button.html" with text="Abrir Modal Grande" variant="secondary" x_click="open_modal2 = true" %}
+            </div>
+            
+            <!-- Modal simples -->
+            {% include "components/modal.html" with modal_id="modal1" title="Modal de Exemplo" content="<p>Este é um modal simples com conteúdo personalizado.</p>" %}
+            
+            <!-- Modal com tamanho grande -->
+            {% include "components/modal.html" with modal_id="modal2" title="Modal Grande" size="lg" content="<p>Este é um modal com tamanho grande.</p><p class='mt-4'>Pode conter muito mais conteúdo!</p>" %}
+        </div>
+    </section>
+    
+    <!-- Seção: Dropdown -->
+    <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-6">Componente Dropdown</h2>
+        
+        <div class="flex gap-4">
+            <!-- Dropdown simples -->
+            {% include "components/dropdown.html" with dropdown_id="dropdown1" label="Menu de Opções" %}
+            
+            <!-- Dropdown alinhado à direita -->
+            {% include "components/dropdown.html" with dropdown_id="dropdown2" label="Perfil" align="right" %}
+        </div>
+    </section>
+    
+    <!-- Seção: Exemplo de formulário com componentes -->
+    <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-6">Formulário com Componentes</h2>
+        
+        <div class="max-w-2xl">
+            <form class="card" x-data="{ 
+                formData: { 
+                    nome: '', 
+                    email: '', 
+                    categoria: '', 
+                    mensagem: '' 
+                },
+                showSuccess: false 
+            }">
+                <div class="card-header">
+                    <h3 class="card-title">Formulário de Contato</h3>
+                    <p class="card-description">Preencha o formulário abaixo para entrar em contato</p>
+                </div>
+                
+                <div class="card-content space-y-4">
+                    <!-- Alert de sucesso -->
+                    <div x-show="showSuccess" x-transition class="p-4 rounded-md bg-green-50 dark:bg-green-900/20 text-green-800 dark:text-green-200">
+                        Formulário enviado com sucesso!
+                    </div>
+                    
+                    <div>
+                        <label for="nome" class="label">Nome</label>
+                        <input type="text" id="nome" class="input" x-model="formData.nome" placeholder="Seu nome completo">
+                    </div>
+                    
+                    <div>
+                        <label for="email" class="label">Email</label>
+                        <input type="email" id="email" class="input" x-model="formData.email" placeholder="seu@email.com">
+                    </div>
+                    
+                    <div>
+                        <label for="categoria" class="label">Categoria</label>
+                        <select id="categoria" class="input" x-model="formData.categoria">
+                            <option value="">Selecione uma categoria</option>
+                            <option value="suporte">Suporte</option>
+                            <option value="vendas">Vendas</option>
+                            <option value="feedback">Feedback</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label for="mensagem" class="label">Mensagem</label>
+                        <textarea id="mensagem" class="textarea" x-model="formData.mensagem" rows="4" placeholder="Digite sua mensagem..."></textarea>
+                    </div>
+                </div>
+                
+                <div class="card-footer gap-3">
+                    {% include "components/button.html" with text="Enviar" type="submit" variant="primary" x_click="$event.preventDefault(); showSuccess = true; setTimeout(() => showSuccess = false, 3000)" %}
+                    {% include "components/button.html" with text="Limpar" type="reset" variant="outline" x_click="formData = { nome: '', email: '', categoria: '', mensagem: '' }" %}
+                </div>
+            </form>
+        </div>
+    </section>
+    
+    <!-- Seção: Componentes combinados -->
+    <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-6">Componentes Combinados</h2>
+        
+        <div class="card">
+            <div class="card-header">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="card-title">Card Interativo</h3>
+                        <p class="card-description">Exemplo de card com múltiplos componentes</p>
+                    </div>
+                    {% include "components/dropdown.html" with dropdown_id="cardMenu" label="Ações" align="right" %}
+                </div>
+            </div>
+            
+            <div class="card-content">
+                <p class="mb-4">Este card demonstra como combinar diferentes componentes para criar interfaces mais complexas.</p>
+                
+                <div class="flex gap-3">
+                    {% include "components/button.html" with text="Ação Principal" variant="primary" size="sm" %}
+                    {% include "components/button.html" with text="Ação Secundária" variant="outline" size="sm" %}
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %} 

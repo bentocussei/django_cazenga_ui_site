@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-12">
+    <h1 class="text-4xl font-bold mb-8">Demo Simples - Teste de Componentes</h1>
+    
+    <!-- Teste 1: Botão direto sem include -->
+    <section class="mb-8">
+        <h2 class="text-2xl font-semibold mb-4">Teste 1: Botão HTML Direto</h2>
+        <button class="btn btn-primary btn-md">Botão Direto</button>
+    </section>
+    
+    <!-- Teste 2: Um único include de botão -->
+    <section class="mb-8">
+        <h2 class="text-2xl font-semibold mb-4">Teste 2: Include de Botão</h2>
+        {% include "components/button.html" with text="Botão com Include" variant="primary" %}
+    </section>
+</div>
+{% endblock %} 
