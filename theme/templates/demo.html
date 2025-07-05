@@ -89,9 +89,7 @@
         <h2 class="text-2xl font-semibold mb-6">Tabs</h2>
         
         <div class="max-w-2xl">
-            {% with tabs_list='[{"id": "account", "label": "Conta", "content": "<div class=\"space-y-4\"><h3 class=\"text-lg font-medium\">Configurações da Conta</h3><p>Gerencie suas informações pessoais e preferências de conta.</p></div>"}, {"id": "password", "label": "Senha", "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"1.5\" stroke=\"currentColor\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z\" /></svg>", "content": "<div class=\"space-y-4\"><h3 class=\"text-lg font-medium\">Alterar Senha</h3><p>Atualize sua senha regularmente para manter sua conta segura.</p></div>"}, {"id": "notifications", "label": "Notificações", "content": "<div class=\"space-y-4\"><h3 class=\"text-lg font-medium\">Preferências de Notificação</h3><p>Escolha quais notificações você deseja receber.</p></div>"}]'|safe %}
-                {% include "components/tabs.html" with tabs=tabs_list %}
-            {% endwith %}
+            {% include "components/tabs.html" with tabs=tabs_data %}
         </div>
     </section>
     
@@ -818,13 +816,32 @@
             <!-- Scroll Vertical -->
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Scroll Vertical</h3>
-                {% include "components/scroll-area.html" with content="<div class='space-y-4'><h4 class='font-medium'>Lista Longa</h4><div class='space-y-2'>{% for i in '0123456789012345678901234567890123456789'|make_list %}<div class='p-3 bg-muted rounded'><p class='text-sm font-medium'>Item {{ forloop.counter }}</p><p class='text-xs text-muted-foreground'>Descrição do item {{ forloop.counter }}</p></div>{% endfor %}</div></div>" height="250px" orientation="vertical" %}
+                <div class="border rounded-lg p-4 h-64 overflow-y-auto">
+                    <h4 class="font-medium mb-4">Lista Longa</h4>
+                    <div class="space-y-2">
+                        {% for i in "0123456789012345678901234567890123456789"|make_list %}
+                            <div class="p-3 bg-muted rounded">
+                                <p class="text-sm font-medium">Item {{ forloop.counter }}</p>
+                                <p class="text-xs text-muted-foreground">Descrição do item {{ forloop.counter }}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
             
             <!-- Scroll Horizontal -->
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Scroll Horizontal</h3>
-                {% include "components/scroll-area.html" with content="<div class='flex gap-4' style='width: 800px;'>{% for i in '0123456789012345'|make_list %}<div class='flex-shrink-0 w-32 p-3 bg-muted rounded'><p class='text-sm font-medium'>Card {{ forloop.counter }}</p><p class='text-xs text-muted-foreground'>Conteúdo</p></div>{% endfor %}</div>" height="150px" orientation="horizontal" %}
+                <div class="border rounded-lg p-4 h-40 overflow-x-auto">
+                    <div class="flex gap-4" style="width: 800px;">
+                        {% for i in "0123456789012345"|make_list %}
+                            <div class="flex-shrink-0 w-32 p-3 bg-muted rounded">
+                                <p class="text-sm font-medium">Card {{ forloop.counter }}</p>
+                                <p class="text-xs text-muted-foreground">Conteúdo</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -837,37 +854,64 @@
             <!-- 16:9 -->
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">16:9 (Widescreen)</h3>
-                {% include "components/aspect-ratio.html" with ratio="16/9" content="<div class='size-full bg-gradient-to-br from-primary to-primary/50 rounded-md flex items-center justify-center text-primary-foreground'><div class='text-center'><p class='text-lg font-medium'>16:9</p><p class='text-sm opacity-80'>Widescreen</p></div></div>" %}
+                <div class="aspect-video bg-gradient-to-br from-primary to-primary/50 rounded-md flex items-center justify-center text-primary-foreground">
+                    <div class="text-center">
+                        <p class="text-lg font-medium">16:9</p>
+                        <p class="text-sm opacity-80">Widescreen</p>
+                    </div>
+                </div>
             </div>
             
             <!-- 4:3 -->
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">4:3 (Tradicional)</h3>
-                {% include "components/aspect-ratio.html" with ratio="4/3" content="<div class='size-full bg-gradient-to-br from-secondary to-secondary/50 rounded-md flex items-center justify-center text-secondary-foreground'><div class='text-center'><p class='text-lg font-medium'>4:3</p><p class='text-sm opacity-80'>Tradicional</p></div></div>" %}
+                <div class="aspect-[4/3] bg-gradient-to-br from-secondary to-secondary/50 rounded-md flex items-center justify-center text-secondary-foreground">
+                    <div class="text-center">
+                        <p class="text-lg font-medium">4:3</p>
+                        <p class="text-sm opacity-80">Tradicional</p>
+                    </div>
+                </div>
             </div>
             
             <!-- 1:1 -->
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">1:1 (Quadrado)</h3>
-                {% include "components/aspect-ratio.html" with ratio="1/1" content="<div class='size-full bg-gradient-to-br from-accent to-accent/50 rounded-md flex items-center justify-center text-accent-foreground'><div class='text-center'><p class='text-lg font-medium'>1:1</p><p class='text-sm opacity-80'>Quadrado</p></div></div>" %}
+                <div class="aspect-square bg-gradient-to-br from-accent to-accent/50 rounded-md flex items-center justify-center text-accent-foreground">
+                    <div class="text-center">
+                        <p class="text-lg font-medium">1:1</p>
+                        <p class="text-sm opacity-80">Quadrado</p>
+                    </div>
+                </div>
             </div>
             
             <!-- 3:4 -->
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">3:4 (Retrato)</h3>
-                {% include "components/aspect-ratio.html" with ratio="3/4" content="<div class='size-full bg-gradient-to-br from-destructive to-destructive/50 rounded-md flex items-center justify-center text-destructive-foreground'><div class='text-center'><p class='text-lg font-medium'>3:4</p><p class='text-sm opacity-80'>Retrato</p></div></div>" %}
+                <div class="aspect-[3/4] bg-gradient-to-br from-destructive to-destructive/50 rounded-md flex items-center justify-center text-destructive-foreground">
+                    <div class="text-center">
+                        <p class="text-lg font-medium">3:4</p>
+                        <p class="text-sm opacity-80">Retrato</p>
+                    </div>
+                </div>
             </div>
             
             <!-- 9:16 -->
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">9:16 (Vertical)</h3>
-                {% include "components/aspect-ratio.html" with ratio="9/16" content="<div class='size-full bg-gradient-to-br from-muted-foreground to-muted-foreground/50 rounded-md flex items-center justify-center text-muted'><div class='text-center'><p class='text-lg font-medium'>9:16</p><p class='text-sm opacity-80'>Vertical</p></div></div>" %}
+                <div class="aspect-[9/16] bg-gradient-to-br from-muted-foreground to-muted-foreground/50 rounded-md flex items-center justify-center text-muted">
+                    <div class="text-center">
+                        <p class="text-lg font-medium">9:16</p>
+                        <p class="text-sm opacity-80">Vertical</p>
+                    </div>
+                </div>
             </div>
             
             <!-- Imagem exemplo -->
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Com Imagem</h3>
-                {% include "components/aspect-ratio.html" with ratio="16/9" content="<img src='https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=450&fit=crop' alt='Paisagem' class='size-full object-cover rounded-md'>" %}
+                <div class="aspect-video rounded-md overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=450&fit=crop" alt="Paisagem" class="w-full h-full object-cover">
+                </div>
             </div>
         </div>
     </section>
