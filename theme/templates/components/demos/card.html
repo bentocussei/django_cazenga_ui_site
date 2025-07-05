@@ -10,10 +10,13 @@
     <!-- Instalação -->
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Instalação</h2>
-        <div class="bg-muted rounded-lg p-4">
-            <code class="text-sm">
-                {% verbatim %}{% include "components/card.html" with title="Título" description="Descrição" content="Conteúdo" %}{% endverbatim %}
-            </code>
+        <div class="bg-muted rounded-lg p-4 relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
+                <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
+            </button>
+            <code class="text-sm" x-ref="code">{% verbatim %}{% include "components/card.html" with title="Título" description="Descrição" content="Conteúdo" %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -28,8 +31,13 @@
                 <div class="border rounded-lg p-4">
                     {% include "components/card.html" with title="Card Simples" description="Um card básico com título e descrição" %}
                 </div>
-                <div class="bg-muted rounded p-3 text-sm">
-                    <code>{% verbatim %}{% include "components/card.html" with title="Card Simples" description="Um card básico com título e descrição" %}{% endverbatim %}</code>
+                <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+                    <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                            class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                        <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
+                        <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
+                    </button>
+                    <code x-ref="code">{% verbatim %}{% include "components/card.html" with title="Card Simples" description="Um card básico com título e descrição" %}{% endverbatim %}</code>
                 </div>
             </div>
 
@@ -39,8 +47,13 @@
                 <div class="border rounded-lg p-4">
                     {% include "components/card.html" with title="Notificações" description="Você tem mensagens não lidas" content="<p class='text-sm text-muted-foreground'>3 novas mensagens aguardando sua atenção.</p>" %}
                 </div>
-                <div class="bg-muted rounded p-3 text-sm">
-                    <code>{% verbatim %}{% include "components/card.html" with title="Notificações" description="Você tem mensagens não lidas" content="<p class='text-sm text-muted-foreground'>3 novas mensagens aguardando sua atenção.</p>" %}{% endverbatim %}</code>
+                <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+                    <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                            class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                        <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
+                        <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
+                    </button>
+                    <code x-ref="code">{% verbatim %}{% include "components/card.html" with title="Notificações" description="Você tem mensagens não lidas" content="<p class='text-sm text-muted-foreground'>3 novas mensagens aguardando sua atenção.</p>" %}{% endverbatim %}</code>
                 </div>
             </div>
 
@@ -50,8 +63,13 @@
                 <div class="border rounded-lg p-4">
                     {% include "components/card.html" with title="Configurações" description="Gerencie suas preferências" content="<p class='text-sm'>Altere suas configurações de conta e privacidade.</p>" footer='<div class="flex gap-2"><button class="btn btn-primary btn-sm">Salvar</button><button class="btn btn-outline btn-sm">Cancelar</button></div>' %}
                 </div>
-                <div class="bg-muted rounded p-3 text-sm">
-                    <code>{% verbatim %}{% include "components/card.html" with title="Configurações" description="Gerencie suas preferências" content="<p class='text-sm'>Altere suas configurações de conta e privacidade.</p>" footer='<div class="flex gap-2"><button class="btn btn-primary btn-sm">Salvar</button><button class="btn btn-outline btn-sm">Cancelar</button></div>' %}{% endverbatim %}</code>
+                <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+                    <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                            class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                        <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
+                        <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
+                    </button>
+                    <code x-ref="code">{% verbatim %}{% include "components/card.html" with title="Configurações" description="Gerencie suas preferências" content="<p class='text-sm'>Altere suas configurações de conta e privacidade.</p>" footer='<div class="flex gap-2"><button class="btn btn-primary btn-sm">Salvar</button><button class="btn btn-outline btn-sm">Cancelar</button></div>' %}{% endverbatim %}</code>
                 </div>
             </div>
 
@@ -61,8 +79,13 @@
                 <div class="border rounded-lg p-4">
                     {% include "components/card.html" with title="Projeto Django" description="Sistema de componentes moderno" content="<div class='space-y-3'><p class='text-sm'>Este projeto demonstra como criar um sistema de componentes usando Django, Tailwind CSS e Alpine.js.</p><div class='flex gap-2'><span class='badge badge-primary'>Django</span><span class='badge badge-secondary'>Tailwind</span><span class='badge badge-outline'>Alpine.js</span></div></div>" footer='<div class="flex justify-between items-center"><span class="text-sm text-muted-foreground">Atualizado há 2 horas</span><button class="btn btn-primary btn-sm">Ver Projeto</button></div>' %}
                 </div>
-                <div class="bg-muted rounded p-3 text-sm">
-                    <code>{% verbatim %}{% include "components/card.html" with title="Projeto Django" description="Sistema de componentes moderno" content="..." footer="..." %}{% endverbatim %}</code>
+                <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+                    <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                            class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                        <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
+                        <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
+                    </button>
+                    <code x-ref="code">{% verbatim %}{% include "components/card.html" with title="Projeto Django" description="Sistema de componentes moderno" content="..." footer="..." %}{% endverbatim %}</code>
                 </div>
             </div>
 

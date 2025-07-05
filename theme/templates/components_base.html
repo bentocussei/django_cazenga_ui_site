@@ -1,6 +1,6 @@
 {% load static tailwind_tags %}
 <!DOCTYPE html>
-<html lang="pt-BR" x-data="{ darkMode: false }" :class="{ 'dark': darkMode }">
+<html lang="pt-BR" x-data="{ darkMode: localStorage.getItem('darkMode') === 'true' || false }" :class="{ 'dark': darkMode }">
 <head>
     <title>{% block title %}Componentes{% endblock %} - Django + Tailwind + Alpine.js</title>
     <meta charset="UTF-8">
@@ -13,169 +13,54 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/dist/styles.css' %}">
+    <script>
+        // Inicializar o tema escuro do localStorage
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.documentElement.classList.add('dark');
+        }
+    </script>
 </head>
 
-<body class="bg-background text-foreground transition-colors duration-300">
+<body class="bg-background text-foreground transition-colors duration-300" x-init="$watch('darkMode', val => { localStorage.setItem('darkMode', val); val ? document.documentElement.classList.add('dark') : document.documentElement.classList.remove('dark'); })">
 
-<!-- Layout fixo com Sidebar -->
-<div 
-    x-data="{ 
-        open: true,
-        collapsed: false,
-        isMobile: window.innerWidth < 768,
-        
-        toggle() {
-            if (this.isMobile) {
-                this.open = !this.open;
-            } else {
-                this.collapsed = !this.collapsed;
-            }
-        }
-    }"
-    class="flex h-screen w-full overflow-hidden"
->
-    <!-- Mobile Overlay -->
-    <div 
-        x-show="isMobile && open"
-        @click="open = false"
-        class="fixed inset-0 z-40 bg-black/50 md:hidden"
-        style="display: none;"
-    ></div>
-    
-    <!-- Sidebar Fixo -->
-    <aside 
-        :class="{ 
-            'translate-x-0': isMobile ? open : true,
-            '-translate-x-full': isMobile && !open,
-            'w-16': !isMobile && collapsed,
-            'w-64': !isMobile && !collapsed || isMobile
-        }"
-        class="fixed inset-y-0 z-50 flex flex-col border-r bg-background transition-all duration-300 left-0 md:relative md:translate-x-0"
-    >
-        <!-- Header da Sidebar -->
-        <div class="flex h-14 items-center gap-2 border-b px-3 flex-shrink-0">
-            <div class="flex size-8 items-center justify-center">
-                {% include "components/icon.html" with name="component-1" size="size-6" %}
-            </div>
-            
-            <div x-show="!collapsed || isMobile" class="flex-1">
-                <h2 class="text-lg font-semibold">Componentes</h2>
-            </div>
-            
-            <button 
-                @click="toggle()"
-                class="flex size-8 items-center justify-center rounded-md hover:bg-accent"
-            >
-                {% include "components/icon.html" with name="drag-handle-dots-2" size="size-4" %}
-            </button>
-        </div>
-        
-        <!-- Menu dos Componentes com Scroll -->
-        <div class="flex-1 overflow-y-auto p-2">
-            <nav class="space-y-1">
-                {% for component in components_list %}
-                    <a href="{% url 'component_detail' component.slug %}" class="flex items-center gap-3 rounded-md p-2 text-sm hover:bg-accent transition-colors {% if component.slug == current_component %}bg-accent font-medium{% endif %}">
-                        <!-- Ícone do componente -->
-                        <div class="flex size-5 items-center justify-center flex-shrink-0">
-                            {% if component.slug == 'button' %}
-                                {% include "components/icon.html" with name="button" size="size-4" %}
-                            {% elif component.slug == 'input' %}
-                                {% include "components/icon.html" with name="input" size="size-4" %}
-                            {% elif component.slug == 'card' %}
-                                {% include "components/icon.html" with name="card-stack" size="size-4" %}
-                            {% elif component.slug == 'table' %}
-                                {% include "components/icon.html" with name="table" size="size-4" %}
-                            {% elif component.slug == 'alert' %}
-                                {% include "components/icon.html" with name="bell" size="size-4" %}
-                            {% elif component.slug == 'avatar' %}
-                                {% include "components/icon.html" with name="avatar" size="size-4" %}
-                            {% elif component.slug == 'badge' %}
-                                {% include "components/icon.html" with name="badge" size="size-4" %}
-                            {% elif component.slug == 'checkbox' %}
-                                {% include "components/icon.html" with name="checkbox" size="size-4" %}
-                            {% elif component.slug == 'accordion' %}
-                                {% include "components/icon.html" with name="chevron-left" size="size-4" %}
-                            {% elif component.slug == 'progress' %}
-                                {% include "components/icon.html" with name="timer" size="size-4" %}
-                            {% elif component.slug == 'select' %}
-                                {% include "components/icon.html" with name="caret-sort" size="size-4" %}
-                            {% elif component.slug == 'separator' %}
-                                {% include "components/icon.html" with name="dash" size="size-4" %}
-                            {% elif component.slug == 'skeleton' %}
-                                {% include "components/icon.html" with name="transparency-grid" size="size-4" %}
-                            {% elif component.slug == 'switch' %}
-                                {% include "components/icon.html" with name="mixer-vertical" size="size-4" %}
-                            {% elif component.slug == 'tabs' %}
-                                {% include "components/icon.html" with name="dots-vertical" size="size-4" %}
-                            {% elif component.slug == 'textarea' %}
-                                {% include "components/icon.html" with name="text-align-top" size="size-4" %}
-                            {% elif component.slug == 'tooltip' %}
-                                {% include "components/icon.html" with name="dot" size="size-4" %}
-                            {% elif component.slug == 'label' %}
-                                {% include "components/icon.html" with name="pilcrow" size="size-4" %}
-                            {% else %}
-                                {% include "components/icon.html" with name="dot-filled" size="size-4" %}
-                            {% endif %}
+{% if main_content %}
+    <!-- Se há main_content, está sendo usado pela view principal -->
+    {% include "components/layout.html" with layout_type="sidebar-left" sidebar_collapsible=True sidebar_content=sidebar_content header_content=header_content main_content=main_content %}
+{% else %}
+    <!-- Se não há main_content, está sendo usado pelos templates dos componentes -->
+    {% include "components/layout.html" with layout_type="sidebar-left" sidebar_collapsible=True sidebar_content=sidebar_content header_content=header_content main_content=component_main_content %}
+{% endif %}
+
+<!-- Conteúdo para os templates dos componentes quando não há main_content -->
+{% if not main_content %}
+<script>
+    // Capturar o conteúdo do componente e injetar no layout
+    document.addEventListener('DOMContentLoaded', function() {
+        const layoutMain = document.querySelector('main');
+        if (layoutMain) {
+            layoutMain.innerHTML = `
+                <div class="space-y-6">
+                    <div class="border-b border-border pb-4">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h1 class="text-3xl font-bold">{% block page_title %}Componentes{% endblock %}</h1>
+                                <p class="text-muted-foreground mt-1">{% block page_description %}Demonstração de componentes{% endblock %}</p>
+                            </div>
+                            <a href="/components/" class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+                                Voltar
+                            </a>
                         </div>
-                        <span x-show="!collapsed || isMobile" class="truncate">{{ component.name }}</span>
-                    </a>
-                {% endfor %}
-            </nav>
-        </div>
-    </aside>
-    
-    <!-- Main Content -->
-    <main class="flex-1 flex flex-col overflow-hidden">
-        <!-- Header Fixo -->
-        <header class="flex h-14 items-center gap-4 border-b bg-background px-4 flex-shrink-0">
-            <button @click="open = !open" class="flex size-8 items-center justify-center rounded-md hover:bg-accent md:hidden">
-                {% include "components/icon.html" with name="drag-handle-dots-2" size="size-4" %}
-            </button>
-            
-            <div class="flex items-center gap-6">
-                <a href="/" class="font-bold">Django + Tailwind + Alpine.js</a>
-                {% include "components/navigation-menu.html" with menu_items=nav_menu %}
-            </div>
-            
-            <div class="flex flex-1 items-center justify-end space-x-2">
-                <button
-                    @click="darkMode = !darkMode"
-                    class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-transparent shadow-sm hover:bg-accent hover:text-accent-foreground h-9 w-9"
-                    :aria-label="darkMode ? 'Ativar modo claro' : 'Ativar modo escuro'"
-                >
-                    <span x-show="!darkMode">{% include "components/icon.html" with name="moon" size="size-4" %}</span>
-                    <span x-show="darkMode">{% include "components/icon.html" with name="sun" size="size-4" %}</span>
-                </button>
-            </div>
-        </header>
-        
-        <!-- Page Content com Scroll -->
-        <div class="flex-1 overflow-y-auto">
-            <!-- Header da Página -->
-            <div class="border-b border-border p-4">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <h1 class="text-3xl font-bold">{% block page_title %}Componentes{% endblock %}</h1>
-                        <p class="text-muted-foreground mt-1">{% block page_description %}Selecione um componente para ver a demonstração{% endblock %}</p>
                     </div>
-                    <div class="flex items-center space-x-2">
-                        {% include "components/button.html" with text="Voltar" variant="outline" size="sm" x_click="window.location.href='/'" %}
+                    <div id="component-content-placeholder">
+                        {% block component_content %}
+                        {% endblock %}
                     </div>
                 </div>
-            </div>
+            `;
+        }
+    });
+</script>
+{% endif %}
 
-            <!-- Área de Conteúdo -->
-            <div class="p-4">
-                {% block component_content %}
-                <div class="text-center py-12">
-                    <div class="text-6xl mb-4">🎨</div>
-                    <h3 class="text-xl font-semibold mb-2">Selecione um Componente</h3>
-                    <p class="text-muted-foreground">Escolha um componente no sidebar para ver a demonstração completa</p>
-                </div>
-                {% endblock %}
-            </div>
-        </div>
-    </main>
-</div>
 </body>
 </html> 

@@ -10,10 +10,13 @@
     <!-- Instalação -->
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Instalação</h2>
-        <div class="bg-muted rounded-lg p-4">
-            <code class="text-sm">
-                {% verbatim %}{% include "components/input.html" with name="email" type="email" placeholder="Digite seu email" %}{% endverbatim %}
-            </code>
+        <div class="bg-muted rounded-lg p-4 relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
+                <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
+            </button>
+            <code class="text-sm" x-ref="code">{% verbatim %}{% include "components/input.html" with name="email" type="email" placeholder="Digite seu email" %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -28,8 +31,13 @@
                 <div class="border rounded-lg p-4">
                     {% include "components/input.html" with name="default" placeholder="Digite aqui..." %}
                 </div>
-                <div class="bg-muted rounded p-3 text-sm">
-                    <code>{% verbatim %}{% include "components/input.html" with name="default" placeholder="Digite aqui..." %}{% endverbatim %}</code>
+                <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+                    <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                            class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                        <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
+                        <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
+                    </button>
+                    <code x-ref="code">{% verbatim %}{% include "components/input.html" with name="default" placeholder="Digite aqui..." %}{% endverbatim %}</code>
                 </div>
             </div>
 
@@ -39,8 +47,13 @@
                 <div class="border rounded-lg p-4">
                     {% include "components/input.html" with name="email" type="email" placeholder="Digite seu email" %}
                 </div>
-                <div class="bg-muted rounded p-3 text-sm">
-                    <code>{% verbatim %}{% include "components/input.html" with name="email" type="email" placeholder="Digite seu email" %}{% endverbatim %}</code>
+                <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+                    <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                            class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                        <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
+                        <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
+                    </button>
+                    <code x-ref="code">{% verbatim %}{% include "components/input.html" with name="email" type="email" placeholder="Digite seu email" %}{% endverbatim %}</code>
                 </div>
             </div>
 
@@ -50,8 +63,13 @@
                 <div class="border rounded-lg p-4">
                     {% include "components/input.html" with name="password" type="password" placeholder="Digite sua senha" %}
                 </div>
-                <div class="bg-muted rounded p-3 text-sm">
-                    <code>{% verbatim %}{% include "components/input.html" with name="password" type="password" placeholder="Digite sua senha" %}{% endverbatim %}</code>
+                <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+                    <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                            class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                        <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
+                        <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
+                    </button>
+                    <code x-ref="code">{% verbatim %}{% include "components/input.html" with name="password" type="password" placeholder="Digite sua senha" %}{% endverbatim %}</code>
                 </div>
             </div>
 
@@ -61,8 +79,13 @@
                 <div class="border rounded-lg p-4">
                     {% include "components/input.html" with name="age" type="number" placeholder="Sua idade" min="0" max="120" %}
                 </div>
-                <div class="bg-muted rounded p-3 text-sm">
-                    <code>{% verbatim %}{% include "components/input.html" with name="age" type="number" placeholder="Sua idade" min="0" max="120" %}{% endverbatim %}</code>
+                <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+                    <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                            class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                        <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
+                        <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
+                    </button>
+                    <code x-ref="code">{% verbatim %}{% include "components/input.html" with name="age" type="number" placeholder="Sua idade" min="0" max="120" %}{% endverbatim %}</code>
                 </div>
             </div>
 
@@ -72,8 +95,13 @@
                 <div class="border rounded-lg p-4">
                     {% include "components/input.html" with name="username" placeholder="Nome de usuário" value="usuario123" %}
                 </div>
-                <div class="bg-muted rounded p-3 text-sm">
-                    <code>{% verbatim %}{% include "components/input.html" with name="username" placeholder="Nome de usuário" value="usuario123" %}{% endverbatim %}</code>
+                <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+                    <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                            class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                        <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
+                        <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
+                    </button>
+                    <code x-ref="code">{% verbatim %}{% include "components/input.html" with name="username" placeholder="Nome de usuário" value="usuario123" %}{% endverbatim %}</code>
                 </div>
             </div>
 
@@ -83,8 +111,13 @@
                 <div class="border rounded-lg p-4">
                     {% include "components/input.html" with name="disabled" placeholder="Campo desabilitado" disabled=True %}
                 </div>
-                <div class="bg-muted rounded p-3 text-sm">
-                    <code>{% verbatim %}{% include "components/input.html" with name="disabled" placeholder="Campo desabilitado" disabled=True %}{% endverbatim %}</code>
+                <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+                    <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                            class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                        <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
+                        <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
+                    </button>
+                    <code x-ref="code">{% verbatim %}{% include "components/input.html" with name="disabled" placeholder="Campo desabilitado" disabled=True %}{% endverbatim %}</code>
                 </div>
             </div>
 
@@ -103,8 +136,13 @@
                     {% include "components/label.html" with text="Email" for="email-demo" %}
                     {% include "components/input.html" with id="email-demo" name="email-demo" type="email" placeholder="Digite seu email" %}
                 </div>
-                <div class="bg-muted rounded p-3 text-sm">
-                    <code>{% verbatim %}{% include "components/label.html" with text="Email" for="email-demo" %}
+                <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+                    <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                            class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                        <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
+                        <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
+                    </button>
+                    <code x-ref="code">{% verbatim %}{% include "components/label.html" with text="Email" for="email-demo" %}
 {% include "components/input.html" with id="email-demo" name="email-demo" type="email" placeholder="Digite seu email" %}{% endverbatim %}</code>
                 </div>
             </div>
@@ -116,8 +154,13 @@
                     {% include "components/label.html" with text="Nome completo *" for="fullname" %}
                     {% include "components/input.html" with id="fullname" name="fullname" placeholder="Digite seu nome completo" required=True %}
                 </div>
-                <div class="bg-muted rounded p-3 text-sm">
-                    <code>{% verbatim %}{% include "components/label.html" with text="Nome completo *" for="fullname" %}
+                <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+                    <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                            class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                        <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
+                        <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
+                    </button>
+                    <code x-ref="code">{% verbatim %}{% include "components/label.html" with text="Nome completo *" for="fullname" %}
 {% include "components/input.html" with id="fullname" name="fullname" placeholder="Digite seu nome completo" required=True %}{% endverbatim %}</code>
                 </div>
             </div>
@@ -137,8 +180,13 @@
                     {% include "components/input.html" with name="message" placeholder="Digite uma mensagem" x_model="message" %}
                     <p class="text-sm text-muted-foreground mt-2">Você digitou: <span x-text="message"></span></p>
                 </div>
-                <div class="bg-muted rounded p-3 text-sm">
-                    <code>{% verbatim %}<div x-data="{ message: 'Olá mundo!' }">
+                <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+                    <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                            class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                        <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
+                        <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
+                    </button>
+                    <code x-ref="code">{% verbatim %}<div x-data="{ message: 'Olá mundo!' }">
     {% include "components/input.html" with name="message" placeholder="Digite uma mensagem" x_model="message" %}
     <p>Você digitou: <span x-text="message"></span></p>
 </div>{% endverbatim %}</code>
@@ -155,8 +203,13 @@
                         <span x-show="isValid">✅ Email válido</span>
                     </p>
                 </div>
-                <div class="bg-muted rounded p-3 text-sm">
-                    <code>{% verbatim %}<div x-data="{ email: '', isValid: false }" x-init="$watch('email', value => isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value))">
+                <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+                    <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                            class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                        <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
+                        <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
+                    </button>
+                    <code x-ref="code">{% verbatim %}<div x-data="{ email: '', isValid: false }" x-init="$watch('email', value => isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value))">
     {% include "components/input.html" with name="email-validation" type="email" placeholder="Digite um email válido" x_model="email" %}
     <p :class="isValid ? 'text-green-600' : 'text-red-600'">...</p>
 </div>{% endverbatim %}</code>

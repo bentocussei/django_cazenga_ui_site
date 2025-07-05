@@ -15,6 +15,7 @@ COMPONENTS_LIST = [
     {'name': 'Checkbox', 'slug': 'checkbox'},
     {'name': 'Input', 'slug': 'input'},
     {'name': 'Label', 'slug': 'label'},
+    {'name': 'Layout', 'slug': 'layout'},
     {'name': 'Progress', 'slug': 'progress'},
     {'name': 'Select', 'slug': 'select'},
     {'name': 'Separator', 'slug': 'separator'},
@@ -66,6 +67,27 @@ INPUT_PARAMS = {
         ['<code>class</code>', 'string', '-', 'Classes CSS adicionais'],
         ['<code>min</code>', 'number', '-', 'Valor mínimo (para type="number")'],
         ['<code>max</code>', 'number', '-', 'Valor máximo (para type="number")'],
+    ]
+}
+
+LAYOUT_PARAMS = {
+    'headers': ['Parâmetro', 'Tipo', 'Padrão', 'Descrição'],
+    'data': [
+        ['<code>layout_type</code>', 'string', 'sidebar-left', 'Tipo de layout: sidebar-left, sidebar-right, header-only, sidebar-only, full'],
+        ['<code>sidebar_collapsible</code>', 'boolean', 'true', 'Se a sidebar pode ser recolhida'],
+        ['<code>sidebar_width</code>', 'string', 'w-64', 'Largura da sidebar (classes Tailwind)'],
+        ['<code>sidebar_collapsed_width</code>', 'string', 'w-16', 'Largura da sidebar quando recolhida'],
+        ['<code>header_height</code>', 'string', 'h-16', 'Altura do header (classes Tailwind)'],
+        ['<code>footer_height</code>', 'string', 'h-16', 'Altura do footer (classes Tailwind)'],
+        ['<code>sidebar_content</code>', 'HTML', '-', 'Conteúdo personalizado da sidebar'],
+        ['<code>header_content</code>', 'HTML', '-', 'Conteúdo personalizado do header'],
+        ['<code>main_content</code>', 'HTML', '-', 'Conteúdo principal da página'],
+        ['<code>footer_content</code>', 'HTML', '-', 'Conteúdo personalizado do footer'],
+        ['<code>sidebar_class</code>', 'string', '-', 'Classes CSS adicionais para a sidebar'],
+        ['<code>header_class</code>', 'string', '-', 'Classes CSS adicionais para o header'],
+        ['<code>main_class</code>', 'string', '-', 'Classes CSS adicionais para o main'],
+        ['<code>footer_class</code>', 'string', '-', 'Classes CSS adicionais para o footer'],
+        ['<code>class</code>', 'string', '-', 'Classes CSS adicionais para o container principal'],
     ]
 }
 
@@ -208,29 +230,73 @@ def demo(request):
     return render(request, "demo.html", context)
 
 def components_list(request):
-    # Menu de navegação
-    nav_menu = [
-        {
-            "title": "Início",
-            "href": "/",
-        },
-        {
-            "title": "Demo",
-            "href": "/demo/",
-        },
-        {
-            "title": "Componentes",
-            "href": "/components/",
-        },
-        {
-            "title": "Ícones",
-            "href": "/icons/",
+    # Construir conteúdo da sidebar
+    sidebar_content = '<nav class="space-y-1">'
+    for component in COMPONENTS_LIST:
+        icon_mapping = {
+            'button': 'button', 'input': 'input', 'card': 'card-stack', 'table': 'table',
+            'alert': 'bell', 'avatar': 'avatar', 'badge': 'badge', 'checkbox': 'checkbox',
+            'accordion': 'chevron-down', 'progress': 'timer', 'select': 'caret-sort',
+            'separator': 'dash', 'skeleton': 'transparency-grid', 'switch': 'switch',
+            'tabs': 'dots-horizontal', 'textarea': 'text-align-top', 'tooltip': 'question-mark-circled',
+            'label': 'pilcrow', 'layout': 'layout'
         }
-    ]
+        icon_name = icon_mapping.get(component['slug'], 'dot-filled')
+        
+        sidebar_content += f'''
+        <a href="/components/{component['slug']}/" class="flex items-center gap-3 rounded-radius-md px-3 py-2 text-sm font-medium hover:bg-accent transition-colors">
+            <img src="/static/radix-icons/{icon_name}.svg" class="size-4" alt="{component['name']}">
+            <span x-show="!sidebarCollapsed || isMobile">{component['name']}</span>
+        </a>
+        '''
+    sidebar_content += '</nav>'
+    
+    # Construir conteúdo do header
+    header_content = '''
+    <div class="flex items-center gap-4">
+        <a href="/" class="text-xl font-bold">Django + Tailwind + Alpine.js</a>
+        <nav class="hidden md:flex space-x-4">
+            <a href="/" class="text-sm font-medium hover:text-primary transition-colors">Início</a>
+            <a href="/components/" class="text-sm font-medium text-primary">Componentes</a>
+            <a href="/demo/" class="text-sm font-medium hover:text-primary transition-colors">Demo</a>
+            <a href="/icons/" class="text-sm font-medium hover:text-primary transition-colors">Ícones</a>
+        </nav>
+    </div>
+    <div class="flex items-center gap-4">
+        <button @click="darkMode = !darkMode" class="size-8 rounded-radius-md hover:bg-accent transition-colors flex items-center justify-center">
+            <span x-show="!darkMode"><img src="/static/radix-icons/moon.svg" class="size-4" alt="Modo escuro"></span>
+            <span x-show="darkMode"><img src="/static/radix-icons/sun.svg" class="size-4" alt="Modo claro"></span>
+        </button>
+    </div>
+    '''
+    
+    # Construir conteúdo principal
+    main_content = '''
+    <div class="space-y-6">
+        <div class="border-b border-border pb-4">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-3xl font-bold">Componentes</h1>
+                    <p class="text-muted-foreground mt-1">Selecione um componente para ver a demonstração</p>
+                </div>
+                <a href="/" class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+                    Voltar
+                </a>
+            </div>
+        </div>
+        <div class="text-center py-12">
+            <div class="text-6xl mb-4">🎨</div>
+            <h3 class="text-xl font-semibold mb-2">Selecione um Componente</h3>
+            <p class="text-muted-foreground">Escolha um componente no sidebar para ver a demonstração completa</p>
+        </div>
+    </div>
+    '''
     
     context = {
         'components_list': COMPONENTS_LIST,
-        'nav_menu': nav_menu,
+        'sidebar_content': sidebar_content,
+        'header_content': header_content,
+        'main_content': main_content,
     }
     return render(request, "components_base.html", context)
 
@@ -245,32 +311,54 @@ def component_detail(request, component_slug):
     if not component:
         raise Http404("Componente não encontrado")
     
-    # Menu de navegação
-    nav_menu = [
-        {
-            "title": "Início",
-            "href": "/",
-        },
-        {
-            "title": "Demo",
-            "href": "/demo/",
-        },
-        {
-            "title": "Componentes",
-            "href": "/components/",
-        },
-        {
-            "title": "Ícones",
-            "href": "/icons/",
+    # Construir conteúdo da sidebar
+    sidebar_content = '<nav class="space-y-1">'
+    for comp in COMPONENTS_LIST:
+        icon_mapping = {
+            'button': 'button', 'input': 'input', 'card': 'card-stack', 'table': 'table',
+            'alert': 'bell', 'avatar': 'avatar', 'badge': 'badge', 'checkbox': 'checkbox',
+            'accordion': 'chevron-down', 'progress': 'timer', 'select': 'caret-sort',
+            'separator': 'dash', 'skeleton': 'transparency-grid', 'switch': 'switch',
+            'tabs': 'dots-horizontal', 'textarea': 'text-align-top', 'tooltip': 'question-mark-circled',
+            'label': 'pilcrow', 'layout': 'layout'
         }
-    ]
+        icon_name = icon_mapping.get(comp['slug'], 'dot-filled')
+        active_class = 'bg-accent text-accent-foreground' if comp['slug'] == component_slug else 'hover:bg-accent'
+        
+        sidebar_content += f'''
+        <a href="/components/{comp['slug']}/" class="flex items-center gap-3 rounded-radius-md px-3 py-2 text-sm font-medium transition-colors {active_class}">
+            <img src="/static/radix-icons/{icon_name}.svg" class="size-4" alt="{comp['name']}">
+            <span x-show="!sidebarCollapsed || isMobile">{comp['name']}</span>
+        </a>
+        '''
+    sidebar_content += '</nav>'
+    
+    # Construir conteúdo do header
+    header_content = '''
+    <div class="flex items-center gap-4">
+        <a href="/" class="text-xl font-bold">Django + Tailwind + Alpine.js</a>
+        <nav class="hidden md:flex space-x-4">
+            <a href="/" class="text-sm font-medium hover:text-primary transition-colors">Início</a>
+            <a href="/components/" class="text-sm font-medium text-primary">Componentes</a>
+            <a href="/demo/" class="text-sm font-medium hover:text-primary transition-colors">Demo</a>
+            <a href="/icons/" class="text-sm font-medium hover:text-primary transition-colors">Ícones</a>
+        </nav>
+    </div>
+    <div class="flex items-center gap-4">
+        <button @click="darkMode = !darkMode" class="size-8 rounded-radius-md hover:bg-accent transition-colors flex items-center justify-center">
+            <span x-show="!darkMode"><img src="/static/radix-icons/moon.svg" class="size-4" alt="Modo escuro"></span>
+            <span x-show="darkMode"><img src="/static/radix-icons/sun.svg" class="size-4" alt="Modo claro"></span>
+        </button>
+    </div>
+    '''
     
     # Preparar contexto base
     context = {
         'component': component,
         'components_list': COMPONENTS_LIST,
-        'nav_menu': nav_menu,
         'current_component': component_slug,
+        'sidebar_content': sidebar_content,
+        'header_content': header_content,
     }
     
     # Adicionar dados específicos do componente
@@ -286,12 +374,46 @@ def component_detail(request, component_slug):
         context.update({
             'input_params': INPUT_PARAMS,
         })
+    elif component_slug == 'layout':
+        context.update({
+            'layout_params': LAYOUT_PARAMS,
+        })
     
-    # Tentar renderizar template específico, senão usar o padrão
+    # Renderizar template específico do componente ou usar fallback
+    from django.template.loader import get_template
+    from django.template import TemplateDoesNotExist
+    
     try:
+        # Tentar carregar o template específico
+        template = get_template(f"components/demos/{component_slug}.html")
+        # Renderizar o template completo primeiro (pois ele estende components_base.html)
         return render(request, f"components/demos/{component_slug}.html", context)
-    except:
-        return render(request, "components/demos/default.html", context)
+    except TemplateDoesNotExist:
+        # Template não existe, usar fallback
+        main_content = f'''
+        <div class="space-y-6">
+            <div class="border-b border-border pb-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h1 class="text-3xl font-bold">{component['name']}</h1>
+                        <p class="text-muted-foreground mt-1">Demonstração do componente {component['name']}</p>
+                    </div>
+                    <a href="/components/" class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+                        Voltar
+                    </a>
+                </div>
+            </div>
+            <div class="text-center py-12">
+                <div class="text-6xl mb-4">🚧</div>
+                <h3 class="text-xl font-semibold mb-2">Em Desenvolvimento</h3>
+                <p class="text-muted-foreground">A demonstração do componente {component['name']} ainda está em desenvolvimento.</p>
+            </div>
+        </div>
+        '''
+        
+        context['main_content'] = main_content
+        context['component_not_found'] = True
+        return render(request, "components_base.html", context)
 
 def icons_page(request):
     import os
