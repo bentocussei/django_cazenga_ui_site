@@ -1,4 +1,4 @@
-{# 
+<!--
 Componente: Aspect Ratio
 Uso: include "components/aspect-ratio.html" with content="Conteúdo" ratio="16/9"
 
@@ -15,8 +15,7 @@ Exemplos comuns:
 - 1/1 (quadrado): include "components/aspect-ratio.html" with ratio="1/1"
 - 3/4 (retrato): include "components/aspect-ratio.html" with ratio="3/4"
 - 9/16 (vertical): include "components/aspect-ratio.html" with ratio="9/16"
-#}
-
+-->
 {% with ratio=ratio|default:"16/9" %}
 {% load mathfilters %}
 <div 

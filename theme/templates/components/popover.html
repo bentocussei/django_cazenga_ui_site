@@ -1,4 +1,4 @@
-{# 
+<!--
 Componente: Popover
 Uso: include "components/popover.html" with trigger="Clique aqui" content="Conteúdo do popover"
 
@@ -24,8 +24,7 @@ include "components/popover.html" with
     content="<p>Conteúdo detalhado aqui...</p>"
     placement="top"
     arrow=True
-#}
-
+-->
 {% with placement=placement|default:"bottom" align=align|default:"center" offset=offset|default:8 trigger_event=trigger_event|default:"click" delay=delay|default:0 arrow=arrow|default:True close_button=close_button|default:False %}
 <div 
     x-data="{ 

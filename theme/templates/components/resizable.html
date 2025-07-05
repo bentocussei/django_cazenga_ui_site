@@ -1,4 +1,4 @@
-{# 
+<!--
 Componente: Resizable
 Uso: include "components/resizable.html" with panels=panel_list contents=content_list
 
@@ -25,8 +25,7 @@ Onde:
 - sidebar_panels = ["sidebar", "main"]
 - sidebar_contents = ["<p>Sidebar</p>", "<p>Conteúdo principal</p>"]
 - sidebar_sizes = [30, 70]
-#}
-
+-->
 {% with direction=direction|default:"horizontal" with_handle=with_handle|default:True height=height|default:"400px" %}
 <div 
     x-data="{ 

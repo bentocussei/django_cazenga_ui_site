@@ -1,4 +1,4 @@
-{# 
+<!--
 Componente: Tooltip
 Uso: include "components/tooltip.html" with text="Texto do tooltip" content="Conteúdo que terá tooltip"
 
@@ -8,8 +8,7 @@ Parâmetros:
 - placement: top, bottom, left, right (padrão: top)
 - delay: Delay em ms para mostrar o tooltip (padrão: 0)
 - class: Classes CSS adicionais para o tooltip (opcional)
-#}
-
+-->
 {% with placement=placement|default:"top" delay=delay|default:0 %}
 <div 
     x-data="{ 

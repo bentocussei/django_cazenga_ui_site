@@ -1,4 +1,4 @@
-{# 
+<!--
 Componente: Badge
 Uso: include "components/badge.html" with text="Novo" variant="default"
 
@@ -9,8 +9,7 @@ Parâmetros:
 - removable: true/false - se o badge pode ser removido (padrão: false)
 - href: URL se o badge for um link (opcional)
 - class: Classes CSS adicionais (opcional)
-#}
-
+-->
 {% with variant=variant|default:"default" removable=removable|default:False %}
 {% if href %}
 <a 

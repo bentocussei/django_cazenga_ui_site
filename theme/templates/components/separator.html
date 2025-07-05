@@ -1,4 +1,4 @@
-{# 
+<!--
 Componente: Separator
 Uso: include "components/separator.html"
 
@@ -6,8 +6,7 @@ Parâmetros:
 - orientation: horizontal, vertical (padrão: horizontal)
 - decorative: true/false - se é apenas decorativo ou tem significado semântico (padrão: true)
 - class: Classes CSS adicionais (opcional)
-#}
-
+-->
 {% with orientation=orientation|default:"horizontal" decorative=decorative|default:True %}
 <div 
     {% if not decorative %}role="separator"{% endif %}

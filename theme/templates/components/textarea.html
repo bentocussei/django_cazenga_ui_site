@@ -1,4 +1,4 @@
-{# 
+<!--
 Componente: Textarea
 Uso: include "components/textarea.html" with name="message" placeholder="Digite sua mensagem"
 
@@ -16,8 +16,7 @@ Parâmetros:
 - class: Classes CSS adicionais (opcional)
 - maxlength: Limite máximo de caracteres (opcional)
 - minlength: Limite mínimo de caracteres (opcional)
-#}
-
+-->
 {% with textarea_id=id|default:name|default:"textarea" rows=rows|default:4 disabled=disabled|default:False readonly=readonly|default:False required=required|default:False resize=resize|default:"vertical" %}
 <textarea
     {% if name %}name="{{ name }}"{% endif %}

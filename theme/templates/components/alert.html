@@ -1,4 +1,4 @@
-{# 
+<!--
 Componente: Alert
 Uso: include "components/alert.html" with variant="default" title="Título" description="Descrição"
 
@@ -9,8 +9,7 @@ Parâmetros:
 - icon: Ícone SVG do alerta (opcional)
 - dismissible: true/false - se o alerta pode ser fechado (padrão: false)
 - class: Classes CSS adicionais (opcional)
-#}
-
+-->
 {% with variant=variant|default:"default" dismissible=dismissible|default:False %}
 <div 
     {% if dismissible %}

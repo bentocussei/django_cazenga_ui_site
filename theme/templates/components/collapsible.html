@@ -1,4 +1,4 @@
-{# 
+<!--
 Componente: Collapsible
 Uso: include "components/collapsible.html" with trigger_text="Expandir" content="Conteúdo"
 
@@ -18,8 +18,7 @@ include "components/collapsible.html" with
     content="<p>Detalhes ocultos...</p>"
     open=False
     show_icon=True
-#}
-
+-->
 {% with open=open|default:False trigger_variant=trigger_variant|default:"ghost" show_icon=show_icon|default:True %}
 <div 
     x-data="{ open: {{ open|yesno:'true,false' }} }"

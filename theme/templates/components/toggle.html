@@ -1,4 +1,4 @@
-{# 
+<!--
 Componente: Toggle
 Uso: include "components/toggle.html" with text="Toggle" pressed=False
 
@@ -21,8 +21,7 @@ include "components/toggle.html" with
     pressed=False
     variant="outline"
     size="default"
-#}
-
+-->
 {% with variant=variant|default:"default" size=size|default:"default" pressed=pressed|default:False disabled=disabled|default:False %}
 <button 
     x-data="{ pressed: {{ pressed|yesno:'true,false' }} }"

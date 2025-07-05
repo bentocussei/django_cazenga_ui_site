@@ -1,4 +1,4 @@
-{# 
+<!--
 Componente: Progress
 Uso: include "components/progress.html" with value=75 label="Progresso"
 
@@ -12,8 +12,7 @@ Parâmetros:
 - striped: true/false - adicionar listras (padrão: false)
 - animated: true/false - animar listras (padrão: false)
 - class: Classes CSS adicionais (opcional)
-#}
-
+-->
 {% with value=value|default:0 max=max|default:100 variant=variant|default:"default" size=size|default:"md" show_value=show_value|default:False striped=striped|default:False animated=animated|default:False %}
 <div class="w-full">
     {% if label or show_value %}

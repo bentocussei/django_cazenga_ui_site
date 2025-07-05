@@ -1,4 +1,4 @@
-{# 
+<!--
 Componente: Sidebar
 Uso: include "components/sidebar.html" with content=sidebar_content
 
@@ -19,8 +19,7 @@ Exemplo de content:
     ],
     "footer": {"user": "João", "avatar": "..."}
 }
-#}
-
+-->
 {% with side=side|default:"left" collapsible=collapsible|default:True %}
 <div 
     x-data="{ 

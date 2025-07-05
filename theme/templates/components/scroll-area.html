@@ -1,4 +1,4 @@
-{# 
+<!--
 Componente: Scroll Area
 Uso: include "components/scroll-area.html" with content="Conteúdo longo"
 
@@ -17,8 +17,7 @@ include "components/scroll-area.html" with
     height="200px"
     orientation="vertical"
     scrollbar_style="always"
-#}
-
+-->
 {% with height=height|default:"300px" width=width|default:"100%" orientation=orientation|default:"vertical" scrollbar_style=scrollbar_style|default:"auto" %}
 <div 
     x-data="{ 

@@ -1,4 +1,4 @@
-{# 
+<!--
 Componente: Dialog
 Uso: include "components/dialog.html" with title="Título" description="Descrição" content="Conteúdo" footer="Rodapé"
 
@@ -13,8 +13,7 @@ Parâmetros:
 - close_on_outside: true/false - fechar ao clicar fora (padrão: true)
 - x_data: Dados Alpine.js adicionais (opcional)
 - class: Classes CSS adicionais (opcional)
-#}
-
+-->
 {% with size=size|default:"md" show_close=show_close|default:True close_on_outside=close_on_outside|default:True %}
 <div 
     x-data="{ open: false }"

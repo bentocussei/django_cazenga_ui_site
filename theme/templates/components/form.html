@@ -1,4 +1,4 @@
-{# 
+<!--
 Componente: Form
 Uso: include "components/form.html" with fields=form_fields action="/submit" method="POST"
 
@@ -30,8 +30,7 @@ Exemplo de fields:
         "error": "Email inválido"
     }
 ]
-#}
-
+-->
 {% with method=method|default:"POST" novalidate=novalidate|default:False %}
 <form
     {% if action %}action="{{ action }}"{% endif %}

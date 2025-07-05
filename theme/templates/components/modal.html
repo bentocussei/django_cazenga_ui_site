@@ -1,4 +1,4 @@
-{# 
+<!--
 Componente: Modal
 Uso: include "components/modal.html" with modal_id="meuModal" title="Título do Modal"
 
@@ -10,8 +10,7 @@ Parâmetros:
 
 NOTA: Este componente cria apenas o modal em si. 
 Para abrir o modal, crie um botão com @click="open_{{ modal_id }} = true"
-#}
-
+-->
 <div 
     x-data="{ open_{{ modal_id }}: false }" 
     x-show="open_{{ modal_id }}"

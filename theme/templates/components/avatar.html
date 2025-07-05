@@ -1,4 +1,4 @@
-{# 
+<!--
 Componente: Avatar
 Uso: include "components/avatar.html" with src="/path/to/image.jpg" alt="Nome do usuário" fallback="JD"
 
@@ -10,8 +10,7 @@ Parâmetros:
 - shape: circle, square (padrão: circle)
 - status: online, offline, away, busy (opcional)
 - class: Classes CSS adicionais (opcional)
-#}
-
+-->
 {% with size=size|default:"md" shape=shape|default:"circle" %}
 <div 
     x-data="{ imageError: false }"

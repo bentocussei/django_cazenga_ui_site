@@ -1,4 +1,4 @@
-{# 
+<!--
 Componente: Pagination
 Uso: include "components/pagination.html" with current_page=1 total_pages=10 base_url="/produtos"
 
@@ -11,8 +11,7 @@ Parâmetros:
 - max_visible: Número máximo de páginas visíveis (padrão: 7)
 - class: Classes CSS adicionais (opcional)
 - on_page_change: Função JavaScript para mudança de página (opcional)
-#}
-
+-->
 {% with show_labels=show_labels|default:True show_first_last=show_first_last|default:True max_visible=max_visible|default:7 %}
 <nav 
     role="navigation" 

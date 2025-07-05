@@ -1,4 +1,4 @@
-{# 
+<!--
 Componente: Sheet
 Uso: include "components/sheet.html" with trigger_text="Abrir Sheet" title="Título" content="Conteúdo"
 
@@ -22,8 +22,7 @@ include "components/sheet.html" with
     content="<p>Conteúdo das configurações...</p>"
     side="right"
     size="lg"
-#}
-
+-->
 {% with side=side|default:"right" size=size|default:"md" trigger_variant=trigger_variant|default:"default" close_button=close_button|default:True %}
 <div 
     x-data="{ open: false }"

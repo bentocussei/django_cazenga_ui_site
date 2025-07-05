@@ -1,4 +1,4 @@
-{# 
+<!-- 
 Componente: Card
 Uso: include "components/card.html" with title="Título" description="Descrição" content="Conteúdo" footer="Rodapé"
 
@@ -13,7 +13,7 @@ Parâmetros:
 - content_class: Classes CSS adicionais para o content (opcional)
 - footer_class: Classes CSS adicionais para o footer (opcional)
 - show_dividers: true/false - mostrar divisores entre seções (padrão: false)
-#}
+-->
 
 {% with show_dividers=show_dividers|default:False %}
 <div class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm {{ class|default:'' }}">

@@ -1,4 +1,4 @@
-{# 
+<!--
 Componente: Breadcrumb
 Uso: include "components/breadcrumb.html" with items=breadcrumb_items
 
@@ -15,8 +15,7 @@ Exemplo de items:
     {"label": "Categoria", "href": "/produtos/categoria"},
     {"label": "Produto Atual"}  // último item sem href = página atual
 ]
-#}
-
+-->
 {% with max_items=max_items|default:5 %}
 <nav aria-label="breadcrumb" class="{{ class|default:'' }}">
     <ol class="text-muted-foreground flex flex-wrap items-center gap-1.5 text-sm break-words sm:gap-2.5">

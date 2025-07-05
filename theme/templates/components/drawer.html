@@ -1,4 +1,4 @@
-{# 
+<!--
 Componente: Drawer
 Uso: include "components/drawer.html" with trigger_text="Abrir Drawer" title="Título" content="Conteúdo"
 
@@ -23,8 +23,7 @@ include "components/drawer.html" with
     content="<p>Conteúdo do menu...</p>"
     direction="bottom"
     size="lg"
-#}
-
+-->
 {% with direction=direction|default:"bottom" size=size|default:"md" trigger_variant=trigger_variant|default:"default" handle=handle|default:True %}
 <div 
     x-data="{ 

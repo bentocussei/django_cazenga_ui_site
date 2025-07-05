@@ -1,4 +1,4 @@
-{# 
+<!--
 Componente: Switch
 Uso: include "components/switch.html" with name="notifications" label="Receber notificações"
 
@@ -11,8 +11,7 @@ Parâmetros:
 - x_model: Modelo Alpine.js para two-way binding (opcional)
 - class: Classes CSS adicionais (opcional)
 - size: sm, default, lg (padrão: default)
-#}
-
+-->
 {% with switch_id=id|default:name|default:"switch" checked=checked|default:False disabled=disabled|default:False %}
 <div class="flex items-center space-x-2 {{ class|default:'' }}">
     <button

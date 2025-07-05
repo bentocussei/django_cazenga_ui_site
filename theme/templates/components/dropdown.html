@@ -1,4 +1,4 @@
-{# 
+<!--
 Componente: Dropdown
 Uso: include "components/dropdown.html" with dropdown_id="meuDropdown" label="Selecione uma opção"
 
@@ -7,8 +7,7 @@ Parâmetros:
 - label: Texto do botão do dropdown
 - align: left, right (padrão: left)
 - items: Lista de itens do dropdown (pode ser passado via block)
-#}
-
+-->
 <div x-data="{ open_{{ dropdown_id }}: false }" class="relative inline-block text-left">
     <!-- Botão do dropdown -->
     <button

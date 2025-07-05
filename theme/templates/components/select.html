@@ -1,4 +1,4 @@
-{# 
+<!--
 Componente: Select
 Uso: include "components/select.html" with name="country" options=countries placeholder="Selecione um país"
 
@@ -14,8 +14,7 @@ Parâmetros:
 - class: Classes CSS adicionais (opcional)
 - x_model: Modelo Alpine.js (opcional)
 - on_change: Função JavaScript no change (opcional)
-#}
-
+-->
 {% with size=size|default:"default" disabled=disabled|default:False multiple=multiple|default:False searchable=searchable|default:False %}
 <div 
     x-data="{ 

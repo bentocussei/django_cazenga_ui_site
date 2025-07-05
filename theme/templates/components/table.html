@@ -1,4 +1,4 @@
-{# 
+<!--
 Componente: Table
 Uso: include "components/table.html" with headers=headers data=data caption="Legenda da tabela"
 
@@ -12,8 +12,7 @@ Parâmetros:
 - compact: true/false - espaçamento reduzido (padrão: false)
 - class: Classes CSS adicionais (opcional)
 - x_data: Dados Alpine.js adicionais (opcional)
-#}
-
+-->
 {% with selectable=selectable|default:False sortable=sortable|default:False striped=striped|default:False compact=compact|default:False %}
 <div 
     {% if sortable or selectable %}

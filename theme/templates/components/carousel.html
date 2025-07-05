@@ -1,4 +1,4 @@
-{# 
+<!--
 Componente: Carousel
 Uso: include "components/carousel.html" with images=image_list
 
@@ -21,8 +21,7 @@ include "components/carousel.html" with
 Onde:
 - carousel_images = ["img1.jpg", "img2.jpg", "img3.jpg"]
 - carousel_titles = ["Slide 1", "Slide 2", "Slide 3"]
-#}
-
+-->
 {% with auto_play=auto_play|default:False auto_play_interval=auto_play_interval|default:5000 show_dots=show_dots|default:True show_arrows=show_arrows|default:True %}
 <div 
     x-data="{ 

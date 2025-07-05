@@ -1,4 +1,4 @@
-{# 
+<!--
 Componente: Accordion
 Uso: include "components/accordion.html" with items=accordion_items
 
@@ -14,8 +14,7 @@ Exemplo de items:
     {"title": "Pergunta 1", "content": "Resposta 1", "open": true},
     {"title": "Pergunta 2", "content": "Resposta 2"}
 ]
-#}
-
+-->
 {% with type=type|default:"single" collapsible=collapsible|default:True %}
 <div 
     x-data="{ 

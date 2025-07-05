@@ -1,4 +1,4 @@
-{# 
+<!--
 Componente: Spinner
 Uso: include "components/spinner.html" with size="lg"
 
@@ -15,8 +15,7 @@ include "components/spinner.html" with
     size="lg" 
     variant="ring" 
     color="primary"
-#}
-
+-->
 {% with size=size|default:"default" variant=variant|default:"default" color=color|default:"primary" speed=speed|default:"normal" label=label|default:"Carregando..." %}
 <div role="status" class="flex items-center justify-center {{ class|default:'' }}">
     {% if variant == "dots" %}

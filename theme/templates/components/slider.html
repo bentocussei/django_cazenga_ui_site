@@ -1,4 +1,4 @@
-{# 
+<!--
 Componente: Slider
 Uso: include "components/slider.html" with min=0 max=100 value=50
 
@@ -32,8 +32,7 @@ include "components/slider.html" with
     value="200,800"
     name="price_range"
     label="Faixa de Preço"
-#}
-
+-->
 {% with min=min|default:0 max=max|default:100 step=step|default:1 orientation=orientation|default:"horizontal" disabled=disabled|default:False show_value=show_value|default:False %}
 <div 
     x-data="{ 

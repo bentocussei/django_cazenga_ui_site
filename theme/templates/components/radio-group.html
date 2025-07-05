@@ -1,4 +1,4 @@
-{# 
+<!--
 Componente: Radio Group
 Uso: include "components/radio-group.html" with name="payment" options=payment_options value="card"
 
@@ -18,8 +18,7 @@ Exemplo de options:
     {"value": "pix", "label": "PIX", "description": "Pagamento instantâneo"},
     {"value": "boleto", "label": "Boleto", "disabled": true}
 ]
-#}
-
+-->
 {% with orientation=orientation|default:"vertical" disabled=disabled|default:False %}
 <div 
     {% if x_model %}

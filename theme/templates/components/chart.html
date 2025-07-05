@@ -1,4 +1,4 @@
-{# 
+<!--
 Componente: Chart
 Uso: include "components/chart.html" with chart_type="line" chart_data="..."
 
@@ -26,8 +26,7 @@ include "components/chart.html" with
 
 Nota: Este componente requer Chart.js. Adicione ao seu template base:
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-#}
-
+-->
 {% with chart_type=chart_type|default:"line" responsive=responsive|default:True legend=legend|default:True tooltip=tooltip|default:True animation=animation|default:True width=width|default:"100%" height=height|default:"400px" %}
 {% with canvas_id=canvas_id|default:"chart-"|add:chart_type|add:"-"|add:title|slugify|default:"chart-default" %}
 <div class="chart-container {{ class|default:'' }}" x-data :style="{ width: '{{ width }}', height: '{{ height }}' }">

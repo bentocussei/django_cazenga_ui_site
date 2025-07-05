@@ -1,4 +1,4 @@
-{# 
+<!--
 Componente: Tabs
 Uso: include "components/tabs.html" with tabs=tabs_list default_tab="tab1"
 
@@ -14,8 +14,7 @@ Exemplo de tabs_list:
     {"id": "tab2", "label": "Senha", "content": "<p>Conteúdo da aba senha</p>", "icon": "<svg>...</svg>"},
     {"id": "tab3", "label": "Desativado", "content": "<p>...</p>", "disabled": true}
 ]
-#}
-
+-->
 {% with orientation=orientation|default:"horizontal" %}
 {% if tabs %}
     <div 
