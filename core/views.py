@@ -173,11 +173,119 @@ def demo_especializado(request):
 def demo_clean(request):
     return render(request, "demo_clean.html")
 
+def navigation_demo(request):
+    """Página de demonstração dos componentes de navegação"""
+    # Menu simples para o simple-nav
+    nav_menu = [
+        {'title': 'Início', 'href': '/'},
+        {'title': 'Componentes', 'href': '/components/'},
+        {'title': 'Visão Geral', 'href': '/demo-clean/'},
+        {'title': 'Demo Completa', 'href': '/demo/'},
+    ]
+    
+    # Menu complexo para o navigation-menu
+    complex_nav_menu = [
+        {
+            'title': 'Produtos',
+            'href': '/produtos',
+            'description': 'Nossos produtos e serviços',
+            'submenu': [
+                {'title': 'Categoria A', 'href': '/produtos/categoria-a', 'description': 'Produtos da categoria A'},
+                {'title': 'Categoria B', 'href': '/produtos/categoria-b', 'description': 'Produtos da categoria B'},
+                {'title': 'Categoria C', 'href': '/produtos/categoria-c', 'description': 'Produtos da categoria C'},
+            ]
+        },
+        {
+            'title': 'Serviços',
+            'href': '/servicos',
+            'description': 'Nossos serviços especializados',
+            'submenu': [
+                {'title': 'Consultoria', 'href': '/servicos/consultoria', 'description': 'Consultoria especializada'},
+                {'title': 'Desenvolvimento', 'href': '/servicos/desenvolvimento', 'description': 'Desenvolvimento de software'},
+                {'title': 'Suporte', 'href': '/servicos/suporte', 'description': 'Suporte técnico'},
+            ]
+        },
+        {
+            'title': 'Sobre',
+            'href': '/sobre'
+        },
+        {
+            'title': 'Contato',
+            'href': '/contato'
+        }
+    ]
+    
+    # Menubar para demo
+    demo_menubar = [
+        {
+            'title': 'Arquivo',
+            'items': [
+                {'title': 'Novo', 'shortcut': 'Ctrl+N', 'action': 'alert("Novo arquivo")'},
+                {'title': 'Abrir', 'shortcut': 'Ctrl+O', 'action': 'alert("Abrir arquivo")'},
+                {'title': 'Salvar', 'shortcut': 'Ctrl+S', 'action': 'alert("Salvar arquivo")'},
+                {'separator': True},
+                {'title': 'Sair', 'shortcut': 'Ctrl+Q', 'action': 'alert("Sair")', 'variant': 'destructive'}
+            ]
+        },
+        {
+            'title': 'Editar',
+            'items': [
+                {'title': 'Desfazer', 'shortcut': 'Ctrl+Z', 'action': 'alert("Desfazer")'},
+                {'title': 'Refazer', 'shortcut': 'Ctrl+Y', 'action': 'alert("Refazer")'},
+                {'separator': True},
+                {'title': 'Copiar', 'shortcut': 'Ctrl+C', 'action': 'alert("Copiar")'},
+                {'title': 'Colar', 'shortcut': 'Ctrl+V', 'action': 'alert("Colar")'}
+            ]
+        },
+        {
+            'title': 'Visualizar',
+            'items': [
+                {'title': 'Zoom In', 'shortcut': 'Ctrl++', 'action': 'alert("Zoom In")'},
+                {'title': 'Zoom Out', 'shortcut': 'Ctrl+-', 'action': 'alert("Zoom Out")'},
+                {'title': 'Tela Cheia', 'shortcut': 'F11', 'action': 'alert("Tela Cheia")'}
+            ]
+        }
+    ]
+    
+    context = {
+        'nav_menu': nav_menu,
+        'complex_nav_menu': complex_nav_menu,
+        'demo_menubar': demo_menubar,
+    }
+    return render(request, 'navigation-demo.html', context)
+
 def components_list(request):
     """Página principal dos componentes com sidebar"""
+    # Menu de navegação
+    nav_menu = [
+        {'title': 'Início', 'href': '/'},
+        {'title': 'Componentes', 'href': '/components/'},
+        {'title': 'Visão Geral', 'href': '/demo-clean/'},
+        {'title': 'Demo Completa', 'href': '/demo/'},
+    ]
+    
+    # Conteúdo da sidebar
+    sidebar_content = {
+        'header': {
+            'title': 'Componentes',
+            'logo': '<svg class="size-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12a7.5 7.5 0 0015 0m-15 0a7.5 7.5 0 1115 0m-15 0H3m16.5 0H21m-1.5 0H12m-8.457 3.077l1.41-.513m14.095-5.13l1.41-.513M5.106 17.785l1.15-.964m11.49-9.642l1.149-.964M7.501 19.795l.75-1.3m7.5-12.99l.75-1.3m-6.063 16.658l.26-1.477m2.605-14.772l.26-1.477m0 17.726l-.26-1.477M10.698 4.614l-.26-1.477M16.5 19.794l-.75-1.299M7.5 4.205L12 12m6.894 5.785l-1.149-.964M6.256 7.178l-1.15-.964m15.352 8.864l-1.41-.513M4.954 9.435l-1.41-.513M12.002 12l-3.75 6.495"/></svg>'
+        },
+        'menu': []
+    }
+    
+    # Adicionar componentes ao menu da sidebar
+    for component in COMPONENTS_LIST:
+        sidebar_content['menu'].append({
+            'title': component['name'],
+            'href': f"/components/{component['slug']}/",
+            'active': False
+        })
+    
     context = {
         'components_list': COMPONENTS_LIST,
         'current_component': None,
+        'nav_menu': nav_menu,
+        'sidebar_content': sidebar_content,
     }
     return render(request, 'components_base.html', context)
 
@@ -193,10 +301,37 @@ def component_detail(request, component_slug):
     if not component:
         raise Http404("Componente não encontrado")
     
+    # Menu de navegação
+    nav_menu = [
+        {'title': 'Início', 'href': '/'},
+        {'title': 'Componentes', 'href': '/components/'},
+        {'title': 'Visão Geral', 'href': '/demo-clean/'},
+        {'title': 'Demo Completa', 'href': '/demo/'},
+    ]
+    
+    # Conteúdo da sidebar
+    sidebar_content = {
+        'header': {
+            'title': 'Componentes',
+            'logo': '<svg class="size-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12a7.5 7.5 0 0015 0m-15 0a7.5 7.5 0 1115 0m-15 0H3m16.5 0H21m-1.5 0H12m-8.457 3.077l1.41-.513m14.095-5.13l1.41-.513M5.106 17.785l1.15-.964m11.49-9.642l1.149-.964M7.501 19.795l.75-1.3m7.5-12.99l.75-1.3m-6.063 16.658l.26-1.477m2.605-14.772l.26-1.477m0 17.726l-.26-1.477M10.698 4.614l-.26-1.477M16.5 19.794l-.75-1.299M7.5 4.205L12 12m6.894 5.785l-1.149-.964M6.256 7.178l-1.15-.964m15.352 8.864l-1.41-.513M4.954 9.435l-1.41-.513M12.002 12l-3.75 6.495"/></svg>'
+        },
+        'menu': []
+    }
+    
+    # Adicionar componentes ao menu da sidebar
+    for comp in COMPONENTS_LIST:
+        sidebar_content['menu'].append({
+            'title': comp['name'],
+            'href': f"/components/{comp['slug']}/",
+            'active': comp['slug'] == component_slug
+        })
+    
     context = {
         'components_list': COMPONENTS_LIST,
         'current_component': component_slug,
         'component': component,
+        'nav_menu': nav_menu,
+        'sidebar_content': sidebar_content,
     }
     
     # Tentar renderizar template específico do componente
