@@ -653,5 +653,133 @@
             {% include "components/form.html" with fields='[{"type":"text","name":"name","label":"Nome Completo","placeholder":"Digite seu nome","required":true,"description":"Nome como aparece no documento"},{"type":"email","name":"email","label":"Email","placeholder":"seu@email.com","required":true},{"type":"select","name":"country","label":"País","options":[{"value":"br","label":"Brasil"},{"value":"us","label":"Estados Unidos"}],"placeholder":"Selecione um país"},{"type":"textarea","name":"message","label":"Mensagem","placeholder":"Digite sua mensagem...","rows":4},{"type":"checkbox","name":"terms","label":"Aceito os termos e condições","required":true},{"type":"radio","name":"contact","label":"Forma de contato preferida","options":[{"value":"email","label":"Email"},{"value":"phone","label":"Telefone"}],"value":"email"}]' action="/submit" submit_button='{"text":"Enviar Formulário"}' cancel_button='{"text":"Cancelar","href":"/"}' %}
         </div>
     </section>
+
+    <!-- Seção: Sheet -->
+    <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-6">Sheet</h2>
+        
+        <div class="space-y-6">
+            <div class="flex flex-wrap gap-4">
+                {% include "components/sheet.html" with trigger_text="Sheet Direita" title="Configurações" description="Ajuste suas preferências do sistema" content="<div class='space-y-4'><h4 class='font-medium'>Notificações</h4><p class='text-sm text-muted-foreground'>Gerencie como você recebe notificações.</p><div class='space-y-2'><label class='flex items-center gap-2'><input type='checkbox' class='rounded'> Email</label><label class='flex items-center gap-2'><input type='checkbox' class='rounded' checked> Push</label></div></div>" side="right" %}
+                
+                {% include "components/sheet.html" with trigger_text="Sheet Esquerda" trigger_variant="outline" title="Menu de Navegação" content="<nav class='space-y-2'><a href='#' class='block px-3 py-2 rounded hover:bg-accent'>Dashboard</a><a href='#' class='block px-3 py-2 rounded hover:bg-accent'>Perfil</a><a href='#' class='block px-3 py-2 rounded hover:bg-accent'>Configurações</a></nav>" side="left" size="sm" %}
+                
+                {% include "components/sheet.html" with trigger_text="Sheet Top" trigger_variant="secondary" title="Busca Avançada" content="<form class='space-y-4'><input type='text' placeholder='Pesquisar...' class='w-full px-3 py-2 border rounded-md'><div class='flex gap-2'><button type='button' class='btn btn-outline flex-1'>Filtros</button><button type='submit' class='btn btn-primary flex-1'>Buscar</button></div></form>" side="top" size="md" %}
+                
+                {% include "components/sheet.html" with trigger_text="Sheet Bottom" trigger_variant="ghost" title="Informações Extras" content="<div class='space-y-3'><p class='text-sm'>Aqui ficam informações adicionais que aparecem na parte inferior da tela.</p><div class='flex gap-2'><button class='btn btn-sm btn-outline'>Mais Info</button><button class='btn btn-sm btn-primary'>Continuar</button></div></div>" side="bottom" size="lg" %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção: Drawer -->
+    <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-6">Drawer</h2>
+        
+        <div class="space-y-6">
+            <div class="flex flex-wrap gap-4">
+                {% include "components/drawer.html" with trigger_text="Drawer Bottom" title="Menu Mobile" description="Navegue pelas opções" content="<div class='space-y-3'><button class='w-full text-left px-3 py-2 rounded hover:bg-accent'>Início</button><button class='w-full text-left px-3 py-2 rounded hover:bg-accent'>Produtos</button><button class='w-full text-left px-3 py-2 rounded hover:bg-accent'>Contato</button></div>" direction="bottom" %}
+                
+                {% include "components/drawer.html" with trigger_text="Drawer Right" trigger_variant="outline" title="Carrinho de Compras" content="<div class='space-y-4'><div class='flex justify-between items-center'><span>Produto 1</span><span>R$ 99,90</span></div><div class='flex justify-between items-center'><span>Produto 2</span><span>R$ 149,90</span></div><hr><div class='flex justify-between font-medium'><span>Total</span><span>R$ 249,80</span></div></div>" footer="<button class='w-full btn btn-primary'>Finalizar Compra</button>" direction="right" size="md" %}
+                
+                {% include "components/drawer.html" with trigger_text="Drawer Top" trigger_variant="secondary" title="Notificações" content="<div class='space-y-3'><div class='p-3 bg-muted rounded'><p class='text-sm font-medium'>Nova mensagem</p><p class='text-xs text-muted-foreground'>Há 2 minutos</p></div><div class='p-3 bg-muted rounded'><p class='text-sm font-medium'>Atualização do sistema</p><p class='text-xs text-muted-foreground'>Há 1 hora</p></div></div>" direction="top" size="lg" %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção: Collapsible -->
+    <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-6">Collapsible</h2>
+        
+        <div class="space-y-6 max-w-2xl">
+            <div class="space-y-4">
+                {% include "components/collapsible.html" with trigger_text="Mostrar Detalhes" content="<div class='p-4 bg-muted rounded-md'><p class='text-sm'>Aqui estão os detalhes que estavam ocultos. Você pode colocar qualquer conteúdo aqui, incluindo formulários, listas, imagens, etc.</p></div>" %}
+                
+                {% include "components/collapsible.html" with trigger_text="FAQ: Como funciona?" trigger_variant="outline" content="<div class='space-y-3'><p class='text-sm'><strong>Pergunta:</strong> Como funciona o sistema?</p><p class='text-sm'><strong>Resposta:</strong> O sistema funciona através de uma interface intuitiva que permite gerenciar todos os aspectos do seu negócio de forma centralizada.</p></div>" show_icon=True %}
+                
+                {% include "components/collapsible.html" with trigger_text="Configurações Avançadas" trigger_variant="secondary" open=True content="<div class='space-y-3'><label class='flex items-center gap-2'><input type='checkbox' class='rounded'> Ativar modo debug</label><label class='flex items-center gap-2'><input type='checkbox' class='rounded' checked> Logs detalhados</label><label class='flex items-center gap-2'><input type='checkbox' class='rounded'> Notificações push</label></div>" %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção: Resizable -->
+    <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-6">Resizable</h2>
+        
+        <div class="space-y-6">
+            <!-- Horizontal -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Painéis Horizontais</h3>
+                {% include "components/resizable.html" with panels="sidebar,main" contents="<div class='space-y-3'><h4 class='font-medium'>Sidebar</h4><nav class='space-y-1'><a href='#' class='block px-2 py-1 text-sm hover:bg-accent rounded'>Dashboard</a><a href='#' class='block px-2 py-1 text-sm hover:bg-accent rounded'>Usuários</a><a href='#' class='block px-2 py-1 text-sm hover:bg-accent rounded'>Relatórios</a></nav></div>,<div class='space-y-3'><h4 class='font-medium'>Conteúdo Principal</h4><p class='text-sm text-muted-foreground'>Aqui fica o conteúdo principal da aplicação. Você pode redimensionar os painéis arrastando a barra central.</p><div class='grid grid-cols-2 gap-4 mt-4'><div class='p-3 bg-muted rounded'><p class='text-sm font-medium'>Card 1</p></div><div class='p-3 bg-muted rounded'><p class='text-sm font-medium'>Card 2</p></div></div></div>" direction="horizontal" sizes="25,75" %}
+            </div>
+            
+            <!-- Vertical -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Painéis Verticais</h3>
+                {% include "components/resizable.html" with panels="header,content" contents="<div class='space-y-2'><h4 class='font-medium'>Header</h4><p class='text-sm text-muted-foreground'>Área do cabeçalho com informações importantes.</p></div>,<div class='space-y-2'><h4 class='font-medium'>Conteúdo</h4><p class='text-sm text-muted-foreground'>Área principal do conteúdo. Redimensione arrastando a barra horizontal.</p><div class='mt-4 space-y-2'><div class='p-2 bg-muted rounded text-sm'>Item 1</div><div class='p-2 bg-muted rounded text-sm'>Item 2</div><div class='p-2 bg-muted rounded text-sm'>Item 3</div></div></div>" direction="vertical" sizes="30,70" height="300px" %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção: Scroll Area -->
+    <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-6">Scroll Area</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Scroll Vertical -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Scroll Vertical</h3>
+                {% include "components/scroll-area.html" with content="<div class='space-y-4'><h4 class='font-medium'>Lista Longa</h4><div class='space-y-2'>{% for i in '0123456789012345678901234567890123456789'|make_list %}<div class='p-3 bg-muted rounded'><p class='text-sm font-medium'>Item {{ forloop.counter }}</p><p class='text-xs text-muted-foreground'>Descrição do item {{ forloop.counter }}</p></div>{% endfor %}</div></div>" height="250px" orientation="vertical" %}
+            </div>
+            
+            <!-- Scroll Horizontal -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Scroll Horizontal</h3>
+                {% include "components/scroll-area.html" with content="<div class='flex gap-4' style='width: 800px;'>{% for i in '0123456789012345'|make_list %}<div class='flex-shrink-0 w-32 p-3 bg-muted rounded'><p class='text-sm font-medium'>Card {{ forloop.counter }}</p><p class='text-xs text-muted-foreground'>Conteúdo</p></div>{% endfor %}</div>" height="150px" orientation="horizontal" %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção: Aspect Ratio -->
+    <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-6">Aspect Ratio</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- 16:9 -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">16:9 (Widescreen)</h3>
+                {% include "components/aspect-ratio.html" with ratio="16/9" content="<div class='size-full bg-gradient-to-br from-primary to-primary/50 rounded-md flex items-center justify-center text-primary-foreground'><div class='text-center'><p class='text-lg font-medium'>16:9</p><p class='text-sm opacity-80'>Widescreen</p></div></div>" %}
+            </div>
+            
+            <!-- 4:3 -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">4:3 (Tradicional)</h3>
+                {% include "components/aspect-ratio.html" with ratio="4/3" content="<div class='size-full bg-gradient-to-br from-secondary to-secondary/50 rounded-md flex items-center justify-center text-secondary-foreground'><div class='text-center'><p class='text-lg font-medium'>4:3</p><p class='text-sm opacity-80'>Tradicional</p></div></div>" %}
+            </div>
+            
+            <!-- 1:1 -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">1:1 (Quadrado)</h3>
+                {% include "components/aspect-ratio.html" with ratio="1/1" content="<div class='size-full bg-gradient-to-br from-accent to-accent/50 rounded-md flex items-center justify-center text-accent-foreground'><div class='text-center'><p class='text-lg font-medium'>1:1</p><p class='text-sm opacity-80'>Quadrado</p></div></div>" %}
+            </div>
+            
+            <!-- 3:4 -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">3:4 (Retrato)</h3>
+                {% include "components/aspect-ratio.html" with ratio="3/4" content="<div class='size-full bg-gradient-to-br from-destructive to-destructive/50 rounded-md flex items-center justify-center text-destructive-foreground'><div class='text-center'><p class='text-lg font-medium'>3:4</p><p class='text-sm opacity-80'>Retrato</p></div></div>" %}
+            </div>
+            
+            <!-- 9:16 -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">9:16 (Vertical)</h3>
+                {% include "components/aspect-ratio.html" with ratio="9/16" content="<div class='size-full bg-gradient-to-br from-muted-foreground to-muted-foreground/50 rounded-md flex items-center justify-center text-muted'><div class='text-center'><p class='text-lg font-medium'>9:16</p><p class='text-sm opacity-80'>Vertical</p></div></div>" %}
+            </div>
+            
+            <!-- Imagem exemplo -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Com Imagem</h3>
+                {% include "components/aspect-ratio.html" with ratio="16/9" content="<img src='https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=450&fit=crop' alt='Paisagem' class='size-full object-cover rounded-md'>" %}
+            </div>
+        </div>
+    </section>
 </div>
 {% endblock %} 

@@ -1,56 +1,136 @@
-"use client"
+{# 
+Componente: Resizable
+Uso: include "components/resizable.html" with panels="panel1,panel2" contents="Conteúdo 1,Conteúdo 2"
 
-import * as React from "react"
-import { GripVerticalIcon } from "lucide-react"
-import * as ResizablePrimitive from "react-resizable-panels"
+Parâmetros:
+- panels: Lista de IDs dos painéis separados por vírgula (obrigatório)
+- contents: Lista de conteúdos HTML separados por vírgula (obrigatório)
+- direction: horizontal, vertical (padrão: horizontal)
+- sizes: Lista de tamanhos iniciais em % separados por vírgula (ex: "50,50")
+- min_sizes: Lista de tamanhos mínimos em % separados por vírgula (ex: "20,20")
+- max_sizes: Lista de tamanhos máximos em % separados por vírgula (ex: "80,80")
+- with_handle: true/false - mostrar handle visual (padrão: true)
+- class: Classes CSS adicionais (opcional)
+- height: Altura do container (padrão: 400px)
 
-import { cn } from "@/lib/utils"
+Exemplo:
+{% include "components/resizable.html" with 
+    panels="sidebar,main" 
+    contents="<p>Sidebar</p>,<p>Conteúdo principal</p>"
+    direction="horizontal"
+    sizes="30,70"
+    with_handle=True %}
+#}
 
-function ResizablePanelGroup({
-  className,
-  ...props
-}: React.ComponentProps<typeof ResizablePrimitive.PanelGroup>) {
-  return (
-    <ResizablePrimitive.PanelGroup
-      data-slot="resizable-panel-group"
-      className={cn(
-        "flex h-full w-full data-[panel-group-direction=vertical]:flex-col",
-        className
-      )}
-      {...props}
-    />
-  )
-}
-
-function ResizablePanel({
-  ...props
-}: React.ComponentProps<typeof ResizablePrimitive.Panel>) {
-  return <ResizablePrimitive.Panel data-slot="resizable-panel" {...props} />
-}
-
-function ResizableHandle({
-  withHandle,
-  className,
-  ...props
-}: React.ComponentProps<typeof ResizablePrimitive.PanelResizeHandle> & {
-  withHandle?: boolean
-}) {
-  return (
-    <ResizablePrimitive.PanelResizeHandle
-      data-slot="resizable-handle"
-      className={cn(
-        "bg-border focus-visible:ring-ring relative flex w-px items-center justify-center after:absolute after:inset-y-0 after:left-1/2 after:w-1 after:-translate-x-1/2 focus-visible:ring-1 focus-visible:ring-offset-1 focus-visible:outline-hidden data-[panel-group-direction=vertical]:h-px data-[panel-group-direction=vertical]:w-full data-[panel-group-direction=vertical]:after:left-0 data-[panel-group-direction=vertical]:after:h-1 data-[panel-group-direction=vertical]:after:w-full data-[panel-group-direction=vertical]:after:translate-x-0 data-[panel-group-direction=vertical]:after:-translate-y-1/2 [&[data-panel-group-direction=vertical]>div]:rotate-90",
-        className
-      )}
-      {...props}
-    >
-      {withHandle && (
-        <div className="bg-border z-10 flex h-4 w-3 items-center justify-center rounded-xs border">
-          <GripVerticalIcon className="size-2.5" />
+{% with direction=direction|default:"horizontal" with_handle=with_handle|default:True height=height|default:"400px" %}
+{% with panel_list=panels|split:"," content_list=contents|split:"," size_list=sizes|default:"50,50"|split:"," %}
+<div 
+    x-data="{ 
+        panels: {{ panel_list|safe }},
+        contents: {{ content_list|safe }},
+        sizes: {{ size_list|safe }}.map(s => parseFloat(s)),
+        direction: '{{ direction }}',
+        isDragging: false,
+        currentHandle: null,
+        startPos: 0,
+        startSizes: [],
+        
+        initResize(handleIndex, e) {
+            this.isDragging = true;
+            this.currentHandle = handleIndex;
+            this.startPos = this.direction === 'horizontal' ? e.clientX : e.clientY;
+            this.startSizes = [...this.sizes];
+            document.addEventListener('mousemove', this.handleResize.bind(this));
+            document.addEventListener('mouseup', this.stopResize.bind(this));
+        },
+        
+        handleResize(e) {
+            if (!this.isDragging) return;
+            
+            const currentPos = this.direction === 'horizontal' ? e.clientX : e.clientY;
+            const delta = currentPos - this.startPos;
+            const containerSize = this.direction === 'horizontal' ? 
+                this.$refs.container.offsetWidth : this.$refs.container.offsetHeight;
+            const deltaPercent = (delta / containerSize) * 100;
+            
+            const newSizes = [...this.startSizes];
+            newSizes[this.currentHandle] = Math.max(10, Math.min(90, this.startSizes[this.currentHandle] + deltaPercent));
+            newSizes[this.currentHandle + 1] = Math.max(10, Math.min(90, this.startSizes[this.currentHandle + 1] - deltaPercent));
+            
+            this.sizes = newSizes;
+            this.updatePanelSizes();
+        },
+        
+        stopResize() {
+            this.isDragging = false;
+            this.currentHandle = null;
+            document.removeEventListener('mousemove', this.handleResize.bind(this));
+            document.removeEventListener('mouseup', this.stopResize.bind(this));
+        },
+        
+        updatePanelSizes() {
+            this.panels.forEach((panel, index) => {
+                const element = this.$refs[panel];
+                if (element) {
+                    if (this.direction === 'horizontal') {
+                        element.style.width = this.sizes[index] + '%';
+                    } else {
+                        element.style.height = this.sizes[index] + '%';
+                    }
+                }
+            });
+        }
+    }"
+    x-init="updatePanelSizes()"
+    class="flex {{ direction == 'vertical' ? 'flex-col' : 'flex-row' }} w-full border rounded-lg overflow-hidden {{ class|default:'' }}"
+    style="height: {{ height }}"
+    x-ref="container"
+>
+    {% for panel in panel_list %}
+        <!-- Panel {{ forloop.counter }} -->
+        <div 
+            x-ref="{{ panel }}"
+            class="bg-background border-border overflow-auto
+                {% if direction == 'horizontal' %}{% if not forloop.last %}border-r{% endif %}
+                {% else %}{% if not forloop.last %}border-b{% endif %}{% endif %}"
+            :style="direction === 'horizontal' ? `width: ${sizes[{{ forloop.counter0 }}]}%` : `height: ${sizes[{{ forloop.counter0 }}]}%`"
+        >
+            <div class="p-4 h-full">
+                {% if content_list|length >= forloop.counter %}
+                    {{ content_list|slice:forloop.counter0:forloop.counter|join:""|safe }}
+                {% else %}
+                    <p class="text-muted-foreground">Painel {{ forloop.counter }}</p>
+                {% endif %}
+            </div>
         </div>
-      )}
-    </ResizablePrimitive.PanelResizeHandle>
-  )
-}
-
-export { ResizablePanelGroup, ResizablePanel, ResizableHandle }
+        
+        <!-- Resize Handle -->
+        {% if not forloop.last %}
+            <div 
+                @mousedown="initResize({{ forloop.counter0 }}, $event)"
+                class="bg-border hover:bg-accent-foreground/20 active:bg-accent-foreground/30 cursor-col-resize relative flex items-center justify-center transition-colors
+                    {% if direction == 'horizontal' %}w-1 hover:w-2 group
+                    {% else %}h-1 hover:h-2 cursor-row-resize group{% endif %}"
+            >
+                {% if with_handle %}
+                    <div class="bg-border border rounded-sm flex items-center justify-center transition-opacity opacity-0 group-hover:opacity-100
+                        {% if direction == 'horizontal' %}h-8 w-3 flex-col
+                        {% else %}w-8 h-3 flex-row{% endif %}">
+                        <svg 
+                            class="size-2.5 text-muted-foreground {% if direction == 'vertical' %}rotate-90{% endif %}" 
+                            xmlns="http://www.w3.org/2000/svg" 
+                            fill="none" 
+                            viewBox="0 0 24 24" 
+                            stroke-width="1.5" 
+                            stroke="currentColor"
+                        >
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z" />
+                        </svg>
+                    </div>
+                {% endif %}
+            </div>
+        {% endif %}
+    {% endfor %}
+</div>
+{% endwith %}
+{% endwith %}
