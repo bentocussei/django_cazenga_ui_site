@@ -8,22 +8,53 @@ from django.conf import settings
 COMPONENTS_LIST = [
     {'name': 'Accordion', 'slug': 'accordion'},
     {'name': 'Alert', 'slug': 'alert'},
+    {'name': 'Alert Dialog', 'slug': 'alert-dialog'},
+    {'name': 'Aspect Ratio', 'slug': 'aspect-ratio'},
     {'name': 'Avatar', 'slug': 'avatar'},
     {'name': 'Badge', 'slug': 'badge'},
+    {'name': 'Breadcrumb', 'slug': 'breadcrumb'},
     {'name': 'Button', 'slug': 'button'},
+    {'name': 'Calendar', 'slug': 'calendar'},
     {'name': 'Card', 'slug': 'card'},
+    {'name': 'Carousel', 'slug': 'carousel'},
+    {'name': 'Chart', 'slug': 'chart'},
     {'name': 'Checkbox', 'slug': 'checkbox'},
+    {'name': 'Collapsible', 'slug': 'collapsible'},
+    {'name': 'Command', 'slug': 'command'},
+    {'name': 'Context Menu', 'slug': 'context-menu'},
+    {'name': 'Dialog', 'slug': 'dialog'},
+    {'name': 'Drawer', 'slug': 'drawer'},
+    {'name': 'Dropdown', 'slug': 'dropdown'},
+    {'name': 'Dropdown Menu', 'slug': 'dropdown-menu'},
+    {'name': 'Form', 'slug': 'form'},
+    {'name': 'Hover Card', 'slug': 'hover-card'},
     {'name': 'Input', 'slug': 'input'},
+    {'name': 'Input OTP', 'slug': 'input-otp'},
     {'name': 'Label', 'slug': 'label'},
     {'name': 'Layout', 'slug': 'layout'},
+    {'name': 'Menubar', 'slug': 'menubar'},
+    {'name': 'Modal', 'slug': 'modal'},
+    {'name': 'Navigation Menu', 'slug': 'navigation-menu'},
+    {'name': 'Pagination', 'slug': 'pagination'},
+    {'name': 'Popover', 'slug': 'popover'},
     {'name': 'Progress', 'slug': 'progress'},
+    {'name': 'Radio Group', 'slug': 'radio-group'},
+    {'name': 'Resizable', 'slug': 'resizable'},
+    {'name': 'Scroll Area', 'slug': 'scroll-area'},
     {'name': 'Select', 'slug': 'select'},
     {'name': 'Separator', 'slug': 'separator'},
+    {'name': 'Sheet', 'slug': 'sheet'},
+    {'name': 'Sidebar', 'slug': 'sidebar'},
     {'name': 'Skeleton', 'slug': 'skeleton'},
+    {'name': 'Slider', 'slug': 'slider'},
+    {'name': 'Sonner', 'slug': 'sonner'},
+    {'name': 'Spinner', 'slug': 'spinner'},
     {'name': 'Switch', 'slug': 'switch'},
     {'name': 'Table', 'slug': 'table'},
     {'name': 'Tabs', 'slug': 'tabs'},
     {'name': 'Textarea', 'slug': 'textarea'},
+    {'name': 'Toggle', 'slug': 'toggle'},
+    {'name': 'Toggle Group', 'slug': 'toggle-group'},
     {'name': 'Tooltip', 'slug': 'tooltip'},
 ]
 
@@ -234,12 +265,23 @@ def components_list(request):
     sidebar_content = '<nav class="space-y-1">'
     for component in COMPONENTS_LIST:
         icon_mapping = {
-            'button': 'button', 'input': 'input', 'card': 'card-stack', 'table': 'table',
-            'alert': 'bell', 'avatar': 'avatar', 'badge': 'badge', 'checkbox': 'checkbox',
-            'accordion': 'chevron-down', 'progress': 'timer', 'select': 'caret-sort',
-            'separator': 'dash', 'skeleton': 'transparency-grid', 'switch': 'switch',
-            'tabs': 'dots-horizontal', 'textarea': 'text-align-top', 'tooltip': 'question-mark-circled',
-            'label': 'pilcrow', 'layout': 'layout'
+            'accordion': 'chevron-down', 'alert': 'bell', 'alert-dialog': 'exclamation-triangle',
+            'aspect-ratio': 'aspect-ratio', 'avatar': 'avatar', 'badge': 'badge',
+            'breadcrumb': 'slash', 'button': 'button', 'calendar': 'calendar', 
+            'card': 'card-stack', 'carousel': 'dots-horizontal', 'chart': 'bar-chart',
+            'checkbox': 'checkbox', 'collapsible': 'chevron-up', 'command': 'magnifying-glass',
+            'context-menu': 'dots-vertical', 'dialog': 'chat-bubble', 'drawer': 'hamburger-menu',
+            'dropdown': 'caret-down', 'dropdown-menu': 'dropdown-menu', 'form': 'clipboard',
+            'hover-card': 'card-stack', 'input': 'input', 'input-otp': 'lock-closed',
+            'label': 'pilcrow', 'layout': 'layout', 'menubar': 'hamburger-menu',
+            'modal': 'external-link', 'navigation-menu': 'hamburger-menu', 'pagination': 'dots-horizontal',
+            'popover': 'chat-bubble', 'progress': 'timer', 'radio-group': 'radiobutton',
+            'resizable': 'size', 'scroll-area': 'double-arrow-up', 'select': 'caret-sort',
+            'separator': 'dash', 'sheet': 'hamburger-menu', 'sidebar': 'layout',
+            'skeleton': 'transparency-grid', 'slider': 'slider', 'sonner': 'bell',
+            'spinner': 'reload', 'switch': 'switch', 'table': 'table',
+            'tabs': 'dots-horizontal', 'textarea': 'text-align-top', 'toggle': 'switch',
+            'toggle-group': 'mix', 'tooltip': 'question-mark-circled'
         }
         icon_name = icon_mapping.get(component['slug'], 'dot-filled')
         
@@ -254,7 +296,7 @@ def components_list(request):
     # Construir conteúdo do header
     header_content = '''
     <div class="flex items-center gap-4">
-        <a href="/" class="text-xl font-bold">Django + Tailwind + Alpine.js</a>
+        <a href="/" class="text-xl font-bold">Django Cazenga-UI</a>
         <nav class="hidden md:flex space-x-4">
             <a href="/" class="text-sm font-medium hover:text-primary transition-colors">Início</a>
             <a href="/components/" class="text-sm font-medium text-primary">Componentes</a>
@@ -315,12 +357,23 @@ def component_detail(request, component_slug):
     sidebar_content = '<nav class="space-y-1">'
     for comp in COMPONENTS_LIST:
         icon_mapping = {
-            'button': 'button', 'input': 'input', 'card': 'card-stack', 'table': 'table',
-            'alert': 'bell', 'avatar': 'avatar', 'badge': 'badge', 'checkbox': 'checkbox',
-            'accordion': 'chevron-down', 'progress': 'timer', 'select': 'caret-sort',
-            'separator': 'dash', 'skeleton': 'transparency-grid', 'switch': 'switch',
-            'tabs': 'dots-horizontal', 'textarea': 'text-align-top', 'tooltip': 'question-mark-circled',
-            'label': 'pilcrow', 'layout': 'layout'
+            'accordion': 'chevron-down', 'alert': 'bell', 'alert-dialog': 'exclamation-triangle',
+            'aspect-ratio': 'aspect-ratio', 'avatar': 'avatar', 'badge': 'badge',
+            'breadcrumb': 'slash', 'button': 'button', 'calendar': 'calendar', 
+            'card': 'card-stack', 'carousel': 'dots-horizontal', 'chart': 'bar-chart',
+            'checkbox': 'checkbox', 'collapsible': 'chevron-up', 'command': 'magnifying-glass',
+            'context-menu': 'dots-vertical', 'dialog': 'chat-bubble', 'drawer': 'hamburger-menu',
+            'dropdown': 'caret-down', 'dropdown-menu': 'dropdown-menu', 'form': 'clipboard',
+            'hover-card': 'card-stack', 'input': 'input', 'input-otp': 'lock-closed',
+            'label': 'pilcrow', 'layout': 'layout', 'menubar': 'hamburger-menu',
+            'modal': 'external-link', 'navigation-menu': 'hamburger-menu', 'pagination': 'dots-horizontal',
+            'popover': 'chat-bubble', 'progress': 'timer', 'radio-group': 'radiobutton',
+            'resizable': 'size', 'scroll-area': 'double-arrow-up', 'select': 'caret-sort',
+            'separator': 'dash', 'sheet': 'hamburger-menu', 'sidebar': 'layout',
+            'skeleton': 'transparency-grid', 'slider': 'slider', 'sonner': 'bell',
+            'spinner': 'reload', 'switch': 'switch', 'table': 'table',
+            'tabs': 'dots-horizontal', 'textarea': 'text-align-top', 'toggle': 'switch',
+            'toggle-group': 'mix', 'tooltip': 'question-mark-circled'
         }
         icon_name = icon_mapping.get(comp['slug'], 'dot-filled')
         active_class = 'bg-accent text-accent-foreground' if comp['slug'] == component_slug else 'hover:bg-accent'
@@ -336,7 +389,7 @@ def component_detail(request, component_slug):
     # Construir conteúdo do header
     header_content = '''
     <div class="flex items-center gap-4">
-        <a href="/" class="text-xl font-bold">Django + Tailwind + Alpine.js</a>
+        <a href="/" class="text-xl font-bold">Django Cazenga-UI</a>
         <nav class="hidden md:flex space-x-4">
             <a href="/" class="text-sm font-medium hover:text-primary transition-colors">Início</a>
             <a href="/components/" class="text-sm font-medium text-primary">Componentes</a>
