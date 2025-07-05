@@ -5,7 +5,7 @@ Uso: include "components/slider.html" with min=0 max=100 value=50
 Parâmetros:
 - min: Valor mínimo (padrão: 0)
 - max: Valor máximo (padrão: 100)
-- value: Valor inicial ou valores separados por vírgula para range (padrão: min)
+- value: Valor inicial (single) ou string "valor1,valor2" para range (padrão: min)
 - step: Incremento do slider (padrão: 1)
 - orientation: horizontal, vertical (padrão: horizontal)
 - disabled: true/false (padrão: false)
@@ -16,21 +16,35 @@ Parâmetros:
 - onchange: Função JavaScript para executar na mudança (opcional)
 
 Exemplo:
-{% include "components/slider.html" with 
+include "components/slider.html" with 
     min=0 
     max=100 
     value=25
     step=5
     name="volume"
     label="Volume"
-    show_value=True %}
+    show_value=True
+
+Para range:
+include "components/slider.html" with 
+    min=0 
+    max=1000 
+    value="200,800"
+    name="price_range"
+    label="Faixa de Preço"
 #}
 
 {% with min=min|default:0 max=max|default:100 step=step|default:1 orientation=orientation|default:"horizontal" disabled=disabled|default:False show_value=show_value|default:False %}
-{% with value_list=value|default:min|stringformat:"s"|split:"," %}
 <div 
     x-data="{ 
-        values: {{ value_list|safe }}.map(v => parseFloat(v)),
+        values: (() => {
+            const valueStr = '{{ value|default:min }}';
+            if (valueStr.includes(',')) {
+                return valueStr.split(',').map(v => parseFloat(v.trim()));
+            } else {
+                return [parseFloat(valueStr)];
+            }
+        })(),
         min: {{ min }},
         max: {{ max }},
         step: {{ step }},
@@ -47,6 +61,12 @@ Exemplo:
             const clampedValue = Math.max(this.min, Math.min(this.max, value));
             const steppedValue = Math.round(clampedValue / this.step) * this.step;
             this.values[index] = steppedValue;
+            
+            // Garantir ordem correta para ranges
+            if (this.values.length > 1) {
+                this.values.sort((a, b) => a - b);
+            }
+            
             {% if onchange %}{{ onchange }}{% endif %}
         },
         
@@ -205,5 +225,4 @@ Exemplo:
         </template>
     {% endif %}
 </div>
-{% endwith %}
 {% endwith %}

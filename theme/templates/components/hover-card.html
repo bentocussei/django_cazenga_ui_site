@@ -18,12 +18,12 @@ Parâmetros:
 - content_class: Classes CSS para o conteúdo (opcional)
 
 Exemplo:
-{% include "components/hover-card.html" with 
+include "components/hover-card.html" with 
     trigger="<span class='underline'>@usuario</span>"
     title="João Silva"
     avatar="https://avatar.url"
     content="<p>Desenvolvedor Frontend especializado em React e Vue.js</p>"
-    placement="top" %}
+    placement="top"
 #}
 
 {% with placement=placement|default:"bottom" align=align|default:"center" offset=offset|default:8 width=width|default:"w-64" open_delay=open_delay|default:700 close_delay=close_delay|default:300 arrow=arrow|default:True %}

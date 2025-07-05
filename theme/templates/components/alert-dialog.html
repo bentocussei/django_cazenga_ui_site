@@ -17,12 +17,12 @@ Parâmetros:
 - class: Classes CSS adicionais (opcional)
 
 Exemplo:
-{% include "components/alert-dialog.html" with 
+include "components/alert-dialog.html" with 
     trigger="<button class='btn btn-destructive'>Deletar</button>"
     title="Confirmar exclusão"
     description="Esta ação não pode ser desfeita. O item será permanentemente removido."
     action_text="Sim, deletar"
-    action_onclick="alert('Item deletado!')" %}
+    action_onclick="alert('Item deletado!')"
 #}
 
 {% with action_text=action_text|default:"Confirmar" cancel_text=cancel_text|default:"Cancelar" action_variant=action_variant|default:"destructive" cancel_variant=cancel_variant|default:"outline" size=size|default:"md" %}

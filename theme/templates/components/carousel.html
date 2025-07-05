@@ -1,11 +1,11 @@
 {# 
 Componente: Carousel
-Uso: include "components/carousel.html" with images="img1.jpg,img2.jpg,img3.jpg"
+Uso: include "components/carousel.html" with images=image_list
 
 Parâmetros:
-- images: Lista de URLs de imagens separadas por vírgula (obrigatório)
-- titles: Lista de títulos separados por vírgula (opcional)
-- descriptions: Lista de descrições separadas por vírgula (opcional)
+- images: Lista de URLs de imagens (obrigatório) - ex: ["img1.jpg", "img2.jpg", "img3.jpg"]
+- titles: Lista de títulos (opcional) - ex: ["Slide 1", "Slide 2", "Slide 3"]
+- descriptions: Lista de descrições (opcional) - ex: ["Descrição 1", "Descrição 2", "Descrição 3"]
 - auto_play: true/false - reprodução automática (padrão: false)
 - auto_play_interval: Intervalo em ms para auto play (padrão: 5000)
 - show_dots: true/false - mostrar indicadores (padrão: true)
@@ -13,18 +13,21 @@ Parâmetros:
 - class: Classes CSS adicionais (opcional)
 
 Exemplo:
-{% include "components/carousel.html" with 
-    images="img1.jpg,img2.jpg,img3.jpg"
-    titles="Slide 1,Slide 2,Slide 3"
-    auto_play=True %}
+include "components/carousel.html" with 
+    images=carousel_images
+    titles=carousel_titles
+    auto_play=True
+
+Onde:
+- carousel_images = ["img1.jpg", "img2.jpg", "img3.jpg"]
+- carousel_titles = ["Slide 1", "Slide 2", "Slide 3"]
 #}
 
 {% with auto_play=auto_play|default:False auto_play_interval=auto_play_interval|default:5000 show_dots=show_dots|default:True show_arrows=show_arrows|default:True %}
-{% with image_list=images|split:"," title_list=titles|default:""|split:"," description_list=descriptions|default:""|split:"," %}
 <div 
     x-data="{ 
         currentIndex: 0,
-        totalSlides: {{ image_list|length }},
+        totalSlides: {{ images|length }},
         autoPlay: {{ auto_play|yesno:'true,false' }},
         autoPlayInterval: {{ auto_play_interval }},
         autoPlayTimer: null,
@@ -70,23 +73,31 @@ Exemplo:
             class="flex transition-transform duration-500 ease-in-out"
             :style="{ transform: `translateX(-${currentIndex * 100}%)` }"
         >
-            {% for image in image_list %}
+            {% for image in images %}
                 <div class="w-full flex-shrink-0 relative">
                     <img 
                         src="{{ image }}" 
-                        alt="{% if title_list|length >= forloop.counter %}{{ title_list|slice:forloop.counter0:forloop.counter|join:"" }}{% else %}Slide {{ forloop.counter }}{% endif %}"
+                        alt="{% if titles and forloop.counter0 < titles|length %}{% for title in titles %}{% if forloop.counter0 == forloop.parentloop.counter0 %}{{ title }}{% endif %}{% endfor %}{% else %}Slide {{ forloop.counter }}{% endif %}"
                         class="w-full h-64 object-cover"
                     >
-                    {% if title_list|length >= forloop.counter or description_list|length >= forloop.counter %}
+                    {% if titles and forloop.counter0 < titles|length or descriptions and forloop.counter0 < descriptions|length %}
                         <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
-                            {% if title_list|length >= forloop.counter %}
+                            {% if titles and forloop.counter0 < titles|length %}
                                 <h3 class="text-white font-semibold text-lg mb-1">
-                                    {{ title_list|slice:forloop.counter0:forloop.counter|join:"" }}
+                                    {% for title in titles %}
+                                        {% if forloop.counter0 == forloop.parentloop.counter0 %}
+                                            {{ title }}
+                                        {% endif %}
+                                    {% endfor %}
                                 </h3>
                             {% endif %}
-                            {% if description_list|length >= forloop.counter %}
+                            {% if descriptions and forloop.counter0 < descriptions|length %}
                                 <p class="text-white/90 text-sm">
-                                    {{ description_list|slice:forloop.counter0:forloop.counter|join:"" }}
+                                    {% for description in descriptions %}
+                                        {% if forloop.counter0 == forloop.parentloop.counter0 %}
+                                            {{ description }}
+                                        {% endif %}
+                                    {% endfor %}
                                 </p>
                             {% endif %}
                         </div>
@@ -120,7 +131,7 @@ Exemplo:
     <!-- Dots Indicators -->
     {% if show_dots %}
         <div class="flex justify-center gap-2 mt-4">
-            {% for image in image_list %}
+            {% for image in images %}
                 <button
                     @click="goToSlide({{ forloop.counter0 }})"
                     :class="{ 'bg-primary': currentIndex === {{ forloop.counter0 }}, 'bg-muted': currentIndex !== {{ forloop.counter0 }} }"
@@ -130,5 +141,4 @@ Exemplo:
         </div>
     {% endif %}
 </div>
-{% endwith %}
 {% endwith %}

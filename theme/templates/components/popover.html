@@ -18,12 +18,12 @@ Parâmetros:
 - content_class: Classes CSS para o conteúdo (opcional)
 
 Exemplo:
-{% include "components/popover.html" with 
+include "components/popover.html" with 
     trigger="<button class='btn btn-primary'>Abrir</button>"
     title="Informações"
     content="<p>Conteúdo detalhado aqui...</p>"
     placement="top"
-    arrow=True %}
+    arrow=True
 #}
 
 {% with placement=placement|default:"bottom" align=align|default:"center" offset=offset|default:8 trigger_event=trigger_event|default:"click" delay=delay|default:0 arrow=arrow|default:True close_button=close_button|default:False %}

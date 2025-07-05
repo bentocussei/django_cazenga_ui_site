@@ -13,11 +13,11 @@ Parâmetros:
 - content_class: Classes CSS adicionais para o conteúdo (opcional)
 
 Exemplo:
-{% include "components/collapsible.html" with 
+include "components/collapsible.html" with 
     trigger_text="Mostrar detalhes" 
     content="<p>Detalhes ocultos...</p>"
     open=False
-    show_icon=True %}
+    show_icon=True
 #}
 
 {% with open=open|default:False trigger_variant=trigger_variant|default:"ghost" show_icon=show_icon|default:True %}

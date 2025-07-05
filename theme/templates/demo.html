@@ -249,12 +249,12 @@
         <div class="space-y-4 max-w-md">
             <div>
                 {% include "components/label.html" with text="Nome completo" for="name" %}
-                {% include "components/input.html" with type="text" id="name" placeholder="Digite seu nome" %}
+                {% include "components/input.html" with type="text" name="name" id="name" placeholder="Digite seu nome" %}
             </div>
             
             <div>
                 {% include "components/label.html" with text="Email" for="email" required=True %}
-                {% include "components/input.html" with type="email" id="email" placeholder="seu@email.com" %}
+                {% include "components/input.html" with type="email" name="email" id="email" placeholder="seu@email.com" %}
             </div>
         </div>
     </section>
@@ -673,15 +673,15 @@
             <div class="space-y-4">
                 <div>
                     <p class="text-sm text-muted-foreground mb-2">Alinhamento de texto (single):</p>
-                    {% include "components/toggle-group.html" with items="left,center,right" labels="Esquerda,Centro,Direita" value="center" type="single" name="alignment" %}
+                    {% include "components/toggle-group.html" with items=toggle_alignment_items labels=toggle_alignment_labels icons=toggle_alignment_icons value="center" type="single" name="alignment" %}
                 </div>
                 <div>
                     <p class="text-sm text-muted-foreground mb-2">Formatação (multiple):</p>
-                    {% include "components/toggle-group.html" with items="bold,italic,underline" labels="Negrito,Itálico,Sublinhado" value="bold,italic" type="multiple" name="formatting" variant="outline" %}
+                    {% include "components/toggle-group.html" with items=toggle_formatting_items labels=toggle_formatting_labels icons=toggle_formatting_icons value='["bold","italic"]' type="multiple" name="formatting" variant="outline" %}
                 </div>
                 <div>
                     <p class="text-sm text-muted-foreground mb-2">Tamanhos:</p>
-                    {% include "components/toggle-group.html" with items="sm,md,lg" labels="Pequeno,Médio,Grande" value="md" size="sm" %}
+                    {% include "components/toggle-group.html" with items=toggle_size_items labels=toggle_size_labels value="md" size="sm" %}
                 </div>
             </div>
         </div>
@@ -797,13 +797,13 @@
             <!-- Horizontal -->
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Painéis Horizontais</h3>
-                {% include "components/resizable.html" with panels="sidebar,main" contents="<div class='space-y-3'><h4 class='font-medium'>Sidebar</h4><nav class='space-y-1'><a href='#' class='block px-2 py-1 text-sm hover:bg-accent rounded'>Dashboard</a><a href='#' class='block px-2 py-1 text-sm hover:bg-accent rounded'>Usuários</a><a href='#' class='block px-2 py-1 text-sm hover:bg-accent rounded'>Relatórios</a></nav></div>,<div class='space-y-3'><h4 class='font-medium'>Conteúdo Principal</h4><p class='text-sm text-muted-foreground'>Aqui fica o conteúdo principal da aplicação. Você pode redimensionar os painéis arrastando a barra central.</p><div class='grid grid-cols-2 gap-4 mt-4'><div class='p-3 bg-muted rounded'><p class='text-sm font-medium'>Card 1</p></div><div class='p-3 bg-muted rounded'><p class='text-sm font-medium'>Card 2</p></div></div></div>" direction="horizontal" sizes="25,75" %}
+                {% include "components/resizable.html" with panels=resizable_horizontal_panels contents=resizable_horizontal_contents direction="horizontal" sizes=resizable_horizontal_sizes %}
             </div>
             
             <!-- Vertical -->
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Painéis Verticais</h3>
-                {% include "components/resizable.html" with panels="header,content" contents="<div class='space-y-2'><h4 class='font-medium'>Header</h4><p class='text-sm text-muted-foreground'>Área do cabeçalho com informações importantes.</p></div>,<div class='space-y-2'><h4 class='font-medium'>Conteúdo</h4><p class='text-sm text-muted-foreground'>Área principal do conteúdo. Redimensione arrastando a barra horizontal.</p><div class='mt-4 space-y-2'><div class='p-2 bg-muted rounded text-sm'>Item 1</div><div class='p-2 bg-muted rounded text-sm'>Item 2</div><div class='p-2 bg-muted rounded text-sm'>Item 3</div></div></div>" direction="vertical" sizes="30,70" height="300px" %}
+                {% include "components/resizable.html" with panels=resizable_vertical_panels contents=resizable_vertical_contents direction="vertical" sizes=resizable_vertical_sizes height="300px" %}
             </div>
         </div>
     </section>
@@ -991,19 +991,19 @@
             <!-- Line Chart -->
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Gráfico de Linha</h3>
-                {% include "components/chart.html" with chart_type="line" title="Vendas Mensais" chart_data='{"labels": ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun"], "datasets": [{"label": "Vendas 2024", "data": [12, 19, 3, 5, 2, 3]}, {"label": "Vendas 2023", "data": [8, 11, 6, 7, 4, 6]}]}' %}
+                {% include "components/chart.html" with chart_type="line" title="Vendas Mensais" chart_data=chart_line_data|safe %}
             </div>
             
             <!-- Bar Chart -->
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Gráfico de Barras</h3>
-                {% include "components/chart.html" with chart_type="bar" title="Produtos Mais Vendidos" chart_data='{"labels": ["Produto A", "Produto B", "Produto C", "Produto D"], "datasets": [{"label": "Vendas", "data": [65, 59, 80, 81]}]}' %}
+                {% include "components/chart.html" with chart_type="bar" title="Produtos Mais Vendidos" chart_data=chart_bar_data|safe %}
             </div>
             
             <!-- Pie Chart -->
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Gráfico de Pizza</h3>
-                {% include "components/chart.html" with chart_type="pie" title="Distribuição de Usuários" chart_data='{"labels": ["Desktop", "Mobile", "Tablet"], "datasets": [{"data": [55, 35, 10]}]}' %}
+                {% include "components/chart.html" with chart_type="pie" title="Distribuição de Usuários" chart_data=chart_pie_data|safe %}
             </div>
             
             <!-- Doughnut Chart -->

@@ -11,10 +11,10 @@ Parâmetros:
 - class: Classes CSS adicionais (opcional)
 
 Exemplo:
-{% include "components/skeleton.html" with 
+include "components/skeleton.html" with 
     width="300px" 
     height="200px" 
-    variant="rectangular" %}
+    variant="rectangular"
 #}
 
 {% with variant=variant|default:"default" animation=animation|default:"pulse" count=count|default:1 width=width|default:"100%" height=height|default:"1rem" %}
@@ -40,17 +40,13 @@ Exemplo:
                 
                 bg-muted
             "
-            style="
-                {% if variant == 'circular' %}
-                    width: {{ width }};
-                    height: {{ width }};
-                {% elif variant == 'text' %}
-                    width: {{ width }};
-                {% else %}
-                    width: {{ width }};
-                    height: {{ height }};
-                {% endif %}
-            "
+            x-data
+            :style="(() => {
+                const variant = '{{ variant }}';
+                if (variant === 'circular') return { width: '{{ width }}', height: '{{ width }}' };
+                if (variant === 'text') return { width: '{{ width }}' };
+                return { width: '{{ width }}', height: '{{ height }}' };
+            })()"
             aria-label="Carregando..."
             role="status"
         ></div>

@@ -15,13 +15,13 @@ Parâmetros:
 - close_button: true/false - mostrar botão fechar (padrão: true)
 
 Exemplo:
-{% include "components/sheet.html" with 
+include "components/sheet.html" with 
     trigger_text="Configurações" 
     title="Configurações do Sistema"
     description="Ajuste suas preferências"
     content="<p>Conteúdo das configurações...</p>"
     side="right"
-    size="lg" %}
+    size="lg"
 #}
 
 {% with side=side|default:"right" size=size|default:"md" trigger_variant=trigger_variant|default:"default" close_button=close_button|default:True %}

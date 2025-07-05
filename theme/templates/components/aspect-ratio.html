@@ -10,18 +10,19 @@ Parâmetros:
 - content_class: Classes CSS adicionais para o conteúdo (opcional)
 
 Exemplos comuns:
-- 16/9 (widescreen): {% include "components/aspect-ratio.html" with ratio="16/9" %}
-- 4/3 (tradicional): {% include "components/aspect-ratio.html" with ratio="4/3" %}
-- 1/1 (quadrado): {% include "components/aspect-ratio.html" with ratio="1/1" %}
-- 3/4 (retrato): {% include "components/aspect-ratio.html" with ratio="3/4" %}
-- 9/16 (vertical): {% include "components/aspect-ratio.html" with ratio="9/16" %}
+- 16/9 (widescreen): include "components/aspect-ratio.html" with ratio="16/9"
+- 4/3 (tradicional): include "components/aspect-ratio.html" with ratio="4/3"
+- 1/1 (quadrado): include "components/aspect-ratio.html" with ratio="1/1"
+- 3/4 (retrato): include "components/aspect-ratio.html" with ratio="3/4"
+- 9/16 (vertical): include "components/aspect-ratio.html" with ratio="9/16"
 #}
 
 {% with ratio=ratio|default:"16/9" %}
 {% load mathfilters %}
 <div 
     class="relative w-full {{ class|default:'' }}"
-    style="aspect-ratio: {{ ratio }};"
+    x-data
+    :style="{ aspectRatio: '{{ ratio }}' }"
 >
     <div class="absolute inset-0 {{ content_class|default:'' }}">
         {% if content %}

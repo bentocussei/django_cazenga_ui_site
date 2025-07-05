@@ -18,9 +18,19 @@ Exemplo de tabs_list:
 
 {% with orientation=orientation|default:"horizontal" %}
 {% if tabs %}
-    {% with first_tab_id=tabs.0.id default_tab=default_tab|default:first_tab_id %}
     <div 
-        x-data="{ activeTab: '{{ default_tab }}' }"
+        x-data="{ 
+            activeTab: '{{ default_tab|default:"account" }}',
+            init() {
+                // Se não há default_tab definido, usar o primeiro tab disponível
+                if (!this.activeTab || this.activeTab === 'account') {
+                    const firstTab = document.querySelector('[role=tab]');
+                    if (firstTab) {
+                        this.activeTab = firstTab.id.replace('-trigger', '');
+                    }
+                }
+            }
+        }"
         class="flex {% if orientation == 'vertical' %}flex-row gap-6{% else %}flex-col gap-2{% endif %} {{ class|default:'' }}"
     >
         <!-- Tabs List -->
@@ -84,7 +94,6 @@ Exemplo de tabs_list:
             {% endfor %}
         </div>
     </div>
-    {% endwith %}
 {% else %}
     <div class="p-4 text-muted-foreground text-center">
         <p>Nenhuma aba foi fornecida.</p>

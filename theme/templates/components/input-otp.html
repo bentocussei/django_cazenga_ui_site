@@ -16,11 +16,11 @@ Parâmetros:
 - oncomplete: Função JavaScript para executar quando completo (opcional)
 
 Exemplo:
-{% include "components/input-otp.html" with 
+include "components/input-otp.html" with 
     length=6 
     name="verification_code"
     separator_at=3
-    type="number" %}
+    type="number"
 #}
 
 {% with length=length|default:6 placeholder=placeholder|default:"•" disabled=disabled|default:False separator_at=separator_at|default:None separator=separator|default:"-" type=type|default:"text" %}

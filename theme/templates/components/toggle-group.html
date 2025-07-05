@@ -1,12 +1,12 @@
 {# 
-Componente: Toggle Group
-Uso: include "components/toggle-group.html" with items="item1,item2,item3" value="item1"
+Componente: Toggle Group (Versão Completa)
+Uso: include "components/toggle-group.html" with items=item_list labels=label_list value="item1"
 
 Parâmetros:
-- items: Lista de itens separados por vírgula (obrigatório)
-- labels: Lista de labels separados por vírgula (opcional, usa items se não fornecido)
-- icons: Lista de ícones SVG separados por vírgula (opcional)
-- value: Valor selecionado inicial (single) ou valores separados por vírgula (multiple)
+- items: Lista de itens/valores (obrigatório) - ex: ["left", "center", "right"]
+- labels: Lista de labels para exibição (opcional, usa items se não fornecido) - ex: ["Esquerda", "Centro", "Direita"]
+- icons: Lista de ícones SVG (opcional) - ex: ["<svg>...</svg>", "<svg>...</svg>", "<svg>...</svg>"]
+- value: Valor selecionado inicial (single) ou lista de valores (multiple)
 - type: single, multiple (padrão: single)
 - variant: default, outline (padrão: default)
 - size: default, sm, lg (padrão: default)
@@ -16,19 +16,26 @@ Parâmetros:
 - onchange: Função JavaScript para executar na mudança (opcional)
 
 Exemplo:
-{% include "components/toggle-group.html" with 
-    items="left,center,right" 
-    labels="Esquerda,Centro,Direita"
+include "components/toggle-group.html" with 
+    items=alignment_items
+    labels=alignment_labels
+    icons=alignment_icons
     value="center"
     type="single"
-    name="alignment" %}
+    name="alignment"
+
+Onde:
+- alignment_items = ["left", "center", "right"]
+- alignment_labels = ["Esquerda", "Centro", "Direita"]
+- alignment_icons = ["<svg>...</svg>", "<svg>...</svg>", "<svg>...</svg>"]
 #}
 
 {% with type=type|default:"single" variant=variant|default:"default" size=size|default:"default" disabled=disabled|default:False %}
-{% with item_list=items|split:"," label_list=labels|default:items|split:"," icon_list=icons|default:""|split:"," %}
 <div 
     x-data="{ 
-        selectedValues: '{{ type }}' === 'multiple' ? '{{ value|default:'' }}'.split(',').filter(v => v) : ['{{ value|default:'' }}'].filter(v => v),
+        selectedValues: '{{ type }}' === 'multiple' ? 
+            {% if value %}{{ value|safe }}{% else %}[]{% endif %} : 
+            {% if value %}['{{ value }}']{% else %}[]{% endif %},
         type: '{{ type }}',
         
         isSelected(value) {
@@ -56,7 +63,7 @@ Exemplo:
     role="group"
     {% if disabled %}aria-disabled="true"{% endif %}
 >
-    {% for item in item_list %}
+    {% for item in items %}
         <button
             @click="toggle('{{ item }}')"
             :class="{ 'bg-accent text-accent-foreground': isSelected('{{ item }}') }"
@@ -74,14 +81,26 @@ Exemplo:
                 {% else %}h-9 px-2 min-w-9{% endif %}"
             :aria-pressed="isSelected('{{ item }}')"
         >
-            {% if icon_list|length >= forloop.counter and icon_list|slice:forloop.counter0:forloop.counter|join:"" %}
-                <span class="[&_svg]:size-4 [&_svg]:shrink-0 [&_svg]:pointer-events-none">
-                    {{ icon_list|slice:forloop.counter0:forloop.counter|join:""|safe }}
-                </span>
+            {% comment %}Ícone se fornecido{% endcomment %}
+            {% if icons %}
+                {% for icon in icons %}
+                    {% if forloop.counter0 == forloop.parentloop.counter0 %}
+                        <span class="[&_svg]:size-4 [&_svg]:shrink-0 [&_svg]:pointer-events-none">
+                            {{ icon|safe }}
+                        </span>
+                    {% endif %}
+                {% endfor %}
             {% endif %}
             
-            {% if label_list|length >= forloop.counter %}
-                <span>{{ label_list|slice:forloop.counter0:forloop.counter|join:"" }}</span>
+            {% comment %}Label se fornecido, senão usa o item{% endcomment %}
+            {% if labels %}
+                {% for label in labels %}
+                    {% if forloop.counter0 == forloop.parentloop.counter0 %}
+                        <span>{{ label }}</span>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                <span>{{ item }}</span>
             {% endif %}
         </button>
     {% endfor %}
@@ -93,5 +112,4 @@ Exemplo:
         </template>
     {% endif %}
 </div>
-{% endwith %}
 {% endwith %}

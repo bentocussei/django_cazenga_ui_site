@@ -12,11 +12,11 @@ Parâmetros:
 - thumb_class: Classes CSS adicionais para o thumb (opcional)
 
 Exemplo:
-{% include "components/scroll-area.html" with 
+include "components/scroll-area.html" with 
     content="<p>Conteúdo muito longo...</p>"
     height="200px"
     orientation="vertical"
-    scrollbar_style="always" %}
+    scrollbar_style="always"
 #}
 
 {% with height=height|default:"300px" width=width|default:"100%" orientation=orientation|default:"vertical" scrollbar_style=scrollbar_style|default:"auto" %}
@@ -68,7 +68,7 @@ Exemplo:
     }"
     x-init="updateScrollInfo()"
     class="relative overflow-hidden rounded-md border {{ class|default:'' }}"
-    style="height: {{ height }}; width: {{ width }};"
+    :style="{ height: '{{ height }}', width: '{{ width }}' }"
 >
     <!-- Viewport -->
     <div 
@@ -79,7 +79,7 @@ Exemplo:
             {% elif orientation == 'horizontal' %}overflow-x-auto overflow-y-hidden
             {% else %}overflow-auto{% endif %}
             {% if scrollbar_style == 'never' %}scrollbar-hide{% endif %}"
-        style="{% if scrollbar_style == 'never' %}scrollbar-width: none; -ms-overflow-style: none;{% endif %}"
+        :style="'{{ scrollbar_style }}' === 'never' ? { scrollbarWidth: 'none', msOverflowStyle: 'none' } : {}"
     >
         <div class="p-4">
             {% if content %}

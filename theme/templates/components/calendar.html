@@ -19,11 +19,11 @@ Parâmetros:
 - onchange: Função JavaScript para executar na mudança (opcional)
 
 Exemplo:
-{% include "components/calendar.html" with 
+include "components/calendar.html" with 
     selected_date="2024-03-15"
     mode="single"
     name="date"
-    show_outside_days=True %}
+    show_outside_days=True
 #}
 
 {% with mode=mode|default:"single" show_outside_days=show_outside_days|default:True show_week_numbers=show_week_numbers|default:False first_day_of_week=first_day_of_week|default:0 %}

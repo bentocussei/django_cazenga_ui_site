@@ -1,70 +1,67 @@
 {# 
 Componente: Switch
-Uso: include "components/switch.html" with name="notifications" label="Ativar notificações"
+Uso: include "components/switch.html" with name="notifications" label="Receber notificações"
 
 Parâmetros:
-- name: Nome do campo (obrigatório)
+- name: Nome do campo (obrigatório para formulários)
 - id: ID do elemento (padrão: mesmo que name)
 - label: Texto do label (opcional)
-- checked: true/false - estado inicial (padrão: false)
+- checked: true/false (padrão: false)
 - disabled: true/false (padrão: false)
 - x_model: Modelo Alpine.js para two-way binding (opcional)
 - class: Classes CSS adicionais (opcional)
+- size: sm, default, lg (padrão: default)
 #}
 
-{% with id=id|default:name checked=checked|default:False disabled=disabled|default:False %}
-<div class="flex items-center space-x-2">
+{% with switch_id=id|default:name|default:"" checked=checked|default:False disabled=disabled|default:False %}
+<div class="flex items-center space-x-2 {{ class|default:'' }}">
     <button
         type="button"
         role="switch"
-        {% if id %}id="{{ id }}"{% endif %}
+        {% if switch_id %}id="{{ switch_id }}"{% endif %}
+        {% if switch_id %}aria-labelledby="{{ switch_id }}-label"{% endif %}
+        :aria-checked="{% if x_model %}{{ x_model }}{% else %}switchChecked{% endif %}"
+        @click="{% if x_model %}{{ x_model }} = !{{ x_model }}{% else %}switchChecked = !switchChecked{% endif %}"
         {% if disabled %}disabled{% endif %}
-        {% if x_model %}
-            x-data
-            x-modelable="checked"
-            x-model="{{ x_model }}"
-            :aria-checked="checked.toString()"
-            @click="checked = !checked"
-        {% else %}
-            x-data="{ checked: {{ checked|lower }} }"
-            :aria-checked="checked.toString()"
-            @click="checked = !checked"
-        {% endif %}
-        class="peer inline-flex h-[1.15rem] w-8 shrink-0 items-center rounded-full 
-            border border-transparent shadow-xs transition-all outline-none 
-            focus-visible:ring-[3px] focus-visible:border-ring focus-visible:ring-ring/50 
-            disabled:cursor-not-allowed disabled:opacity-50
-            {{ class|default:'' }}"
-        :class="checked ? 'bg-primary' : 'bg-input dark:bg-input/80'"
+        x-data="{ {% if not x_model %}switchChecked: {{ checked|yesno:'true,false' }}{% endif %} }"
+        class="peer inline-flex h-5 w-9 shrink-0 cursor-pointer items-center rounded-full 
+            border-2 border-transparent shadow-sm transition-colors 
+            focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring 
+            focus-visible:ring-offset-2 focus-visible:ring-offset-background 
+            disabled:cursor-not-allowed disabled:opacity-50 
+            data-[state=checked]:bg-primary data-[state=unchecked]:bg-input 
+            dark:data-[state=unchecked]:bg-input/30"
+        :class="{
+            'bg-primary': {% if x_model %}{{ x_model }}{% else %}switchChecked{% endif %},
+            'bg-input dark:bg-input/30': !{% if x_model %}{{ x_model }}{% else %}switchChecked{% endif %}
+        }"
     >
         <span 
-            class="pointer-events-none block size-4 rounded-full ring-0 
-                transition-transform duration-200
-                bg-background dark:bg-foreground"
+            class="pointer-events-none block h-4 w-4 rounded-full bg-background shadow-lg 
+                ring-0 transition-transform 
+                data-[state=checked]:translate-x-4 data-[state=unchecked]:translate-x-0"
             :class="{
-                'translate-x-[calc(100%-2px)]': checked,
-                'translate-x-0': !checked,
-                'dark:bg-primary-foreground': checked
+                'translate-x-4': {% if x_model %}{{ x_model }}{% else %}switchChecked{% endif %},
+                'translate-x-0': !{% if x_model %}{{ x_model }}{% else %}switchChecked{% endif %}
             }"
         ></span>
     </button>
     
-    {% if label %}
-        <label 
-            {% if id %}for="{{ id }}"{% endif %}
-            class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer select-none"
-        >
-            {{ label }}
-        </label>
-    {% endif %}
-    
     {% if name %}
-        <!-- Hidden input for form submission -->
         <input 
             type="hidden" 
             name="{{ name }}" 
-            :value="checked ? 'on' : 'off'"
+            :value="{% if x_model %}{{ x_model }}{% else %}switchChecked{% endif %} ? 'on' : ''"
         />
+    {% endif %}
+    
+    {% if label %}
+        <label 
+            {% if switch_id %}id="{{ switch_id }}-label" for="{{ switch_id }}"{% endif %}
+            class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+        >
+            {{ label }}
+        </label>
     {% endif %}
 </div>
 {% endwith %}

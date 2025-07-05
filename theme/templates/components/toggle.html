@@ -15,12 +15,12 @@ Parâmetros:
 - onclick: Função JavaScript para executar no clique (opcional)
 
 Exemplo:
-{% include "components/toggle.html" with 
+include "components/toggle.html" with 
     text="Favorito" 
     icon="<svg>...</svg>"
     pressed=False
     variant="outline"
-    size="default" %}
+    size="default"
 #}
 
 {% with variant=variant|default:"default" size=size|default:"default" pressed=pressed|default:False disabled=disabled|default:False %}

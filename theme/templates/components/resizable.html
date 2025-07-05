@@ -1,34 +1,47 @@
 {# 
 Componente: Resizable
-Uso: include "components/resizable.html" with panels="panel1,panel2" contents="Conteúdo 1,Conteúdo 2"
+Uso: include "components/resizable.html" with panels=panel_list contents=content_list
 
 Parâmetros:
-- panels: Lista de IDs dos painéis separados por vírgula (obrigatório)
-- contents: Lista de conteúdos HTML separados por vírgula (obrigatório)
+- panels: Lista de IDs dos painéis (obrigatório) - ex: ["sidebar", "main"]
+- contents: Lista de conteúdos HTML (obrigatório) - ex: ["<p>Sidebar</p>", "<p>Conteúdo principal</p>"]
 - direction: horizontal, vertical (padrão: horizontal)
-- sizes: Lista de tamanhos iniciais em % separados por vírgula (ex: "50,50")
-- min_sizes: Lista de tamanhos mínimos em % separados por vírgula (ex: "20,20")
-- max_sizes: Lista de tamanhos máximos em % separados por vírgula (ex: "80,80")
+- sizes: Lista de tamanhos iniciais em % (ex: [30, 70]) - padrão: distribuição igual
+- min_sizes: Lista de tamanhos mínimos em % (ex: [20, 20])
+- max_sizes: Lista de tamanhos máximos em % (ex: [80, 80])
 - with_handle: true/false - mostrar handle visual (padrão: true)
 - class: Classes CSS adicionais (opcional)
 - height: Altura do container (padrão: 400px)
 
 Exemplo:
-{% include "components/resizable.html" with 
-    panels="sidebar,main" 
-    contents="<p>Sidebar</p>,<p>Conteúdo principal</p>"
+include "components/resizable.html" with 
+    panels=sidebar_panels
+    contents=sidebar_contents
     direction="horizontal"
-    sizes="30,70"
-    with_handle=True %}
+    sizes=sidebar_sizes
+    with_handle=True
+
+Onde:
+- sidebar_panels = ["sidebar", "main"]
+- sidebar_contents = ["<p>Sidebar</p>", "<p>Conteúdo principal</p>"]
+- sidebar_sizes = [30, 70]
 #}
 
 {% with direction=direction|default:"horizontal" with_handle=with_handle|default:True height=height|default:"400px" %}
-{% with panel_list=panels|split:"," content_list=contents|split:"," size_list=sizes|default:"50,50"|split:"," %}
 <div 
     x-data="{ 
-        panels: {{ panel_list|safe }},
-        contents: {{ content_list|safe }},
-        sizes: {{ size_list|safe }}.map(s => parseFloat(s)),
+        panels: {{ panels|safe }},
+        contents: {{ contents|safe }},
+        sizes: (() => {
+            const providedSizes = {{ sizes|default:'[]'|safe }};
+            if (providedSizes.length > 0) {
+                return providedSizes;
+            } else {
+                const panelCount = {{ panels|length }};
+                const equalSize = Math.floor(100 / panelCount);
+                return Array(panelCount).fill(equalSize);
+            }
+        })(),
         direction: '{{ direction }}',
         isDragging: false,
         currentHandle: null,
@@ -82,11 +95,11 @@ Exemplo:
         }
     }"
     x-init="updatePanelSizes()"
-    class="flex {{ direction == 'vertical' ? 'flex-col' : 'flex-row' }} w-full border rounded-lg overflow-hidden {{ class|default:'' }}"
-    style="height: {{ height }}"
+    class="flex {% if direction == 'vertical' %}flex-col{% else %}flex-row{% endif %} w-full border rounded-lg overflow-hidden {{ class|default:'' }}"
+    :style="{ height: '{{ height }}' }"
     x-ref="container"
 >
-    {% for panel in panel_list %}
+    {% for panel in panels %}
         <!-- Panel {{ forloop.counter }} -->
         <div 
             x-ref="{{ panel }}"
@@ -96,8 +109,12 @@ Exemplo:
             :style="direction === 'horizontal' ? `width: ${sizes[{{ forloop.counter0 }}]}%` : `height: ${sizes[{{ forloop.counter0 }}]}%`"
         >
             <div class="p-4 h-full">
-                {% if content_list|length >= forloop.counter %}
-                    {{ content_list|slice:forloop.counter0:forloop.counter|join:""|safe }}
+                {% if contents and forloop.counter0 < contents|length %}
+                    {% for content in contents %}
+                        {% if forloop.counter0 == forloop.parentloop.counter0 %}
+                            {{ content|safe }}
+                        {% endif %}
+                    {% endfor %}
                 {% else %}
                     <p class="text-muted-foreground">Painel {{ forloop.counter }}</p>
                 {% endif %}
@@ -132,5 +149,4 @@ Exemplo:
         {% endif %}
     {% endfor %}
 </div>
-{% endwith %}
 {% endwith %}
