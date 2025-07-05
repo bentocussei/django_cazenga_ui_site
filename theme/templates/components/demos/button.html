@@ -1,0 +1,227 @@
+{% extends "components_base.html" %}
+
+{% block title %}Button{% endblock %}
+{% block page_title %}Button{% endblock %}
+{% block page_description %}Exibe um botão ou um componente que parece um botão.{% endblock %}
+
+{% block component_content %}
+<div class="max-w-4xl mx-auto space-y-8">
+    
+    <!-- Instalação -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Instalação</h2>
+        <div class="bg-muted rounded-lg p-4">
+            <code class="text-sm">
+                {% verbatim %}{% include "components/button.html" with text="Clique aqui" variant="default" %}{% endverbatim %}
+            </code>
+        </div>
+    </div>
+
+    <!-- Variantes -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Variantes</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            <!-- Default -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Default</h3>
+                <div class="border rounded-lg p-4">
+                    {% include "components/button.html" with text="Button" variant="default" %}
+                </div>
+                <div class="bg-muted rounded p-3 text-sm">
+                    <code>{% verbatim %}{% include "components/button.html" with text="Button" variant="default" %}{% endverbatim %}</code>
+                </div>
+            </div>
+
+            <!-- Secondary -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Secondary</h3>
+                <div class="border rounded-lg p-4">
+                    {% include "components/button.html" with text="Secondary" variant="secondary" %}
+                </div>
+                <div class="bg-muted rounded p-3 text-sm">
+                    <code>{% verbatim %}{% include "components/button.html" with text="Secondary" variant="secondary" %}{% endverbatim %}</code>
+                </div>
+            </div>
+
+            <!-- Destructive -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Destructive</h3>
+                <div class="border rounded-lg p-4">
+                    {% include "components/button.html" with text="Destructive" variant="destructive" %}
+                </div>
+                <div class="bg-muted rounded p-3 text-sm">
+                    <code>{% verbatim %}{% include "components/button.html" with text="Destructive" variant="destructive" %}{% endverbatim %}</code>
+                </div>
+            </div>
+
+            <!-- Outline -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Outline</h3>
+                <div class="border rounded-lg p-4">
+                    {% include "components/button.html" with text="Outline" variant="outline" %}
+                </div>
+                <div class="bg-muted rounded p-3 text-sm">
+                    <code>{% verbatim %}{% include "components/button.html" with text="Outline" variant="outline" %}{% endverbatim %}</code>
+                </div>
+            </div>
+
+            <!-- Ghost -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Ghost</h3>
+                <div class="border rounded-lg p-4">
+                    {% include "components/button.html" with text="Ghost" variant="ghost" %}
+                </div>
+                <div class="bg-muted rounded p-3 text-sm">
+                    <code>{% verbatim %}{% include "components/button.html" with text="Ghost" variant="ghost" %}{% endverbatim %}</code>
+                </div>
+            </div>
+
+            <!-- Link -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Link</h3>
+                <div class="border rounded-lg p-4">
+                    {% include "components/button.html" with text="Link" variant="link" %}
+                </div>
+                <div class="bg-muted rounded p-3 text-sm">
+                    <code>{% verbatim %}{% include "components/button.html" with text="Link" variant="link" %}{% endverbatim %}</code>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Tamanhos -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Tamanhos</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <!-- Small -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Small</h3>
+                <div class="border rounded-lg p-4">
+                    {% include "components/button.html" with text="Small" size="sm" %}
+                </div>
+                <div class="bg-muted rounded p-3 text-sm">
+                    <code>{% verbatim %}{% include "components/button.html" with text="Small" size="sm" %}{% endverbatim %}</code>
+                </div>
+            </div>
+
+            <!-- Medium (default) -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Medium</h3>
+                <div class="border rounded-lg p-4">
+                    {% include "components/button.html" with text="Medium" size="md" %}
+                </div>
+                <div class="bg-muted rounded p-3 text-sm">
+                    <code>{% verbatim %}{% include "components/button.html" with text="Medium" size="md" %}{% endverbatim %}</code>
+                </div>
+            </div>
+
+            <!-- Large -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Large</h3>
+                <div class="border rounded-lg p-4">
+                    {% include "components/button.html" with text="Large" size="lg" %}
+                </div>
+                <div class="bg-muted rounded p-3 text-sm">
+                    <code>{% verbatim %}{% include "components/button.html" with text="Large" size="lg" %}{% endverbatim %}</code>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Estados -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Estados</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            <!-- Disabled -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Disabled</h3>
+                <div class="border rounded-lg p-4">
+                    {% include "components/button.html" with text="Disabled" disabled=True %}
+                </div>
+                <div class="bg-muted rounded p-3 text-sm">
+                    <code>{% verbatim %}{% include "components/button.html" with text="Disabled" disabled=True %}{% endverbatim %}</code>
+                </div>
+            </div>
+
+            <!-- Com Alpine.js -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Com Alpine.js</h3>
+                <div class="border rounded-lg p-4">
+                    {% include "components/button.html" with text="Clique-me" x_click="alert('Botão clicado!')" %}
+                </div>
+                <div class="bg-muted rounded p-3 text-sm">
+                    <code>{% verbatim %}{% include "components/button.html" with text="Clique-me" x_click="alert('Botão clicado!')" %}{% endverbatim %}</code>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Parâmetros -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Parâmetros</h2>
+        <div class="border rounded-lg overflow-hidden">
+            <table class="w-full">
+                <thead class="bg-muted">
+                    <tr>
+                        <th class="text-left p-3 font-medium">Parâmetro</th>
+                        <th class="text-left p-3 font-medium">Tipo</th>
+                        <th class="text-left p-3 font-medium">Padrão</th>
+                        <th class="text-left p-3 font-medium">Descrição</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y">
+                    <tr>
+                        <td class="p-3 font-mono text-sm">text</td>
+                        <td class="p-3 text-sm">string</td>
+                        <td class="p-3 text-sm">-</td>
+                        <td class="p-3 text-sm">Texto do botão</td>
+                    </tr>
+                    <tr>
+                        <td class="p-3 font-mono text-sm">variant</td>
+                        <td class="p-3 text-sm">string</td>
+                        <td class="p-3 text-sm">default</td>
+                        <td class="p-3 text-sm">Variante do botão: default, secondary, destructive, outline, ghost, link</td>
+                    </tr>
+                    <tr>
+                        <td class="p-3 font-mono text-sm">size</td>
+                        <td class="p-3 text-sm">string</td>
+                        <td class="p-3 text-sm">md</td>
+                        <td class="p-3 text-sm">Tamanho do botão: sm, md, lg</td>
+                    </tr>
+                    <tr>
+                        <td class="p-3 font-mono text-sm">type</td>
+                        <td class="p-3 text-sm">string</td>
+                        <td class="p-3 text-sm">button</td>
+                        <td class="p-3 text-sm">Tipo do botão: button, submit, reset</td>
+                    </tr>
+                    <tr>
+                        <td class="p-3 font-mono text-sm">disabled</td>
+                        <td class="p-3 text-sm">boolean</td>
+                        <td class="p-3 text-sm">false</td>
+                        <td class="p-3 text-sm">Se o botão está desabilitado</td>
+                    </tr>
+                    <tr>
+                        <td class="p-3 font-mono text-sm">x_click</td>
+                        <td class="p-3 text-sm">string</td>
+                        <td class="p-3 text-sm">-</td>
+                        <td class="p-3 text-sm">Evento Alpine.js para clique</td>
+                    </tr>
+                    <tr>
+                        <td class="p-3 font-mono text-sm">class</td>
+                        <td class="p-3 text-sm">string</td>
+                        <td class="p-3 text-sm">-</td>
+                        <td class="p-3 text-sm">Classes CSS adicionais</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+{% endblock %} 

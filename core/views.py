@@ -1,10 +1,33 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+from django.http import Http404
 import json
+
+# Lista de componentes disponíveis
+COMPONENTS_LIST = [
+    {'name': 'Accordion', 'slug': 'accordion'},
+    {'name': 'Alert', 'slug': 'alert'},
+    {'name': 'Avatar', 'slug': 'avatar'},
+    {'name': 'Badge', 'slug': 'badge'},
+    {'name': 'Button', 'slug': 'button'},
+    {'name': 'Card', 'slug': 'card'},
+    {'name': 'Checkbox', 'slug': 'checkbox'},
+    {'name': 'Input', 'slug': 'input'},
+    {'name': 'Label', 'slug': 'label'},
+    {'name': 'Progress', 'slug': 'progress'},
+    {'name': 'Select', 'slug': 'select'},
+    {'name': 'Separator', 'slug': 'separator'},
+    {'name': 'Skeleton', 'slug': 'skeleton'},
+    {'name': 'Switch', 'slug': 'switch'},
+    {'name': 'Table', 'slug': 'table'},
+    {'name': 'Tabs', 'slug': 'tabs'},
+    {'name': 'Textarea', 'slug': 'textarea'},
+    {'name': 'Tooltip', 'slug': 'tooltip'},
+]
 
 # Create your views here.
 
 def index(request):
-    return render(request, "base.html")
+    return render(request, "index.html")
 
 def demo(request):
     # Dados para os tabs
@@ -146,3 +169,40 @@ def demo_simple(request):
 
 def demo_especializado(request):
     return render(request, "demo_especializado.html")
+
+def demo_clean(request):
+    return render(request, "demo_clean.html")
+
+def components_list(request):
+    """Página principal dos componentes com sidebar"""
+    context = {
+        'components_list': COMPONENTS_LIST,
+        'current_component': None,
+    }
+    return render(request, 'components_base.html', context)
+
+def component_detail(request, component_slug):
+    """Página de demonstração de um componente específico"""
+    # Verificar se o componente existe
+    component = None
+    for comp in COMPONENTS_LIST:
+        if comp['slug'] == component_slug:
+            component = comp
+            break
+    
+    if not component:
+        raise Http404("Componente não encontrado")
+    
+    context = {
+        'components_list': COMPONENTS_LIST,
+        'current_component': component_slug,
+        'component': component,
+    }
+    
+    # Tentar renderizar template específico do componente
+    template_name = f'components/demos/{component_slug}.html'
+    try:
+        return render(request, template_name, context)
+    except:
+        # Se não existir template específico, usar template padrão
+        return render(request, 'components/demos/default.html', context)

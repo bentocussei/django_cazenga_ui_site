@@ -1,0 +1,104 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="pt-BR" x-data="{ darkMode: false }" :class="{ 'dark': darkMode }">
+<head>
+    <title>{% block title %}Componentes{% endblock %} - Django + Tailwind + Alpine.js</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% tailwind_css %}
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="bg-background text-foreground transition-colors duration-300">
+<!-- Header -->
+<header class="border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <div class="container flex h-14 items-center">
+        <div class="mr-4 flex">
+            <a href="/" class="mr-6 flex items-center space-x-2">
+                <span class="font-bold">Django + Tailwind + Alpine.js</span>
+            </a>
+            <nav class="flex items-center space-x-6 text-sm font-medium">
+                <a href="/" class="transition-colors hover:text-foreground/80 text-foreground/60">Início</a>
+                <a href="/components/" class="transition-colors hover:text-foreground/80 text-foreground">Componentes</a>
+                <a href="/demo-clean/" class="transition-colors hover:text-foreground/80 text-foreground/60">Visão Geral</a>
+                <a href="/demo/" class="transition-colors hover:text-foreground/80 text-foreground/60">Demo Completa</a>
+            </nav>
+        </div>
+        <div class="flex flex-1 items-center justify-end space-x-2">
+            <button
+                @click="darkMode = !darkMode"
+                class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-transparent shadow-sm hover:bg-accent hover:text-accent-foreground h-9 w-9"
+                :aria-label="darkMode ? 'Ativar modo claro' : 'Ativar modo escuro'"
+            >
+                <span x-show="!darkMode">🌙</span>
+                <span x-show="darkMode">☀️</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<div class="flex h-[calc(100vh-3.5rem)]">
+    <!-- Sidebar -->
+    <div class="w-64 bg-background border-r border-border flex flex-col">
+        <!-- Header do Sidebar -->
+        <div class="p-4 border-b border-border">
+            <h2 class="text-lg font-semibold">Componentes</h2>
+            <p class="text-sm text-muted-foreground">Escolha um componente para ver a demonstração</p>
+        </div>
+        
+        <!-- Lista de Componentes -->
+        <div class="flex-1 overflow-y-auto p-4">
+            <nav class="space-y-1">
+                {% for component in components_list %}
+                <a href="{% url 'component_detail' component.slug %}" 
+                   class="flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors
+                          {% if component.slug == current_component %}
+                              bg-accent text-accent-foreground
+                          {% else %}
+                              text-muted-foreground hover:text-foreground hover:bg-accent/50
+                          {% endif %}">
+                    {{ component.name }}
+                </a>
+                {% endfor %}
+            </nav>
+        </div>
+    </div>
+    
+    <!-- Conteúdo Principal -->
+    <div class="flex-1 flex flex-col overflow-hidden">
+        <!-- Header da Página -->
+        <div class="border-b border-border p-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-3xl font-bold">{% block page_title %}Componentes{% endblock %}</h1>
+                    <p class="text-muted-foreground mt-1">{% block page_description %}Selecione um componente para ver a demonstração{% endblock %}</p>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <a href="{% url 'index' %}" class="btn btn-outline btn-sm">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                        </svg>
+                        Voltar
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Área de Conteúdo -->
+        <div class="flex-1 overflow-y-auto p-6">
+            {% block component_content %}
+            <div class="text-center py-12">
+                <div class="text-6xl mb-4">🎨</div>
+                <h3 class="text-xl font-semibold mb-2">Selecione um Componente</h3>
+                <p class="text-muted-foreground">Escolha um componente no sidebar para ver a demonstração completa</p>
+            </div>
+            {% endblock %}
+        </div>
+    </div>
+</div>
+</body>
+</html> 

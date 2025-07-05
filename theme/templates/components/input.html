@@ -17,7 +17,7 @@ Parâmetros:
 - icon_right: Ícone SVG para mostrar à direita (opcional)
 #}
 
-{% with type=type|default:"text" input_id=id|default:name|default:"" required=required|default:False disabled=disabled|default:False readonly=readonly|default:False %}
+{% with type=type|default:"text" input_id=id|default:name|default:"input" required=required|default:False disabled=disabled|default:False readonly=readonly|default:False %}
 <div class="relative">
     {% if icon_left %}
         <div class="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none text-muted-foreground">

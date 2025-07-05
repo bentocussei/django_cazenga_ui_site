@@ -18,7 +18,7 @@ Parâmetros:
 - minlength: Limite mínimo de caracteres (opcional)
 #}
 
-{% with textarea_id=id|default:name|default:"" rows=rows|default:4 disabled=disabled|default:False readonly=readonly|default:False required=required|default:False resize=resize|default:"vertical" %}
+{% with textarea_id=id|default:name|default:"textarea" rows=rows|default:4 disabled=disabled|default:False readonly=readonly|default:False required=required|default:False resize=resize|default:"vertical" %}
 <textarea
     {% if name %}name="{{ name }}"{% endif %}
     {% if textarea_id %}id="{{ textarea_id }}"{% endif %}
