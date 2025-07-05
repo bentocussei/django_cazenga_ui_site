@@ -1,18 +1,48 @@
-import * as React from "react"
+{# 
+Componente: Textarea
+Uso: include "components/textarea.html" with name="message" placeholder="Digite sua mensagem..."
 
-import { cn } from "@/lib/utils"
+Parâmetros:
+- name: Nome do campo (obrigatório)
+- id: ID do elemento (opcional)
+- placeholder: Texto placeholder (opcional)
+- value: Valor inicial (opcional)
+- rows: Número de linhas (padrão: 4)
+- cols: Número de colunas (opcional)
+- disabled: true/false (padrão: false)
+- readonly: true/false (padrão: false)
+- required: true/false (padrão: false)
+- maxlength: Limite de caracteres (opcional)
+- resize: none, both, horizontal, vertical (padrão: vertical)
+- class: Classes CSS adicionais (opcional)
+- x_model: Modelo Alpine.js (opcional)
+- on_change: Função JavaScript no change (opcional)
+#}
 
-function Textarea({ className, ...props }: React.ComponentProps<"textarea">) {
-  return (
-    <textarea
-      data-slot="textarea"
-      className={cn(
-        "border-input placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 flex field-sizing-content min-h-16 w-full rounded-md border bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
-        className
-      )}
-      {...props}
-    />
-  )
-}
-
-export { Textarea }
+{% with id=id|default:name rows=rows|default:4 disabled=disabled|default:False readonly=readonly|default:False required=required|default:False resize=resize|default:"vertical" %}
+<textarea
+    name="{{ name }}"
+    {% if id %}id="{{ id }}"{% endif %}
+    {% if placeholder %}placeholder="{{ placeholder }}"{% endif %}
+    {% if rows %}rows="{{ rows }}"{% endif %}
+    {% if cols %}cols="{{ cols }}"{% endif %}
+    {% if maxlength %}maxlength="{{ maxlength }}"{% endif %}
+    {% if disabled %}disabled{% endif %}
+    {% if readonly %}readonly{% endif %}
+    {% if required %}required{% endif %}
+    {% if x_model %}x-model="{{ x_model }}"{% endif %}
+    {% if on_change %}onchange="{{ on_change }}"{% endif %}
+    class="border-input placeholder:text-muted-foreground focus-visible:border-ring 
+        focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 
+        dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive 
+        dark:bg-input/30 flex min-h-16 w-full rounded-md border bg-transparent 
+        px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none 
+        focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 
+        md:text-sm
+        {% if resize == 'none' %}resize-none
+        {% elif resize == 'both' %}resize
+        {% elif resize == 'horizontal' %}resize-x
+        {% else %}resize-y{% endif %}
+        {{ class|default:'' }}"
+>{% if value %}{{ value }}{% endif %}</textarea>
+{% endwith %}
