@@ -61,6 +61,49 @@
                 {% include "components/checkbox.html" with name="newsletter" label="Quero receber novidades por email" checked=True %}
                 {% include "components/checkbox.html" with name="disabled" label="Checkbox desabilitado" disabled=True %}
             </div>
+            
+            <!-- Switch -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium mb-2">Switches</h3>
+                {% include "components/switch.html" with name="notifications" label="Ativar notificações" %}
+                {% include "components/switch.html" with name="marketing" label="Emails de marketing" checked=True %}
+                {% include "components/switch.html" with name="disabled_switch" label="Switch desabilitado" disabled=True %}
+            </div>
+        </div>
+    </section>
+    
+    <!-- Seção: Progress -->
+    <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-6">Progress</h2>
+        
+        <div class="space-y-6 max-w-md">
+            {% include "components/progress.html" with value=25 label="Download em progresso" show_value=True %}
+            {% include "components/progress.html" with value=50 variant="success" label="Processamento" show_value=True %}
+            {% include "components/progress.html" with value=75 variant="warning" size="lg" show_value=True striped=True %}
+            {% include "components/progress.html" with value=90 variant="danger" striped=True animated=True %}
+        </div>
+    </section>
+    
+    <!-- Seção: Tabs -->
+    <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-6">Tabs</h2>
+        
+        <div class="max-w-2xl">
+            {% with tabs_list='[{"id": "account", "label": "Conta", "content": "<div class=\"space-y-4\"><h3 class=\"text-lg font-medium\">Configurações da Conta</h3><p>Gerencie suas informações pessoais e preferências de conta.</p></div>"}, {"id": "password", "label": "Senha", "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\" stroke-width=\"1.5\" stroke=\"currentColor\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z\" /></svg>", "content": "<div class=\"space-y-4\"><h3 class=\"text-lg font-medium\">Alterar Senha</h3><p>Atualize sua senha regularmente para manter sua conta segura.</p></div>"}, {"id": "notifications", "label": "Notificações", "content": "<div class=\"space-y-4\"><h3 class=\"text-lg font-medium\">Preferências de Notificação</h3><p>Escolha quais notificações você deseja receber.</p></div>"}]'|safe %}
+                {% include "components/tabs.html" with tabs=tabs_list %}
+            {% endwith %}
+        </div>
+    </section>
+    
+    <!-- Seção: Tooltips -->
+    <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-6">Tooltips</h2>
+        
+        <div class="flex flex-wrap gap-8">
+            {% include "components/tooltip.html" with text="Tooltip no topo" content='<button class="btn btn-outline btn-md">Hover aqui (topo)</button>' %}
+            {% include "components/tooltip.html" with text="Tooltip à direita" placement="right" content='<button class="btn btn-outline btn-md">Hover aqui (direita)</button>' %}
+            {% include "components/tooltip.html" with text="Tooltip embaixo" placement="bottom" content='<button class="btn btn-outline btn-md">Hover aqui (embaixo)</button>' %}
+            {% include "components/tooltip.html" with text="Tooltip à esquerda com delay" placement="left" delay=500 content='<button class="btn btn-outline btn-md">Hover aqui (esquerda)</button>' %}
         </div>
     </section>
     

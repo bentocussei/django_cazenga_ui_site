@@ -1,31 +1,70 @@
-"use client"
+{# 
+Componente: Switch
+Uso: include "components/switch.html" with name="notifications" label="Ativar notificações"
 
-import * as React from "react"
-import * as SwitchPrimitive from "@radix-ui/react-switch"
+Parâmetros:
+- name: Nome do campo (obrigatório)
+- id: ID do elemento (padrão: mesmo que name)
+- label: Texto do label (opcional)
+- checked: true/false - estado inicial (padrão: false)
+- disabled: true/false (padrão: false)
+- x_model: Modelo Alpine.js para two-way binding (opcional)
+- class: Classes CSS adicionais (opcional)
+#}
 
-import { cn } from "@/lib/utils"
-
-function Switch({
-  className,
-  ...props
-}: React.ComponentProps<typeof SwitchPrimitive.Root>) {
-  return (
-    <SwitchPrimitive.Root
-      data-slot="switch"
-      className={cn(
-        "peer data-[state=checked]:bg-primary data-[state=unchecked]:bg-input focus-visible:border-ring focus-visible:ring-ring/50 dark:data-[state=unchecked]:bg-input/80 inline-flex h-[1.15rem] w-8 shrink-0 items-center rounded-full border border-transparent shadow-xs transition-all outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50",
-        className
-      )}
-      {...props}
+{% with id=id|default:name checked=checked|default:False disabled=disabled|default:False %}
+<div class="flex items-center space-x-2">
+    <button
+        type="button"
+        role="switch"
+        {% if id %}id="{{ id }}"{% endif %}
+        {% if disabled %}disabled{% endif %}
+        {% if x_model %}
+            x-data
+            x-modelable="checked"
+            x-model="{{ x_model }}"
+            :aria-checked="checked.toString()"
+            @click="checked = !checked"
+        {% else %}
+            x-data="{ checked: {{ checked|lower }} }"
+            :aria-checked="checked.toString()"
+            @click="checked = !checked"
+        {% endif %}
+        class="peer inline-flex h-[1.15rem] w-8 shrink-0 items-center rounded-full 
+            border border-transparent shadow-xs transition-all outline-none 
+            focus-visible:ring-[3px] focus-visible:border-ring focus-visible:ring-ring/50 
+            disabled:cursor-not-allowed disabled:opacity-50
+            {{ class|default:'' }}"
+        :class="checked ? 'bg-primary' : 'bg-input dark:bg-input/80'"
     >
-      <SwitchPrimitive.Thumb
-        data-slot="switch-thumb"
-        className={cn(
-          "bg-background dark:data-[state=unchecked]:bg-foreground dark:data-[state=checked]:bg-primary-foreground pointer-events-none block size-4 rounded-full ring-0 transition-transform data-[state=checked]:translate-x-[calc(100%-2px)] data-[state=unchecked]:translate-x-0"
-        )}
-      />
-    </SwitchPrimitive.Root>
-  )
-}
-
-export { Switch }
+        <span 
+            class="pointer-events-none block size-4 rounded-full ring-0 
+                transition-transform duration-200
+                bg-background dark:bg-foreground"
+            :class="{
+                'translate-x-[calc(100%-2px)]': checked,
+                'translate-x-0': !checked,
+                'dark:bg-primary-foreground': checked
+            }"
+        ></span>
+    </button>
+    
+    {% if label %}
+        <label 
+            {% if id %}for="{{ id }}"{% endif %}
+            class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer select-none"
+        >
+            {{ label }}
+        </label>
+    {% endif %}
+    
+    {% if name %}
+        <!-- Hidden input for form submission -->
+        <input 
+            type="hidden" 
+            name="{{ name }}" 
+            :value="checked ? 'on' : 'off'"
+        />
+    {% endif %}
+</div>
+{% endwith %}
