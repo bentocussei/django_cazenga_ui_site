@@ -1,353 +1,197 @@
-"use client"
+{# 
+Componente: Chart
+Uso: include "components/chart.html" with chart_type="line" chart_data="..."
 
-import * as React from "react"
-import * as RechartsPrimitive from "recharts"
+Parâmetros:
+- chart_type: line, bar, pie, doughnut, radar, polarArea (padrão: line)
+- chart_data: Dados do gráfico em formato JSON (obrigatório)
+- chart_options: Opções do gráfico em formato JSON (opcional)
+- width: Largura do container (padrão: 100%)
+- height: Altura do container (padrão: 400px)
+- title: Título do gráfico (opcional)
+- description: Descrição do gráfico (opcional)
+- colors: Lista de cores separadas por vírgula (opcional)
+- responsive: true/false - responsivo (padrão: true)
+- legend: true/false - mostrar legenda (padrão: true)
+- tooltip: true/false - mostrar tooltip (padrão: true)
+- animation: true/false - animações (padrão: true)
+- class: Classes CSS adicionais (opcional)
+- canvas_id: ID único para o canvas (opcional, gerado automaticamente)
 
-import { cn } from "@/lib/utils"
+Exemplo:
+{% include "components/chart.html" with 
+    chart_type="line"
+    chart_data='{"labels": ["Jan", "Feb", "Mar"], "datasets": [{"label": "Vendas", "data": [10, 20, 30]}]}'
+    title="Vendas Mensais" %}
 
-// Format: { THEME_NAME: CSS_SELECTOR }
-const THEMES = { light: "", dark: ".dark" } as const
+Nota: Este componente requer Chart.js. Adicione ao seu template base:
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+#}
 
-export type ChartConfig = {
-  [k in string]: {
-    label?: React.ReactNode
-    icon?: React.ComponentType
-  } & (
-    | { color?: string; theme?: never }
-    | { color?: never; theme: Record<keyof typeof THEMES, string> }
-  )
-}
-
-type ChartContextProps = {
-  config: ChartConfig
-}
-
-const ChartContext = React.createContext<ChartContextProps | null>(null)
-
-function useChart() {
-  const context = React.useContext(ChartContext)
-
-  if (!context) {
-    throw new Error("useChart must be used within a <ChartContainer />")
-  }
-
-  return context
-}
-
-function ChartContainer({
-  id,
-  className,
-  children,
-  config,
-  ...props
-}: React.ComponentProps<"div"> & {
-  config: ChartConfig
-  children: React.ComponentProps<
-    typeof RechartsPrimitive.ResponsiveContainer
-  >["children"]
-}) {
-  const uniqueId = React.useId()
-  const chartId = `chart-${id || uniqueId.replace(/:/g, "")}`
-
-  return (
-    <ChartContext.Provider value={{ config }}>
-      <div
-        data-slot="chart"
-        data-chart={chartId}
-        className={cn(
-          "[&_.recharts-cartesian-axis-tick_text]:fill-muted-foreground [&_.recharts-cartesian-grid_line[stroke='#ccc']]:stroke-border/50 [&_.recharts-curve.recharts-tooltip-cursor]:stroke-border [&_.recharts-polar-grid_[stroke='#ccc']]:stroke-border [&_.recharts-radial-bar-background-sector]:fill-muted [&_.recharts-rectangle.recharts-tooltip-cursor]:fill-muted [&_.recharts-reference-line_[stroke='#ccc']]:stroke-border flex aspect-video justify-center text-xs [&_.recharts-dot[stroke='#fff']]:stroke-transparent [&_.recharts-layer]:outline-hidden [&_.recharts-sector]:outline-hidden [&_.recharts-sector[stroke='#fff']]:stroke-transparent [&_.recharts-surface]:outline-hidden",
-          className
-        )}
-        {...props}
-      >
-        <ChartStyle id={chartId} config={config} />
-        <RechartsPrimitive.ResponsiveContainer>
-          {children}
-        </RechartsPrimitive.ResponsiveContainer>
-      </div>
-    </ChartContext.Provider>
-  )
-}
-
-const ChartStyle = ({ id, config }: { id: string; config: ChartConfig }) => {
-  const colorConfig = Object.entries(config).filter(
-    ([, config]) => config.theme || config.color
-  )
-
-  if (!colorConfig.length) {
-    return null
-  }
-
-  return (
-    <style
-      dangerouslySetInnerHTML={{
-        __html: Object.entries(THEMES)
-          .map(
-            ([theme, prefix]) => `
-${prefix} [data-chart=${id}] {
-${colorConfig
-  .map(([key, itemConfig]) => {
-    const color =
-      itemConfig.theme?.[theme as keyof typeof itemConfig.theme] ||
-      itemConfig.color
-    return color ? `  --color-${key}: ${color};` : null
-  })
-  .join("\n")}
-}
-`
-          )
-          .join("\n"),
-      }}
-    />
-  )
-}
-
-const ChartTooltip = RechartsPrimitive.Tooltip
-
-function ChartTooltipContent({
-  active,
-  payload,
-  className,
-  indicator = "dot",
-  hideLabel = false,
-  hideIndicator = false,
-  label,
-  labelFormatter,
-  labelClassName,
-  formatter,
-  color,
-  nameKey,
-  labelKey,
-}: React.ComponentProps<typeof RechartsPrimitive.Tooltip> &
-  React.ComponentProps<"div"> & {
-    hideLabel?: boolean
-    hideIndicator?: boolean
-    indicator?: "line" | "dot" | "dashed"
-    nameKey?: string
-    labelKey?: string
-  }) {
-  const { config } = useChart()
-
-  const tooltipLabel = React.useMemo(() => {
-    if (hideLabel || !payload?.length) {
-      return null
-    }
-
-    const [item] = payload
-    const key = `${labelKey || item?.dataKey || item?.name || "value"}`
-    const itemConfig = getPayloadConfigFromPayload(config, item, key)
-    const value =
-      !labelKey && typeof label === "string"
-        ? config[label as keyof typeof config]?.label || label
-        : itemConfig?.label
-
-    if (labelFormatter) {
-      return (
-        <div className={cn("font-medium", labelClassName)}>
-          {labelFormatter(value, payload)}
+{% with chart_type=chart_type|default:"line" responsive=responsive|default:True legend=legend|default:True tooltip=tooltip|default:True animation=animation|default:True width=width|default:"100%" height=height|default:"400px" %}
+{% with canvas_id=canvas_id|default:"chart-"|add:forloop.counter0|default:"chart-0" %}
+<div class="chart-container {{ class|default:'' }}" style="width: {{ width }}; height: {{ height }};">
+    {% if title or description %}
+        <div class="chart-header mb-4">
+            {% if title %}
+                <h3 class="text-lg font-semibold text-foreground">{{ title }}</h3>
+            {% endif %}
+            {% if description %}
+                <p class="text-sm text-muted-foreground mt-1">{{ description }}</p>
+            {% endif %}
         </div>
-      )
-    }
-
-    if (!value) {
-      return null
-    }
-
-    return <div className={cn("font-medium", labelClassName)}>{value}</div>
-  }, [
-    label,
-    labelFormatter,
-    payload,
-    hideLabel,
-    labelClassName,
-    config,
-    labelKey,
-  ])
-
-  if (!active || !payload?.length) {
-    return null
-  }
-
-  const nestLabel = payload.length === 1 && indicator !== "dot"
-
-  return (
-    <div
-      className={cn(
-        "border-border/50 bg-background grid min-w-[8rem] items-start gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs shadow-xl",
-        className
-      )}
-    >
-      {!nestLabel ? tooltipLabel : null}
-      <div className="grid gap-1.5">
-        {payload.map((item, index) => {
-          const key = `${nameKey || item.name || item.dataKey || "value"}`
-          const itemConfig = getPayloadConfigFromPayload(config, item, key)
-          const indicatorColor = color || item.payload.fill || item.color
-
-          return (
-            <div
-              key={item.dataKey}
-              className={cn(
-                "[&>svg]:text-muted-foreground flex w-full flex-wrap items-stretch gap-2 [&>svg]:h-2.5 [&>svg]:w-2.5",
-                indicator === "dot" && "items-center"
-              )}
-            >
-              {formatter && item?.value !== undefined && item.name ? (
-                formatter(item.value, item.name, item, index, item.payload)
-              ) : (
-                <>
-                  {itemConfig?.icon ? (
-                    <itemConfig.icon />
-                  ) : (
-                    !hideIndicator && (
-                      <div
-                        className={cn(
-                          "shrink-0 rounded-[2px] border-(--color-border) bg-(--color-bg)",
-                          {
-                            "h-2.5 w-2.5": indicator === "dot",
-                            "w-1": indicator === "line",
-                            "w-0 border-[1.5px] border-dashed bg-transparent":
-                              indicator === "dashed",
-                            "my-0.5": nestLabel && indicator === "dashed",
-                          }
-                        )}
-                        style={
-                          {
-                            "--color-bg": indicatorColor,
-                            "--color-border": indicatorColor,
-                          } as React.CSSProperties
+    {% endif %}
+    
+    <div class="chart-wrapper relative bg-background border border-border rounded-lg p-4">
+        <canvas 
+            id="{{ canvas_id }}"
+            x-data="{ 
+                chart: null,
+                chartData: {{ chart_data|safe }},
+                chartOptions: {{ chart_options|default:'null'|safe }},
+                colors: '{{ colors|default:'' }}'.split(',').filter(c => c.trim()),
+                
+                getDefaultColors() {
+                    return [
+                        'rgb(59, 130, 246)',   // blue
+                        'rgb(16, 185, 129)',   // green  
+                        'rgb(245, 158, 11)',   // yellow
+                        'rgb(239, 68, 68)',    // red
+                        'rgb(139, 92, 246)',   // purple
+                        'rgb(236, 72, 153)',   // pink
+                        'rgb(14, 165, 233)',   // sky
+                        'rgb(34, 197, 94)',    // emerald
+                        'rgb(251, 146, 60)',   // orange
+                        'rgb(168, 85, 247)'    // violet
+                    ];
+                },
+                
+                applyColors() {
+                    if (!this.chartData || !this.chartData.datasets) return;
+                    
+                    const colorPalette = this.colors.length > 0 ? this.colors : this.getDefaultColors();
+                    
+                    this.chartData.datasets.forEach((dataset, index) => {
+                        const color = colorPalette[index % colorPalette.length];
+                        
+                        if ('{{ chart_type }}' === 'line') {
+                            dataset.borderColor = color;
+                            dataset.backgroundColor = color + '20'; // 20% opacity
+                            dataset.pointBackgroundColor = color;
+                            dataset.pointBorderColor = color;
+                        } else if ('{{ chart_type }}' === 'bar') {
+                            dataset.backgroundColor = color;
+                            dataset.borderColor = color;
+                        } else if (['pie', 'doughnut'].includes('{{ chart_type }}')) {
+                            dataset.backgroundColor = colorPalette.slice(0, dataset.data.length);
+                            dataset.borderColor = colorPalette.slice(0, dataset.data.length);
+                        } else {
+                            dataset.backgroundColor = color + '40'; // 40% opacity
+                            dataset.borderColor = color;
                         }
-                      />
-                    )
-                  )}
-                  <div
-                    className={cn(
-                      "flex flex-1 justify-between leading-none",
-                      nestLabel ? "items-end" : "items-center"
-                    )}
-                  >
-                    <div className="grid gap-1.5">
-                      {nestLabel ? tooltipLabel : null}
-                      <span className="text-muted-foreground">
-                        {itemConfig?.label || item.name}
-                      </span>
-                    </div>
-                    {item.value && (
-                      <span className="text-foreground font-mono font-medium tabular-nums">
-                        {item.value.toLocaleString()}
-                      </span>
-                    )}
-                  </div>
-                </>
-              )}
+                    });
+                },
+                
+                getDefaultOptions() {
+                    return {
+                        responsive: {{ responsive|yesno:'true,false' }},
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: {{ legend|yesno:'true,false' }},
+                                position: 'top',
+                                labels: {
+                                    usePointStyle: true,
+                                    padding: 20,
+                                    color: getComputedStyle(document.documentElement).getPropertyValue('--foreground')
+                                }
+                            },
+                            tooltip: {
+                                enabled: {{ tooltip|yesno:'true,false' }},
+                                backgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--popover'),
+                                titleColor: getComputedStyle(document.documentElement).getPropertyValue('--popover-foreground'),
+                                bodyColor: getComputedStyle(document.documentElement).getPropertyValue('--popover-foreground'),
+                                borderColor: getComputedStyle(document.documentElement).getPropertyValue('--border'),
+                                borderWidth: 1,
+                                cornerRadius: 6,
+                                displayColors: true,
+                                intersect: false,
+                                mode: 'index'
+                            }
+                        },
+                        animation: {
+                            duration: {{ animation|yesno:'1000,0' }}
+                        },
+                        scales: '{{ chart_type }}' === 'pie' || '{{ chart_type }}' === 'doughnut' ? {} : {
+                            x: {
+                                grid: {
+                                    color: getComputedStyle(document.documentElement).getPropertyValue('--border')
+                                },
+                                ticks: {
+                                    color: getComputedStyle(document.documentElement).getPropertyValue('--muted-foreground')
+                                }
+                            },
+                            y: {
+                                grid: {
+                                    color: getComputedStyle(document.documentElement).getPropertyValue('--border')
+                                },
+                                ticks: {
+                                    color: getComputedStyle(document.documentElement).getPropertyValue('--muted-foreground')
+                                }
+                            }
+                        }
+                    };
+                },
+                
+                initChart() {
+                    if (typeof Chart === 'undefined') {
+                        console.error('Chart.js não está carregado. Adicione: <script src=\"https://cdn.jsdelivr.net/npm/chart.js\"></script>');
+                        return;
+                    }
+                    
+                    this.applyColors();
+                    
+                    const options = this.chartOptions || this.getDefaultOptions();
+                    
+                    this.chart = new Chart(this.$el, {
+                        type: '{{ chart_type }}',
+                        data: this.chartData,
+                        options: options
+                    });
+                },
+                
+                updateChart() {
+                    if (this.chart) {
+                        this.applyColors();
+                        this.chart.data = this.chartData;
+                        this.chart.update();
+                    }
+                },
+                
+                destroyChart() {
+                    if (this.chart) {
+                        this.chart.destroy();
+                        this.chart = null;
+                    }
+                }
+            }"
+            x-init="initChart()"
+            x-effect="updateChart()"
+            @destroy="destroyChart()"
+            class="w-full h-full"
+        ></canvas>
+        
+        <!-- Loading state -->
+        <div 
+            x-show="!chart" 
+            class="absolute inset-0 flex items-center justify-center bg-background/80 rounded-lg"
+        >
+            <div class="flex items-center gap-2 text-muted-foreground">
+                <div class="w-4 h-4 border-2 border-muted border-t-primary rounded-full animate-spin"></div>
+                <span class="text-sm">Carregando gráfico...</span>
             </div>
-          )
-        })}
-      </div>
+        </div>
     </div>
-  )
-}
-
-const ChartLegend = RechartsPrimitive.Legend
-
-function ChartLegendContent({
-  className,
-  hideIcon = false,
-  payload,
-  verticalAlign = "bottom",
-  nameKey,
-}: React.ComponentProps<"div"> &
-  Pick<RechartsPrimitive.LegendProps, "payload" | "verticalAlign"> & {
-    hideIcon?: boolean
-    nameKey?: string
-  }) {
-  const { config } = useChart()
-
-  if (!payload?.length) {
-    return null
-  }
-
-  return (
-    <div
-      className={cn(
-        "flex items-center justify-center gap-4",
-        verticalAlign === "top" ? "pb-3" : "pt-3",
-        className
-      )}
-    >
-      {payload.map((item) => {
-        const key = `${nameKey || item.dataKey || "value"}`
-        const itemConfig = getPayloadConfigFromPayload(config, item, key)
-
-        return (
-          <div
-            key={item.value}
-            className={cn(
-              "[&>svg]:text-muted-foreground flex items-center gap-1.5 [&>svg]:h-3 [&>svg]:w-3"
-            )}
-          >
-            {itemConfig?.icon && !hideIcon ? (
-              <itemConfig.icon />
-            ) : (
-              <div
-                className="h-2 w-2 shrink-0 rounded-[2px]"
-                style={{
-                  backgroundColor: item.color,
-                }}
-              />
-            )}
-            {itemConfig?.label}
-          </div>
-        )
-      })}
-    </div>
-  )
-}
-
-// Helper to extract item config from a payload.
-function getPayloadConfigFromPayload(
-  config: ChartConfig,
-  payload: unknown,
-  key: string
-) {
-  if (typeof payload !== "object" || payload === null) {
-    return undefined
-  }
-
-  const payloadPayload =
-    "payload" in payload &&
-    typeof payload.payload === "object" &&
-    payload.payload !== null
-      ? payload.payload
-      : undefined
-
-  let configLabelKey: string = key
-
-  if (
-    key in payload &&
-    typeof payload[key as keyof typeof payload] === "string"
-  ) {
-    configLabelKey = payload[key as keyof typeof payload] as string
-  } else if (
-    payloadPayload &&
-    key in payloadPayload &&
-    typeof payloadPayload[key as keyof typeof payloadPayload] === "string"
-  ) {
-    configLabelKey = payloadPayload[
-      key as keyof typeof payloadPayload
-    ] as string
-  }
-
-  return configLabelKey in config
-    ? config[configLabelKey]
-    : config[key as keyof typeof config]
-}
-
-export {
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-  ChartLegend,
-  ChartLegendContent,
-  ChartStyle,
-}
+</div>
+{% endwith %}
+{% endwith %}
