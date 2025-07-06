@@ -17,6 +17,7 @@ Parâmetros:
 - first_day_of_week: 0-6 (0=domingo, 1=segunda, padrão: 0)
 - class: Classes CSS adicionais (opcional)
 - onchange: Função JavaScript para executar na mudança (opcional)
+- x_model: Variável Alpine.js para binding bidirecional (opcional)
 
 Exemplo:
 include "components/calendar.html" with 
@@ -24,6 +25,7 @@ include "components/calendar.html" with
     mode="single"
     name="date"
     show_outside_days=True
+    x_model="selectedDate"
 -->
 {% with mode=mode|default:"single" show_outside_days=show_outside_days|default:True show_week_numbers=show_week_numbers|default:False first_day_of_week=first_day_of_week|default:0 %}
 <div 
@@ -40,6 +42,23 @@ include "components/calendar.html" with
         showOutsideDays: {{ show_outside_days|yesno:'true,false' }},
         showWeekNumbers: {{ show_week_numbers|yesno:'true,false' }},
         firstDayOfWeek: {{ first_day_of_week }},
+        
+        // Função para formatar data no formato brasileiro
+        formatDateBR(date) {
+            if (!date) return '';
+            return date.toLocaleDateString('pt-BR');
+        },
+        
+        // Função para sincronizar com Alpine.js externo
+        syncWithExternal(date) {
+            {% if x_model %}
+                // Dispatcha evento para o elemento pai atualizar a variável
+                $dispatch('date-selected', { 
+                    date: this.formatDateBR(date), 
+                    model: '{{ x_model }}' 
+                });
+            {% endif %}
+        },
         
         get viewDate() {
             return new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), 1);
@@ -129,6 +148,7 @@ include "components/calendar.html" with
             
             if (this.mode === 'single') {
                 this.selectedDate = new Date(date);
+                this.syncWithExternal(this.selectedDate);
             } else if (this.mode === 'multiple') {
                 const index = this.selectedDates.findIndex(d => d.toDateString() === date.toDateString());
                 if (index === -1) {

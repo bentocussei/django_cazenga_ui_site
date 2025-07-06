@@ -86,7 +86,7 @@
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Interativo com Alpine.js</h2>
         <div class="border border-border rounded-radius-lg p-6">
-            <div x-data="{ selectedDate: '', showCalendar: false }" class="space-y-4">
+            <div x-data="{ selectedDate: '', showCalendar: false }" @date-selected="selectedDate = $event.detail.date; showCalendar = false" class="space-y-4">
                 <div class="max-w-sm mx-auto">
                     <button @click="showCalendar = !showCalendar" class="w-full p-3 border border-border rounded-md text-left hover:bg-muted transition-colors">
                         <span x-text="selectedDate || 'Selecione uma data'"></span>
