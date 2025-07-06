@@ -27,7 +27,7 @@ def svg_icon(name, size="size-6", css_class=""):
         ''')
     
     # Caminho para o arquivo SVG
-    icon_path = os.path.join(settings.BASE_DIR, 'theme', 'static_src', 'radix-icons', f'{name}.svg')
+    icon_path = os.path.join(settings.BASE_DIR, 'theme', 'static', 'radix-icons', f'{name}.svg')
     
     try:
         # Ler o conteúdo do arquivo SVG
@@ -78,6 +78,22 @@ def svg_icon(name, size="size-6", css_class=""):
         ''')
 
 @register.simple_tag
+def icon(name, size="size-6", **kwargs):
+    """
+    Alias para svg_icon para compatibilidade.
+    
+    Args:
+        name: Nome do ícone (sem extensão .svg)
+        size: Classe de tamanho Tailwind (ex: size-6, size-4)
+        **kwargs: Argumentos adicionais incluindo 'class' para classes CSS
+    
+    Usage:
+        {% icon "heart" "size-8" class="text-red-500" %}
+    """
+    css_class = kwargs.get('class', '')
+    return svg_icon(name, size, css_class)
+
+@register.simple_tag
 def icon_exists(name):
     """
     Verifica se um ícone existe na pasta radix-icons.
@@ -91,5 +107,5 @@ def icon_exists(name):
     if not name:
         return False
     
-    icon_path = os.path.join(settings.BASE_DIR, 'theme', 'static_src', 'radix-icons', f'{name}.svg')
+    icon_path = os.path.join(settings.BASE_DIR, 'theme', 'static', 'radix-icons', f'{name}.svg')
     return os.path.exists(icon_path) 

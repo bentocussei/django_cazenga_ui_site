@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Teste SPA Simples</title>
+    <style>
+        body { font-family: sans-serif; margin: 40px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .debug { background: #f0f0f0; padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .links { margin: 20px 0; }
+        .links a { display: block; padding: 10px; margin: 5px 0; background: #007cba; color: white; text-decoration: none; border-radius: 5px; }
+        .links a:hover { background: #005a87; }
+        #content { border: 2px dashed #ccc; padding: 20px; min-height: 200px; }
+        .loading { color: orange; font-weight: bold; }
+        .success { color: green; font-weight: bold; }
+        .error { color: red; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Teste SPA Ultra-Simples</h1>
+        
+        <div class="debug">
+            <h3>📋 Status:</h3>
+            <div id="status">Carregando...</div>
+        </div>
+        
+        <div class="links">
+            <h3>🔗 Links de Teste (com SPA):</h3>
+            <a href="/components/button/" data-spa-link>Button Component</a>
+            <a href="/components/card/" data-spa-link>Card Component</a>
+            <a href="/components/" data-spa-link>Components List</a>
+        </div>
+        
+        <div class="links">
+            <h3>🔗 Link Normal (sem SPA):</h3>
+            <a href="/components/button/">Button Component (navegação normal)</a>
+        </div>
+        
+        <div id="content">
+            <h3>📄 Conteúdo Principal</h3>
+            <p>Este conteúdo deve mudar quando você clicar nos links SPA acima, mas permanecer igual para o link normal.</p>
+            <p><strong>ID:</strong> <span id="content-id">inicial</span></p>
+        </div>
+        
+        <div class="debug">
+            <h3>🔍 Log:</h3>
+            <div id="log"></div>
+        </div>
+    </div>
+
+    <script>
+        console.log('🚀 Teste SPA iniciando...');
+        
+        function log(message, type = 'info') {
+            const logEl = document.getElementById('log');
+            const time = new Date().toLocaleTimeString();
+            const className = type === 'error' ? 'error' : type === 'success' ? 'success' : type === 'loading' ? 'loading' : '';
+            logEl.innerHTML += `<div class="${className}">[${time}] ${message}</div>`;
+            logEl.scrollTop = logEl.scrollHeight;
+            console.log(message);
+        }
+        
+        function updateStatus(status) {
+            document.getElementById('status').textContent = status;
+        }
+        
+        // Sistema SPA Ultra-Simples
+        let requestId = 1;
+        
+        function setupSPA() {
+            log('🔧 Configurando SPA...');
+            
+            document.addEventListener('click', (e) => {
+                const link = e.target.closest('[data-spa-link]');
+                if (!link) return;
+                
+                e.preventDefault();
+                log(`🖱️ Clique interceptado: ${link.href}`, 'loading');
+                navigateSPA(link.href);
+            });
+            
+            updateStatus('✅ SPA Ativo');
+            log('✅ SPA configurado com sucesso!', 'success');
+        }
+        
+        async function navigateSPA(url) {
+            const currentRequestId = requestId++;
+            
+            try {
+                updateStatus('🔄 Carregando...');
+                log(`📡 Requisição #${currentRequestId}: ${url}?partial=true`, 'loading');
+                
+                const response = await fetch(url + '?partial=true', {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                log(`📥 Resposta #${currentRequestId}: ${response.status} ${response.statusText}`);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const contentType = response.headers.get('content-type');
+                log(`📋 Content-Type: ${contentType}`);
+                
+                if (contentType && contentType.includes('application/json')) {
+                    const data = await response.json();
+                    log(`✅ JSON recebido! Tamanho: ${JSON.stringify(data).length} chars`, 'success');
+                    
+                    // Atualizar conteúdo
+                    const contentEl = document.getElementById('content');
+                    if (data.content) {
+                        contentEl.innerHTML = data.content;
+                        log('🔄 Conteúdo atualizado!', 'success');
+                    } else {
+                        log('⚠️ Resposta JSON não contém "content"', 'error');
+                        log(`📋 Dados recebidos: ${JSON.stringify(data)}`);
+                    }
+                    
+                    // Atualizar URL e título
+                    if (data.title) {
+                        document.title = data.title;
+                    }
+                    window.history.pushState({}, data.title || '', url);
+                    
+                    // Atualizar ID para mostrar que mudou
+                    const idEl = document.getElementById('content-id');
+                    if (idEl) {
+                        idEl.textContent = `spa-${currentRequestId}-${Date.now()}`;
+                    }
+                    
+                    updateStatus('✅ SPA Funcionando!');
+                    log('🎉 Navegação SPA concluída!', 'success');
+                    
+                } else {
+                    log('❌ Resposta não é JSON! Provavelmente retornou HTML completo', 'error');
+                    log(`📋 Content-Type: ${contentType}`);
+                    const text = await response.text();
+                    log(`📋 Primeiros 200 chars da resposta: ${text.substring(0, 200)}...`);
+                    
+                    updateStatus('❌ Erro: Resposta não é JSON');
+                    throw new Error('Resposta não é JSON - Django não está detectando requisição AJAX');
+                }
+                
+            } catch (error) {
+                log(`❌ Erro #${currentRequestId}: ${error.message}`, 'error');
+                updateStatus('❌ Erro SPA');
+                
+                // Fallback para navegação normal
+                log('🔄 Fallback: navegação normal');
+                window.location.href = url;
+            }
+        }
+        
+        // Teste direto da view
+        async function testBackend() {
+            log('🧪 Testando backend...');
+            
+            try {
+                const response = await fetch('/components/button/?partial=true', {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                });
+                
+                const contentType = response.headers.get('content-type');
+                log(`🎯 Teste backend - Status: ${response.status}, Content-Type: ${contentType}`);
+                
+                if (contentType && contentType.includes('application/json')) {
+                    const data = await response.json();
+                    log('✅ Backend retorna JSON corretamente!', 'success');
+                    log(`📋 Chaves disponíveis: ${Object.keys(data).join(', ')}`);
+                } else {
+                    log('❌ Backend NÃO retorna JSON!', 'error');
+                    const text = await response.text();
+                    log(`📋 Resposta (primeiros 200 chars): ${text.substring(0, 200)}...`);
+                }
+                
+            } catch (error) {
+                log(`❌ Erro no teste backend: ${error.message}`, 'error');
+            }
+        }
+        
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', () => {
+            log('🟢 DOM carregado');
+            setupSPA();
+            
+            // Testar backend após 1 segundo
+            setTimeout(testBackend, 1000);
+        });
+    </script>
+</body>
+</html> 

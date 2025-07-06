@@ -1,0 +1,360 @@
+{% extends "components_base.html" %}
+{% load icon_tags %}
+
+{% block page_title %}Skeleton{% endblock %}
+{% block page_description %}Componente de placeholder para indicar conteúdo em carregamento{% endblock %}
+
+{% block component_content %}
+<div class="max-w-4xl mx-auto space-y-8">
+    <!-- Instalação -->
+    <section class="space-y-4">
+        <h2 class="text-2xl font-semibold">Instalação</h2>
+        <div class="relative">
+            <pre class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto"><code>{% templatetag openblock %} include "components/skeleton.html" with type="text" lines=3 {% templatetag closeblock %}</code></pre>
+            <button 
+                class="absolute top-2 right-2 p-2 bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                x-data="{ copied: false }"
+                @click="navigator.clipboard.writeText($el.previousElementSibling.textContent); copied = true; setTimeout(() => copied = false, 2000)"
+            >
+                <span x-show="!copied">{% icon "copy" size="4" %}</span>
+                <span x-show="copied" class="text-green-600">{% icon "check" size="4" %}</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- Exemplos Básicos -->
+    <section class="space-y-4">
+        <h2 class="text-2xl font-semibold">Exemplos Básicos</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Skeleton de Texto -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Skeleton de Texto</h3>
+                <div class="border rounded-lg p-4">
+                    <div class="space-y-2">
+                        <div class="animate-pulse">
+                            <div class="h-4 bg-gray-300 dark:bg-gray-600 rounded w-3/4"></div>
+                        </div>
+                        <div class="animate-pulse">
+                            <div class="h-4 bg-gray-300 dark:bg-gray-600 rounded w-1/2"></div>
+                        </div>
+                        <div class="animate-pulse">
+                            <div class="h-4 bg-gray-300 dark:bg-gray-600 rounded w-5/6"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative">
+                    <pre class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto text-sm"><code>&lt;div class="space-y-2"&gt;
+  &lt;div class="animate-pulse"&gt;
+    &lt;div class="h-4 bg-gray-300 dark:bg-gray-600 rounded w-3/4"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="animate-pulse"&gt;
+    &lt;div class="h-4 bg-gray-300 dark:bg-gray-600 rounded w-1/2"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="animate-pulse"&gt;
+    &lt;div class="h-4 bg-gray-300 dark:bg-gray-600 rounded w-5/6"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                    <button 
+                        class="absolute top-2 right-2 p-2 bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                        x-data="{ copied: false }"
+                        @click="navigator.clipboard.writeText($el.previousElementSibling.textContent); copied = true; setTimeout(() => copied = false, 2000)"
+                    >
+                        <span x-show="!copied">{% icon "copy" size="4" %}</span>
+                        <span x-show="copied" class="text-green-600">{% icon "check" size="4" %}</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Skeleton de Avatar -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Skeleton de Avatar</h3>
+                <div class="border rounded-lg p-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="animate-pulse">
+                            <div class="h-12 w-12 bg-gray-300 dark:bg-gray-600 rounded-full"></div>
+                        </div>
+                        <div class="flex-1 space-y-2">
+                            <div class="animate-pulse">
+                                <div class="h-4 bg-gray-300 dark:bg-gray-600 rounded w-1/4"></div>
+                            </div>
+                            <div class="animate-pulse">
+                                <div class="h-3 bg-gray-300 dark:bg-gray-600 rounded w-1/3"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative">
+                    <pre class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto text-sm"><code>&lt;div class="flex items-center space-x-3"&gt;
+  &lt;div class="animate-pulse"&gt;
+    &lt;div class="h-12 w-12 bg-gray-300 dark:bg-gray-600 rounded-full"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="flex-1 space-y-2"&gt;
+    &lt;div class="animate-pulse"&gt;
+      &lt;div class="h-4 bg-gray-300 dark:bg-gray-600 rounded w-1/4"&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="animate-pulse"&gt;
+      &lt;div class="h-3 bg-gray-300 dark:bg-gray-600 rounded w-1/3"&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                    <button 
+                        class="absolute top-2 right-2 p-2 bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                        x-data="{ copied: false }"
+                        @click="navigator.clipboard.writeText($el.previousElementSibling.textContent); copied = true; setTimeout(() => copied = false, 2000)"
+                    >
+                        <span x-show="!copied">{% icon "copy" size="4" %}</span>
+                        <span x-show="copied" class="text-green-600">{% icon "check" size="4" %}</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skeleton de Card -->
+    <section class="space-y-4">
+        <h2 class="text-2xl font-semibold">Skeleton de Card</h2>
+        <div class="border rounded-lg p-6">
+            <div class="animate-pulse">
+                <div class="h-48 bg-gray-300 dark:bg-gray-600 rounded-lg mb-4"></div>
+                <div class="space-y-3">
+                    <div class="h-6 bg-gray-300 dark:bg-gray-600 rounded w-3/4"></div>
+                    <div class="space-y-2">
+                        <div class="h-4 bg-gray-300 dark:bg-gray-600 rounded"></div>
+                        <div class="h-4 bg-gray-300 dark:bg-gray-600 rounded w-5/6"></div>
+                        <div class="h-4 bg-gray-300 dark:bg-gray-600 rounded w-4/6"></div>
+                    </div>
+                    <div class="pt-4">
+                        <div class="h-10 bg-gray-300 dark:bg-gray-600 rounded w-1/3"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="relative">
+            <pre class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto text-sm"><code>&lt;div class="animate-pulse"&gt;
+  &lt;div class="h-48 bg-gray-300 dark:bg-gray-600 rounded-lg mb-4"&gt;&lt;/div&gt;
+  &lt;div class="space-y-3"&gt;
+    &lt;div class="h-6 bg-gray-300 dark:bg-gray-600 rounded w-3/4"&gt;&lt;/div&gt;
+    &lt;div class="space-y-2"&gt;
+      &lt;div class="h-4 bg-gray-300 dark:bg-gray-600 rounded"&gt;&lt;/div&gt;
+      &lt;div class="h-4 bg-gray-300 dark:bg-gray-600 rounded w-5/6"&gt;&lt;/div&gt;
+      &lt;div class="h-4 bg-gray-300 dark:bg-gray-600 rounded w-4/6"&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="pt-4"&gt;
+      &lt;div class="h-10 bg-gray-300 dark:bg-gray-600 rounded w-1/3"&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            <button 
+                class="absolute top-2 right-2 p-2 bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                x-data="{ copied: false }"
+                @click="navigator.clipboard.writeText($el.previousElementSibling.textContent); copied = true; setTimeout(() => copied = false, 2000)"
+            >
+                <span x-show="!copied">{% icon "copy" size="4" %}</span>
+                <span x-show="copied" class="text-green-600">{% icon "check" size="4" %}</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- Lista de Skeleton -->
+    <section class="space-y-4">
+        <h2 class="text-2xl font-semibold">Lista de Skeleton</h2>
+        <div class="border rounded-lg p-4">
+            <div class="space-y-4">
+                {% for i in "123" %}
+                <div class="flex items-center space-x-4">
+                    <div class="animate-pulse">
+                        <div class="h-10 w-10 bg-gray-300 dark:bg-gray-600 rounded-full"></div>
+                    </div>
+                    <div class="flex-1 space-y-2">
+                        <div class="animate-pulse">
+                            <div class="h-4 bg-gray-300 dark:bg-gray-600 rounded w-1/4"></div>
+                        </div>
+                        <div class="animate-pulse">
+                            <div class="h-3 bg-gray-300 dark:bg-gray-600 rounded w-1/2"></div>
+                        </div>
+                    </div>
+                    <div class="animate-pulse">
+                        <div class="h-8 w-16 bg-gray-300 dark:bg-gray-600 rounded"></div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="relative">
+            <pre class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto text-sm"><code>&lt;div class="space-y-4"&gt;
+  &lt;div class="flex items-center space-x-4"&gt;
+    &lt;div class="animate-pulse"&gt;
+      &lt;div class="h-10 w-10 bg-gray-300 dark:bg-gray-600 rounded-full"&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="flex-1 space-y-2"&gt;
+      &lt;div class="animate-pulse"&gt;
+        &lt;div class="h-4 bg-gray-300 dark:bg-gray-600 rounded w-1/4"&gt;&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class="animate-pulse"&gt;
+        &lt;div class="h-3 bg-gray-300 dark:bg-gray-600 rounded w-1/2"&gt;&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="animate-pulse"&gt;
+      &lt;div class="h-8 w-16 bg-gray-300 dark:bg-gray-600 rounded"&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            <button 
+                class="absolute top-2 right-2 p-2 bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                x-data="{ copied: false }"
+                @click="navigator.clipboard.writeText($el.previousElementSibling.textContent); copied = true; setTimeout(() => copied = false, 2000)"
+            >
+                <span x-show="!copied">{% icon "copy" size="4" %}</span>
+                <span x-show="copied" class="text-green-600">{% icon "check" size="4" %}</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- Skeleton com Shimmer -->
+    <section class="space-y-4">
+        <h2 class="text-2xl font-semibold">Skeleton com Shimmer</h2>
+        <div class="border rounded-lg p-4">
+            <div class="space-y-3">
+                <div class="relative overflow-hidden bg-gray-300 dark:bg-gray-600 rounded h-4">
+                    <div class="absolute inset-0 -translate-x-full animate-[shimmer_2s_infinite] bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+                </div>
+                <div class="relative overflow-hidden bg-gray-300 dark:bg-gray-600 rounded h-4 w-3/4">
+                    <div class="absolute inset-0 -translate-x-full animate-[shimmer_2s_infinite] bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+                </div>
+                <div class="relative overflow-hidden bg-gray-300 dark:bg-gray-600 rounded h-4 w-1/2">
+                    <div class="absolute inset-0 -translate-x-full animate-[shimmer_2s_infinite] bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+                </div>
+            </div>
+        </div>
+        <div class="relative">
+            <pre class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto text-sm"><code>&lt;style&gt;
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+&lt;/style&gt;
+
+&lt;div class="relative overflow-hidden bg-gray-300 dark:bg-gray-600 rounded h-4"&gt;
+  &lt;div class="absolute inset-0 -translate-x-full animate-[shimmer_2s_infinite] bg-gradient-to-r from-transparent via-white/20 to-transparent"&gt;&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            <button 
+                class="absolute top-2 right-2 p-2 bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                x-data="{ copied: false }"
+                @click="navigator.clipboard.writeText($el.previousElementSibling.textContent); copied = true; setTimeout(() => copied = false, 2000)"
+            >
+                <span x-show="!copied">{% icon "copy" size="4" %}</span>
+                <span x-show="copied" class="text-green-600">{% icon "check" size="4" %}</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- Simulação de Carregamento -->
+    <section class="space-y-4">
+        <h2 class="text-2xl font-semibold">Simulação de Carregamento</h2>
+        <div class="border rounded-lg p-4" x-data="{ loading: true }">
+            <div class="flex items-center space-x-2 mb-4">
+                <button @click="loading = !loading" 
+                        class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">
+                    <span x-text="loading ? 'Mostrar Conteúdo' : 'Mostrar Skeleton'"></span>
+                </button>
+                <span class="text-sm text-gray-600 dark:text-gray-400" x-text="loading ? 'Carregando...' : 'Conteúdo carregado'"></span>
+            </div>
+            
+            <div x-show="loading" class="space-y-4">
+                <div class="flex items-center space-x-4">
+                    <div class="animate-pulse">
+                        <div class="h-12 w-12 bg-gray-300 dark:bg-gray-600 rounded-full"></div>
+                    </div>
+                    <div class="flex-1 space-y-2">
+                        <div class="animate-pulse">
+                            <div class="h-4 bg-gray-300 dark:bg-gray-600 rounded w-1/4"></div>
+                        </div>
+                        <div class="animate-pulse">
+                            <div class="h-3 bg-gray-300 dark:bg-gray-600 rounded w-1/2"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="animate-pulse space-y-2">
+                    <div class="h-4 bg-gray-300 dark:bg-gray-600 rounded"></div>
+                    <div class="h-4 bg-gray-300 dark:bg-gray-600 rounded w-5/6"></div>
+                    <div class="h-4 bg-gray-300 dark:bg-gray-600 rounded w-4/6"></div>
+                </div>
+            </div>
+            
+            <div x-show="!loading" class="space-y-4">
+                <div class="flex items-center space-x-4">
+                    <img src="https://via.placeholder.com/48x48" alt="Avatar" class="h-12 w-12 rounded-full">
+                    <div>
+                        <h3 class="font-medium">João Silva</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">Desenvolvedor Frontend</p>
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <p>Este é um exemplo de conteúdo carregado.</p>
+                    <p>O skeleton foi substituído pelo conteúdo real após o carregamento.</p>
+                    <p>Você pode alternar entre os estados usando o botão acima.</p>
+                </div>
+            </div>
+        </div>
+        <div class="relative">
+            <pre class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto text-sm"><code>&lt;div x-data="{ loading: true }"&gt;
+  &lt;div x-show="loading"&gt;
+    &lt;!-- Skeleton --&gt;
+    &lt;div class="animate-pulse"&gt;
+      &lt;div class="h-12 w-12 bg-gray-300 dark:bg-gray-600 rounded-full"&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  
+  &lt;div x-show="!loading"&gt;
+    &lt;!-- Conteúdo Real --&gt;
+    &lt;img src="avatar.jpg" alt="Avatar" class="h-12 w-12 rounded-full"&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            <button 
+                class="absolute top-2 right-2 p-2 bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                x-data="{ copied: false }"
+                @click="navigator.clipboard.writeText($el.previousElementSibling.textContent); copied = true; setTimeout(() => copied = false, 2000)"
+            >
+                <span x-show="!copied">{% icon "copy" size="4" %}</span>
+                <span x-show="copied" class="text-green-600">{% icon "check" size="4" %}</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- Parâmetros -->
+    <section class="space-y-4">
+        <h2 class="text-2xl font-semibold">Parâmetros</h2>
+        <div class="overflow-x-auto">
+            <table class="w-full border-collapse border border-gray-200 dark:border-gray-700">
+                <thead>
+                    <tr class="bg-gray-50 dark:bg-gray-800">
+                        {% for header in skeleton_params.headers %}
+                        <th class="border border-gray-200 dark:border-gray-700 px-4 py-2 text-left font-medium">{{ header }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in skeleton_params.data %}
+                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-800">
+                        {% for cell in row %}
+                        <td class="border border-gray-200 dark:border-gray-700 px-4 py-2">{{ cell|safe }}</td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>
+
+<!-- Keyframes para shimmer -->
+<style>
+@keyframes shimmer {
+    100% {
+        transform: translateX(100%);
+    }
+}
+</style>
+{% endblock %} 

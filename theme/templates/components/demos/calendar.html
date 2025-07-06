@@ -1,0 +1,522 @@
+{% extends 'components_base.html' %}
+
+{% block page_title %}Calendar{% endblock %}
+{% block page_description %}Componente de calendário interativo para seleção de datas com suporte a múltiplas configurações.{% endblock %}
+
+{% block component_content %}
+<div class="max-w-4xl mx-auto space-y-8">
+    <!-- Instalação -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Instalação</h2>
+        <div class="relative">
+            <pre class="bg-gray-100 p-4 rounded-md overflow-x-auto"><code>{% verbatim %}{% include 'components/calendar.html' %}{% endverbatim %}</code></pre>
+            <button 
+                class="absolute top-2 right-2 p-2 bg-white rounded-md shadow-sm hover:bg-gray-50 border"
+                x-data 
+                @click="navigator.clipboard.writeText('{% verbatim %}{% include \'components/calendar.html\' %}{% endverbatim %}')"
+                title="Copiar código"
+            >
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Exemplo Básico -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Exemplo Básico</h2>
+        <div class="border rounded-lg p-6">
+            <div x-data="{ 
+                currentDate: new Date(),
+                selectedDate: null,
+                currentMonth: new Date().getMonth(),
+                currentYear: new Date().getFullYear(),
+                
+                get monthName() {
+                    return new Date(this.currentYear, this.currentMonth).toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
+                },
+                
+                get daysInMonth() {
+                    return new Date(this.currentYear, this.currentMonth + 1, 0).getDate();
+                },
+                
+                get firstDayOfMonth() {
+                    return new Date(this.currentYear, this.currentMonth, 1).getDay();
+                },
+                
+                get calendarDays() {
+                    const days = [];
+                    // Dias do mês anterior
+                    for (let i = 0; i < this.firstDayOfMonth; i++) {
+                        days.push({ day: '', isOtherMonth: true });
+                    }
+                    // Dias do mês atual
+                    for (let day = 1; day <= this.daysInMonth; day++) {
+                        days.push({ day, isOtherMonth: false });
+                    }
+                    return days;
+                },
+                
+                previousMonth() {
+                    if (this.currentMonth === 0) {
+                        this.currentMonth = 11;
+                        this.currentYear--;
+                    } else {
+                        this.currentMonth--;
+                    }
+                },
+                
+                nextMonth() {
+                    if (this.currentMonth === 11) {
+                        this.currentMonth = 0;
+                        this.currentYear++;
+                    } else {
+                        this.currentMonth++;
+                    }
+                },
+                
+                selectDate(day) {
+                    if (day) {
+                        this.selectedDate = new Date(this.currentYear, this.currentMonth, day);
+                    }
+                },
+                
+                isSelected(day) {
+                    if (!this.selectedDate || !day) return false;
+                    return this.selectedDate.getDate() === day && 
+                           this.selectedDate.getMonth() === this.currentMonth && 
+                           this.selectedDate.getFullYear() === this.currentYear;
+                },
+                
+                isToday(day) {
+                    if (!day) return false;
+                    const today = new Date();
+                    return today.getDate() === day && 
+                           today.getMonth() === this.currentMonth && 
+                           today.getFullYear() === this.currentYear;
+                }
+            }" class="max-w-sm mx-auto">
+                <div class="bg-white border rounded-lg shadow-sm p-4">
+                    <!-- Header -->
+                    <div class="flex items-center justify-between mb-4">
+                        <button @click="previousMonth()" class="p-2 hover:bg-gray-100 rounded-md">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                            </svg>
+                        </button>
+                        <h3 class="text-lg font-semibold capitalize" x-text="monthName"></h3>
+                        <button @click="nextMonth()" class="p-2 hover:bg-gray-100 rounded-md">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <!-- Dias da semana -->
+                    <div class="grid grid-cols-7 gap-1 mb-2">
+                        <div class="text-center text-xs font-medium text-gray-500 p-2">Dom</div>
+                        <div class="text-center text-xs font-medium text-gray-500 p-2">Seg</div>
+                        <div class="text-center text-xs font-medium text-gray-500 p-2">Ter</div>
+                        <div class="text-center text-xs font-medium text-gray-500 p-2">Qua</div>
+                        <div class="text-center text-xs font-medium text-gray-500 p-2">Qui</div>
+                        <div class="text-center text-xs font-medium text-gray-500 p-2">Sex</div>
+                        <div class="text-center text-xs font-medium text-gray-500 p-2">Sáb</div>
+                    </div>
+                    
+                    <!-- Dias do mês -->
+                    <div class="grid grid-cols-7 gap-1">
+                        <template x-for="day in calendarDays" :key="JSON.stringify(day)">
+                            <button 
+                                x-text="day.day"
+                                @click="selectDate(day.day)"
+                                :class="{
+                                    'text-gray-300': day.isOtherMonth,
+                                    'hover:bg-gray-100': !day.isOtherMonth,
+                                    'bg-blue-600 text-white': isSelected(day.day),
+                                    'bg-blue-100 text-blue-800': isToday(day.day) && !isSelected(day.day),
+                                    'text-gray-900': !day.isOtherMonth && !isSelected(day.day) && !isToday(day.day)
+                                }"
+                                class="w-8 h-8 text-sm rounded-md flex items-center justify-center transition-colors"
+                                :disabled="day.isOtherMonth"
+                            ></button>
+                        </template>
+                    </div>
+                    
+                    <!-- Data selecionada -->
+                    <div class="mt-4 pt-4 border-t">
+                        <p class="text-sm text-gray-600">
+                            <span x-show="!selectedDate">Nenhuma data selecionada</span>
+                            <span x-show="selectedDate" x-text="selectedDate ? selectedDate.toLocaleDateString('pt-BR') : ''"></span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Variações -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Variações</h2>
+        
+        <!-- Calendário com Eventos -->
+        <div class="space-y-2">
+            <h3 class="text-lg font-medium">Calendário com Eventos</h3>
+            <div class="border rounded-lg p-4">
+                <div x-data="{ 
+                    currentDate: new Date(),
+                    selectedDate: null,
+                    currentMonth: new Date().getMonth(),
+                    currentYear: new Date().getFullYear(),
+                    
+                    events: [
+                        { date: new Date(2024, 11, 15), title: 'Reunião de equipe', type: 'meeting' },
+                        { date: new Date(2024, 11, 20), title: 'Deadline do projeto', type: 'deadline' },
+                        { date: new Date(2024, 11, 25), title: 'Feriado', type: 'holiday' }
+                    ],
+                    
+                    get monthName() {
+                        return new Date(this.currentYear, this.currentMonth).toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
+                    },
+                    
+                    get daysInMonth() {
+                        return new Date(this.currentYear, this.currentMonth + 1, 0).getDate();
+                    },
+                    
+                    get firstDayOfMonth() {
+                        return new Date(this.currentYear, this.currentMonth, 1).getDay();
+                    },
+                    
+                    get calendarDays() {
+                        const days = [];
+                        for (let i = 0; i < this.firstDayOfMonth; i++) {
+                            days.push({ day: '', isOtherMonth: true });
+                        }
+                        for (let day = 1; day <= this.daysInMonth; day++) {
+                            days.push({ day, isOtherMonth: false });
+                        }
+                        return days;
+                    },
+                    
+                    previousMonth() {
+                        if (this.currentMonth === 0) {
+                            this.currentMonth = 11;
+                            this.currentYear--;
+                        } else {
+                            this.currentMonth--;
+                        }
+                    },
+                    
+                    nextMonth() {
+                        if (this.currentMonth === 11) {
+                            this.currentMonth = 0;
+                            this.currentYear++;
+                        } else {
+                            this.currentMonth++;
+                        }
+                    },
+                    
+                    selectDate(day) {
+                        if (day) {
+                            this.selectedDate = new Date(this.currentYear, this.currentMonth, day);
+                        }
+                    },
+                    
+                    hasEvent(day) {
+                        if (!day) return false;
+                        return this.events.some(event => 
+                            event.date.getDate() === day && 
+                            event.date.getMonth() === this.currentMonth && 
+                            event.date.getFullYear() === this.currentYear
+                        );
+                    },
+                    
+                    getEventType(day) {
+                        if (!day) return '';
+                        const event = this.events.find(event => 
+                            event.date.getDate() === day && 
+                            event.date.getMonth() === this.currentMonth && 
+                            event.date.getFullYear() === this.currentYear
+                        );
+                        return event ? event.type : '';
+                    },
+                    
+                    isSelected(day) {
+                        if (!this.selectedDate || !day) return false;
+                        return this.selectedDate.getDate() === day && 
+                               this.selectedDate.getMonth() === this.currentMonth && 
+                               this.selectedDate.getFullYear() === this.currentYear;
+                    },
+                    
+                    isToday(day) {
+                        if (!day) return false;
+                        const today = new Date();
+                        return today.getDate() === day && 
+                               today.getMonth() === this.currentMonth && 
+                               today.getFullYear() === this.currentYear;
+                    }
+                }" class="max-w-sm mx-auto">
+                    <div class="bg-white border rounded-lg shadow-sm p-4">
+                        <!-- Header -->
+                        <div class="flex items-center justify-between mb-4">
+                            <button @click="previousMonth()" class="p-2 hover:bg-gray-100 rounded-md">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                                </svg>
+                            </button>
+                            <h3 class="text-lg font-semibold capitalize" x-text="monthName"></h3>
+                            <button @click="nextMonth()" class="p-2 hover:bg-gray-100 rounded-md">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                </svg>
+                            </button>
+                        </div>
+                        
+                        <!-- Dias da semana -->
+                        <div class="grid grid-cols-7 gap-1 mb-2">
+                            <div class="text-center text-xs font-medium text-gray-500 p-2">Dom</div>
+                            <div class="text-center text-xs font-medium text-gray-500 p-2">Seg</div>
+                            <div class="text-center text-xs font-medium text-gray-500 p-2">Ter</div>
+                            <div class="text-center text-xs font-medium text-gray-500 p-2">Qua</div>
+                            <div class="text-center text-xs font-medium text-gray-500 p-2">Qui</div>
+                            <div class="text-center text-xs font-medium text-gray-500 p-2">Sex</div>
+                            <div class="text-center text-xs font-medium text-gray-500 p-2">Sáb</div>
+                        </div>
+                        
+                        <!-- Dias do mês -->
+                        <div class="grid grid-cols-7 gap-1">
+                            <template x-for="day in calendarDays" :key="JSON.stringify(day)">
+                                <div class="relative">
+                                    <button 
+                                        x-text="day.day"
+                                        @click="selectDate(day.day)"
+                                        :class="{
+                                            'text-gray-300': day.isOtherMonth,
+                                            'hover:bg-gray-100': !day.isOtherMonth,
+                                            'bg-blue-600 text-white': isSelected(day.day),
+                                            'bg-blue-100 text-blue-800': isToday(day.day) && !isSelected(day.day),
+                                            'text-gray-900': !day.isOtherMonth && !isSelected(day.day) && !isToday(day.day)
+                                        }"
+                                        class="w-8 h-8 text-sm rounded-md flex items-center justify-center transition-colors relative"
+                                        :disabled="day.isOtherMonth"
+                                    ></button>
+                                    <!-- Indicador de evento -->
+                                    <div 
+                                        x-show="hasEvent(day.day)"
+                                        :class="{
+                                            'bg-green-400': getEventType(day.day) === 'meeting',
+                                            'bg-red-400': getEventType(day.day) === 'deadline',
+                                            'bg-yellow-400': getEventType(day.day) === 'holiday'
+                                        }"
+                                        class="absolute bottom-0 right-0 w-2 h-2 rounded-full"
+                                    ></div>
+                                </div>
+                            </template>
+                        </div>
+                        
+                        <!-- Legenda -->
+                        <div class="mt-4 pt-4 border-t">
+                            <div class="flex items-center justify-center space-x-4 text-xs">
+                                <div class="flex items-center space-x-1">
+                                    <div class="w-2 h-2 bg-green-400 rounded-full"></div>
+                                    <span>Reunião</span>
+                                </div>
+                                <div class="flex items-center space-x-1">
+                                    <div class="w-2 h-2 bg-red-400 rounded-full"></div>
+                                    <span>Deadline</span>
+                                </div>
+                                <div class="flex items-center space-x-1">
+                                    <div class="w-2 h-2 bg-yellow-400 rounded-full"></div>
+                                    <span>Feriado</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seleção de Intervalo -->
+        <div class="space-y-2">
+            <h3 class="text-lg font-medium">Seleção de Intervalo</h3>
+            <div class="border rounded-lg p-4">
+                <div x-data="{ 
+                    currentDate: new Date(),
+                    startDate: null,
+                    endDate: null,
+                    currentMonth: new Date().getMonth(),
+                    currentYear: new Date().getFullYear(),
+                    
+                    get monthName() {
+                        return new Date(this.currentYear, this.currentMonth).toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
+                    },
+                    
+                    get daysInMonth() {
+                        return new Date(this.currentYear, this.currentMonth + 1, 0).getDate();
+                    },
+                    
+                    get firstDayOfMonth() {
+                        return new Date(this.currentYear, this.currentMonth, 1).getDay();
+                    },
+                    
+                    get calendarDays() {
+                        const days = [];
+                        for (let i = 0; i < this.firstDayOfMonth; i++) {
+                            days.push({ day: '', isOtherMonth: true });
+                        }
+                        for (let day = 1; day <= this.daysInMonth; day++) {
+                            days.push({ day, isOtherMonth: false });
+                        }
+                        return days;
+                    },
+                    
+                    previousMonth() {
+                        if (this.currentMonth === 0) {
+                            this.currentMonth = 11;
+                            this.currentYear--;
+                        } else {
+                            this.currentMonth--;
+                        }
+                    },
+                    
+                    nextMonth() {
+                        if (this.currentMonth === 11) {
+                            this.currentMonth = 0;
+                            this.currentYear++;
+                        } else {
+                            this.currentMonth++;
+                        }
+                    },
+                    
+                    selectDate(day) {
+                        if (!day) return;
+                        
+                        const selectedDate = new Date(this.currentYear, this.currentMonth, day);
+                        
+                        if (!this.startDate || (this.startDate && this.endDate)) {
+                            this.startDate = selectedDate;
+                            this.endDate = null;
+                        } else if (selectedDate >= this.startDate) {
+                            this.endDate = selectedDate;
+                        } else {
+                            this.startDate = selectedDate;
+                            this.endDate = null;
+                        }
+                    },
+                    
+                    isInRange(day) {
+                        if (!this.startDate || !this.endDate || !day) return false;
+                        const date = new Date(this.currentYear, this.currentMonth, day);
+                        return date >= this.startDate && date <= this.endDate;
+                    },
+                    
+                    isStartDate(day) {
+                        if (!this.startDate || !day) return false;
+                        return this.startDate.getDate() === day && 
+                               this.startDate.getMonth() === this.currentMonth && 
+                               this.startDate.getFullYear() === this.currentYear;
+                    },
+                    
+                    isEndDate(day) {
+                        if (!this.endDate || !day) return false;
+                        return this.endDate.getDate() === day && 
+                               this.endDate.getMonth() === this.currentMonth && 
+                               this.endDate.getFullYear() === this.currentYear;
+                    }
+                }" class="max-w-sm mx-auto">
+                    <div class="bg-white border rounded-lg shadow-sm p-4">
+                        <!-- Header -->
+                        <div class="flex items-center justify-between mb-4">
+                            <button @click="previousMonth()" class="p-2 hover:bg-gray-100 rounded-md">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                                </svg>
+                            </button>
+                            <h3 class="text-lg font-semibold capitalize" x-text="monthName"></h3>
+                            <button @click="nextMonth()" class="p-2 hover:bg-gray-100 rounded-md">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                </svg>
+                            </button>
+                        </div>
+                        
+                        <!-- Dias da semana -->
+                        <div class="grid grid-cols-7 gap-1 mb-2">
+                            <div class="text-center text-xs font-medium text-gray-500 p-2">Dom</div>
+                            <div class="text-center text-xs font-medium text-gray-500 p-2">Seg</div>
+                            <div class="text-center text-xs font-medium text-gray-500 p-2">Ter</div>
+                            <div class="text-center text-xs font-medium text-gray-500 p-2">Qua</div>
+                            <div class="text-center text-xs font-medium text-gray-500 p-2">Qui</div>
+                            <div class="text-center text-xs font-medium text-gray-500 p-2">Sex</div>
+                            <div class="text-center text-xs font-medium text-gray-500 p-2">Sáb</div>
+                        </div>
+                        
+                        <!-- Dias do mês -->
+                        <div class="grid grid-cols-7 gap-1">
+                            <template x-for="day in calendarDays" :key="JSON.stringify(day)">
+                                <button 
+                                    x-text="day.day"
+                                    @click="selectDate(day.day)"
+                                    :class="{
+                                        'text-gray-300': day.isOtherMonth,
+                                        'hover:bg-gray-100': !day.isOtherMonth,
+                                        'bg-blue-600 text-white': isStartDate(day.day) || isEndDate(day.day),
+                                        'bg-blue-100 text-blue-800': isInRange(day.day) && !isStartDate(day.day) && !isEndDate(day.day),
+                                        'text-gray-900': !day.isOtherMonth && !isInRange(day.day) && !isStartDate(day.day) && !isEndDate(day.day)
+                                    }"
+                                    class="w-8 h-8 text-sm rounded-md flex items-center justify-center transition-colors"
+                                    :disabled="day.isOtherMonth"
+                                ></button>
+                            </template>
+                        </div>
+                        
+                        <!-- Intervalo selecionado -->
+                        <div class="mt-4 pt-4 border-t">
+                            <p class="text-sm text-gray-600">
+                                <span x-show="!startDate">Selecione uma data de início</span>
+                                <span x-show="startDate && !endDate">
+                                    Início: <span x-text="startDate ? startDate.toLocaleDateString('pt-BR') : ''"></span>
+                                    <br>Selecione uma data de fim
+                                </span>
+                                <span x-show="startDate && endDate">
+                                    <span x-text="startDate ? startDate.toLocaleDateString('pt-BR') : ''"></span> - 
+                                    <span x-text="endDate ? endDate.toLocaleDateString('pt-BR') : ''"></span>
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Parâmetros -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Parâmetros</h2>
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        {% for header in calendar_params.headers %}
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            {{ header }}
+                        </th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    {% for row in calendar_params.data %}
+                    <tr>
+                        {% for cell in row %}
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            {{ cell|safe }}
+                        </td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %} 

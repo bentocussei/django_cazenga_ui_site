@@ -1,0 +1,520 @@
+{% extends 'components_base.html' %}
+
+{% block page_title %}Label{% endblock %}
+{% block page_description %}Rótulos acessíveis para associar texto descritivo a elementos de formulário.{% endblock %}
+
+{% block component_content %}
+<div class="max-w-4xl mx-auto space-y-8">
+    <!-- Instalação -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Instalação</h2>
+        <div class="relative">
+            <pre class="bg-gray-100 p-4 rounded-md overflow-x-auto"><code>{% verbatim %}{% include 'components/label.html' with text="Nome" for="nome" %}{% endverbatim %}</code></pre>
+            <button 
+                class="absolute top-2 right-2 p-2 bg-white rounded-md shadow-sm hover:bg-gray-50 border"
+                x-data 
+                @click="navigator.clipboard.writeText('{% verbatim %}{% include \'components/label.html\' with text=\'Nome\' for=\'nome\' %}{% endverbatim %}')"
+                title="Copiar código"
+            >
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Exemplo Básico -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Exemplo Básico</h2>
+        <div class="border rounded-lg p-6">
+            <div class="space-y-4">
+                <div>
+                    <label for="basic-name" class="block text-sm font-medium text-gray-700 mb-1">Nome</label>
+                    <input 
+                        type="text" 
+                        id="basic-name" 
+                        name="name"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="Digite seu nome"
+                    >
+                </div>
+                <div>
+                    <label for="basic-email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                    <input 
+                        type="email" 
+                        id="basic-email" 
+                        name="email"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="seu@email.com"
+                    >
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Campos Obrigatórios -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Campos Obrigatórios</h2>
+        <div class="border rounded-lg p-6">
+            <div class="space-y-4">
+                <div>
+                    <label for="required-name" class="block text-sm font-medium text-gray-700 mb-1">
+                        Nome Completo *
+                    </label>
+                    <input 
+                        type="text" 
+                        id="required-name" 
+                        name="fullname"
+                        required
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="Digite seu nome completo"
+                    >
+                </div>
+                <div>
+                    <label for="required-email" class="block text-sm font-medium text-gray-700 mb-1">
+                        Email 
+                        <span class="text-red-500">*</span>
+                    </label>
+                    <input 
+                        type="email" 
+                        id="required-email" 
+                        name="email"
+                        required
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="seu@email.com"
+                    >
+                </div>
+                <div>
+                    <label for="required-phone" class="block text-sm font-medium text-gray-700 mb-1">
+                        Telefone
+                        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-800 ml-1">
+                            Obrigatório
+                        </span>
+                    </label>
+                    <input 
+                        type="tel" 
+                        id="required-phone" 
+                        name="phone"
+                        required
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="(11) 99999-9999"
+                    >
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Labels com Descrições -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Labels com Descrições</h2>
+        <div class="border rounded-lg p-6">
+            <div class="space-y-4">
+                <div>
+                    <label for="password-field" class="block text-sm font-medium text-gray-700 mb-1">
+                        Senha
+                    </label>
+                    <p class="text-sm text-gray-500 mb-2">
+                        Deve conter pelo menos 8 caracteres, incluindo letras e números.
+                    </p>
+                    <input 
+                        type="password" 
+                        id="password-field" 
+                        name="password"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="••••••••"
+                    >
+                </div>
+                <div>
+                    <label for="bio-field" class="block text-sm font-medium text-gray-700 mb-1">
+                        Biografia
+                        <span class="text-gray-400 font-normal">(opcional)</span>
+                    </label>
+                    <p class="text-sm text-gray-500 mb-2">
+                        Conte um pouco sobre você. Máximo de 160 caracteres.
+                    </p>
+                    <textarea 
+                        id="bio-field" 
+                        name="bio"
+                        rows="3"
+                        maxlength="160"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="Sua biografia aqui..."
+                    ></textarea>
+                </div>
+                <div>
+                    <label for="website-field" class="block text-sm font-medium text-gray-700 mb-1">
+                        Website
+                    </label>
+                    <p class="text-sm text-gray-500 mb-2">
+                        URL do seu site pessoal ou profissional.
+                    </p>
+                    <input 
+                        type="url" 
+                        id="website-field" 
+                        name="website"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="https://seusite.com"
+                    >
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Labels para Diferentes Elementos -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Labels para Diferentes Elementos</h2>
+        <div class="border rounded-lg p-6">
+            <div class="space-y-6">
+                <!-- Checkboxes -->
+                <div>
+                    <fieldset>
+                        <legend class="text-sm font-medium text-gray-700 mb-3">Preferências</legend>
+                        <div class="space-y-2">
+                            <div class="flex items-center">
+                                <input 
+                                    type="checkbox" 
+                                    id="newsletter" 
+                                    name="preferences"
+                                    value="newsletter"
+                                    class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                                >
+                                <label for="newsletter" class="ml-2 block text-sm text-gray-900">
+                                    Receber newsletter
+                                </label>
+                            </div>
+                            <div class="flex items-center">
+                                <input 
+                                    type="checkbox" 
+                                    id="notifications" 
+                                    name="preferences"
+                                    value="notifications"
+                                    class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                                >
+                                <label for="notifications" class="ml-2 block text-sm text-gray-900">
+                                    Notificações por email
+                                </label>
+                            </div>
+                            <div class="flex items-center">
+                                <input 
+                                    type="checkbox" 
+                                    id="marketing" 
+                                    name="preferences"
+                                    value="marketing"
+                                    class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                                >
+                                <label for="marketing" class="ml-2 block text-sm text-gray-900">
+                                    Ofertas promocionais
+                                </label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <!-- Radio Buttons -->
+                <div>
+                    <fieldset>
+                        <legend class="text-sm font-medium text-gray-700 mb-3">Plano de Assinatura</legend>
+                        <div class="space-y-2">
+                            <div class="flex items-center">
+                                <input 
+                                    type="radio" 
+                                    id="plan-free" 
+                                    name="plan"
+                                    value="free"
+                                    class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
+                                >
+                                <label for="plan-free" class="ml-2 block text-sm text-gray-900">
+                                    Gratuito - R$ 0/mês
+                                </label>
+                            </div>
+                            <div class="flex items-center">
+                                <input 
+                                    type="radio" 
+                                    id="plan-basic" 
+                                    name="plan"
+                                    value="basic"
+                                    class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
+                                >
+                                <label for="plan-basic" class="ml-2 block text-sm text-gray-900">
+                                    Básico - R$ 29/mês
+                                </label>
+                            </div>
+                            <div class="flex items-center">
+                                <input 
+                                    type="radio" 
+                                    id="plan-pro" 
+                                    name="plan"
+                                    value="pro"
+                                    class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
+                                >
+                                <label for="plan-pro" class="ml-2 block text-sm text-gray-900">
+                                    Profissional - R$ 79/mês
+                                </label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <!-- Select -->
+                <div>
+                    <label for="country-select" class="block text-sm font-medium text-gray-700 mb-1">
+                        País
+                    </label>
+                    <select 
+                        id="country-select" 
+                        name="country"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    >
+                        <option value="">Selecione um país</option>
+                        <option value="BR">Brasil</option>
+                        <option value="US">Estados Unidos</option>
+                        <option value="CA">Canadá</option>
+                        <option value="UK">Reino Unido</option>
+                    </select>
+                </div>
+
+                <!-- File Upload -->
+                <div>
+                    <label for="file-upload" class="block text-sm font-medium text-gray-700 mb-1">
+                        Avatar
+                    </label>
+                    <p class="text-sm text-gray-500 mb-2">
+                        PNG, JPG ou GIF até 2MB
+                    </p>
+                    <input 
+                        type="file" 
+                        id="file-upload" 
+                        name="avatar"
+                        accept="image/*"
+                        class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                    >
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Estados dos Labels -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Estados dos Labels</h2>
+        <div class="border rounded-lg p-6">
+            <div class="space-y-4">
+                <div>
+                    <label for="normal-state" class="block text-sm font-medium text-gray-700 mb-1">
+                        Estado Normal
+                    </label>
+                    <input 
+                        type="text" 
+                        id="normal-state" 
+                        name="normal"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="Campo normal"
+                    >
+                </div>
+                
+                <div>
+                    <label for="disabled-state" class="block text-sm font-medium text-gray-500 mb-1">
+                        Estado Desabilitado
+                    </label>
+                    <input 
+                        type="text" 
+                        id="disabled-state" 
+                        name="disabled"
+                        disabled
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-50 text-gray-500 cursor-not-allowed"
+                        placeholder="Campo desabilitado"
+                    >
+                </div>
+                
+                <div>
+                    <label for="error-state" class="block text-sm font-medium text-red-700 mb-1">
+                        Estado de Erro
+                    </label>
+                    <input 
+                        type="text" 
+                        id="error-state" 
+                        name="error"
+                        class="w-full px-3 py-2 border border-red-500 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                        placeholder="Campo com erro"
+                    >
+                    <p class="mt-1 text-sm text-red-600">Este campo contém um erro</p>
+                </div>
+                
+                <div>
+                    <label for="success-state" class="block text-sm font-medium text-green-700 mb-1">
+                        Estado de Sucesso
+                    </label>
+                    <input 
+                        type="text" 
+                        id="success-state" 
+                        name="success"
+                        class="w-full px-3 py-2 border border-green-500 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                        value="Campo válido"
+                    >
+                    <p class="mt-1 text-sm text-green-600">Campo preenchido corretamente</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Exemplo Interativo -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Exemplo Interativo</h2>
+        <div class="border rounded-lg p-6">
+            <div x-data="{ 
+                formData: { name: '', email: '', age: '', terms: false },
+                focused: '',
+                
+                validateName() {
+                    return this.formData.name.length >= 2;
+                },
+                
+                validateEmail() {
+                    return /\S+@\S+\.\S+/.test(this.formData.email);
+                },
+                
+                validateAge() {
+                    return this.formData.age >= 18 && this.formData.age <= 100;
+                }
+            }" class="space-y-4">
+                <div>
+                    <label for="interactive-name" class="block text-sm font-medium text-gray-700 mb-1">
+                        Nome Completo *
+                        <span x-show="focused === 'name'" class="text-blue-600 font-normal">(mínimo 2 caracteres)</span>
+                    </label>
+                    <input 
+                        type="text" 
+                        id="interactive-name" 
+                        x-model="formData.name"
+                        @focus="focused = 'name'"
+                        @blur="focused = ''"
+                        :class="{
+                            'border-green-500 focus:border-green-500 focus:ring-green-500': formData.name && validateName(),
+                            'border-red-500 focus:border-red-500 focus:ring-red-500': formData.name && !validateName()
+                        }"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="Digite seu nome completo"
+                    >
+                    <p x-show="formData.name && validateName()" class="mt-1 text-sm text-green-600">✓ Nome válido</p>
+                    <p x-show="formData.name && !validateName()" class="mt-1 text-sm text-red-600">Nome deve ter pelo menos 2 caracteres</p>
+                </div>
+                
+                <div>
+                    <label for="interactive-email" class="block text-sm font-medium text-gray-700 mb-1">
+                        Email *
+                        <span x-show="focused === 'email'" class="text-blue-600 font-normal">(formato: exemplo@email.com)</span>
+                    </label>
+                    <input 
+                        type="email" 
+                        id="interactive-email" 
+                        x-model="formData.email"
+                        @focus="focused = 'email'"
+                        @blur="focused = ''"
+                        :class="{
+                            'border-green-500 focus:border-green-500 focus:ring-green-500': formData.email && validateEmail(),
+                            'border-red-500 focus:border-red-500 focus:ring-red-500': formData.email && !validateEmail()
+                        }"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="seu@email.com"
+                    >
+                    <p x-show="formData.email && validateEmail()" class="mt-1 text-sm text-green-600">✓ Email válido</p>
+                    <p x-show="formData.email && !validateEmail()" class="mt-1 text-sm text-red-600">Email inválido</p>
+                </div>
+                
+                <div>
+                    <label for="interactive-age" class="block text-sm font-medium text-gray-700 mb-1">
+                        Idade *
+                        <span x-show="focused === 'age'" class="text-blue-600 font-normal">(entre 18 e 100 anos)</span>
+                    </label>
+                    <input 
+                        type="number" 
+                        id="interactive-age" 
+                        x-model="formData.age"
+                        @focus="focused = 'age'"
+                        @blur="focused = ''"
+                        :class="{
+                            'border-green-500 focus:border-green-500 focus:ring-green-500': formData.age && validateAge(),
+                            'border-red-500 focus:border-red-500 focus:ring-red-500': formData.age && !validateAge()
+                        }"
+                        min="18"
+                        max="100"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="25"
+                    >
+                    <p x-show="formData.age && validateAge()" class="mt-1 text-sm text-green-600">✓ Idade válida</p>
+                    <p x-show="formData.age && !validateAge()" class="mt-1 text-sm text-red-600">Idade deve estar entre 18 e 100 anos</p>
+                </div>
+                
+                <div class="flex items-center">
+                    <input 
+                        type="checkbox" 
+                        id="interactive-terms" 
+                        x-model="formData.terms"
+                        class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                    >
+                    <label for="interactive-terms" class="ml-2 block text-sm text-gray-900">
+                        Aceito os 
+                        <a href="#" class="text-blue-600 hover:text-blue-500">termos de uso</a> 
+                        e 
+                        <a href="#" class="text-blue-600 hover:text-blue-500">política de privacidade</a>
+                    </label>
+                </div>
+                
+                <div class="pt-4">
+                    <p class="text-sm text-gray-600 mb-3">Status do formulário:</p>
+                    <ul class="text-sm space-y-1">
+                        <li :class="validateName() ? 'text-green-600' : 'text-red-600'">
+                            <span x-show="validateName()">✓</span>
+                            <span x-show="!validateName()">✗</span>
+                            Nome válido
+                        </li>
+                        <li :class="validateEmail() ? 'text-green-600' : 'text-red-600'">
+                            <span x-show="validateEmail()">✓</span>
+                            <span x-show="!validateEmail()">✗</span>
+                            Email válido
+                        </li>
+                        <li :class="validateAge() ? 'text-green-600' : 'text-red-600'">
+                            <span x-show="validateAge()">✓</span>
+                            <span x-show="!validateAge()">✗</span>
+                            Idade válida
+                        </li>
+                        <li :class="formData.terms ? 'text-green-600' : 'text-red-600'">
+                            <span x-show="formData.terms">✓</span>
+                            <span x-show="!formData.terms">✗</span>
+                            Termos aceitos
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Parâmetros -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Parâmetros</h2>
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        {% for header in label_params.headers %}
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            {{ header }}
+                        </th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    {% for row in label_params.data %}
+                    <tr>
+                        {% for cell in row %}
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            {{ cell|safe }}
+                        </td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %} 

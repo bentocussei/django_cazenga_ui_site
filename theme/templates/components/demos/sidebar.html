@@ -1,0 +1,422 @@
+{% extends "components_base.html" %}
+{% load icon_tags %}
+
+{% block page_title %}Sidebar{% endblock %}
+{% block page_description %}Barra lateral para navegação principal de aplicações{% endblock %}
+
+{% block component_content %}
+<div class="max-w-6xl mx-auto space-y-8">
+    <!-- Instalação -->
+    <section class="space-y-4">
+        <h2 class="text-2xl font-semibold">Instalação</h2>
+        <div class="relative">
+            <pre class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto"><code>{% templatetag openblock %} include "components/sidebar.html" with position="left" collapsible=true {% templatetag closeblock %}</code></pre>
+            <button 
+                class="absolute top-2 right-2 p-2 bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                x-data="{ copied: false }"
+                @click="navigator.clipboard.writeText($el.previousElementSibling.textContent); copied = true; setTimeout(() => copied = false, 2000)"
+            >
+                <span x-show="!copied">{% icon "copy" size="4" %}</span>
+                <span x-show="copied" class="text-green-600">{% icon "check" size="4" %}</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- Sidebar Básica -->
+    <section class="space-y-4">
+        <h2 class="text-2xl font-semibold">Sidebar Básica</h2>
+        <div class="border rounded-lg overflow-hidden">
+            <div class="h-96 relative" x-data="{ sidebarOpen: true }">
+                <!-- Sidebar -->
+                <div class="absolute left-0 top-0 h-full w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 transition-all duration-300">
+                    <!-- Header -->
+                    <div class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
+                        <div class="flex items-center space-x-3">
+                            <img src="{{ sidebar_data.company_info.logo }}" alt="Logo" class="w-8 h-8 rounded">
+                            <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">{{ sidebar_data.company_info.name }}</h2>
+                        </div>
+                    </div>
+                    
+                    <!-- Navigation -->
+                    <nav class="p-4 space-y-1">
+                        {% for item in sidebar_data.menu_items %}
+                        <a href="{{ item.href }}" class="flex items-center justify-between px-3 py-2 text-sm {% if item.active %}bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 border-r-2 border-blue-600 dark:border-blue-400{% else %}text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700{% endif %} rounded-lg transition-colors">
+                            <div class="flex items-center space-x-3">
+                                {% icon item.icon size="5" %}
+                                <span>{{ item.text }}</span>
+                            </div>
+                            {% if item.badge %}
+                            <span class="px-2 py-1 text-xs bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-full">{{ item.badge }}</span>
+                            {% endif %}
+                        </a>
+                        {% endfor %}
+                    </nav>
+                    
+                    <!-- User Info -->
+                    <div class="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200 dark:border-gray-700">
+                        <div class="flex items-center space-x-3">
+                            <img src="{{ sidebar_data.user_info.avatar }}" alt="Avatar" class="w-10 h-10 rounded-full">
+                            <div class="flex-1">
+                                <div class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ sidebar_data.user_info.name }}</div>
+                                <div class="text-xs text-gray-500 dark:text-gray-400">{{ sidebar_data.user_info.role }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Main Content -->
+                <div class="ml-64 h-full bg-gray-50 dark:bg-gray-900 p-6">
+                    <div class="text-center text-gray-600 dark:text-gray-400">
+                        <div class="text-4xl mb-4">📊</div>
+                        <h3 class="text-xl font-semibold mb-2">Área Principal</h3>
+                        <p>Conteúdo da aplicação seria exibido aqui</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sidebar Recolhível -->
+    <section class="space-y-4">
+        <h2 class="text-2xl font-semibold">Sidebar Recolhível</h2>
+        <div class="border rounded-lg overflow-hidden">
+            <div class="h-96 relative" x-data="{ sidebarCollapsed: false }">
+                <!-- Sidebar -->
+                <div :class="sidebarCollapsed ? 'w-16' : 'w-64'" class="absolute left-0 top-0 h-full bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 transition-all duration-300">
+                    <!-- Header -->
+                    <div class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
+                        <div class="flex items-center space-x-3">
+                            <img src="{{ sidebar_data.company_info.logo }}" alt="Logo" class="w-8 h-8 rounded">
+                            <h2 x-show="!sidebarCollapsed" class="text-lg font-semibold text-gray-900 dark:text-gray-100">{{ sidebar_data.company_info.name }}</h2>
+                        </div>
+                        <button @click="sidebarCollapsed = !sidebarCollapsed" 
+                                class="p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 rounded transition-colors">
+                            <template x-if="sidebarCollapsed">
+                                {% icon "chevron-right" size="4" %}
+                            </template>
+                            <template x-if="!sidebarCollapsed">
+                                {% icon "chevron-left" size="4" %}
+                            </template>
+                        </button>
+                    </div>
+                    
+                    <!-- Navigation -->
+                    <nav class="p-4 space-y-1">
+                        {% for item in sidebar_data.menu_items %}
+                        <a href="{{ item.href }}" class="flex items-center justify-between px-3 py-2 text-sm {% if item.active %}bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 border-r-2 border-blue-600 dark:border-blue-400{% else %}text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700{% endif %} rounded-lg transition-colors">
+                            <div class="flex items-center space-x-3">
+                                {% icon item.icon size="5" %}
+                                <span x-show="!sidebarCollapsed">{{ item.text }}</span>
+                            </div>
+                            {% if item.badge %}
+                            <span x-show="!sidebarCollapsed" class="px-2 py-1 text-xs bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-full">{{ item.badge }}</span>
+                            {% endif %}
+                        </a>
+                        {% endfor %}
+                    </nav>
+                    
+                    <!-- User Info -->
+                    <div class="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200 dark:border-gray-700">
+                        <div class="flex items-center space-x-3">
+                            <img src="{{ sidebar_data.user_info.avatar }}" alt="Avatar" class="w-10 h-10 rounded-full">
+                            <div x-show="!sidebarCollapsed" class="flex-1">
+                                <div class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ sidebar_data.user_info.name }}</div>
+                                <div class="text-xs text-gray-500 dark:text-gray-400">{{ sidebar_data.user_info.role }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Main Content -->
+                <div :class="sidebarCollapsed ? 'ml-16' : 'ml-64'" class="h-full bg-gray-50 dark:bg-gray-900 p-6 transition-all duration-300">
+                    <div class="text-center text-gray-600 dark:text-gray-400">
+                        <div class="text-4xl mb-4">🎯</div>
+                        <h3 class="text-xl font-semibold mb-2">Sidebar Recolhível</h3>
+                        <p>Clique no botão da sidebar para recolher/expandir</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sidebar com Submenu -->
+    <section class="space-y-4">
+        <h2 class="text-2xl font-semibold">Sidebar com Submenu</h2>
+        <div class="border rounded-lg overflow-hidden">
+            <div class="h-96 relative" x-data="{ 
+                sidebarOpen: true, 
+                expandedMenu: null,
+                toggleMenu(menuId) {
+                    this.expandedMenu = this.expandedMenu === menuId ? null : menuId;
+                }
+            }">
+                <!-- Sidebar -->
+                <div class="absolute left-0 top-0 h-full w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 overflow-y-auto">
+                    <!-- Header -->
+                    <div class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
+                        <div class="flex items-center space-x-3">
+                            <img src="{{ sidebar_data.company_info.logo }}" alt="Logo" class="w-8 h-8 rounded">
+                            <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">{{ sidebar_data.company_info.name }}</h2>
+                        </div>
+                    </div>
+                    
+                    <!-- Navigation -->
+                    <nav class="p-4 space-y-1">
+                        {% for item in sidebar_data.menu_items %}
+                        <div>
+                            {% if item.children %}
+                            <!-- Item with submenu -->
+                            <button @click="toggleMenu('{{ item.text|slugify }}')" 
+                                    class="flex items-center justify-between w-full px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                                <div class="flex items-center space-x-3">
+                                    {% icon item.icon size="5" %}
+                                    <span>{{ item.text }}</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    {% if item.badge %}
+                                    <span class="px-2 py-1 text-xs bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-full">{{ item.badge }}</span>
+                                    {% endif %}
+                                    <div :class="expandedMenu === '{{ item.text|slugify }}' ? 'rotate-90' : ''" class="transition-transform">
+                                        {% icon "chevron-right" size="4" %}
+                                    </div>
+                                </div>
+                            </button>
+                            
+                            <!-- Submenu -->
+                            <div x-show="expandedMenu === '{{ item.text|slugify }}'" 
+                                 x-transition:enter="transition-all duration-200 ease-out"
+                                 x-transition:enter-start="opacity-0 -translate-y-2"
+                                 x-transition:enter-end="opacity-100 translate-y-0"
+                                 class="mt-1 ml-8 space-y-1">
+                                {% for child in item.children %}
+                                <a href="{{ child.href }}" class="flex items-center space-x-3 px-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                                    {% icon child.icon size="4" %}
+                                    <span>{{ child.text }}</span>
+                                </a>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            <!-- Regular item -->
+                            <a href="{{ item.href }}" class="flex items-center justify-between px-3 py-2 text-sm {% if item.active %}bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 border-r-2 border-blue-600 dark:border-blue-400{% else %}text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700{% endif %} rounded-lg transition-colors">
+                                <div class="flex items-center space-x-3">
+                                    {% icon item.icon size="5" %}
+                                    <span>{{ item.text }}</span>
+                                </div>
+                                {% if item.badge %}
+                                <span class="px-2 py-1 text-xs bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-full">{{ item.badge }}</span>
+                                {% endif %}
+                            </a>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </nav>
+                    
+                    <!-- User Info -->
+                    <div class="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200 dark:border-gray-700">
+                        <div class="flex items-center space-x-3">
+                            <img src="{{ sidebar_data.user_info.avatar }}" alt="Avatar" class="w-10 h-10 rounded-full">
+                            <div class="flex-1">
+                                <div class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ sidebar_data.user_info.name }}</div>
+                                <div class="text-xs text-gray-500 dark:text-gray-400">{{ sidebar_data.user_info.role }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Main Content -->
+                <div class="ml-64 h-full bg-gray-50 dark:bg-gray-900 p-6">
+                    <div class="text-center text-gray-600 dark:text-gray-400">
+                        <div class="text-4xl mb-4">🌳</div>
+                        <h3 class="text-xl font-semibold mb-2">Sidebar com Submenu</h3>
+                        <p>Clique nos itens com seta para expandir submenus</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sidebar Móvel -->
+    <section class="space-y-4">
+        <h2 class="text-2xl font-semibold">Sidebar Móvel</h2>
+        <div class="border rounded-lg overflow-hidden">
+            <div class="h-96 relative" x-data="{ mobileSidebarOpen: false }">
+                <!-- Mobile Header -->
+                <div class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 p-4 flex items-center justify-between">
+                    <h1 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Dashboard</h1>
+                    <button @click="mobileSidebarOpen = true" 
+                            class="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                        {% icon "hamburger-menu" size="6" %}
+                    </button>
+                </div>
+                
+                <!-- Overlay -->
+                <div x-show="mobileSidebarOpen" 
+                     x-transition:enter="transition-opacity ease-linear duration-300"
+                     x-transition:enter-start="opacity-0"
+                     x-transition:enter-end="opacity-100"
+                     x-transition:leave="transition-opacity ease-linear duration-300"
+                     x-transition:leave-start="opacity-100"
+                     x-transition:leave-end="opacity-0"
+                     @click="mobileSidebarOpen = false"
+                     class="fixed inset-0 bg-black bg-opacity-50 z-40">
+                </div>
+                
+                <!-- Mobile Sidebar -->
+                <div x-show="mobileSidebarOpen" 
+                     x-transition:enter="transition ease-in-out duration-300 transform"
+                     x-transition:enter-start="-translate-x-full"
+                     x-transition:enter-end="translate-x-0"
+                     x-transition:leave="transition ease-in-out duration-300 transform"
+                     x-transition:leave-start="translate-x-0"
+                     x-transition:leave-end="-translate-x-full"
+                     class="fixed left-0 top-0 h-full w-64 bg-white dark:bg-gray-800 shadow-xl z-50">
+                    
+                    <!-- Header -->
+                    <div class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
+                        <div class="flex items-center space-x-3">
+                            <img src="{{ sidebar_data.company_info.logo }}" alt="Logo" class="w-8 h-8 rounded">
+                            <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">{{ sidebar_data.company_info.name }}</h2>
+                        </div>
+                        <button @click="mobileSidebarOpen = false" 
+                                class="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                            {% icon "cross-1" size="5" %}
+                        </button>
+                    </div>
+                    
+                    <!-- Navigation -->
+                    <nav class="p-4 space-y-1">
+                        {% for item in sidebar_data.menu_items %}
+                        <a href="{{ item.href }}" class="flex items-center justify-between px-3 py-2 text-sm {% if item.active %}bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 border-r-2 border-blue-600 dark:border-blue-400{% else %}text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700{% endif %} rounded-lg transition-colors">
+                            <div class="flex items-center space-x-3">
+                                {% icon item.icon size="5" %}
+                                <span>{{ item.text }}</span>
+                            </div>
+                            {% if item.badge %}
+                            <span class="px-2 py-1 text-xs bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-full">{{ item.badge }}</span>
+                            {% endif %}
+                        </a>
+                        {% endfor %}
+                    </nav>
+                    
+                    <!-- User Info -->
+                    <div class="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200 dark:border-gray-700">
+                        <div class="flex items-center space-x-3">
+                            <img src="{{ sidebar_data.user_info.avatar }}" alt="Avatar" class="w-10 h-10 rounded-full">
+                            <div class="flex-1">
+                                <div class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ sidebar_data.user_info.name }}</div>
+                                <div class="text-xs text-gray-500 dark:text-gray-400">{{ sidebar_data.user_info.role }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Main Content -->
+                <div class="h-full bg-gray-50 dark:bg-gray-900 p-6">
+                    <div class="text-center text-gray-600 dark:text-gray-400">
+                        <div class="text-4xl mb-4">📱</div>
+                        <h3 class="text-xl font-semibold mb-2">Sidebar Móvel</h3>
+                        <p>Clique no ícone do menu para abrir a sidebar</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sidebar com Ações Rápidas -->
+    <section class="space-y-4">
+        <h2 class="text-2xl font-semibold">Sidebar com Ações Rápidas</h2>
+        <div class="border rounded-lg overflow-hidden">
+            <div class="h-96 relative">
+                <!-- Sidebar -->
+                <div class="absolute left-0 top-0 h-full w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700">
+                    <!-- Header -->
+                    <div class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
+                        <div class="flex items-center space-x-3">
+                            <img src="{{ sidebar_data.company_info.logo }}" alt="Logo" class="w-8 h-8 rounded">
+                            <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">{{ sidebar_data.company_info.name }}</h2>
+                        </div>
+                    </div>
+                    
+                    <!-- Quick Actions -->
+                    <div class="p-4 border-b border-gray-200 dark:border-gray-700">
+                        <h3 class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">Ações Rápidas</h3>
+                        <div class="space-y-2">
+                            {% for action in sidebar_data.quick_actions %}
+                            <a href="{{ action.href }}" class="flex items-center space-x-3 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg transition-colors">
+                                {% icon action.icon size="4" %}
+                                <span>{{ action.text }}</span>
+                            </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    
+                    <!-- Navigation -->
+                    <nav class="p-4 space-y-1">
+                        <h3 class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">Navegação</h3>
+                        {% for item in sidebar_data.menu_items %}
+                        <a href="{{ item.href }}" class="flex items-center justify-between px-3 py-2 text-sm {% if item.active %}bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 border-r-2 border-blue-600 dark:border-blue-400{% else %}text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700{% endif %} rounded-lg transition-colors">
+                            <div class="flex items-center space-x-3">
+                                {% icon item.icon size="5" %}
+                                <span>{{ item.text }}</span>
+                            </div>
+                            {% if item.badge %}
+                            <span class="px-2 py-1 text-xs bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-full">{{ item.badge }}</span>
+                            {% endif %}
+                        </a>
+                        {% endfor %}
+                    </nav>
+                    
+                    <!-- User Info -->
+                    <div class="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200 dark:border-gray-700">
+                        <div class="flex items-center space-x-3">
+                            <img src="{{ sidebar_data.user_info.avatar }}" alt="Avatar" class="w-10 h-10 rounded-full">
+                            <div class="flex-1">
+                                <div class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ sidebar_data.user_info.name }}</div>
+                                <div class="text-xs text-gray-500 dark:text-gray-400">{{ sidebar_data.user_info.role }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Main Content -->
+                <div class="ml-64 h-full bg-gray-50 dark:bg-gray-900 p-6">
+                    <div class="text-center text-gray-600 dark:text-gray-400">
+                        <div class="text-4xl mb-4">⚡</div>
+                        <h3 class="text-xl font-semibled mb-2">Sidebar com Ações Rápidas</h3>
+                        <p>Inclui seção de ações rápidas para facilitar o acesso</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Parâmetros -->
+    <section class="space-y-4">
+        <h2 class="text-2xl font-semibold">Parâmetros</h2>
+        <div class="border rounded-lg overflow-hidden">
+            <table class="w-full">
+                <thead class="bg-gray-50 dark:bg-gray-800">
+                    <tr>
+                        {% for header in sidebar_params.headers %}
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                            {{ header }}
+                        </th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody class="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
+                    {% for row in sidebar_params.data %}
+                    <tr>
+                        {% for cell in row %}
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
+                            {{ cell|safe }}
+                        </td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>
+{% endblock %} 

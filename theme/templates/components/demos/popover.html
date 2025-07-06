@@ -1,0 +1,620 @@
+{% extends 'components_base.html' %}
+
+{% block page_title %}Popover{% endblock %}
+{% block page_description %}Sobreposições contextuais para exibir informações adicionais sem sair da página atual.{% endblock %}
+
+{% block component_content %}
+<div class="max-w-4xl mx-auto space-y-8">
+    <!-- Instalação -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Instalação</h2>
+        <div class="relative">
+            <pre class="bg-gray-100 p-4 rounded-md overflow-x-auto"><code>{% verbatim %}{% include 'components/popover.html' with title="Informação" content="Conteúdo do popover" %}{% endverbatim %}</code></pre>
+            <button 
+                class="absolute top-2 right-2 p-2 bg-white rounded-md shadow-sm hover:bg-gray-50 border"
+                x-data 
+                @click="navigator.clipboard.writeText('{% verbatim %}{% include \'components/popover.html\' with title=\'Informação\' content=\'Conteúdo do popover\' %}{% endverbatim %}')"
+                title="Copiar código"
+            >
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Exemplo Básico -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Exemplo Básico</h2>
+        <div class="border rounded-lg p-6">
+            <div class="flex justify-center">
+                <div class="relative" x-data="{ showPopover: false }">
+                    <button 
+                        @click="showPopover = !showPopover"
+                        @click.away="showPopover = false"
+                        class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+                    >
+                        Clique para informação
+                    </button>
+                    
+                    <div 
+                        x-show="showPopover"
+                        x-transition:enter="transition ease-out duration-200"
+                        x-transition:enter-start="opacity-0 transform scale-95"
+                        x-transition:enter-end="opacity-100 transform scale-100"
+                        x-transition:leave="transition ease-in duration-150"
+                        x-transition:leave-start="opacity-100 transform scale-100"
+                        x-transition:leave-end="opacity-0 transform scale-95"
+                        class="absolute z-10 mt-2 w-64 bg-white border border-gray-200 rounded-lg shadow-lg"
+                        style="display: none;"
+                    >
+                        <div class="p-4">
+                            <h3 class="text-sm font-medium text-gray-900 mb-2">Informações Importantes</h3>
+                            <p class="text-sm text-gray-700">
+                                Este é um exemplo básico de popover. Você pode incluir qualquer conteúdo aqui, como texto, links ou até mesmo formulários.
+                            </p>
+                            <div class="mt-3 flex justify-end">
+                                <button 
+                                    @click="showPopover = false"
+                                    class="text-sm text-blue-600 hover:text-blue-500"
+                                >
+                                    Fechar
+                                </button>
+                            </div>
+                        </div>
+                        <!-- Seta -->
+                        <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1">
+                            <div class="w-2 h-2 bg-white border-l border-t border-gray-200 transform rotate-45"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Posicionamentos -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Posicionamentos</h2>
+        <div class="border rounded-lg p-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 items-center justify-items-center">
+                <!-- Top -->
+                <div class="relative" x-data="{ showPopover: false }">
+                    <button 
+                        @mouseenter="showPopover = true"
+                        @mouseleave="showPopover = false"
+                        class="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition-colors"
+                    >
+                        Topo
+                    </button>
+                    
+                    <div 
+                        x-show="showPopover"
+                        x-transition:enter="transition ease-out duration-150"
+                        x-transition:enter-start="opacity-0 transform translate-y-1"
+                        x-transition:enter-end="opacity-100 transform translate-y-0"
+                        x-transition:leave="transition ease-in duration-150"
+                        x-transition:leave-start="opacity-100 transform translate-y-0"
+                        x-transition:leave-end="opacity-0 transform translate-y-1"
+                        class="absolute z-10 bottom-full mb-2 left-1/2 transform -translate-x-1/2 w-48 bg-gray-900 text-white text-sm rounded-lg shadow-lg"
+                        style="display: none;"
+                    >
+                        <div class="p-3">
+                            <p>Popover posicionado no topo do elemento.</p>
+                        </div>
+                        <!-- Seta -->
+                        <div class="absolute top-full left-1/2 transform -translate-x-1/2">
+                            <div class="w-2 h-2 bg-gray-900 transform rotate-45"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right -->
+                <div class="relative" x-data="{ showPopover: false }">
+                    <button 
+                        @mouseenter="showPopover = true"
+                        @mouseleave="showPopover = false"
+                        class="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition-colors"
+                    >
+                        Direita
+                    </button>
+                    
+                    <div 
+                        x-show="showPopover"
+                        x-transition:enter="transition ease-out duration-150"
+                        x-transition:enter-start="opacity-0 transform -translate-x-1"
+                        x-transition:enter-end="opacity-100 transform translate-x-0"
+                        x-transition:leave="transition ease-in duration-150"
+                        x-transition:leave-start="opacity-100 transform translate-x-0"
+                        x-transition:leave-end="opacity-0 transform -translate-x-1"
+                        class="absolute z-10 left-full ml-2 top-1/2 transform -translate-y-1/2 w-48 bg-gray-900 text-white text-sm rounded-lg shadow-lg"
+                        style="display: none;"
+                    >
+                        <div class="p-3">
+                            <p>Popover posicionado à direita do elemento.</p>
+                        </div>
+                        <!-- Seta -->
+                        <div class="absolute right-full top-1/2 transform translate-x-1 -translate-y-1/2">
+                            <div class="w-2 h-2 bg-gray-900 transform rotate-45"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom -->
+                <div class="relative" x-data="{ showPopover: false }">
+                    <button 
+                        @mouseenter="showPopover = true"
+                        @mouseleave="showPopover = false"
+                        class="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition-colors"
+                    >
+                        Baixo
+                    </button>
+                    
+                    <div 
+                        x-show="showPopover"
+                        x-transition:enter="transition ease-out duration-150"
+                        x-transition:enter-start="opacity-0 transform -translate-y-1"
+                        x-transition:enter-end="opacity-100 transform translate-y-0"
+                        x-transition:leave="transition ease-in duration-150"
+                        x-transition:leave-start="opacity-100 transform translate-y-0"
+                        x-transition:leave-end="opacity-0 transform -translate-y-1"
+                        class="absolute z-10 top-full mt-2 left-1/2 transform -translate-x-1/2 w-48 bg-gray-900 text-white text-sm rounded-lg shadow-lg"
+                        style="display: none;"
+                    >
+                        <div class="p-3">
+                            <p>Popover posicionado abaixo do elemento.</p>
+                        </div>
+                        <!-- Seta -->
+                        <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 translate-y-1">
+                            <div class="w-2 h-2 bg-gray-900 transform rotate-45"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Left -->
+                <div class="relative" x-data="{ showPopover: false }">
+                    <button 
+                        @mouseenter="showPopover = true"
+                        @mouseleave="showPopover = false"
+                        class="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition-colors"
+                    >
+                        Esquerda
+                    </button>
+                    
+                    <div 
+                        x-show="showPopover"
+                        x-transition:enter="transition ease-out duration-150"
+                        x-transition:enter-start="opacity-0 transform translate-x-1"
+                        x-transition:enter-end="opacity-100 transform translate-x-0"
+                        x-transition:leave="transition ease-in duration-150"
+                        x-transition:leave-start="opacity-100 transform translate-x-0"
+                        x-transition:leave-end="opacity-0 transform translate-x-1"
+                        class="absolute z-10 right-full mr-2 top-1/2 transform -translate-y-1/2 w-48 bg-gray-900 text-white text-sm rounded-lg shadow-lg"
+                        style="display: none;"
+                    >
+                        <div class="p-3">
+                            <p>Popover posicionado à esquerda do elemento.</p>
+                        </div>
+                        <!-- Seta -->
+                        <div class="absolute left-full top-1/2 transform -translate-x-1 -translate-y-1/2">
+                            <div class="w-2 h-2 bg-gray-900 transform rotate-45"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tipos de Trigger -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Tipos de Trigger</h2>
+        <div class="border rounded-lg p-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Hover -->
+                <div class="text-center">
+                    <h3 class="text-lg font-medium mb-3">Hover</h3>
+                    <div class="relative" x-data="{ showPopover: false }">
+                        <button 
+                            @mouseenter="showPopover = true"
+                            @mouseleave="showPopover = false"
+                            class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors"
+                        >
+                            Passe o mouse
+                        </button>
+                        
+                        <div 
+                            x-show="showPopover"
+                            class="absolute z-10 top-full mt-2 left-1/2 transform -translate-x-1/2 w-56 bg-white border border-gray-200 rounded-lg shadow-lg"
+                            style="display: none;"
+                        >
+                            <div class="p-4">
+                                <h4 class="font-medium text-gray-900 mb-2">Informação Rápida</h4>
+                                <p class="text-sm text-gray-700">
+                                    Este popover aparece quando você passa o mouse sobre o botão.
+                                </p>
+                            </div>
+                            <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1">
+                                <div class="w-2 h-2 bg-white border-l border-t border-gray-200 transform rotate-45"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Click -->
+                <div class="text-center">
+                    <h3 class="text-lg font-medium mb-3">Click</h3>
+                    <div class="relative" x-data="{ showPopover: false }">
+                        <button 
+                            @click="showPopover = !showPopover"
+                            @click.away="showPopover = false"
+                            class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+                        >
+                            Clique aqui
+                        </button>
+                        
+                        <div 
+                            x-show="showPopover"
+                            x-transition
+                            class="absolute z-10 top-full mt-2 left-1/2 transform -translate-x-1/2 w-56 bg-white border border-gray-200 rounded-lg shadow-lg"
+                            style="display: none;"
+                        >
+                            <div class="p-4">
+                                <h4 class="font-medium text-gray-900 mb-2">Ação Necessária</h4>
+                                <p class="text-sm text-gray-700 mb-3">
+                                    Este popover abre ao clicar e fecha ao clicar fora.
+                                </p>
+                                <button 
+                                    @click="showPopover = false"
+                                    class="px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700"
+                                >
+                                    Entendi
+                                </button>
+                            </div>
+                            <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1">
+                                <div class="w-2 h-2 bg-white border-l border-t border-gray-200 transform rotate-45"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Focus -->
+                <div class="text-center">
+                    <h3 class="text-lg font-medium mb-3">Focus</h3>
+                    <div class="relative" x-data="{ showPopover: false }">
+                        <input 
+                            @focus="showPopover = true"
+                            @blur="showPopover = false"
+                            type="text"
+                            placeholder="Foque aqui"
+                            class="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                        >
+                        
+                        <div 
+                            x-show="showPopover"
+                            class="absolute z-10 top-full mt-2 left-1/2 transform -translate-x-1/2 w-56 bg-white border border-gray-200 rounded-lg shadow-lg"
+                            style="display: none;"
+                        >
+                            <div class="p-4">
+                                <h4 class="font-medium text-gray-900 mb-2">Dica de Preenchimento</h4>
+                                <p class="text-sm text-gray-700">
+                                    Digite seu nome completo. Este campo é obrigatório.
+                                </p>
+                            </div>
+                            <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1">
+                                <div class="w-2 h-2 bg-white border-l border-t border-gray-200 transform rotate-45"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Conteúdos Diferentes -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Conteúdos Diferentes</h2>
+        <div class="border rounded-lg p-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <!-- Texto Simples -->
+                <div class="relative" x-data="{ showPopover: false }">
+                    <button 
+                        @click="showPopover = !showPopover"
+                        @click.away="showPopover = false"
+                        class="w-full px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition-colors"
+                    >
+                        Tooltip Simples
+                    </button>
+                    
+                    <div 
+                        x-show="showPopover"
+                        class="absolute z-10 top-full mt-2 left-1/2 transform -translate-x-1/2 w-40 bg-gray-900 text-white text-sm rounded-lg shadow-lg"
+                        style="display: none;"
+                    >
+                        <div class="p-3 text-center">
+                            <p>Texto simples de ajuda</p>
+                        </div>
+                        <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1">
+                            <div class="w-2 h-2 bg-gray-900 transform rotate-45"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Com Lista -->
+                <div class="relative" x-data="{ showPopover: false }">
+                    <button 
+                        @click="showPopover = !showPopover"
+                        @click.away="showPopover = false"
+                        class="w-full px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors"
+                    >
+                        Lista de Opções
+                    </button>
+                    
+                    <div 
+                        x-show="showPopover"
+                        class="absolute z-10 top-full mt-2 left-1/2 transform -translate-x-1/2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg"
+                        style="display: none;"
+                    >
+                        <div class="p-4">
+                            <h4 class="font-medium text-gray-900 mb-2">Opções Disponíveis</h4>
+                            <ul class="text-sm text-gray-700 space-y-1">
+                                <li>• Opção A</li>
+                                <li>• Opção B</li>
+                                <li>• Opção C</li>
+                                <li>• Opção D</li>
+                            </ul>
+                        </div>
+                        <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1">
+                            <div class="w-2 h-2 bg-white border-l border-t border-gray-200 transform rotate-45"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Com Formulário -->
+                <div class="relative" x-data="{ showPopover: false, email: '' }">
+                    <button 
+                        @click="showPopover = !showPopover"
+                        @click.away="showPopover = false"
+                        class="w-full px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 transition-colors"
+                    >
+                        Mini Formulário
+                    </button>
+                    
+                    <div 
+                        x-show="showPopover"
+                        class="absolute z-10 top-full mt-2 left-1/2 transform -translate-x-1/2 w-64 bg-white border border-gray-200 rounded-lg shadow-lg"
+                        style="display: none;"
+                    >
+                        <div class="p-4">
+                            <h4 class="font-medium text-gray-900 mb-3">Newsletter</h4>
+                            <form @submit.prevent="showPopover = false; email = ''" class="space-y-3">
+                                <input 
+                                    type="email" 
+                                    x-model="email"
+                                    placeholder="Seu email"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+                                    required
+                                >
+                                <button 
+                                    type="submit"
+                                    class="w-full px-3 py-2 bg-purple-600 text-white text-sm rounded hover:bg-purple-700"
+                                >
+                                    Inscrever
+                                </button>
+                            </form>
+                        </div>
+                        <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1">
+                            <div class="w-2 h-2 bg-white border-l border-t border-gray-200 transform rotate-45"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Com Ações -->
+                <div class="relative" x-data="{ showPopover: false }">
+                    <button 
+                        @click="showPopover = !showPopover"
+                        @click.away="showPopover = false"
+                        class="w-full px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
+                    >
+                        Menu de Ações
+                    </button>
+                    
+                    <div 
+                        x-show="showPopover"
+                        class="absolute z-10 top-full mt-2 left-1/2 transform -translate-x-1/2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg"
+                        style="display: none;"
+                    >
+                        <div class="py-2">
+                            <button 
+                                @click="showPopover = false"
+                                class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                            >
+                                Editar
+                            </button>
+                            <button 
+                                @click="showPopover = false"
+                                class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                            >
+                                Duplicar
+                            </button>
+                            <button 
+                                @click="showPopover = false"
+                                class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50"
+                            >
+                                Excluir
+                            </button>
+                        </div>
+                        <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1">
+                            <div class="w-2 h-2 bg-white border-l border-t border-gray-200 transform rotate-45"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Exemplo Avançado -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Exemplo Avançado</h2>
+        <div class="border rounded-lg p-6">
+            <div class="text-center">
+                <p class="text-gray-600 mb-4">Exemplo de popover com múltiplas seções e conteúdo rico.</p>
+                
+                <div class="relative inline-block" x-data="{ 
+                    showPopover: false,
+                    activeTab: 'info',
+                    user: {
+                        name: 'João Silva',
+                        email: 'joao@email.com',
+                        avatar: '/static/avatars/user.jpg',
+                        status: 'online',
+                        lastSeen: '2 min atrás'
+                    }
+                }">
+                    <button 
+                        @click="showPopover = !showPopover"
+                        @click.away="showPopover = false"
+                        class="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+                    >
+                        <div class="w-6 h-6 bg-gray-300 rounded-full"></div>
+                        <span>Perfil do Usuário</span>
+                    </button>
+                    
+                    <div 
+                        x-show="showPopover"
+                        x-transition
+                        class="absolute z-10 top-full mt-2 left-1/2 transform -translate-x-1/2 w-80 bg-white border border-gray-200 rounded-lg shadow-xl"
+                        style="display: none;"
+                    >
+                        <!-- Header -->
+                        <div class="p-4 border-b border-gray-200">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-12 h-12 bg-gray-300 rounded-full flex-shrink-0"></div>
+                                <div class="flex-1">
+                                    <h3 class="font-medium text-gray-900" x-text="user.name"></h3>
+                                    <p class="text-sm text-gray-500" x-text="user.email"></p>
+                                    <div class="flex items-center space-x-1 text-xs">
+                                        <div class="w-2 h-2 bg-green-400 rounded-full"></div>
+                                        <span class="text-green-600" x-text="user.status"></span>
+                                        <span class="text-gray-500">• <span x-text="user.lastSeen"></span></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Tabs -->
+                        <div class="border-b border-gray-200">
+                            <nav class="flex">
+                                <button 
+                                    @click="activeTab = 'info'"
+                                    :class="{ 'border-blue-500 text-blue-600': activeTab === 'info', 'border-transparent text-gray-500 hover:text-gray-700': activeTab !== 'info' }"
+                                    class="flex-1 py-2 px-1 text-center border-b-2 font-medium text-sm"
+                                >
+                                    Info
+                                </button>
+                                <button 
+                                    @click="activeTab = 'activity'"
+                                    :class="{ 'border-blue-500 text-blue-600': activeTab === 'activity', 'border-transparent text-gray-500 hover:text-gray-700': activeTab !== 'activity' }"
+                                    class="flex-1 py-2 px-1 text-center border-b-2 font-medium text-sm"
+                                >
+                                    Atividade
+                                </button>
+                                <button 
+                                    @click="activeTab = 'settings'"
+                                    :class="{ 'border-blue-500 text-blue-600': activeTab === 'settings', 'border-transparent text-gray-500 hover:text-gray-700': activeTab !== 'settings' }"
+                                    class="flex-1 py-2 px-1 text-center border-b-2 font-medium text-sm"
+                                >
+                                    Config
+                                </button>
+                            </nav>
+                        </div>
+                        
+                        <!-- Content -->
+                        <div class="p-4">
+                            <div x-show="activeTab === 'info'" class="space-y-3">
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-500">Departamento:</span>
+                                    <span class="text-gray-900">Desenvolvimento</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-500">Cargo:</span>
+                                    <span class="text-gray-900">Desenvolvedor Senior</span>
+                                </div>
+                                <div class="flex justify-between text-sm">
+                                    <span class="text-gray-500">Localização:</span>
+                                    <span class="text-gray-900">São Paulo, SP</span>
+                                </div>
+                            </div>
+                            
+                            <div x-show="activeTab === 'activity'" class="space-y-3">
+                                <div class="text-sm">
+                                    <p class="text-gray-900 font-medium">Última atividade</p>
+                                    <p class="text-gray-500">Fez commit no projeto ABC - 1h atrás</p>
+                                </div>
+                                <div class="text-sm">
+                                    <p class="text-gray-900 font-medium">Status</p>
+                                    <p class="text-gray-500">Trabalhando no projeto XYZ</p>
+                                </div>
+                            </div>
+                            
+                            <div x-show="activeTab === 'settings'" class="space-y-3">
+                                <button class="w-full text-left text-sm text-gray-700 hover:text-gray-900">
+                                    Enviar mensagem
+                                </button>
+                                <button class="w-full text-left text-sm text-gray-700 hover:text-gray-900">
+                                    Ver perfil completo
+                                </button>
+                                <button class="w-full text-left text-sm text-red-600 hover:text-red-700">
+                                    Bloquear usuário
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Footer -->
+                        <div class="p-3 bg-gray-50 rounded-b-lg">
+                            <button 
+                                @click="showPopover = false"
+                                class="w-full px-3 py-2 bg-blue-600 text-white text-sm rounded hover:bg-blue-700"
+                            >
+                                Fechar
+                            </button>
+                        </div>
+                        
+                        <!-- Seta -->
+                        <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1">
+                            <div class="w-2 h-2 bg-white border-l border-t border-gray-200 transform rotate-45"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Parâmetros -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Parâmetros</h2>
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        {% for header in popover_params.headers %}
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            {{ header }}
+                        </th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    {% for row in popover_params.data %}
+                    <tr>
+                        {% for cell in row %}
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            {{ cell|safe }}
+                        </td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %} 

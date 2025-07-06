@@ -7,17 +7,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     {% tailwind_css %}
-    <!-- Alpine.js -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/dist/styles.css' %}">
+    
+    <!-- SPA Script Simples para Debug -->
+    <script src="{% static 'js/spa-simple.js' %}"></script>
+    
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
     <script>
         // Inicializar o tema escuro do localStorage
         if (localStorage.getItem('darkMode') === 'true') {
             document.documentElement.classList.add('dark');
         }
+        
+        // Debug: Verificar carregamento dos scripts
+        console.log('🚀 Página carregando...');
+        console.log('🔍 Script SPA:', '{% static "js/spa-simple.js" %}');
     </script>
 </head>
 
@@ -25,10 +36,10 @@
 
 {% if main_content %}
     <!-- Se há main_content, está sendo usado pela view principal -->
-    {% include "components/layout.html" with layout_type="sidebar-left" sidebar_collapsible=True sidebar_content=sidebar_content header_content=header_content main_content=main_content %}
+    {% include "components/layout.html" with layout_type="sidebar-left" sidebar_collapsible=True sidebar_content=sidebar_content header_content=header_content main_content=main_content spa_enabled=True %}
 {% else %}
     <!-- Se não há main_content, está sendo usado pelos templates dos componentes -->
-    {% include "components/layout.html" with layout_type="sidebar-left" sidebar_collapsible=True sidebar_content=sidebar_content header_content=header_content main_content=component_main_content %}
+    {% include "components/layout.html" with layout_type="sidebar-left" sidebar_collapsible=True sidebar_content=sidebar_content header_content=header_content main_content=component_main_content spa_enabled=True %}
 {% endif %}
 
 <!-- Conteúdo para os templates dos componentes quando não há main_content -->
@@ -46,7 +57,7 @@
                                 <h1 class="text-3xl font-bold">{% block page_title %}Componentes{% endblock %}</h1>
                                 <p class="text-muted-foreground mt-1">{% block page_description %}Demonstração de componentes{% endblock %}</p>
                             </div>
-                            <a href="/components/" class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+                            <a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
                                 Voltar
                             </a>
                         </div>

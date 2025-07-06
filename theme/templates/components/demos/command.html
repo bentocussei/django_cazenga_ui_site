@@ -1,0 +1,662 @@
+{% extends "components_base.html" %}
+{% load icon_tags %}
+
+{% block page_title %}Command{% endblock %}
+{% block page_description %}Interface de comando com busca e navegação rápida{% endblock %}
+
+{% block component_content %}
+<div class="max-w-4xl mx-auto space-y-8">
+    <!-- Instalação -->
+    <section class="space-y-4">
+        <h2 class="text-2xl font-semibold">Instalação</h2>
+        <div class="relative">
+            <pre class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto"><code>{% templatetag openblock %} include "components/command.html" with placeholder="Digite um comando..." items=commands {% templatetag closeblock %}</code></pre>
+            <button 
+                class="absolute top-2 right-2 p-2 bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                x-data="{ copied: false }"
+                @click="navigator.clipboard.writeText($el.previousElementSibling.textContent); copied = true; setTimeout(() => copied = false, 2000)"
+            >
+                <span x-show="!copied">{% icon "copy" size="4" %}</span>
+                <span x-show="copied" class="text-green-600">{% icon "check" size="4" %}</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- Command Básico -->
+    <section class="space-y-4">
+        <h2 class="text-2xl font-semibold">Command Básico</h2>
+        <div class="border rounded-lg p-6">
+            <div class="max-w-lg mx-auto">
+                <div x-data="{ 
+                    open: false,
+                    search: '',
+                    
+                    commands: [
+                        { name: 'Novo Arquivo', description: 'Criar um novo arquivo', icon: 'file-plus', shortcut: 'Ctrl+N' },
+                        { name: 'Abrir Arquivo', description: 'Abrir um arquivo existente', icon: 'folder-open', shortcut: 'Ctrl+O' },
+                        { name: 'Salvar', description: 'Salvar arquivo atual', icon: 'disk', shortcut: 'Ctrl+S' },
+                        { name: 'Salvar Como', description: 'Salvar arquivo com novo nome', icon: 'disk', shortcut: 'Ctrl+Shift+S' },
+                        { name: 'Copiar', description: 'Copiar seleção', icon: 'copy', shortcut: 'Ctrl+C' },
+                        { name: 'Colar', description: 'Colar do clipboard', icon: 'clipboard', shortcut: 'Ctrl+V' },
+                        { name: 'Desfazer', description: 'Desfazer última ação', icon: 'arrow-left', shortcut: 'Ctrl+Z' },
+                        { name: 'Refazer', description: 'Refazer ação', icon: 'arrow-right', shortcut: 'Ctrl+Y' }
+                    ],
+                    
+                    get filteredCommands() {
+                        if (!this.search) return this.commands;
+                        return this.commands.filter(cmd => 
+                            cmd.name.toLowerCase().includes(this.search.toLowerCase()) ||
+                            cmd.description.toLowerCase().includes(this.search.toLowerCase())
+                        );
+                    },
+                    
+                    executeCommand(command) {
+                        alert(`Executando: ${command.name}`);
+                        this.open = false;
+                        this.search = '';
+                    }
+                }">
+                    <button 
+                        @click="open = true"
+                        class="w-full flex items-center justify-between px-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                    >
+                        <div class="flex items-center space-x-3">
+                            {% icon "magnifying-glass" size="4" class="text-gray-400" %}
+                            <span class="text-gray-500 dark:text-gray-400">Buscar comandos...</span>
+                        </div>
+                        <div class="flex items-center space-x-1">
+                            <kbd class="px-2 py-1 text-xs font-semibold text-gray-800 dark:text-gray-200 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded">
+                                ⌘
+                            </kbd>
+                            <kbd class="px-2 py-1 text-xs font-semibold text-gray-800 dark:text-gray-200 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded">
+                                K
+                            </kbd>
+                        </div>
+                    </button>
+                    
+                    <!-- Command Dialog -->
+                    <div x-show="open" 
+                         x-transition:enter="transition ease-out duration-200"
+                         x-transition:enter-start="opacity-0"
+                         x-transition:enter-end="opacity-100"
+                         x-transition:leave="transition ease-in duration-150"
+                         x-transition:leave-start="opacity-100"
+                         x-transition:leave-end="opacity-0"
+                         class="fixed inset-0 z-50 flex items-start justify-center pt-16 px-4" 
+                         style="display: none;"
+                         @click.away="open = false">
+                        
+                        <div class="fixed inset-0 bg-black bg-opacity-50"></div>
+                        
+                        <div x-show="open"
+                             x-transition:enter="transition ease-out duration-200"
+                             x-transition:enter-start="opacity-0 scale-95"
+                             x-transition:enter-end="opacity-100 scale-100"
+                             x-transition:leave="transition ease-in duration-150"
+                             x-transition:leave-start="opacity-100 scale-100"
+                             x-transition:leave-end="opacity-0 scale-95"
+                             class="relative bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-lg mx-4 overflow-hidden">
+                            
+                            <!-- Search Input -->
+                            <div class="relative">
+                                <input 
+                                    type="text" 
+                                    x-model="search"
+                                    x-ref="searchInput"
+                                    placeholder="Digite um comando..."
+                                    class="w-full pl-12 pr-4 py-4 text-lg border-0 focus:ring-0 bg-transparent text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400"
+                                    @keydown.escape="open = false"
+                                >
+                                <div class="absolute left-4 top-1/2 transform -translate-y-1/2">
+                                    {% icon "magnifying-glass" size="5" class="text-gray-400" %}
+                                </div>
+                            </div>
+                            
+                            <!-- Commands List -->
+                            <div class="border-t border-gray-200 dark:border-gray-700 max-h-80 overflow-y-auto">
+                                <template x-for="(command, index) in filteredCommands" :key="index">
+                                    <button 
+                                        @click="executeCommand(command)"
+                                        class="w-full flex items-center justify-between px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-left"
+                                    >
+                                        <div class="flex items-center space-x-3">
+                                            <div class="flex-shrink-0 w-8 h-8 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center">
+                                                {% icon "command" size="4" class="text-gray-600 dark:text-gray-400" %}
+                                            </div>
+                                            <div>
+                                                <div class="font-medium text-gray-900 dark:text-gray-100" x-text="command.name"></div>
+                                                <div class="text-sm text-gray-500 dark:text-gray-400" x-text="command.description"></div>
+                                            </div>
+                                        </div>
+                                        <div class="flex-shrink-0">
+                                            <kbd class="px-2 py-1 text-xs font-semibold text-gray-800 dark:text-gray-200 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded" x-text="command.shortcut"></kbd>
+                                        </div>
+                                    </button>
+                                </template>
+                                
+                                <div x-show="filteredCommands.length === 0" class="px-4 py-8 text-center text-gray-500 dark:text-gray-400">
+                                    <div class="flex flex-col items-center space-y-2">
+                                        {% icon "magnifying-glass" size="8" class="text-gray-300 dark:text-gray-600" %}
+                                        <p>Nenhum comando encontrado</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="relative">
+            <pre class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto text-sm"><code>&lt;div x-data="{ open: false, search: '', commands: [...] }"&gt;
+  &lt;button @click="open = true" class="w-full flex items-center justify-between px-4 py-3 bg-white border rounded-lg"&gt;
+    &lt;div class="flex items-center space-x-3"&gt;
+      &lt;svg class="w-4 h-4 text-gray-400"&gt;...&lt;/svg&gt;
+      &lt;span class="text-gray-500"&gt;Buscar comandos...&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div class="flex items-center space-x-1"&gt;
+      &lt;kbd class="px-2 py-1 text-xs bg-gray-100 border rounded"&gt;⌘&lt;/kbd&gt;
+      &lt;kbd class="px-2 py-1 text-xs bg-gray-100 border rounded"&gt;K&lt;/kbd&gt;
+    &lt;/div&gt;
+  &lt;/button&gt;
+  
+  &lt;div x-show="open" class="fixed inset-0 z-50 flex items-start justify-center pt-16 px-4"&gt;
+    &lt;div class="fixed inset-0 bg-black bg-opacity-50"&gt;&lt;/div&gt;
+    &lt;div class="relative bg-white rounded-lg shadow-xl w-full max-w-lg mx-4 overflow-hidden"&gt;
+      &lt;!-- Command interface... --&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            <button 
+                class="absolute top-2 right-2 p-2 bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                x-data="{ copied: false }"
+                @click="navigator.clipboard.writeText($el.previousElementSibling.textContent); copied = true; setTimeout(() => copied = false, 2000)"
+            >
+                <span x-show="!copied">{% icon "copy" size="4" %}</span>
+                <span x-show="copied" class="text-green-600">{% icon "check" size="4" %}</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- Command com Categorias -->
+    <section class="space-y-4">
+        <h2 class="text-2xl font-semibold">Command com Categorias</h2>
+        <div class="border rounded-lg p-6">
+            <div class="max-w-lg mx-auto">
+                <div x-data="{ 
+                    open: false,
+                    search: '',
+                    
+                    categories: {
+                        'Arquivo': [
+                            { name: 'Novo Arquivo', description: 'Criar um novo arquivo', icon: 'file-plus', shortcut: 'Ctrl+N' },
+                            { name: 'Abrir Arquivo', description: 'Abrir um arquivo existente', icon: 'folder', shortcut: 'Ctrl+O' },
+                            { name: 'Salvar', description: 'Salvar arquivo atual', icon: 'disk', shortcut: 'Ctrl+S' },
+                            { name: 'Fechar', description: 'Fechar arquivo atual', icon: 'cross-2', shortcut: 'Ctrl+W' }
+                        ],
+                        'Editar': [
+                            { name: 'Copiar', description: 'Copiar seleção', icon: 'copy', shortcut: 'Ctrl+C' },
+                            { name: 'Colar', description: 'Colar do clipboard', icon: 'clipboard', shortcut: 'Ctrl+V' },
+                            { name: 'Recortar', description: 'Recortar seleção', icon: 'scissors', shortcut: 'Ctrl+X' },
+                            { name: 'Desfazer', description: 'Desfazer última ação', icon: 'arrow-left', shortcut: 'Ctrl+Z' }
+                        ],
+                        'Navegação': [
+                            { name: 'Ir para Linha', description: 'Navegar para linha específica', icon: 'target', shortcut: 'Ctrl+G' },
+                            { name: 'Buscar', description: 'Buscar no arquivo', icon: 'magnifying-glass', shortcut: 'Ctrl+F' },
+                            { name: 'Substituir', description: 'Buscar e substituir', icon: 'update', shortcut: 'Ctrl+H' },
+                            { name: 'Próxima Ocorrência', description: 'Ir para próxima ocorrência', icon: 'arrow-right', shortcut: 'F3' }
+                        ],
+                        'Configurações': [
+                            { name: 'Preferências', description: 'Abrir configurações', icon: 'gear', shortcut: 'Ctrl+,' },
+                            { name: 'Atalhos', description: 'Ver atalhos do teclado', icon: 'keyboard', shortcut: 'Ctrl+K Ctrl+S' },
+                            { name: 'Tema', description: 'Alterar tema da interface', icon: 'moon', shortcut: 'Ctrl+K Ctrl+T' }
+                        ]
+                    },
+                    
+                    get filteredCategories() {
+                        if (!this.search) return this.categories;
+                        
+                        const filtered = {};
+                        for (const [category, items] of Object.entries(this.categories)) {
+                            const filteredItems = items.filter(item => 
+                                item.name.toLowerCase().includes(this.search.toLowerCase()) ||
+                                item.description.toLowerCase().includes(this.search.toLowerCase())
+                            );
+                            if (filteredItems.length > 0) {
+                                filtered[category] = filteredItems;
+                            }
+                        }
+                        return filtered;
+                    },
+                    
+                    executeCommand(command) {
+                        alert(`Executando: ${command.name}`);
+                        this.open = false;
+                        this.search = '';
+                    }
+                }">
+                    <button 
+                        @click="open = true"
+                        class="w-full flex items-center justify-between px-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                    >
+                        <div class="flex items-center space-x-3">
+                            {% icon "command" size="4" class="text-gray-400" %}
+                            <span class="text-gray-500 dark:text-gray-400">Buscar comandos por categoria...</span>
+                        </div>
+                        <div class="flex items-center space-x-1">
+                            <kbd class="px-2 py-1 text-xs font-semibold text-gray-800 dark:text-gray-200 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded">
+                                ⌘
+                            </kbd>
+                            <kbd class="px-2 py-1 text-xs font-semibold text-gray-800 dark:text-gray-200 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded">
+                                P
+                            </kbd>
+                        </div>
+                    </button>
+                    
+                    <!-- Command Dialog -->
+                    <div x-show="open" 
+                         x-transition:enter="transition ease-out duration-200"
+                         x-transition:enter-start="opacity-0"
+                         x-transition:enter-end="opacity-100"
+                         x-transition:leave="transition ease-in duration-150"
+                         x-transition:leave-start="opacity-100"
+                         x-transition:leave-end="opacity-0"
+                         class="fixed inset-0 z-50 flex items-start justify-center pt-16 px-4" 
+                         style="display: none;"
+                         @click.away="open = false">
+                        
+                        <div class="fixed inset-0 bg-black bg-opacity-50"></div>
+                        
+                        <div x-show="open"
+                             x-transition:enter="transition ease-out duration-200"
+                             x-transition:enter-start="opacity-0 scale-95"
+                             x-transition:enter-end="opacity-100 scale-100"
+                             x-transition:leave="transition ease-in duration-150"
+                             x-transition:leave-start="opacity-100 scale-100"
+                             x-transition:leave-end="opacity-0 scale-95"
+                             class="relative bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-lg mx-4 overflow-hidden">
+                            
+                            <!-- Search Input -->
+                            <div class="relative">
+                                <input 
+                                    type="text" 
+                                    x-model="search"
+                                    placeholder="Digite um comando..."
+                                    class="w-full pl-12 pr-4 py-4 text-lg border-0 focus:ring-0 bg-transparent text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400"
+                                    @keydown.escape="open = false"
+                                >
+                                <div class="absolute left-4 top-1/2 transform -translate-y-1/2">
+                                    {% icon "magnifying-glass" size="5" class="text-gray-400" %}
+                                </div>
+                            </div>
+                            
+                            <!-- Commands List by Category -->
+                            <div class="border-t border-gray-200 dark:border-gray-700 max-h-96 overflow-y-auto">
+                                <template x-for="[category, items] in Object.entries(filteredCategories)" :key="category">
+                                    <div>
+                                        <!-- Category Header -->
+                                        <div class="px-4 py-2 bg-gray-50 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-600">
+                                            <h3 class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" x-text="category"></h3>
+                                        </div>
+                                        
+                                        <!-- Category Items -->
+                                        <template x-for="(command, index) in items" :key="index">
+                                            <button 
+                                                @click="executeCommand(command)"
+                                                class="w-full flex items-center justify-between px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-left"
+                                            >
+                                                <div class="flex items-center space-x-3">
+                                                    <div class="flex-shrink-0 w-8 h-8 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center">
+                                                        {% icon "command" size="4" class="text-gray-600 dark:text-gray-400" %}
+                                                    </div>
+                                                    <div>
+                                                        <div class="font-medium text-gray-900 dark:text-gray-100" x-text="command.name"></div>
+                                                        <div class="text-sm text-gray-500 dark:text-gray-400" x-text="command.description"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="flex-shrink-0">
+                                                    <kbd class="px-2 py-1 text-xs font-semibold text-gray-800 dark:text-gray-200 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded" x-text="command.shortcut"></kbd>
+                                                </div>
+                                            </button>
+                                        </template>
+                                    </div>
+                                </template>
+                                
+                                <div x-show="Object.keys(filteredCategories).length === 0" class="px-4 py-8 text-center text-gray-500 dark:text-gray-400">
+                                    <div class="flex flex-col items-center space-y-2">
+                                        {% icon "magnifying-glass" size="8" class="text-gray-300 dark:text-gray-600" %}
+                                        <p>Nenhum comando encontrado</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Command de Navegação -->
+    <section class="space-y-4">
+        <h2 class="text-2xl font-semibold">Command de Navegação</h2>
+        <div class="border rounded-lg p-6">
+            <div class="max-w-lg mx-auto">
+                <div x-data="{ 
+                    open: false,
+                    search: '',
+                    
+                    pages: [
+                        { name: 'Dashboard', description: 'Visão geral do sistema', icon: 'dashboard', path: '/dashboard' },
+                        { name: 'Usuários', description: 'Gerenciar usuários', icon: 'person', path: '/users' },
+                        { name: 'Produtos', description: 'Catálogo de produtos', icon: 'box', path: '/products' },
+                        { name: 'Vendas', description: 'Relatório de vendas', icon: 'bar-chart', path: '/sales' },
+                        { name: 'Configurações', description: 'Configurações do sistema', icon: 'gear', path: '/settings' },
+                        { name: 'Relatórios', description: 'Relatórios e análises', icon: 'file-text', path: '/reports' },
+                        { name: 'Suporte', description: 'Central de ajuda', icon: 'question-mark-circled', path: '/support' },
+                        { name: 'Perfil', description: 'Meu perfil', icon: 'avatar', path: '/profile' }
+                    ],
+                    
+                    get filteredPages() {
+                        if (!this.search) return this.pages;
+                        return this.pages.filter(page => 
+                            page.name.toLowerCase().includes(this.search.toLowerCase()) ||
+                            page.description.toLowerCase().includes(this.search.toLowerCase())
+                        );
+                    },
+                    
+                    navigateToPage(page) {
+                        alert(`Navegando para: ${page.name} (${page.path})`);
+                        this.open = false;
+                        this.search = '';
+                    }
+                }">
+                    <button 
+                        @click="open = true"
+                        class="w-full flex items-center justify-between px-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                    >
+                        <div class="flex items-center space-x-3">
+                            {% icon "arrow-right" size="4" class="text-gray-400" %}
+                            <span class="text-gray-500 dark:text-gray-400">Ir para página...</span>
+                        </div>
+                        <div class="flex items-center space-x-1">
+                            <kbd class="px-2 py-1 text-xs font-semibold text-gray-800 dark:text-gray-200 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded">
+                                ⌘
+                            </kbd>
+                            <kbd class="px-2 py-1 text-xs font-semibold text-gray-800 dark:text-gray-200 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded">
+                                G
+                            </kbd>
+                        </div>
+                    </button>
+                    
+                    <!-- Command Dialog -->
+                    <div x-show="open" 
+                         x-transition:enter="transition ease-out duration-200"
+                         x-transition:enter-start="opacity-0"
+                         x-transition:enter-end="opacity-100"
+                         x-transition:leave="transition ease-in duration-150"
+                         x-transition:leave-start="opacity-100"
+                         x-transition:leave-end="opacity-0"
+                         class="fixed inset-0 z-50 flex items-start justify-center pt-16 px-4" 
+                         style="display: none;"
+                         @click.away="open = false">
+                        
+                        <div class="fixed inset-0 bg-black bg-opacity-50"></div>
+                        
+                        <div x-show="open"
+                             x-transition:enter="transition ease-out duration-200"
+                             x-transition:enter-start="opacity-0 scale-95"
+                             x-transition:enter-end="opacity-100 scale-100"
+                             x-transition:leave="transition ease-in duration-150"
+                             x-transition:leave-start="opacity-100 scale-100"
+                             x-transition:leave-end="opacity-0 scale-95"
+                             class="relative bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-lg mx-4 overflow-hidden">
+                            
+                            <!-- Search Input -->
+                            <div class="relative">
+                                <input 
+                                    type="text" 
+                                    x-model="search"
+                                    placeholder="Digite o nome da página..."
+                                    class="w-full pl-12 pr-4 py-4 text-lg border-0 focus:ring-0 bg-transparent text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400"
+                                    @keydown.escape="open = false"
+                                >
+                                <div class="absolute left-4 top-1/2 transform -translate-y-1/2">
+                                    {% icon "magnifying-glass" size="5" class="text-gray-400" %}
+                                </div>
+                            </div>
+                            
+                            <!-- Pages List -->
+                            <div class="border-t border-gray-200 dark:border-gray-700 max-h-80 overflow-y-auto">
+                                <template x-for="(page, index) in filteredPages" :key="index">
+                                    <button 
+                                        @click="navigateToPage(page)"
+                                        class="w-full flex items-center justify-between px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-left"
+                                    >
+                                        <div class="flex items-center space-x-3">
+                                            <div class="flex-shrink-0 w-8 h-8 bg-blue-100 dark:bg-blue-900/20 rounded-lg flex items-center justify-center">
+                                                {% icon "arrow-right" size="4" class="text-blue-600 dark:text-blue-400" %}
+                                            </div>
+                                            <div>
+                                                <div class="font-medium text-gray-900 dark:text-gray-100" x-text="page.name"></div>
+                                                <div class="text-sm text-gray-500 dark:text-gray-400" x-text="page.description"></div>
+                                            </div>
+                                        </div>
+                                        <div class="flex-shrink-0">
+                                            <div class="text-xs text-gray-400 dark:text-gray-500" x-text="page.path"></div>
+                                        </div>
+                                    </button>
+                                </template>
+                                
+                                <div x-show="filteredPages.length === 0" class="px-4 py-8 text-center text-gray-500 dark:text-gray-400">
+                                    <div class="flex flex-col items-center space-y-2">
+                                        {% icon "magnifying-glass" size="8" class="text-gray-300 dark:text-gray-600" %}
+                                        <p>Nenhuma página encontrada</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Command com Histórico -->
+    <section class="space-y-4">
+        <h2 class="text-2xl font-semibold">Command com Histórico</h2>
+        <div class="border rounded-lg p-6">
+            <div class="max-w-lg mx-auto">
+                <div x-data="{ 
+                    open: false,
+                    search: '',
+                    
+                    history: [
+                        { command: 'git status', description: 'Verificar status do repositório', time: '2 min atrás' },
+                        { command: 'npm install', description: 'Instalar dependências', time: '5 min atrás' },
+                        { command: 'git commit -m \"fix: corrigir bug\"', description: 'Commit das alterações', time: '10 min atrás' },
+                        { command: 'npm run dev', description: 'Executar servidor de desenvolvimento', time: '15 min atrás' },
+                        { command: 'git push origin main', description: 'Enviar alterações para o repositório', time: '20 min atrás' }
+                    ],
+                    
+                    quickCommands: [
+                        { command: 'git status', description: 'Verificar status do repositório' },
+                        { command: 'git pull', description: 'Buscar alterações do repositório' },
+                        { command: 'npm install', description: 'Instalar dependências' },
+                        { command: 'npm run dev', description: 'Executar servidor de desenvolvimento' },
+                        { command: 'npm run build', description: 'Construir versão de produção' },
+                        { command: 'git add .', description: 'Adicionar todos os arquivos' },
+                        { command: 'git commit', description: 'Fazer commit das alterações' },
+                        { command: 'git push', description: 'Enviar alterações' }
+                    ],
+                    
+                    get filteredHistory() {
+                        if (!this.search) return this.history;
+                        return this.history.filter(item => 
+                            item.command.toLowerCase().includes(this.search.toLowerCase()) ||
+                            item.description.toLowerCase().includes(this.search.toLowerCase())
+                        );
+                    },
+                    
+                    get filteredQuickCommands() {
+                        if (!this.search) return this.quickCommands;
+                        return this.quickCommands.filter(cmd => 
+                            cmd.command.toLowerCase().includes(this.search.toLowerCase()) ||
+                            cmd.description.toLowerCase().includes(this.search.toLowerCase())
+                        );
+                    },
+                    
+                    executeCommand(command) {
+                        alert(`Executando: ${command}`);
+                        this.open = false;
+                        this.search = '';
+                    }
+                }">
+                    <button 
+                        @click="open = true"
+                        class="w-full flex items-center justify-between px-4 py-3 bg-gray-900 dark:bg-gray-800 text-white border border-gray-700 dark:border-gray-600 rounded-lg hover:bg-gray-800 dark:hover:bg-gray-700 transition-colors"
+                    >
+                        <div class="flex items-center space-x-3">
+                            {% icon "terminal" size="4" class="text-gray-400" %}
+                            <span class="text-gray-300">Terminal commands...</span>
+                        </div>
+                        <div class="flex items-center space-x-1">
+                            <kbd class="px-2 py-1 text-xs font-semibold text-gray-800 dark:text-gray-200 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded">
+                                ⌘
+                            </kbd>
+                            <kbd class="px-2 py-1 text-xs font-semibold text-gray-800 dark:text-gray-200 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded">
+                                T
+                            </kbd>
+                        </div>
+                    </button>
+                    
+                    <!-- Command Dialog -->
+                    <div x-show="open" 
+                         x-transition:enter="transition ease-out duration-200"
+                         x-transition:enter-start="opacity-0"
+                         x-transition:enter-end="opacity-100"
+                         x-transition:leave="transition ease-in duration-150"
+                         x-transition:leave-start="opacity-100"
+                         x-transition:leave-end="opacity-0"
+                         class="fixed inset-0 z-50 flex items-start justify-center pt-16 px-4" 
+                         style="display: none;"
+                         @click.away="open = false">
+                        
+                        <div class="fixed inset-0 bg-black bg-opacity-50"></div>
+                        
+                        <div x-show="open"
+                             x-transition:enter="transition ease-out duration-200"
+                             x-transition:enter-start="opacity-0 scale-95"
+                             x-transition:enter-end="opacity-100 scale-100"
+                             x-transition:leave="transition ease-in duration-150"
+                             x-transition:leave-start="opacity-100 scale-100"
+                             x-transition:leave-end="opacity-0 scale-95"
+                             class="relative bg-gray-900 dark:bg-gray-800 text-white rounded-lg shadow-xl w-full max-w-lg mx-4 overflow-hidden">
+                            
+                            <!-- Search Input -->
+                            <div class="relative">
+                                <input 
+                                    type="text" 
+                                    x-model="search"
+                                    placeholder="Digite um comando..."
+                                    class="w-full pl-12 pr-4 py-4 text-lg border-0 focus:ring-0 bg-transparent text-white placeholder-gray-400"
+                                    @keydown.escape="open = false"
+                                >
+                                <div class="absolute left-4 top-1/2 transform -translate-y-1/2">
+                                    {% icon "terminal" size="5" class="text-gray-400" %}
+                                </div>
+                            </div>
+                            
+                            <!-- History Section -->
+                            <div class="border-t border-gray-700 max-h-96 overflow-y-auto">
+                                <template x-if="!search && history.length > 0">
+                                    <div>
+                                        <div class="px-4 py-2 bg-gray-800 border-b border-gray-700">
+                                            <h3 class="text-xs font-medium text-gray-400 uppercase tracking-wider">Histórico Recente</h3>
+                                        </div>
+                                        <template x-for="(item, index) in history" :key="index">
+                                            <button 
+                                                @click="executeCommand(item.command)"
+                                                class="w-full flex items-center justify-between px-4 py-3 hover:bg-gray-800 transition-colors text-left"
+                                            >
+                                                <div class="flex items-center space-x-3">
+                                                    <div class="flex-shrink-0 w-8 h-8 bg-gray-800 rounded-lg flex items-center justify-center">
+                                                        {% icon "clock" size="4" class="text-gray-400" %}
+                                                    </div>
+                                                    <div>
+                                                        <div class="font-mono text-sm text-white" x-text="item.command"></div>
+                                                        <div class="text-xs text-gray-400" x-text="item.description"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="flex-shrink-0">
+                                                    <div class="text-xs text-gray-500" x-text="item.time"></div>
+                                                </div>
+                                            </button>
+                                        </template>
+                                    </div>
+                                </template>
+                                
+                                <!-- Quick Commands Section -->
+                                <template x-if="!search || filteredQuickCommands.length > 0">
+                                    <div>
+                                        <div class="px-4 py-2 bg-gray-800 border-b border-gray-700">
+                                            <h3 class="text-xs font-medium text-gray-400 uppercase tracking-wider">Comandos Rápidos</h3>
+                                        </div>
+                                        <template x-for="(cmd, index) in filteredQuickCommands" :key="index">
+                                            <button 
+                                                @click="executeCommand(cmd.command)"
+                                                class="w-full flex items-center justify-between px-4 py-3 hover:bg-gray-800 transition-colors text-left"
+                                            >
+                                                <div class="flex items-center space-x-3">
+                                                    <div class="flex-shrink-0 w-8 h-8 bg-gray-800 rounded-lg flex items-center justify-center">
+                                                        {% icon "terminal" size="4" class="text-gray-400" %}
+                                                    </div>
+                                                    <div>
+                                                        <div class="font-mono text-sm text-white" x-text="cmd.command"></div>
+                                                        <div class="text-xs text-gray-400" x-text="cmd.description"></div>
+                                                    </div>
+                                                </div>
+                                            </button>
+                                        </template>
+                                    </div>
+                                </template>
+                                
+                                <!-- Empty State -->
+                                <div x-show="search && filteredHistory.length === 0 && filteredQuickCommands.length === 0" class="px-4 py-8 text-center text-gray-400">
+                                    <div class="flex flex-col items-center space-y-2">
+                                        {% icon "terminal" size="8" class="text-gray-600" %}
+                                        <p>Nenhum comando encontrado</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Parâmetros -->
+    <section class="space-y-4">
+        <h2 class="text-2xl font-semibold">Parâmetros</h2>
+        <div class="overflow-x-auto">
+            <table class="w-full border-collapse border border-gray-200 dark:border-gray-700">
+                <thead>
+                    <tr class="bg-gray-50 dark:bg-gray-800">
+                        {% for header in command_params.headers %}
+                        <th class="border border-gray-200 dark:border-gray-700 px-4 py-2 text-left font-medium">{{ header }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in command_params.data %}
+                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-800">
+                        {% for cell in row %}
+                        <td class="border border-gray-200 dark:border-gray-700 px-4 py-2">{{ cell|safe }}</td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>
+{% endblock %} 

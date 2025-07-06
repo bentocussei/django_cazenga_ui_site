@@ -1,0 +1,120 @@
+{% extends "components_base.html" %}
+
+{% block main_content %}
+<div class="space-y-6">
+    <div class="border-b border-border pb-4">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-3xl font-bold">Select</h1>
+                <p class="text-muted-foreground mt-1">Campo de seleção com opções dropdown</p>
+            </div>
+            <a href="/components/" class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+                Voltar
+            </a>
+        </div>
+    </div>
+
+    <div class="grid gap-6">
+        <!-- Instalação -->
+        <div class="space-y-4">
+            <h2 class="text-2xl font-bold">Instalação</h2>
+            <div class="relative" x-data="{ copied: false }">
+                <div class="bg-muted rounded-radius-lg p-3 text-sm">
+                    <code x-ref="code">{% verbatim %}{% include "components/select.html" with name="fruits" options=select_options %}{% endverbatim %}</code>
+                </div>
+                <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                        class="absolute top-2 right-2 p-2 rounded-radius-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Exemplo Default -->
+        <div class="space-y-4">
+            <h2 class="text-2xl font-bold">Exemplo</h2>
+            <div class="border border-border rounded-radius-lg p-6">
+                {% include "components/select.html" with name="fruits" placeholder="Selecione uma fruta" options=select_options %}
+            </div>
+            <div class="relative" x-data="{ copied: false }">
+                <div class="bg-muted rounded-radius-lg p-3 text-sm">
+                    <code x-ref="code">{% verbatim %}{% include "components/select.html" with name="fruits" placeholder="Selecione uma fruta" options=select_options %}{% endverbatim %}</code>
+                </div>
+                <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                        class="absolute top-2 right-2 p-2 rounded-radius-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Com Valor Padrão -->
+        <div class="space-y-4">
+            <h2 class="text-2xl font-bold">Com Valor Padrão</h2>
+            <div class="border border-border rounded-radius-lg p-6">
+                {% include "components/select.html" with name="fruits_default" placeholder="Selecione uma fruta" options=select_options value="apple" %}
+            </div>
+            <div class="relative" x-data="{ copied: false }">
+                <div class="bg-muted rounded-radius-lg p-3 text-sm">
+                    <code x-ref="code">{% verbatim %}{% include "components/select.html" with name="fruits_default" placeholder="Selecione uma fruta" options=select_options value="apple" %}{% endverbatim %}</code>
+                </div>
+                <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                        class="absolute top-2 right-2 p-2 rounded-radius-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Desabilitado -->
+        <div class="space-y-4">
+            <h2 class="text-2xl font-bold">Desabilitado</h2>
+            <div class="border border-border rounded-radius-lg p-6">
+                {% include "components/select.html" with name="fruits_disabled" placeholder="Selecione uma fruta" options=select_options disabled=True %}
+            </div>
+            <div class="relative" x-data="{ copied: false }">
+                <div class="bg-muted rounded-radius-lg p-3 text-sm">
+                    <code x-ref="code">{% verbatim %}{% include "components/select.html" with name="fruits_disabled" placeholder="Selecione uma fruta" options=select_options disabled=True %}{% endverbatim %}</code>
+                </div>
+                <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                        class="absolute top-2 right-2 p-2 rounded-radius-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Com Label -->
+        <div class="space-y-4">
+            <h2 class="text-2xl font-bold">Com Label</h2>
+            <div class="border border-border rounded-radius-lg p-6">
+                <div class="space-y-2">
+                    {% include "components/label.html" with for="fruits_label" text="Fruta favorita" %}
+                    {% include "components/select.html" with name="fruits_label" id="fruits_label" placeholder="Selecione uma fruta" options=select_options %}
+                </div>
+            </div>
+            <div class="relative" x-data="{ copied: false }">
+                <div class="bg-muted rounded-radius-lg p-3 text-sm">
+                    <code x-ref="code">{% verbatim %}<div class="space-y-2">
+    {% include "components/label.html" with for="fruits_label" text="Fruta favorita" %}
+    {% include "components/select.html" with name="fruits_label" id="fruits_label" placeholder="Selecione uma fruta" options=select_options %}
+</div>{% endverbatim %}</code>
+                </div>
+                <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                        class="absolute top-2 right-2 p-2 rounded-radius-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Parâmetros -->
+        <div class="space-y-4">
+            <h2 class="text-2xl font-bold">Parâmetros</h2>
+            <div class="border border-border rounded-radius-lg overflow-hidden">
+                {% include "components/table.html" with headers=select_params.headers rows=select_params.data %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

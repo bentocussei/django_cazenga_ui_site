@@ -7,18 +7,27 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta http-equiv="X-UA-Compatible" content="ie=edge">
 		{% tailwind_css %}
+		
+		{% load static %}
+		<link rel="stylesheet" href="{% static 'css/dist/styles.css' %}">
+		
+		<!-- SPA Script para navegação entre páginas -->
+		<script src="{% static 'js/spa-simple.js' %}"></script>
+		
 		<!-- Alpine.js -->
 		<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 		<!-- Chart.js -->
 		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-		{% load static %}
-		<link rel="stylesheet" href="{% static 'css/dist/styles.css' %}">
 	</head>
 
 	<body class="bg-background text-foreground transition-colors duration-300" 
 		  x-data="{ darkMode: localStorage.getItem('darkMode') === 'true' || false }"
 		  x-init="$watch('darkMode', val => localStorage.setItem('darkMode', val))"
 		  x-cloak>
+		
+		<!-- Barra de progresso SPA -->
+		<div id="spa-progress-bar" class="fixed top-0 left-0 right-0 h-1 bg-primary z-50 transition-all duration-300" style="width: 0%; opacity: 0;"></div>
+		
 		<!-- Container principal -->
 		<div class="container py-8">
 			<!-- Header com toggle de tema -->
@@ -28,12 +37,18 @@
 						<div class="flex items-center space-x-6">
 							<h1 class="text-xl font-bold">Django Cazenga-UI</h1>
 							<nav class="hidden md:flex space-x-4">
-								<a href="/" class="text-sm font-medium hover:text-primary transition-colors">Início</a>
-								<a href="/components/" class="text-sm font-medium hover:text-primary transition-colors">Componentes</a>
-								<a href="/demo/" class="text-sm font-medium hover:text-primary transition-colors">Demo Completa</a>
+								<a href="/" data-spa-link class="text-sm font-medium hover:text-primary transition-colors">Início</a>
+								<a href="/components/" data-spa-link class="text-sm font-medium hover:text-primary transition-colors">Componentes</a>
+								<a href="/demo/" data-spa-link class="text-sm font-medium hover:text-primary transition-colors">Demo Completa</a>
+								<a href="/icons/" data-spa-link class="text-sm font-medium hover:text-primary transition-colors">Ícones</a>
 							</nav>
 						</div>
 						<div class="flex items-center space-x-4">
+							<!-- Loading indicator SPA -->
+							<div x-show="$store.spaSimple && $store.spaSimple.isLoading" class="flex items-center">
+								<div class="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>
+							</div>
+							
 							{% include "components/button.html" with text="🌙" variant="outline" size="md" x_click="darkMode = !darkMode" x_show="!darkMode" %}
 							{% include "components/button.html" with text="☀️" variant="outline" size="md" x_click="darkMode = !darkMode" x_show="darkMode" %}
 						</div>
@@ -42,15 +57,19 @@
 			</header>
 
 			<!-- Conteúdo da página -->
-			<main class="container mx-auto px-4 py-8">
+			<main class="container mx-auto px-4 py-8" id="spa-main-content">
 				{% block page_content %}
 				<div class="text-center py-16">
 					<h1 class="text-4xl font-bold mb-4">Bem-vindo!</h1>
 					<p class="text-xl text-muted-foreground mb-8">Sistema de componentes usando Django, Tailwind CSS e Alpine.js</p>
 					
 					<div class="flex flex-col sm:flex-row gap-4 justify-center">
-						{% include "components/button.html" with text="Ver Componentes" variant="default" size="lg" x_click="window.location.href='/components/'" %}
-						{% include "components/button.html" with text="Demo Completa" variant="outline" size="lg" x_click="window.location.href='/demo/'" %}
+						<a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-11 px-8">
+							Ver Componentes
+						</a>
+						<a href="/demo/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-11 px-8">
+							Demo Completa
+						</a>
 					</div>
 				</div>
 				{% endblock %}

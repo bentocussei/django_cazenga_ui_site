@@ -1,0 +1,662 @@
+{% extends "components_base.html" %}
+{% load icon_tags %}
+
+{% block page_title %}Chart{% endblock %}
+{% block page_description %}Gráficos interativos para visualização de dados{% endblock %}
+
+{% block component_content %}
+<div class="max-w-4xl mx-auto space-y-8">
+    <!-- Instalação -->
+    <section class="space-y-4">
+        <h2 class="text-2xl font-semibold">Instalação</h2>
+        <div class="relative">
+            <pre class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto"><code>{% templatetag openblock %} include "components/chart.html" with type="line" data=chart_data width=400 height=300 {% templatetag closeblock %}</code></pre>
+            <button 
+                class="absolute top-2 right-2 p-2 bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                x-data="{ copied: false }"
+                @click="navigator.clipboard.writeText($el.previousElementSibling.textContent); copied = true; setTimeout(() => copied = false, 2000)"
+            >
+                <span x-show="!copied">{% icon "copy" size="4" %}</span>
+                <span x-show="copied" class="text-green-600">{% icon "check" size="4" %}</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- Gráfico de Linhas -->
+    <section class="space-y-4">
+        <h2 class="text-2xl font-semibold">Gráfico de Linhas</h2>
+        <div class="border rounded-lg p-6">
+            <div class="space-y-4">
+                <div class="text-sm text-gray-600 dark:text-gray-400">
+                    Perfeito para mostrar tendências ao longo do tempo
+                </div>
+                <div class="bg-white dark:bg-gray-800 rounded-lg p-4">
+                    <canvas id="lineChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="relative">
+            <pre class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto text-sm"><code>&lt;canvas id="lineChart" width="400" height="200"&gt;&lt;/canvas&gt;
+
+&lt;script&gt;
+const ctx = document.getElementById('lineChart').getContext('2d');
+new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
+        datasets: [{
+            label: 'Vendas 2024',
+            data: [12, 19, 3, 5, 2, 3],
+            borderColor: 'rgb(59, 130, 246)',
+            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+            tension: 0.1
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'top',
+            },
+            title: {
+                display: true,
+                text: 'Vendas Mensais'
+            }
+        }
+    }
+});
+&lt;/script&gt;</code></pre>
+            <button 
+                class="absolute top-2 right-2 p-2 bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                x-data="{ copied: false }"
+                @click="navigator.clipboard.writeText($el.previousElementSibling.textContent); copied = true; setTimeout(() => copied = false, 2000)"
+            >
+                <span x-show="!copied">{% icon "copy" size="4" %}</span>
+                <span x-show="copied" class="text-green-600">{% icon "check" size="4" %}</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- Gráfico de Barras -->
+    <section class="space-y-4">
+        <h2 class="text-2xl font-semibold">Gráfico de Barras</h2>
+        <div class="border rounded-lg p-6">
+            <div class="space-y-4">
+                <div class="text-sm text-gray-600 dark:text-gray-400">
+                    Ideal para comparar diferentes categorias
+                </div>
+                <div class="bg-white dark:bg-gray-800 rounded-lg p-4">
+                    <canvas id="barChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="relative">
+            <pre class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto text-sm"><code>&lt;canvas id="barChart" width="400" height="200"&gt;&lt;/canvas&gt;
+
+&lt;script&gt;
+const ctx = document.getElementById('barChart').getContext('2d');
+new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['Produto A', 'Produto B', 'Produto C', 'Produto D'],
+        datasets: [{
+            label: 'Vendas',
+            data: [65, 59, 80, 81],
+            backgroundColor: [
+                'rgba(59, 130, 246, 0.8)',
+                'rgba(16, 185, 129, 0.8)',
+                'rgba(245, 158, 11, 0.8)',
+                'rgba(239, 68, 68, 0.8)'
+            ],
+            borderColor: [
+                'rgb(59, 130, 246)',
+                'rgb(16, 185, 129)',
+                'rgb(245, 158, 11)',
+                'rgb(239, 68, 68)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+&lt;/script&gt;</code></pre>
+            <button 
+                class="absolute top-2 right-2 p-2 bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                x-data="{ copied: false }"
+                @click="navigator.clipboard.writeText($el.previousElementSibling.textContent); copied = true; setTimeout(() => copied = false, 2000)"
+            >
+                <span x-show="!copied">{% icon "copy" size="4" %}</span>
+                <span x-show="copied" class="text-green-600">{% icon "check" size="4" %}</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- Gráfico de Pizza -->
+    <section class="space-y-4">
+        <h2 class="text-2xl font-semibold">Gráfico de Pizza</h2>
+        <div class="border rounded-lg p-6">
+            <div class="space-y-4">
+                <div class="text-sm text-gray-600 dark:text-gray-400">
+                    Mostra a proporção de cada categoria no total
+                </div>
+                <div class="bg-white dark:bg-gray-800 rounded-lg p-4">
+                    <canvas id="pieChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="relative">
+            <pre class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto text-sm"><code>&lt;canvas id="pieChart" width="400" height="200"&gt;&lt;/canvas&gt;
+
+&lt;script&gt;
+const ctx = document.getElementById('pieChart').getContext('2d');
+new Chart(ctx, {
+    type: 'pie',
+    data: {
+        labels: ['Desktop', 'Mobile', 'Tablet'],
+        datasets: [{
+            label: 'Dispositivos',
+            data: [55, 35, 10],
+            backgroundColor: [
+                'rgba(59, 130, 246, 0.8)',
+                'rgba(16, 185, 129, 0.8)',
+                'rgba(245, 158, 11, 0.8)'
+            ],
+            borderColor: [
+                'rgb(59, 130, 246)',
+                'rgb(16, 185, 129)',
+                'rgb(245, 158, 11)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'right',
+            }
+        }
+    }
+});
+&lt;/script&gt;</code></pre>
+            <button 
+                class="absolute top-2 right-2 p-2 bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                x-data="{ copied: false }"
+                @click="navigator.clipboard.writeText($el.previousElementSibling.textContent); copied = true; setTimeout(() => copied = false, 2000)"
+            >
+                <span x-show="!copied">{% icon "copy" size="4" %}</span>
+                <span x-show="copied" class="text-green-600">{% icon "check" size="4" %}</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- Dashboard com Múltiplos Gráficos -->
+    <section class="space-y-4">
+        <h2 class="text-2xl font-semibold">Dashboard com Múltiplos Gráficos</h2>
+        <div class="border rounded-lg p-6">
+            <div class="space-y-6">
+                <div class="text-sm text-gray-600 dark:text-gray-400">
+                    Combinação de diferentes tipos de gráficos em um dashboard
+                </div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Gráfico de Área -->
+                    <div class="bg-white dark:bg-gray-800 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold mb-3">Receita Mensal</h3>
+                        <canvas id="areaChart" width="400" height="200"></canvas>
+                    </div>
+                    
+                    <!-- Gráfico de Rosca -->
+                    <div class="bg-white dark:bg-gray-800 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold mb-3">Categorias de Produtos</h3>
+                        <canvas id="doughnutChart" width="400" height="200"></canvas>
+                    </div>
+                    
+                    <!-- Gráfico de Barras Horizontais -->
+                    <div class="bg-white dark:bg-gray-800 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold mb-3">Top Vendedores</h3>
+                        <canvas id="horizontalBarChart" width="400" height="200"></canvas>
+                    </div>
+                    
+                    <!-- Gráfico de Radar -->
+                    <div class="bg-white dark:bg-gray-800 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold mb-3">Análise de Performance</h3>
+                        <canvas id="radarChart" width="400" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gráfico Interativo -->
+    <section class="space-y-4">
+        <h2 class="text-2xl font-semibold">Gráfico Interativo</h2>
+        <div class="border rounded-lg p-6">
+            <div class="space-y-4" x-data="{ 
+                selectedYear: '2024',
+                chartData: {
+                    '2024': [12, 19, 3, 5, 2, 3, 8, 15, 22, 11, 7, 9],
+                    '2023': [2, 3, 20, 5, 1, 4, 6, 12, 18, 8, 5, 7],
+                    '2022': [8, 11, 15, 9, 6, 10, 4, 7, 13, 16, 9, 12]
+                }
+            }">
+                <div class="flex items-center justify-between">
+                    <div class="text-sm text-gray-600 dark:text-gray-400">
+                        Selecione o ano para visualizar os dados
+                    </div>
+                    <div class="flex space-x-2">
+                        <button 
+                            @click="selectedYear = '2024'; updateInteractiveChart()"
+                            :class="selectedYear === '2024' ? 'bg-blue-500 text-white' : 'bg-gray-200 dark:bg-gray-700'"
+                            class="px-3 py-1 rounded-md text-sm font-medium transition-colors"
+                        >
+                            2024
+                        </button>
+                        <button 
+                            @click="selectedYear = '2023'; updateInteractiveChart()"
+                            :class="selectedYear === '2023' ? 'bg-blue-500 text-white' : 'bg-gray-200 dark:bg-gray-700'"
+                            class="px-3 py-1 rounded-md text-sm font-medium transition-colors"
+                        >
+                            2023
+                        </button>
+                        <button 
+                            @click="selectedYear = '2022'; updateInteractiveChart()"
+                            :class="selectedYear === '2022' ? 'bg-blue-500 text-white' : 'bg-gray-200 dark:bg-gray-700'"
+                            class="px-3 py-1 rounded-md text-sm font-medium transition-colors"
+                        >
+                            2022
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="bg-white dark:bg-gray-800 rounded-lg p-4">
+                    <canvas id="interactiveChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="relative">
+            <pre class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto text-sm"><code>&lt;div x-data="{ selectedYear: '2024', chartData: {...} }"&gt;
+    &lt;button @click="selectedYear = '2024'; updateChart()"&gt;2024&lt;/button&gt;
+    &lt;canvas id="interactiveChart"&gt;&lt;/canvas&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+function updateInteractiveChart() {
+    const chart = Chart.getChart('interactiveChart');
+    const year = Alpine.store('selectedYear');
+    chart.data.datasets[0].data = Alpine.store('chartData')[year];
+    chart.update();
+}
+&lt;/script&gt;</code></pre>
+            <button 
+                class="absolute top-2 right-2 p-2 bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                x-data="{ copied: false }"
+                @click="navigator.clipboard.writeText($el.previousElementSibling.textContent); copied = true; setTimeout(() => copied = false, 2000)"
+            >
+                <span x-show="!copied">{% icon "copy" size="4" %}</span>
+                <span x-show="copied" class="text-green-600">{% icon "check" size="4" %}</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- Parâmetros -->
+    <section class="space-y-4">
+        <h2 class="text-2xl font-semibold">Parâmetros</h2>
+        <div class="border rounded-lg overflow-hidden">
+            <table class="w-full">
+                <thead class="bg-gray-50 dark:bg-gray-800">
+                    <tr>
+                        {% for header in chart_params.headers %}
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                            {{ header }}
+                        </th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody class="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
+                    {% for row in chart_params.data %}
+                    <tr>
+                        {% for cell in row %}
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
+                            {{ cell|safe }}
+                        </td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>
+
+<!-- Scripts do Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Gráfico de Linhas
+    const lineCtx = document.getElementById('lineChart').getContext('2d');
+    new Chart(lineCtx, {
+        type: 'line',
+        data: {
+            labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
+            datasets: [{
+                label: 'Vendas 2024',
+                data: [12, 19, 3, 5, 2, 3],
+                borderColor: 'rgb(59, 130, 246)',
+                backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                tension: 0.1,
+                fill: true
+            }, {
+                label: 'Vendas 2023',
+                data: [2, 3, 20, 5, 1, 4],
+                borderColor: 'rgb(16, 185, 129)',
+                backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                tension: 0.1,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            interaction: {
+                mode: 'index',
+                intersect: false,
+            },
+            scales: {
+                x: {
+                    display: true,
+                    title: {
+                        display: true,
+                        text: 'Mês'
+                    }
+                },
+                y: {
+                    display: true,
+                    title: {
+                        display: true,
+                        text: 'Vendas (mil)'
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Comparativo de Vendas'
+                }
+            }
+        }
+    });
+
+    // Gráfico de Barras
+    const barCtx = document.getElementById('barChart').getContext('2d');
+    new Chart(barCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Produto A', 'Produto B', 'Produto C', 'Produto D'],
+            datasets: [{
+                label: 'Vendas',
+                data: [65, 59, 80, 81],
+                backgroundColor: [
+                    'rgba(59, 130, 246, 0.8)',
+                    'rgba(16, 185, 129, 0.8)',
+                    'rgba(245, 158, 11, 0.8)',
+                    'rgba(239, 68, 68, 0.8)'
+                ],
+                borderColor: [
+                    'rgb(59, 130, 246)',
+                    'rgb(16, 185, 129)',
+                    'rgb(245, 158, 11)',
+                    'rgb(239, 68, 68)'
+                ],
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Unidades Vendidas'
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                },
+                title: {
+                    display: true,
+                    text: 'Vendas por Produto'
+                }
+            }
+        }
+    });
+
+    // Gráfico de Pizza
+    const pieCtx = document.getElementById('pieChart').getContext('2d');
+    new Chart(pieCtx, {
+        type: 'pie',
+        data: {
+            labels: ['Desktop', 'Mobile', 'Tablet'],
+            datasets: [{
+                label: 'Dispositivos',
+                data: [55, 35, 10],
+                backgroundColor: [
+                    'rgba(59, 130, 246, 0.8)',
+                    'rgba(16, 185, 129, 0.8)',
+                    'rgba(245, 158, 11, 0.8)'
+                ],
+                borderColor: [
+                    'rgb(59, 130, 246)',
+                    'rgb(16, 185, 129)',
+                    'rgb(245, 158, 11)'
+                ],
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'right',
+                },
+                title: {
+                    display: true,
+                    text: 'Acesso por Dispositivo'
+                }
+            }
+        }
+    });
+
+    // Dashboard Charts
+    
+    // Gráfico de Área
+    const areaCtx = document.getElementById('areaChart').getContext('2d');
+    new Chart(areaCtx, {
+        type: 'line',
+        data: {
+            labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
+            datasets: [{
+                label: 'Receita',
+                data: [4000, 3000, 5000, 2000, 6000, 4500],
+                borderColor: 'rgb(139, 92, 246)',
+                backgroundColor: 'rgba(139, 92, 246, 0.2)',
+                fill: true,
+                tension: 0.4
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value) {
+                            return 'R$ ' + value.toLocaleString();
+                        }
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+
+    // Gráfico de Rosca
+    const doughnutCtx = document.getElementById('doughnutChart').getContext('2d');
+    new Chart(doughnutCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Eletrônicos', 'Roupas', 'Livros', 'Casa'],
+            datasets: [{
+                data: [35, 25, 20, 20],
+                backgroundColor: [
+                    'rgba(59, 130, 246, 0.8)',
+                    'rgba(16, 185, 129, 0.8)',
+                    'rgba(245, 158, 11, 0.8)',
+                    'rgba(239, 68, 68, 0.8)'
+                ],
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            cutout: '60%',
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        padding: 20
+                    }
+                }
+            }
+        }
+    });
+
+    // Gráfico de Barras Horizontais
+    const horizontalBarCtx = document.getElementById('horizontalBarChart').getContext('2d');
+    new Chart(horizontalBarCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Ana Silva', 'Carlos Santos', 'Maria Oliveira', 'João Pereira'],
+            datasets: [{
+                label: 'Vendas',
+                data: [85, 72, 68, 59],
+                backgroundColor: 'rgba(16, 185, 129, 0.8)',
+                borderColor: 'rgb(16, 185, 129)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            responsive: true,
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    max: 100
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+
+    // Gráfico de Radar
+    const radarCtx = document.getElementById('radarChart').getContext('2d');
+    new Chart(radarCtx, {
+        type: 'radar',
+        data: {
+            labels: ['Vendas', 'Marketing', 'Atendimento', 'Qualidade', 'Inovação'],
+            datasets: [{
+                label: 'Atual',
+                data: [80, 70, 85, 90, 65],
+                borderColor: 'rgb(59, 130, 246)',
+                backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                borderWidth: 2
+            }, {
+                label: 'Meta',
+                data: [90, 85, 90, 95, 80],
+                borderColor: 'rgb(16, 185, 129)',
+                backgroundColor: 'rgba(16, 185, 129, 0.2)',
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                r: {
+                    beginAtZero: true,
+                    max: 100
+                }
+            }
+        }
+    });
+
+    // Gráfico Interativo
+    const interactiveCtx = document.getElementById('interactiveChart').getContext('2d');
+    window.interactiveChart = new Chart(interactiveCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+            datasets: [{
+                label: 'Vendas 2024',
+                data: [12, 19, 3, 5, 2, 3, 8, 15, 22, 11, 7, 9],
+                backgroundColor: 'rgba(59, 130, 246, 0.8)',
+                borderColor: 'rgb(59, 130, 246)',
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            animation: {
+                duration: 800
+            },
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            },
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Vendas por Mês'
+                }
+            }
+        }
+    });
+});
+
+// Função para atualizar o gráfico interativo
+function updateInteractiveChart() {
+    const chart = Chart.getChart('interactiveChart');
+    const selectedYear = document.querySelector('[x-data] button.bg-blue-500').textContent;
+    
+    const chartData = {
+        '2024': [12, 19, 3, 5, 2, 3, 8, 15, 22, 11, 7, 9],
+        '2023': [2, 3, 20, 5, 1, 4, 6, 12, 18, 8, 5, 7],
+        '2022': [8, 11, 15, 9, 6, 10, 4, 7, 13, 16, 9, 12]
+    };
+    
+    chart.data.datasets[0].data = chartData[selectedYear];
+    chart.data.datasets[0].label = `Vendas ${selectedYear}`;
+    chart.update();
+}
+</script>
+{% endblock %} 

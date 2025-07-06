@@ -1,8 +1,10 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import Http404
+from django.http import Http404, JsonResponse
+from django.template.loader import render_to_string
 import json
 import os
 from django.conf import settings
+from .component_data import *
 
 # Lista de componentes disponíveis
 COMPONENTS_LIST = [
@@ -122,10 +124,90 @@ LAYOUT_PARAMS = {
     ]
 }
 
+# Função auxiliar para detectar requisições SPA
+def is_spa_request(request):
+    """Detecta se é uma requisição SPA (AJAX) baseada nos parâmetros ou headers"""
+    is_partial = request.GET.get('partial') == 'true'
+    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+    
+    # DEBUG TEMPORÁRIO
+    print(f"🔍 SPA Debug - partial: {is_partial}, ajax: {is_ajax}")
+    
+    return is_partial or is_ajax
+
+# Função auxiliar para retornar resposta SPA
+def spa_response(request, template_name, context, page_title=None):
+    """
+    Retorna resposta apropriada para SPA:
+    - Se for requisição AJAX, retorna JSON com conteúdo parcial
+    - Se for requisição normal, retorna HTML completo
+    """
+    if is_spa_request(request):
+        print(f"🚀 SPA Request detectada para template: {template_name}")
+        
+        # Para requisições SPA, vamos renderizar apenas o conteúdo principal
+        # Se o contexto já tem main_content pronto, usar ele
+        if 'main_content' in context:
+            main_content = context['main_content']
+        else:
+            # Renderizar o template específico do componente apenas
+            main_content = render_to_string(template_name, context, request=request)
+        
+        # Preparar dados para resposta JSON
+        response_data = {
+            'content': main_content,
+            'title': page_title or context.get('page_title', ''),
+            'path': request.path,
+            'success': True
+        }
+        
+        print(f"✅ SPA Response - Tamanho do conteúdo: {len(main_content)} chars")
+        
+        return JsonResponse(response_data)
+    else:
+        print(f"🔄 Request normal para template: {template_name}")
+        # Requisição normal, retornar HTML completo
+        return render(request, template_name, context)
+
 # Create your views here.
 
 def index(request):
-    return render(request, "index.html")
+    # Verificar se é requisição SPA
+    if is_spa_request(request):
+        print("🚀 SPA Request para página inicial")
+        
+        # Para SPA, retornar apenas o conteúdo principal
+        main_content = '''
+        <div class="text-center py-16">
+            <h1 class="text-4xl font-bold mb-4">Bem-vindo!</h1>
+            <p class="text-xl text-muted-foreground mb-8">Sistema de componentes usando Django, Tailwind CSS e Alpine.js</p>
+            
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-11 px-8">
+                    Ver Componentes
+                </a>
+                <a href="/demo/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-11 px-8">
+                    Demo Completa
+                </a>
+            </div>
+        </div>
+        '''
+        
+        response_data = {
+            'content': main_content,
+            'title': 'Django Tailwind Alpine - Biblioteca de Componentes UI',
+            'path': request.path,
+            'success': True
+        }
+        
+        print("✅ SPA Response enviada para página inicial")
+        return JsonResponse(response_data)
+    
+    # Se não for SPA, continuar com o fluxo normal
+    context = {
+        'page_title': 'Django Tailwind Alpine - Biblioteca de Componentes UI'
+    }
+    return render(request, "index.html", context)
 
 def demo(request):
     # Dados para os tabs
@@ -235,6 +317,7 @@ def demo(request):
     }
     
     context = {
+        'page_title': 'Demo - Componentes UI',
         'tabs_data': tabs_data,
         'toggle_alignment_items': toggle_alignment_items,
         'toggle_alignment_labels': toggle_alignment_labels,
@@ -258,9 +341,46 @@ def demo(request):
         'chart_pie_data': json.dumps(chart_pie_data),
     }
     
-    return render(request, "demo.html", context)
+    return spa_response(request, "demo.html", context)
 
 def components_list(request):
+    # Verificar se é requisição SPA
+    if is_spa_request(request):
+        print("🚀 SPA Request para lista de componentes")
+        
+        # Para SPA, retornar apenas o conteúdo principal
+        main_content = '''
+        <div class="space-y-6">
+            <div class="border-b border-border pb-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h1 class="text-3xl font-bold">Componentes</h1>
+                        <p class="text-muted-foreground mt-1">Selecione um componente para ver a demonstração</p>
+                    </div>
+                    <a href="/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+                        Voltar
+                    </a>
+                </div>
+            </div>
+            <div class="text-center py-12">
+                <div class="text-6xl mb-4">🎨</div>
+                <h3 class="text-xl font-semibold mb-2">Selecione um Componente</h3>
+                <p class="text-muted-foreground">Escolha um componente no sidebar para ver a demonstração completa</p>
+            </div>
+        </div>
+        '''
+        
+        response_data = {
+            'content': main_content,
+            'title': 'Componentes - Biblioteca UI',
+            'path': request.path,
+            'success': True
+        }
+        
+        print("✅ SPA Response enviada para lista de componentes")
+        return JsonResponse(response_data)
+    
+    # Se não for SPA, continuar com o fluxo normal
     # Construir conteúdo da sidebar
     sidebar_content = '<nav class="space-y-1">'
     for component in COMPONENTS_LIST:
@@ -286,7 +406,7 @@ def components_list(request):
         icon_name = icon_mapping.get(component['slug'], 'dot-filled')
         
         sidebar_content += f'''
-        <a href="/components/{component['slug']}/" class="flex items-center gap-3 rounded-radius-md px-3 py-2 text-sm font-medium hover:bg-accent transition-colors">
+        <a href="/components/{component['slug']}/" data-spa-link class="flex items-center gap-3 rounded-radius-md px-3 py-2 text-sm font-medium hover:bg-accent transition-colors">
             <img src="/static/radix-icons/{icon_name}.svg" class="size-4" alt="{component['name']}">
             <span x-show="!sidebarCollapsed || isMobile">{component['name']}</span>
         </a>
@@ -296,12 +416,12 @@ def components_list(request):
     # Construir conteúdo do header
     header_content = '''
     <div class="flex items-center gap-4">
-        <a href="/" class="text-xl font-bold">Django Cazenga-UI</a>
+        <a href="/" data-spa-link class="text-xl font-bold">Django Cazenga-UI</a>
         <nav class="hidden md:flex space-x-4">
-            <a href="/" class="text-sm font-medium hover:text-primary transition-colors">Início</a>
-            <a href="/components/" class="text-sm font-medium text-primary">Componentes</a>
-            <a href="/demo/" class="text-sm font-medium hover:text-primary transition-colors">Demo</a>
-            <a href="/icons/" class="text-sm font-medium hover:text-primary transition-colors">Ícones</a>
+            <a href="/" data-spa-link class="text-sm font-medium hover:text-primary transition-colors">Início</a>
+            <a href="/components/" data-spa-link class="text-sm font-medium text-primary">Componentes</a>
+            <a href="/demo/" data-spa-link class="text-sm font-medium hover:text-primary transition-colors">Demo</a>
+            <a href="/icons/" data-spa-link class="text-sm font-medium hover:text-primary transition-colors">Ícones</a>
         </nav>
     </div>
     <div class="flex items-center gap-4">
@@ -321,7 +441,7 @@ def components_list(request):
                     <h1 class="text-3xl font-bold">Componentes</h1>
                     <p class="text-muted-foreground mt-1">Selecione um componente para ver a demonstração</p>
                 </div>
-                <a href="/" class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+                <a href="/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
                     Voltar
                 </a>
             </div>
@@ -335,11 +455,13 @@ def components_list(request):
     '''
     
     context = {
+        'page_title': 'Componentes - Biblioteca UI',
         'components_list': COMPONENTS_LIST,
         'sidebar_content': sidebar_content,
         'header_content': header_content,
         'main_content': main_content,
     }
+    
     return render(request, "components_base.html", context)
 
 def component_detail(request, component_slug):
@@ -353,6 +475,58 @@ def component_detail(request, component_slug):
     if not component:
         raise Http404("Componente não encontrado")
     
+    # Verificar se é requisição SPA
+    if is_spa_request(request):
+        print(f"🚀 SPA Request para componente: {component_slug}")
+        
+        # Para SPA, retornar apenas o conteúdo principal do componente
+        main_content = f'''
+        <div class="space-y-6">
+            <div class="border-b border-border pb-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h1 class="text-3xl font-bold">{component['name']}</h1>
+                        <p class="text-muted-foreground mt-1">Demonstração do componente {component['name']}</p>
+                    </div>
+                    <a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+                        Voltar
+                    </a>
+                </div>
+            </div>
+            
+            <div class="space-y-8">
+                <section>
+                    <h2 class="text-xl font-semibold mb-4">Demonstração</h2>
+                    <div class="p-6 border border-border rounded-radius-lg bg-card">
+                        <p class="text-center text-muted-foreground">
+                            Demonstração do componente <strong>{component['name']}</strong> será implementada em breve.
+                        </p>
+                    </div>
+                </section>
+                
+                <section>
+                    <h2 class="text-xl font-semibold mb-4">Uso</h2>
+                    <div class="p-4 bg-muted rounded-radius-md">
+                        <code class="text-sm">
+                            {{% include "components/{component_slug}.html" with ... %}}
+                        </code>
+                    </div>
+                </section>
+            </div>
+        </div>
+        '''
+        
+        response_data = {
+            'content': main_content,
+            'title': f'{component["name"]} - Componente UI',
+            'path': request.path,
+            'success': True
+        }
+        
+        print(f"✅ SPA Response enviada para {component_slug}")
+        return JsonResponse(response_data)
+    
+    # Se não for SPA, continuar com o fluxo normal
     # Construir conteúdo da sidebar
     sidebar_content = '<nav class="space-y-1">'
     for comp in COMPONENTS_LIST:
@@ -379,7 +553,7 @@ def component_detail(request, component_slug):
         active_class = 'bg-accent text-accent-foreground' if comp['slug'] == component_slug else 'hover:bg-accent'
         
         sidebar_content += f'''
-        <a href="/components/{comp['slug']}/" class="flex items-center gap-3 rounded-radius-md px-3 py-2 text-sm font-medium transition-colors {active_class}">
+        <a href="/components/{comp['slug']}/" data-spa-link class="flex items-center gap-3 rounded-radius-md px-3 py-2 text-sm font-medium transition-colors {active_class}">
             <img src="/static/radix-icons/{icon_name}.svg" class="size-4" alt="{comp['name']}">
             <span x-show="!sidebarCollapsed || isMobile">{comp['name']}</span>
         </a>
@@ -389,12 +563,12 @@ def component_detail(request, component_slug):
     # Construir conteúdo do header
     header_content = '''
     <div class="flex items-center gap-4">
-        <a href="/" class="text-xl font-bold">Django Cazenga-UI</a>
+        <a href="/" data-spa-link class="text-xl font-bold">Django Cazenga-UI</a>
         <nav class="hidden md:flex space-x-4">
-            <a href="/" class="text-sm font-medium hover:text-primary transition-colors">Início</a>
-            <a href="/components/" class="text-sm font-medium text-primary">Componentes</a>
-            <a href="/demo/" class="text-sm font-medium hover:text-primary transition-colors">Demo</a>
-            <a href="/icons/" class="text-sm font-medium hover:text-primary transition-colors">Ícones</a>
+            <a href="/" data-spa-link class="text-sm font-medium hover:text-primary transition-colors">Início</a>
+            <a href="/components/" data-spa-link class="text-sm font-medium text-primary">Componentes</a>
+            <a href="/demo/" data-spa-link class="text-sm font-medium hover:text-primary transition-colors">Demo</a>
+            <a href="/icons/" data-spa-link class="text-sm font-medium hover:text-primary transition-colors">Ícones</a>
         </nav>
     </div>
     <div class="flex items-center gap-4">
@@ -405,32 +579,15 @@ def component_detail(request, component_slug):
     </div>
     '''
     
-    # Preparar contexto base
+    # Preparar contexto base para requisição normal
     context = {
+        'page_title': f'{component["name"]} - Componente UI',
         'component': component,
         'components_list': COMPONENTS_LIST,
         'current_component': component_slug,
         'sidebar_content': sidebar_content,
         'header_content': header_content,
     }
-    
-    # Adicionar dados específicos do componente
-    if component_slug == 'button':
-        context.update({
-            'button_params': BUTTON_PARAMS,
-        })
-    elif component_slug == 'card':
-        context.update({
-            'card_params': CARD_PARAMS,
-        })
-    elif component_slug == 'input':
-        context.update({
-            'input_params': INPUT_PARAMS,
-        })
-    elif component_slug == 'layout':
-        context.update({
-            'layout_params': LAYOUT_PARAMS,
-        })
     
     # Renderizar template específico do componente ou usar fallback
     from django.template.loader import get_template
@@ -439,7 +596,6 @@ def component_detail(request, component_slug):
     try:
         # Tentar carregar o template específico
         template = get_template(f"components/demos/{component_slug}.html")
-        # Renderizar o template completo primeiro (pois ele estende components_base.html)
         return render(request, f"components/demos/{component_slug}.html", context)
     except TemplateDoesNotExist:
         # Template não existe, usar fallback
@@ -451,7 +607,7 @@ def component_detail(request, component_slug):
                         <h1 class="text-3xl font-bold">{component['name']}</h1>
                         <p class="text-muted-foreground mt-1">Demonstração do componente {component['name']}</p>
                     </div>
-                    <a href="/components/" class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+                    <a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
                         Voltar
                     </a>
                 </div>
@@ -515,9 +671,10 @@ def icons_page(request):
     icons.sort(key=lambda x: x['name'])
     
     context = {
+        'page_title': 'Ícones - Biblioteca UI',
         'nav_menu': nav_menu,
         'icons': icons,
         'total_icons': len(icons)
     }
     
-    return render(request, "icons.html", context)
+    return spa_response(request, "icons.html", context)

@@ -1,0 +1,78 @@
+{% extends "components_base.html" %}
+
+{% block main_content %}
+<div class="space-y-6">
+    <div class="border-b border-border pb-4">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-3xl font-bold">Accordion</h1>
+                <p class="text-muted-foreground mt-1">Um painel expansível para mostrar e ocultar conteúdo</p>
+            </div>
+            <a href="/components/" class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+                Voltar
+            </a>
+        </div>
+    </div>
+
+    <div class="grid gap-6">
+        <!-- Instalação -->
+        <div class="space-y-4">
+            <h2 class="text-2xl font-bold">Instalação</h2>
+            <div class="relative" x-data="{ copied: false }">
+                <div class="bg-muted rounded-radius-lg p-3 text-sm">
+                    <code x-ref="code">{% verbatim %}{% include "components/accordion.html" with items=accordion_items %}{% endverbatim %}</code>
+                </div>
+                <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                        class="absolute top-2 right-2 p-2 rounded-radius-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Exemplo Default -->
+        <div class="space-y-4">
+            <h2 class="text-2xl font-bold">Exemplo</h2>
+            <div class="border border-border rounded-radius-lg p-6">
+                {% include "components/accordion.html" with items=accordion_items %}
+            </div>
+            <div class="relative" x-data="{ copied: false }">
+                <div class="bg-muted rounded-radius-lg p-3 text-sm">
+                    <code x-ref="code">{% verbatim %}{% include "components/accordion.html" with items=accordion_items %}{% endverbatim %}</code>
+                </div>
+                <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                        class="absolute top-2 right-2 p-2 rounded-radius-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Múltiplos Abertos -->
+        <div class="space-y-4">
+            <h2 class="text-2xl font-bold">Múltiplos Abertos</h2>
+            <div class="border border-border rounded-radius-lg p-6">
+                {% include "components/accordion.html" with items=accordion_items allow_multiple=True %}
+            </div>
+            <div class="relative" x-data="{ copied: false }">
+                <div class="bg-muted rounded-radius-lg p-3 text-sm">
+                    <code x-ref="code">{% verbatim %}{% include "components/accordion.html" with items=accordion_items allow_multiple=True %}{% endverbatim %}</code>
+                </div>
+                <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                        class="absolute top-2 right-2 p-2 rounded-radius-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Parâmetros -->
+        <div class="space-y-4">
+            <h2 class="text-2xl font-bold">Parâmetros</h2>
+            <div class="border border-border rounded-radius-lg overflow-hidden">
+                {% include "components/table.html" with headers=accordion_params.headers rows=accordion_params.data %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

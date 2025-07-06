@@ -1,0 +1,295 @@
+{% extends "components_base.html" %}
+
+{% block title %}Switch{% endblock %}
+{% block page_title %}Switch{% endblock %}
+{% block page_description %}Alternador que permite ativar ou desativar uma opção, oferecendo feedback visual claro do estado.{% endblock %}
+
+{% block component_content %}
+<div class="max-w-4xl mx-auto space-y-8">
+    <!-- Instalação -->
+    <div class="space-y-3">
+        <h2 class="text-2xl font-semibold">Instalação</h2>
+        <div class="bg-muted rounded-lg p-4 relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
+                <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
+            </button>
+            <code class="text-sm" x-ref="code">{% verbatim %}{% include "components/switch.html" with name="notifications" label="Notificações" %}{% endverbatim %}</code>
+        </div>
+    </div>
+
+    <!-- Exemplos -->
+    <div class="space-y-6">
+        <h2 class="text-2xl font-semibold">Exemplos</h2>
+        
+        <!-- Exemplo Básico -->
+        <div class="space-y-3">
+            <h3 class="text-lg font-medium">Básico</h3>
+            <div class="border rounded-lg p-6">
+                <div class="space-y-4">
+                    {% include "components/switch.html" with name="basic_switch" label="Ativar recurso" %}
+                    {% include "components/switch.html" with name="basic_switch_checked" label="Recurso ativado" checked=True %}
+                </div>
+            </div>
+            <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+                <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                        class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
+                </button>
+                <code x-ref="code">{% verbatim %}{% include "components/switch.html" with name="basic_switch" label="Ativar recurso" %}{% endverbatim %}</code>
+            </div>
+        </div>
+
+        <!-- Exemplo com Tamanhos -->
+        <div class="space-y-3">
+            <h3 class="text-lg font-medium">Tamanhos</h3>
+            <div class="border rounded-lg p-6">
+                <div class="space-y-4">
+                    {% include "components/switch.html" with name="size_sm" label="Pequeno" size="sm" %}
+                    {% include "components/switch.html" with name="size_md" label="Médio (padrão)" size="md" %}
+                    {% include "components/switch.html" with name="size_lg" label="Grande" size="lg" %}
+                </div>
+            </div>
+            <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+                <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                        class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
+                </button>
+                <code x-ref="code">{% verbatim %}{% include "components/switch.html" with name="size_sm" label="Pequeno" size="sm" %}
+{% include "components/switch.html" with name="size_md" label="Médio" size="md" %}
+{% include "components/switch.html" with name="size_lg" label="Grande" size="lg" %}{% endverbatim %}</code>
+            </div>
+        </div>
+
+        <!-- Exemplo Desabilitado -->
+        <div class="space-y-3">
+            <h3 class="text-lg font-medium">Desabilitado</h3>
+            <div class="border rounded-lg p-6">
+                <div class="space-y-4">
+                    {% include "components/switch.html" with name="disabled_off" label="Desabilitado (desligado)" disabled=True %}
+                    {% include "components/switch.html" with name="disabled_on" label="Desabilitado (ligado)" disabled=True checked=True %}
+                </div>
+            </div>
+            <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+                <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                        class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
+                </button>
+                <code x-ref="code">{% verbatim %}{% include "components/switch.html" with name="disabled_off" label="Desabilitado (desligado)" disabled=True %}
+{% include "components/switch.html" with name="disabled_on" label="Desabilitado (ligado)" disabled=True checked=True %}{% endverbatim %}</code>
+            </div>
+        </div>
+
+        <!-- Exemplo com Descrição -->
+        <div class="space-y-3">
+            <h3 class="text-lg font-medium">Com Descrição</h3>
+            <div class="border rounded-lg p-6">
+                <div class="space-y-6">
+                    <div class="flex items-start space-x-3">
+                        {% include "components/switch.html" with name="notifications_desc" %}
+                        <div class="flex-1">
+                            <label for="notifications_desc" class="block text-sm font-medium cursor-pointer">
+                                Notificações Push
+                            </label>
+                            <p class="text-xs text-muted-foreground mt-1">
+                                Receba notificações push no seu dispositivo quando houver atualizações importantes.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start space-x-3">
+                        {% include "components/switch.html" with name="marketing_desc" %}
+                        <div class="flex-1">
+                            <label for="marketing_desc" class="block text-sm font-medium cursor-pointer">
+                                Emails de Marketing
+                            </label>
+                            <p class="text-xs text-muted-foreground mt-1">
+                                Receba emails sobre novos produtos, ofertas especiais e conteúdo relevante.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start space-x-3">
+                        {% include "components/switch.html" with name="security_desc" checked=True %}
+                        <div class="flex-1">
+                            <label for="security_desc" class="block text-sm font-medium cursor-pointer">
+                                Alertas de Segurança
+                            </label>
+                            <p class="text-xs text-muted-foreground mt-1">
+                                Receba alertas importantes sobre atividades suspeitas na sua conta.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+                <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                        class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
+                </button>
+                <code x-ref="code">{% verbatim %}<div class="flex items-start space-x-3">
+    {% include "components/switch.html" with name="notifications_desc" %}
+    <div class="flex-1">
+        <label for="notifications_desc" class="block text-sm font-medium cursor-pointer">
+            Notificações Push
+        </label>
+        <p class="text-xs text-muted-foreground mt-1">
+            Receba notificações push no seu dispositivo...
+        </p>
+    </div>
+</div>{% endverbatim %}</code>
+            </div>
+        </div>
+
+        <!-- Exemplo com Alpine.js -->
+        <div class="space-y-3">
+            <h3 class="text-lg font-medium">Com Alpine.js</h3>
+            <div class="border rounded-lg p-6">
+                <div x-data="{ 
+                    settings: {
+                        notifications: true,
+                        darkMode: false,
+                        autoSave: true,
+                        sounds: false
+                    }
+                }">
+                    <div class="space-y-6">
+                        <h4 class="font-medium text-sm">Configurações do Aplicativo</h4>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <label class="block text-sm font-medium">Notificações</label>
+                                    <p class="text-xs text-muted-foreground">Ativar notificações do sistema</p>
+                                </div>
+                                <button type="button" 
+                                        @click="settings.notifications = !settings.notifications"
+                                        :class="settings.notifications ? 'bg-blue-600' : 'bg-gray-200'"
+                                        class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors">
+                                    <span :class="settings.notifications ? 'translate-x-6' : 'translate-x-1'"
+                                          class="inline-block h-4 w-4 rounded-full bg-white transition-transform"></span>
+                                </button>
+                            </div>
+                            
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <label class="block text-sm font-medium">Modo Escuro</label>
+                                    <p class="text-xs text-muted-foreground">Ativar tema escuro</p>
+                                </div>
+                                <button type="button" 
+                                        @click="settings.darkMode = !settings.darkMode"
+                                        :class="settings.darkMode ? 'bg-blue-600' : 'bg-gray-200'"
+                                        class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors">
+                                    <span :class="settings.darkMode ? 'translate-x-6' : 'translate-x-1'"
+                                          class="inline-block h-4 w-4 rounded-full bg-white transition-transform"></span>
+                                </button>
+                            </div>
+                            
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <label class="block text-sm font-medium">Salvamento Automático</label>
+                                    <p class="text-xs text-muted-foreground">Salvar automaticamente as alterações</p>
+                                </div>
+                                <button type="button" 
+                                        @click="settings.autoSave = !settings.autoSave"
+                                        :class="settings.autoSave ? 'bg-blue-600' : 'bg-gray-200'"
+                                        class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors">
+                                    <span :class="settings.autoSave ? 'translate-x-6' : 'translate-x-1'"
+                                          class="inline-block h-4 w-4 rounded-full bg-white transition-transform"></span>
+                                </button>
+                            </div>
+                            
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <label class="block text-sm font-medium">Sons do Sistema</label>
+                                    <p class="text-xs text-muted-foreground">Reproduzir sons de notificação</p>
+                                </div>
+                                <button type="button" 
+                                        @click="settings.sounds = !settings.sounds"
+                                        :class="settings.sounds ? 'bg-blue-600' : 'bg-gray-200'"
+                                        class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors">
+                                    <span :class="settings.sounds ? 'translate-x-6' : 'translate-x-1'"
+                                          class="inline-block h-4 w-4 rounded-full bg-white transition-transform"></span>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6 p-4 bg-muted rounded text-sm">
+                            <h5 class="font-medium mb-2">Estado atual:</h5>
+                            <div class="space-y-1 text-muted-foreground">
+                                <div class="flex items-center space-x-2">
+                                    <span>Notificações:</span>
+                                    <span :class="settings.notifications ? 'text-green-600' : 'text-red-600'"
+                                          x-text="settings.notifications ? 'Ativadas' : 'Desativadas'"></span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <span>Modo Escuro:</span>
+                                    <span :class="settings.darkMode ? 'text-green-600' : 'text-red-600'"
+                                          x-text="settings.darkMode ? 'Ativado' : 'Desativado'"></span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <span>Salvamento Automático:</span>
+                                    <span :class="settings.autoSave ? 'text-green-600' : 'text-red-600'"
+                                          x-text="settings.autoSave ? 'Ativado' : 'Desativado'"></span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <span>Sons:</span>
+                                    <span :class="settings.sounds ? 'text-green-600' : 'text-red-600'"
+                                          x-text="settings.sounds ? 'Ativados' : 'Desativados'"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+                <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                        class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
+                </button>
+                <code x-ref="code">{% verbatim %}<div x-data="{ enabled: false }">
+    <button @click="enabled = !enabled"
+            :class="enabled ? 'bg-blue-600' : 'bg-gray-200'"
+            class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors">
+        <span :class="enabled ? 'translate-x-6' : 'translate-x-1'"
+              class="inline-block h-4 w-4 rounded-full bg-white transition-transform"></span>
+    </button>
+</div>{% endverbatim %}</code>
+            </div>
+        </div>
+    </div>
+
+    <!-- Parâmetros -->
+    <div class="space-y-3">
+        <h2 class="text-2xl font-semibold">Parâmetros</h2>
+        <div class="rounded-lg border bg-card">
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b">
+                            {% for header in switch_params.headers %}
+                                <th class="p-3 text-left font-medium">{{ header|safe }}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in switch_params.data %}
+                            <tr class="border-b last:border-b-0">
+                                {% for cell in row %}
+                                    <td class="p-3">{{ cell|safe }}</td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

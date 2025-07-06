@@ -1,0 +1,74 @@
+<div class="space-y-6">
+    <div class="border-b border-border pb-4">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-3xl font-bold">Button</h1>
+                <p class="text-muted-foreground mt-1">Demonstração do componente Button</p>
+            </div>
+            <a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+                Voltar
+            </a>
+        </div>
+    </div>
+    
+    <div class="space-y-8">
+        <!-- Variantes -->
+        <section>
+            <h2 class="text-xl font-semibold mb-4">Variantes</h2>
+            <div class="flex flex-wrap gap-4">
+                {% include "components/button.html" with text="Default" variant="default" %}
+                {% include "components/button.html" with text="Secondary" variant="secondary" %}
+                {% include "components/button.html" with text="Destructive" variant="destructive" %}
+                {% include "components/button.html" with text="Outline" variant="outline" %}
+                {% include "components/button.html" with text="Ghost" variant="ghost" %}
+                {% include "components/button.html" with text="Link" variant="link" %}
+            </div>
+        </section>
+
+        <!-- Tamanhos -->
+        <section>
+            <h2 class="text-xl font-semibold mb-4">Tamanhos</h2>
+            <div class="flex flex-wrap gap-4 items-center">
+                {% include "components/button.html" with text="Small" size="sm" %}
+                {% include "components/button.html" with text="Medium" size="md" %}
+                {% include "components/button.html" with text="Large" size="lg" %}
+            </div>
+        </section>
+
+        <!-- Estados -->
+        <section>
+            <h2 class="text-xl font-semibold mb-4">Estados</h2>
+            <div class="flex flex-wrap gap-4">
+                {% include "components/button.html" with text="Normal" %}
+                {% include "components/button.html" with text="Disabled" disabled=True %}
+            </div>
+        </section>
+
+        <!-- Com ícones -->
+        <section>
+            <h2 class="text-xl font-semibold mb-4">Com Ícones</h2>
+            <div class="flex flex-wrap gap-4">
+                <button class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2">
+                    <svg class="size-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                    </svg>
+                    Adicionar
+                </button>
+                <button class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+                    Download
+                    <svg class="size-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m0 0l-4-4m4 4l4-4"/>
+                    </svg>
+                </button>
+            </div>
+        </section>
+
+        <!-- Parâmetros -->
+        <section>
+            <h2 class="text-xl font-semibold mb-4">Parâmetros</h2>
+            {% if button_params %}
+                {% include "components/table.html" with headers=button_params.headers data=button_params.data %}
+            {% endif %}
+        </section>
+    </div>
+</div> 

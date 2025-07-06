@@ -1,0 +1,597 @@
+{% extends "components_base.html" %}
+{% load icon_tags %}
+
+{% block page_title %}Dropdown{% endblock %}
+{% block page_description %}Componente de seleção com lista suspensa de opções{% endblock %}
+
+{% block component_content %}
+<div class="max-w-4xl mx-auto space-y-8">
+    <!-- Instalação -->
+    <section class="space-y-4">
+        <h2 class="text-2xl font-semibold">Instalação</h2>
+        <div class="relative">
+            <pre class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto"><code>{% templatetag openblock %} include "components/dropdown.html" with options=dropdown_options placeholder="Selecione..." {% templatetag closeblock %}</code></pre>
+            <button 
+                class="absolute top-2 right-2 p-2 bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                x-data="{ copied: false }"
+                @click="navigator.clipboard.writeText($el.previousElementSibling.textContent); copied = true; setTimeout(() => copied = false, 2000)"
+            >
+                <span x-show="!copied">{% icon "copy" size="4" %}</span>
+                <span x-show="copied" class="text-green-600">{% icon "check" size="4" %}</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- Dropdown Básico -->
+    <section class="space-y-4">
+        <h2 class="text-2xl font-semibold">Dropdown Básico</h2>
+        <div class="border rounded-lg p-6">
+            <div class="space-y-4">
+                <div class="text-sm text-gray-600 dark:text-gray-400">
+                    Dropdown simples com lista de opções
+                </div>
+                <div class="max-w-xs">
+                    <div x-data="{ 
+                        open: false, 
+                        selected: null,
+                        options: {{ dropdown_data.languages|safe }},
+                        selectOption(option) {
+                            this.selected = option;
+                            this.open = false;
+                        }
+                    }" class="relative">
+                        <button 
+                            @click="open = !open"
+                            class="w-full flex items-center justify-between px-3 py-2 text-left bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        >
+                            <span x-text="selected ? selected.label : 'Selecione um idioma'" 
+                                  :class="selected ? 'text-gray-900 dark:text-gray-100' : 'text-gray-500 dark:text-gray-400'"></span>
+                            <div :class="open ? 'rotate-180' : ''" class="transition-transform">
+                                {% icon "chevron-down" size="4" %}
+                            </div>
+                        </button>
+                        
+                        <div x-show="open" 
+                             x-transition:enter="transition ease-out duration-100"
+                             x-transition:enter-start="opacity-0 scale-95"
+                             x-transition:enter-end="opacity-100 scale-100"
+                             x-transition:leave="transition ease-in duration-75"
+                             x-transition:leave-start="opacity-100 scale-100"
+                             x-transition:leave-end="opacity-0 scale-95"
+                             @click.outside="open = false"
+                             class="absolute z-10 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg shadow-lg max-h-60 overflow-auto">
+                            <template x-for="option in options" :key="option.value">
+                                <button 
+                                    @click="selectOption(option)"
+                                    :class="selected && selected.value === option.value ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400' : 'text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-700'"
+                                    class="w-full px-3 py-2 text-left transition-colors"
+                                    x-text="option.label">
+                                </button>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dropdown com Ícones -->
+    <section class="space-y-4">
+        <h2 class="text-2xl font-semibold">Dropdown com Ícones</h2>
+        <div class="border rounded-lg p-6">
+            <div class="space-y-4">
+                <div class="text-sm text-gray-600 dark:text-gray-400">
+                    Dropdown com ícones para cada opção
+                </div>
+                <div class="max-w-xs">
+                    <div x-data="{ 
+                        open: false, 
+                        selected: null,
+                        options: {{ dropdown_data.categories|safe }},
+                        selectOption(option) {
+                            this.selected = option;
+                            this.open = false;
+                        }
+                    }" class="relative">
+                        <button 
+                            @click="open = !open"
+                            class="w-full flex items-center justify-between px-3 py-2 text-left bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        >
+                            <div class="flex items-center space-x-2">
+                                <template x-if="selected">
+                                    <div class="flex items-center space-x-2">
+                                        <span class="text-gray-500 dark:text-gray-400">
+                                            <!-- Ícone seria renderizado aqui -->
+                                            📁
+                                        </span>
+                                        <span class="text-gray-900 dark:text-gray-100" x-text="selected.label"></span>
+                                    </div>
+                                </template>
+                                <template x-if="!selected">
+                                    <span class="text-gray-500 dark:text-gray-400">Selecione uma categoria</span>
+                                </template>
+                            </div>
+                            <div :class="open ? 'rotate-180' : ''" class="transition-transform">
+                                {% icon "chevron-down" size="4" %}
+                            </div>
+                        </button>
+                        
+                        <div x-show="open" 
+                             x-transition:enter="transition ease-out duration-100"
+                             x-transition:enter-start="opacity-0 scale-95"
+                             x-transition:enter-end="opacity-100 scale-100"
+                             x-transition:leave="transition ease-in duration-75"
+                             x-transition:leave-start="opacity-100 scale-100"
+                             x-transition:leave-end="opacity-0 scale-95"
+                             @click.outside="open = false"
+                             class="absolute z-10 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg shadow-lg max-h-60 overflow-auto">
+                            <template x-for="option in options" :key="option.value">
+                                <button 
+                                    @click="selectOption(option)"
+                                    :class="selected && selected.value === option.value ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400' : 'text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-700'"
+                                    class="w-full px-3 py-2 text-left transition-colors flex items-center space-x-2"
+                                >
+                                    <span class="text-gray-500 dark:text-gray-400">📁</span>
+                                    <span x-text="option.label"></span>
+                                </button>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dropdown com Bandeiras -->
+    <section class="space-y-4">
+        <h2 class="text-2xl font-semibold">Dropdown com Bandeiras</h2>
+        <div class="border rounded-lg p-6">
+            <div class="space-y-4">
+                <div class="text-sm text-gray-600 dark:text-gray-400">
+                    Seletor de país com bandeiras
+                </div>
+                <div class="max-w-xs">
+                    <div x-data="{ 
+                        open: false, 
+                        selected: null,
+                        options: {{ dropdown_data.countries|safe }},
+                        selectOption(option) {
+                            this.selected = option;
+                            this.open = false;
+                        }
+                    }" class="relative">
+                        <button 
+                            @click="open = !open"
+                            class="w-full flex items-center justify-between px-3 py-2 text-left bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        >
+                            <div class="flex items-center space-x-2">
+                                <template x-if="selected">
+                                    <div class="flex items-center space-x-2">
+                                        <span class="text-lg" x-text="selected.flag"></span>
+                                        <span class="text-gray-900 dark:text-gray-100" x-text="selected.label"></span>
+                                    </div>
+                                </template>
+                                <template x-if="!selected">
+                                    <span class="text-gray-500 dark:text-gray-400">Selecione um país</span>
+                                </template>
+                            </div>
+                            <div :class="open ? 'rotate-180' : ''" class="transition-transform">
+                                {% icon "chevron-down" size="4" %}
+                            </div>
+                        </button>
+                        
+                        <div x-show="open" 
+                             x-transition:enter="transition ease-out duration-100"
+                             x-transition:enter-start="opacity-0 scale-95"
+                             x-transition:enter-end="opacity-100 scale-100"
+                             x-transition:leave="transition ease-in duration-75"
+                             x-transition:leave-start="opacity-100 scale-100"
+                             x-transition:leave-end="opacity-0 scale-95"
+                             @click.outside="open = false"
+                             class="absolute z-10 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg shadow-lg max-h-60 overflow-auto">
+                            <template x-for="option in options" :key="option.value">
+                                <button 
+                                    @click="selectOption(option)"
+                                    :class="selected && selected.value === option.value ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400' : 'text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-700'"
+                                    class="w-full px-3 py-2 text-left transition-colors flex items-center space-x-2"
+                                >
+                                    <span class="text-lg" x-text="option.flag"></span>
+                                    <span x-text="option.label"></span>
+                                </button>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dropdown com Busca -->
+    <section class="space-y-4">
+        <h2 class="text-2xl font-semibold">Dropdown com Busca</h2>
+        <div class="border rounded-lg p-6">
+            <div class="space-y-4">
+                <div class="text-sm text-gray-600 dark:text-gray-400">
+                    Dropdown com campo de busca para filtrar opções
+                </div>
+                <div class="max-w-xs">
+                    <div x-data="{ 
+                        open: false, 
+                        selected: null,
+                        search: '',
+                        options: {{ dropdown_data.countries|safe }},
+                        get filteredOptions() {
+                            if (!this.search) return this.options;
+                            return this.options.filter(option => 
+                                option.label.toLowerCase().includes(this.search.toLowerCase())
+                            );
+                        },
+                        selectOption(option) {
+                            this.selected = option;
+                            this.search = '';
+                            this.open = false;
+                        }
+                    }" class="relative">
+                        <button 
+                            @click="open = !open"
+                            class="w-full flex items-center justify-between px-3 py-2 text-left bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        >
+                            <div class="flex items-center space-x-2">
+                                <template x-if="selected">
+                                    <div class="flex items-center space-x-2">
+                                        <span class="text-lg" x-text="selected.flag"></span>
+                                        <span class="text-gray-900 dark:text-gray-100" x-text="selected.label"></span>
+                                    </div>
+                                </template>
+                                <template x-if="!selected">
+                                    <span class="text-gray-500 dark:text-gray-400">Buscar país...</span>
+                                </template>
+                            </div>
+                            <div :class="open ? 'rotate-180' : ''" class="transition-transform">
+                                {% icon "chevron-down" size="4" %}
+                            </div>
+                        </button>
+                        
+                        <div x-show="open" 
+                             x-transition:enter="transition ease-out duration-100"
+                             x-transition:enter-start="opacity-0 scale-95"
+                             x-transition:enter-end="opacity-100 scale-100"
+                             x-transition:leave="transition ease-in duration-75"
+                             x-transition:leave-start="opacity-100 scale-100"
+                             x-transition:leave-end="opacity-0 scale-95"
+                             @click.outside="open = false"
+                             class="absolute z-10 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg shadow-lg max-h-60 overflow-auto">
+                            
+                            <!-- Search Input -->
+                            <div class="p-2 border-b border-gray-200 dark:border-gray-700">
+                                <div class="relative">
+                                    <input 
+                                        x-model="search"
+                                        @click.stop
+                                        type="text" 
+                                        placeholder="Buscar..."
+                                        class="w-full pl-8 pr-3 py-2 text-sm bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                    >
+                                    <div class="absolute left-2.5 top-2.5 text-gray-400">
+                                        {% icon "magnifying-glass" size="4" %}
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Options -->
+                            <template x-for="option in filteredOptions" :key="option.value">
+                                <button 
+                                    @click="selectOption(option)"
+                                    :class="selected && selected.value === option.value ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400' : 'text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-700'"
+                                    class="w-full px-3 py-2 text-left transition-colors flex items-center space-x-2"
+                                >
+                                    <span class="text-lg" x-text="option.flag"></span>
+                                    <span x-text="option.label"></span>
+                                </button>
+                            </template>
+                            
+                            <!-- No results -->
+                            <div x-show="filteredOptions.length === 0" class="px-3 py-2 text-sm text-gray-500 dark:text-gray-400">
+                                Nenhum país encontrado
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dropdown com Avatares -->
+    <section class="space-y-4">
+        <h2 class="text-2xl font-semibold">Dropdown com Avatares</h2>
+        <div class="border rounded-lg p-6">
+            <div class="space-y-4">
+                <div class="text-sm text-gray-600 dark:text-gray-400">
+                    Seletor de usuário com avatares e informações extras
+                </div>
+                <div class="max-w-sm">
+                    <div x-data="{ 
+                        open: false, 
+                        selected: null,
+                        options: {{ dropdown_data.users|safe }},
+                        selectOption(option) {
+                            this.selected = option;
+                            this.open = false;
+                        }
+                    }" class="relative">
+                        <button 
+                            @click="open = !open"
+                            class="w-full flex items-center justify-between px-3 py-2 text-left bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        >
+                            <div class="flex items-center space-x-3">
+                                <template x-if="selected">
+                                    <div class="flex items-center space-x-3">
+                                        <img :src="selected.avatar" :alt="selected.label" class="w-8 h-8 rounded-full object-cover">
+                                        <div>
+                                            <div class="text-sm font-medium text-gray-900 dark:text-gray-100" x-text="selected.label"></div>
+                                            <div class="text-xs text-gray-500 dark:text-gray-400" x-text="selected.email"></div>
+                                        </div>
+                                    </div>
+                                </template>
+                                <template x-if="!selected">
+                                    <span class="text-gray-500 dark:text-gray-400">Selecione um usuário</span>
+                                </template>
+                            </div>
+                            <div :class="open ? 'rotate-180' : ''" class="transition-transform">
+                                {% icon "chevron-down" size="4" %}
+                            </div>
+                        </button>
+                        
+                        <div x-show="open" 
+                             x-transition:enter="transition ease-out duration-100"
+                             x-transition:enter-start="opacity-0 scale-95"
+                             x-transition:enter-end="opacity-100 scale-100"
+                             x-transition:leave="transition ease-in duration-75"
+                             x-transition:leave-start="opacity-100 scale-100"
+                             x-transition:leave-end="opacity-0 scale-95"
+                             @click.outside="open = false"
+                             class="absolute z-10 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg shadow-lg max-h-60 overflow-auto">
+                            <template x-for="option in options" :key="option.value">
+                                <button 
+                                    @click="selectOption(option)"
+                                    :class="selected && selected.value === option.value ? 'bg-blue-50 dark:bg-blue-900/20' : 'hover:bg-gray-50 dark:hover:bg-gray-700'"
+                                    class="w-full px-3 py-3 text-left transition-colors flex items-center space-x-3"
+                                >
+                                    <img :src="option.avatar" :alt="option.label" class="w-8 h-8 rounded-full object-cover flex-shrink-0">
+                                    <div class="flex-1">
+                                        <div class="text-sm font-medium text-gray-900 dark:text-gray-100" x-text="option.label"></div>
+                                        <div class="text-xs text-gray-500 dark:text-gray-400" x-text="option.email"></div>
+                                    </div>
+                                </button>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dropdown com Status -->
+    <section class="space-y-4">
+        <h2 class="text-2xl font-semibold">Dropdown com Status</h2>
+        <div class="border rounded-lg p-6">
+            <div class="space-y-4">
+                <div class="text-sm text-gray-600 dark:text-gray-400">
+                    Dropdown com indicadores coloridos de status
+                </div>
+                <div class="max-w-xs">
+                    <div x-data="{ 
+                        open: false, 
+                        selected: null,
+                        options: {{ dropdown_data.status_options|safe }},
+                        selectOption(option) {
+                            this.selected = option;
+                            this.open = false;
+                        },
+                        getStatusColor(color) {
+                            const colors = {
+                                green: 'bg-green-500',
+                                red: 'bg-red-500',
+                                yellow: 'bg-yellow-500',
+                                gray: 'bg-gray-500'
+                            };
+                            return colors[color] || 'bg-gray-500';
+                        }
+                    }" class="relative">
+                        <button 
+                            @click="open = !open"
+                            class="w-full flex items-center justify-between px-3 py-2 text-left bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        >
+                            <div class="flex items-center space-x-2">
+                                <template x-if="selected">
+                                    <div class="flex items-center space-x-2">
+                                        <div :class="getStatusColor(selected.color)" class="w-2 h-2 rounded-full"></div>
+                                        <span class="text-gray-900 dark:text-gray-100" x-text="selected.label"></span>
+                                    </div>
+                                </template>
+                                <template x-if="!selected">
+                                    <span class="text-gray-500 dark:text-gray-400">Selecione um status</span>
+                                </template>
+                            </div>
+                            <div :class="open ? 'rotate-180' : ''" class="transition-transform">
+                                {% icon "chevron-down" size="4" %}
+                            </div>
+                        </button>
+                        
+                        <div x-show="open" 
+                             x-transition:enter="transition ease-out duration-100"
+                             x-transition:enter-start="opacity-0 scale-95"
+                             x-transition:enter-end="opacity-100 scale-100"
+                             x-transition:leave="transition ease-in duration-75"
+                             x-transition:leave-start="opacity-100 scale-100"
+                             x-transition:leave-end="opacity-0 scale-95"
+                             @click.outside="open = false"
+                             class="absolute z-10 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg shadow-lg max-h-60 overflow-auto">
+                            <template x-for="option in options" :key="option.value">
+                                <button 
+                                    @click="selectOption(option)"
+                                    :class="selected && selected.value === option.value ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400' : 'text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-700'"
+                                    class="w-full px-3 py-2 text-left transition-colors flex items-center space-x-2"
+                                >
+                                    <div :class="getStatusColor(option.color)" class="w-2 h-2 rounded-full"></div>
+                                    <span x-text="option.label"></span>
+                                </button>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Diferentes Tamanhos -->
+    <section class="space-y-4">
+        <h2 class="text-2xl font-semibold">Diferentes Tamanhos</h2>
+        <div class="border rounded-lg p-6">
+            <div class="space-y-6">
+                <!-- Small -->
+                <div class="space-y-2">
+                    <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100">Pequeno (sm)</h3>
+                    <div class="max-w-xs">
+                        <div x-data="{ 
+                            open: false, 
+                            selected: null,
+                            options: {{ dropdown_data.languages|slice:':4'|safe }},
+                            selectOption(option) {
+                                this.selected = option;
+                                this.open = false;
+                            }
+                        }" class="relative">
+                            <button 
+                                @click="open = !open"
+                                class="w-full flex items-center justify-between px-2 py-1 text-sm text-left bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            >
+                                <span x-text="selected ? selected.label : 'Pequeno'" 
+                                      :class="selected ? 'text-gray-900 dark:text-gray-100' : 'text-gray-500 dark:text-gray-400'"></span>
+                                <div :class="open ? 'rotate-180' : ''" class="transition-transform">
+                                    {% icon "chevron-down" size="3" %}
+                                </div>
+                            </button>
+                            
+                            <div x-show="open" 
+                                 x-transition:enter="transition ease-out duration-100"
+                                 x-transition:enter-start="opacity-0 scale-95"
+                                 x-transition:enter-end="opacity-100 scale-100"
+                                 x-transition:leave="transition ease-in duration-75"
+                                 x-transition:leave-start="opacity-100 scale-100"
+                                 x-transition:leave-end="opacity-0 scale-95"
+                                 @click.outside="open = false"
+                                 class="absolute z-10 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded shadow-lg max-h-60 overflow-auto">
+                                <template x-for="option in options" :key="option.value">
+                                    <button 
+                                        @click="selectOption(option)"
+                                        :class="selected && selected.value === option.value ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400' : 'text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-700'"
+                                        class="w-full px-2 py-1 text-sm text-left transition-colors"
+                                        x-text="option.label">
+                                    </button>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Large -->
+                <div class="space-y-2">
+                    <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100">Grande (lg)</h3>
+                    <div class="max-w-xs">
+                        <div x-data="{ 
+                            open: false, 
+                            selected: null,
+                            options: {{ dropdown_data.languages|slice:':4'|safe }},
+                            selectOption(option) {
+                                this.selected = option;
+                                this.open = false;
+                            }
+                        }" class="relative">
+                            <button 
+                                @click="open = !open"
+                                class="w-full flex items-center justify-between px-4 py-3 text-lg text-left bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            >
+                                <span x-text="selected ? selected.label : 'Grande'" 
+                                      :class="selected ? 'text-gray-900 dark:text-gray-100' : 'text-gray-500 dark:text-gray-400'"></span>
+                                <div :class="open ? 'rotate-180' : ''" class="transition-transform">
+                                    {% icon "chevron-down" size="5" %}
+                                </div>
+                            </button>
+                            
+                            <div x-show="open" 
+                                 x-transition:enter="transition ease-out duration-100"
+                                 x-transition:enter-start="opacity-0 scale-95"
+                                 x-transition:enter-end="opacity-100 scale-100"
+                                 x-transition:leave="transition ease-in duration-75"
+                                 x-transition:leave-start="opacity-100 scale-100"
+                                 x-transition:leave-end="opacity-0 scale-95"
+                                 @click.outside="open = false"
+                                 class="absolute z-10 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg shadow-lg max-h-60 overflow-auto">
+                                <template x-for="option in options" :key="option.value">
+                                    <button 
+                                        @click="selectOption(option)"
+                                        :class="selected && selected.value === option.value ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400' : 'text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-700'"
+                                        class="w-full px-4 py-3 text-lg text-left transition-colors"
+                                        x-text="option.label">
+                                    </button>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dropdown Desabilitado -->
+    <section class="space-y-4">
+        <h2 class="text-2xl font-semibold">Dropdown Desabilitado</h2>
+        <div class="border rounded-lg p-6">
+            <div class="space-y-4">
+                <div class="text-sm text-gray-600 dark:text-gray-400">
+                    Dropdown em estado desabilitado
+                </div>
+                <div class="max-w-xs">
+                    <button 
+                        disabled
+                        class="w-full flex items-center justify-between px-3 py-2 text-left bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg cursor-not-allowed opacity-60"
+                    >
+                        <span class="text-gray-500 dark:text-gray-400">Opção desabilitada</span>
+                        {% icon "chevron-down" size="4" class="text-gray-400" %}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Parâmetros -->
+    <section class="space-y-4">
+        <h2 class="text-2xl font-semibold">Parâmetros</h2>
+        <div class="border rounded-lg overflow-hidden">
+            <table class="w-full">
+                <thead class="bg-gray-50 dark:bg-gray-800">
+                    <tr>
+                        {% for header in dropdown_params.headers %}
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                            {{ header }}
+                        </th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody class="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
+                    {% for row in dropdown_params.data %}
+                    <tr>
+                        {% for cell in row %}
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
+                            {{ cell|safe }}
+                        </td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>
+{% endblock %} 

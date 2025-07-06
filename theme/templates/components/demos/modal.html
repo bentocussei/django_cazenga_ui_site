@@ -1,0 +1,737 @@
+{% extends "components_base.html" %}
+{% load icon_tags %}
+
+{% block page_title %}Modal{% endblock %}
+{% block page_description %}Janelas modais para exibir conteúdo em sobreposição{% endblock %}
+
+{% block component_content %}
+<div class="max-w-4xl mx-auto space-y-8">
+    <!-- Instalação -->
+    <section class="space-y-4">
+        <h2 class="text-2xl font-semibold">Instalação</h2>
+        <div class="relative">
+            <pre class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto"><code>{% templatetag openblock %} include "components/modal.html" with title="Meu Modal" content="Conteúdo do modal" {% templatetag closeblock %}</code></pre>
+            <button 
+                class="absolute top-2 right-2 p-2 bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                x-data="{ copied: false }"
+                @click="navigator.clipboard.writeText($el.previousElementSibling.textContent); copied = true; setTimeout(() => copied = false, 2000)"
+            >
+                <span x-show="!copied">{% icon "copy" size="4" %}</span>
+                <span x-show="copied" class="text-green-600">{% icon "check" size="4" %}</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- Modal Básico -->
+    <section class="space-y-4">
+        <h2 class="text-2xl font-semibold">Modal Básico</h2>
+        <div class="border rounded-lg p-6">
+            <div class="flex items-center justify-center space-x-4">
+                <div x-data="{ open: false }">
+                    <button 
+                        @click="open = true"
+                        class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+                    >
+                        Abrir Modal Básico
+                    </button>
+                    
+                    <!-- Modal -->
+                    <div x-show="open" 
+                         x-transition:enter="transition ease-out duration-300"
+                         x-transition:enter-start="opacity-0"
+                         x-transition:enter-end="opacity-100"
+                         x-transition:leave="transition ease-in duration-200"
+                         x-transition:leave-start="opacity-100"
+                         x-transition:leave-end="opacity-0"
+                         class="fixed inset-0 z-50 flex items-center justify-center px-4" 
+                         style="display: none;">
+                        
+                        <!-- Backdrop -->
+                        <div @click="open = false" class="fixed inset-0 bg-black bg-opacity-50"></div>
+                        
+                        <!-- Modal Content -->
+                        <div x-show="open"
+                             x-transition:enter="transition ease-out duration-300"
+                             x-transition:enter-start="opacity-0 scale-95"
+                             x-transition:enter-end="opacity-100 scale-100"
+                             x-transition:leave="transition ease-in duration-200"
+                             x-transition:leave-start="opacity-100 scale-100"
+                             x-transition:leave-end="opacity-0 scale-95"
+                             class="relative bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-md mx-4">
+                            
+                            <!-- Header -->
+                            <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                                    Título do Modal
+                                </h3>
+                                <button @click="open = false" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                                    {% icon "cross-2" size="5" %}
+                                </button>
+                            </div>
+                            
+                            <!-- Body -->
+                            <div class="px-6 py-4">
+                                <p class="text-gray-700 dark:text-gray-300">
+                                    Este é um modal básico com conteúdo simples. Você pode adicionar qualquer conteúdo aqui, como texto, formulários, imagens ou outros componentes.
+                                </p>
+                            </div>
+                            
+                            <!-- Footer -->
+                            <div class="flex justify-end space-x-3 px-6 py-4 border-t border-gray-200 dark:border-gray-700">
+                                <button @click="open = false" class="px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200">
+                                    Cancelar
+                                </button>
+                                <button @click="open = false" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
+                                    Confirmar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div x-data="{ open: false }">
+                    <button 
+                        @click="open = true"
+                        class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
+                    >
+                        Modal sem Footer
+                    </button>
+                    
+                    <!-- Modal -->
+                    <div x-show="open" 
+                         x-transition:enter="transition ease-out duration-300"
+                         x-transition:enter-start="opacity-0"
+                         x-transition:enter-end="opacity-100"
+                         x-transition:leave="transition ease-in duration-200"
+                         x-transition:leave-start="opacity-100"
+                         x-transition:leave-end="opacity-0"
+                         class="fixed inset-0 z-50 flex items-center justify-center px-4" 
+                         style="display: none;">
+                        
+                        <!-- Backdrop -->
+                        <div @click="open = false" class="fixed inset-0 bg-black bg-opacity-50"></div>
+                        
+                        <!-- Modal Content -->
+                        <div x-show="open"
+                             x-transition:enter="transition ease-out duration-300"
+                             x-transition:enter-start="opacity-0 scale-95"
+                             x-transition:enter-end="opacity-100 scale-100"
+                             x-transition:leave="transition ease-in duration-200"
+                             x-transition:leave-start="opacity-100 scale-100"
+                             x-transition:leave-end="opacity-0 scale-95"
+                             class="relative bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-md mx-4">
+                            
+                            <!-- Header -->
+                            <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                                    Informação
+                                </h3>
+                                <button @click="open = false" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                                    {% icon "cross-2" size="5" %}
+                                </button>
+                            </div>
+                            
+                            <!-- Body -->
+                            <div class="px-6 py-6">
+                                <div class="flex items-start space-x-3">
+                                    <div class="flex-shrink-0">
+                                        {% icon "info-circled" size="6" class="text-blue-500" %}
+                                    </div>
+                                    <div>
+                                        <h4 class="font-medium text-gray-900 dark:text-gray-100 mb-2">
+                                            Dados salvos com sucesso!
+                                        </h4>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">
+                                            Suas informações foram salvas e estão disponíveis para uso imediato.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="relative">
+            <pre class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto text-sm"><code>&lt;div x-data="{ open: false }"&gt;
+  &lt;button @click="open = true"&gt;Abrir Modal&lt;/button&gt;
+  
+  &lt;div x-show="open" 
+       x-transition:enter="transition ease-out duration-300"
+       x-transition:enter-start="opacity-0"
+       x-transition:enter-end="opacity-100"
+       class="fixed inset-0 z-50 flex items-center justify-center px-4"&gt;
+    
+    &lt;div @click="open = false" class="fixed inset-0 bg-black bg-opacity-50"&gt;&lt;/div&gt;
+    
+    &lt;div class="relative bg-white rounded-lg shadow-xl w-full max-w-md mx-4"&gt;
+      &lt;div class="flex items-center justify-between px-6 py-4 border-b"&gt;
+        &lt;h3 class="text-lg font-semibold"&gt;Título do Modal&lt;/h3&gt;
+        &lt;button @click="open = false"&gt;×&lt;/button&gt;
+      &lt;/div&gt;
+      
+      &lt;div class="px-6 py-4"&gt;
+        &lt;p&gt;Conteúdo do modal...&lt;/p&gt;
+      &lt;/div&gt;
+      
+      &lt;div class="flex justify-end space-x-3 px-6 py-4 border-t"&gt;
+        &lt;button @click="open = false"&gt;Cancelar&lt;/button&gt;
+        &lt;button @click="open = false"&gt;Confirmar&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;</code></pre>
+            <button 
+                class="absolute top-2 right-2 p-2 bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                x-data="{ copied: false }"
+                @click="navigator.clipboard.writeText($el.previousElementSibling.textContent); copied = true; setTimeout(() => copied = false, 2000)"
+            >
+                <span x-show="!copied">{% icon "copy" size="4" %}</span>
+                <span x-show="copied" class="text-green-600">{% icon "check" size="4" %}</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- Tamanhos -->
+    <section class="space-y-4">
+        <h2 class="text-2xl font-semibold">Tamanhos</h2>
+        <div class="border rounded-lg p-6">
+            <div class="flex flex-wrap items-center justify-center gap-4">
+                <!-- Small -->
+                <div x-data="{ open: false }">
+                    <button 
+                        @click="open = true"
+                        class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors"
+                    >
+                        Modal Pequeno
+                    </button>
+                    
+                    <div x-show="open" 
+                         x-transition:enter="transition ease-out duration-300"
+                         x-transition:enter-start="opacity-0"
+                         x-transition:enter-end="opacity-100"
+                         x-transition:leave="transition ease-in duration-200"
+                         x-transition:leave-start="opacity-100"
+                         x-transition:leave-end="opacity-0"
+                         class="fixed inset-0 z-50 flex items-center justify-center px-4" 
+                         style="display: none;">
+                        
+                        <div @click="open = false" class="fixed inset-0 bg-black bg-opacity-50"></div>
+                        
+                        <div x-show="open"
+                             x-transition:enter="transition ease-out duration-300"
+                             x-transition:enter-start="opacity-0 scale-95"
+                             x-transition:enter-end="opacity-100 scale-100"
+                             x-transition:leave="transition ease-in duration-200"
+                             x-transition:leave-start="opacity-100 scale-100"
+                             x-transition:leave-end="opacity-0 scale-95"
+                             class="relative bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-sm mx-4">
+                            
+                            <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                                    Modal Pequeno
+                                </h3>
+                                <button @click="open = false" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                                    {% icon "cross-2" size="5" %}
+                                </button>
+                            </div>
+                            
+                            <div class="px-6 py-4">
+                                <p class="text-sm text-gray-700 dark:text-gray-300">
+                                    Este é um modal pequeno (max-w-sm) ideal para confirmações simples.
+                                </p>
+                            </div>
+                            
+                            <div class="flex justify-end space-x-3 px-6 py-4 border-t border-gray-200 dark:border-gray-700">
+                                <button @click="open = false" class="px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200">
+                                    Fechar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Medium -->
+                <div x-data="{ open: false }">
+                    <button 
+                        @click="open = true"
+                        class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+                    >
+                        Modal Médio
+                    </button>
+                    
+                    <div x-show="open" 
+                         x-transition:enter="transition ease-out duration-300"
+                         x-transition:enter-start="opacity-0"
+                         x-transition:enter-end="opacity-100"
+                         x-transition:leave="transition ease-in duration-200"
+                         x-transition:leave-start="opacity-100"
+                         x-transition:leave-end="opacity-0"
+                         class="fixed inset-0 z-50 flex items-center justify-center px-4" 
+                         style="display: none;">
+                        
+                        <div @click="open = false" class="fixed inset-0 bg-black bg-opacity-50"></div>
+                        
+                        <div x-show="open"
+                             x-transition:enter="transition ease-out duration-300"
+                             x-transition:enter-start="opacity-0 scale-95"
+                             x-transition:enter-end="opacity-100 scale-100"
+                             x-transition:leave="transition ease-in duration-200"
+                             x-transition:leave-start="opacity-100 scale-100"
+                             x-transition:leave-end="opacity-0 scale-95"
+                             class="relative bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-md mx-4">
+                            
+                            <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                                    Modal Médio
+                                </h3>
+                                <button @click="open = false" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                                    {% icon "cross-2" size="5" %}
+                                </button>
+                            </div>
+                            
+                            <div class="px-6 py-4">
+                                <p class="text-gray-700 dark:text-gray-300">
+                                    Este é um modal médio (max-w-md) ideal para a maioria dos conteúdos. Oferece um bom equilíbrio entre espaço e usabilidade.
+                                </p>
+                            </div>
+                            
+                            <div class="flex justify-end space-x-3 px-6 py-4 border-t border-gray-200 dark:border-gray-700">
+                                <button @click="open = false" class="px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200">
+                                    Fechar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Large -->
+                <div x-data="{ open: false }">
+                    <button 
+                        @click="open = true"
+                        class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
+                    >
+                        Modal Grande
+                    </button>
+                    
+                    <div x-show="open" 
+                         x-transition:enter="transition ease-out duration-300"
+                         x-transition:enter-start="opacity-0"
+                         x-transition:enter-end="opacity-100"
+                         x-transition:leave="transition ease-in duration-200"
+                         x-transition:leave-start="opacity-100"
+                         x-transition:leave-end="opacity-0"
+                         class="fixed inset-0 z-50 flex items-center justify-center px-4" 
+                         style="display: none;">
+                        
+                        <div @click="open = false" class="fixed inset-0 bg-black bg-opacity-50"></div>
+                        
+                        <div x-show="open"
+                             x-transition:enter="transition ease-out duration-300"
+                             x-transition:enter-start="opacity-0 scale-95"
+                             x-transition:enter-end="opacity-100 scale-100"
+                             x-transition:leave="transition ease-in duration-200"
+                             x-transition:leave-start="opacity-100 scale-100"
+                             x-transition:leave-end="opacity-0 scale-95"
+                             class="relative bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-2xl mx-4">
+                            
+                            <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                                    Modal Grande
+                                </h3>
+                                <button @click="open = false" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                                    {% icon "cross-2" size="5" %}
+                                </button>
+                            </div>
+                            
+                            <div class="px-6 py-4">
+                                <p class="text-gray-700 dark:text-gray-300 mb-4">
+                                    Este é um modal grande (max-w-2xl) ideal para conteúdos mais extensos, formulários complexos ou quando você precisa de mais espaço para exibir informações.
+                                </p>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                                        <h4 class="font-medium text-gray-900 dark:text-gray-100 mb-2">Seção 1</h4>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">Conteúdo da primeira seção do modal grande.</p>
+                                    </div>
+                                    <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                                        <h4 class="font-medium text-gray-900 dark:text-gray-100 mb-2">Seção 2</h4>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400">Conteúdo da segunda seção do modal grande.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex justify-end space-x-3 px-6 py-4 border-t border-gray-200 dark:border-gray-700">
+                                <button @click="open = false" class="px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200">
+                                    Fechar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Extra Large -->
+                <div x-data="{ open: false }">
+                    <button 
+                        @click="open = true"
+                        class="px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors"
+                    >
+                        Modal Extra Grande
+                    </button>
+                    
+                    <div x-show="open" 
+                         x-transition:enter="transition ease-out duration-300"
+                         x-transition:enter-start="opacity-0"
+                         x-transition:enter-end="opacity-100"
+                         x-transition:leave="transition ease-in duration-200"
+                         x-transition:leave-start="opacity-100"
+                         x-transition:leave-end="opacity-0"
+                         class="fixed inset-0 z-50 flex items-center justify-center px-4" 
+                         style="display: none;">
+                        
+                        <div @click="open = false" class="fixed inset-0 bg-black bg-opacity-50"></div>
+                        
+                        <div x-show="open"
+                             x-transition:enter="transition ease-out duration-300"
+                             x-transition:enter-start="opacity-0 scale-95"
+                             x-transition:enter-end="opacity-100 scale-100"
+                             x-transition:leave="transition ease-in duration-200"
+                             x-transition:leave-start="opacity-100 scale-100"
+                             x-transition:leave-end="opacity-0 scale-95"
+                             class="relative bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-4xl mx-4 max-h-[90vh] overflow-y-auto">
+                            
+                            <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                                    Modal Extra Grande
+                                </h3>
+                                <button @click="open = false" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                                    {% icon "cross-2" size="5" %}
+                                </button>
+                            </div>
+                            
+                            <div class="px-6 py-4">
+                                <p class="text-gray-700 dark:text-gray-300 mb-6">
+                                    Este é um modal extra grande (max-w-4xl) ideal para dashboards, relatórios detalhados ou quando você precisa de muito espaço para exibir conteúdo complexo.
+                                </p>
+                                <div class="grid grid-cols-3 gap-4 mb-6">
+                                    <div class="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg">
+                                        <h4 class="font-medium text-blue-900 dark:text-blue-100 mb-2">Estatísticas</h4>
+                                        <p class="text-sm text-blue-700 dark:text-blue-300">Dados e métricas importantes.</p>
+                                    </div>
+                                    <div class="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg">
+                                        <h4 class="font-medium text-green-900 dark:text-green-100 mb-2">Relatórios</h4>
+                                        <p class="text-sm text-green-700 dark:text-green-300">Análises detalhadas do sistema.</p>
+                                    </div>
+                                    <div class="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-lg">
+                                        <h4 class="font-medium text-purple-900 dark:text-purple-100 mb-2">Configurações</h4>
+                                        <p class="text-sm text-purple-700 dark:text-purple-300">Opções avançadas de customização.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                                    <h4 class="font-medium text-gray-900 dark:text-gray-100 mb-2">Conteúdo Adicional</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">
+                                        Este modal tem muito espaço para conteúdo extenso. Você pode adicionar tabelas, gráficos, formulários complexos, ou qualquer outro conteúdo que precise de mais espaço visual.
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex justify-end space-x-3 px-6 py-4 border-t border-gray-200 dark:border-gray-700">
+                                <button @click="open = false" class="px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200">
+                                    Fechar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal com Formulário -->
+    <section class="space-y-4">
+        <h2 class="text-2xl font-semibold">Modal com Formulário</h2>
+        <div class="border rounded-lg p-6">
+            <div class="flex items-center justify-center">
+                <div x-data="{ 
+                    open: false, 
+                    formData: {
+                        name: '',
+                        email: '',
+                        phone: '',
+                        message: ''
+                    },
+                    
+                    submitForm() {
+                        alert('Dados enviados: ' + JSON.stringify(this.formData));
+                        this.open = false;
+                        this.formData = { name: '', email: '', phone: '', message: '' };
+                    }
+                }">
+                    <button 
+                        @click="open = true"
+                        class="px-4 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition-colors"
+                    >
+                        Abrir Formulário
+                    </button>
+                    
+                    <div x-show="open" 
+                         x-transition:enter="transition ease-out duration-300"
+                         x-transition:enter-start="opacity-0"
+                         x-transition:enter-end="opacity-100"
+                         x-transition:leave="transition ease-in duration-200"
+                         x-transition:leave-start="opacity-100"
+                         x-transition:leave-end="opacity-0"
+                         class="fixed inset-0 z-50 flex items-center justify-center px-4" 
+                         style="display: none;">
+                        
+                        <div @click="open = false" class="fixed inset-0 bg-black bg-opacity-50"></div>
+                        
+                        <div x-show="open"
+                             x-transition:enter="transition ease-out duration-300"
+                             x-transition:enter-start="opacity-0 scale-95"
+                             x-transition:enter-end="opacity-100 scale-100"
+                             x-transition:leave="transition ease-in duration-200"
+                             x-transition:leave-start="opacity-100 scale-100"
+                             x-transition:leave-end="opacity-0 scale-95"
+                             class="relative bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-lg mx-4">
+                            
+                            <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                                    Formulário de Contato
+                                </h3>
+                                <button @click="open = false" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                                    {% icon "cross-2" size="5" %}
+                                </button>
+                            </div>
+                            
+                            <form @submit.prevent="submitForm()" class="px-6 py-4 space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                        Nome *
+                                    </label>
+                                    <input 
+                                        type="text" 
+                                        x-model="formData.name"
+                                        required
+                                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+                                        placeholder="Digite seu nome"
+                                    >
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                        E-mail *
+                                    </label>
+                                    <input 
+                                        type="email" 
+                                        x-model="formData.email"
+                                        required
+                                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+                                        placeholder="Digite seu e-mail"
+                                    >
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                        Telefone
+                                    </label>
+                                    <input 
+                                        type="tel" 
+                                        x-model="formData.phone"
+                                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+                                        placeholder="(00) 00000-0000"
+                                    >
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                        Mensagem *
+                                    </label>
+                                    <textarea 
+                                        x-model="formData.message"
+                                        required
+                                        rows="4"
+                                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+                                        placeholder="Digite sua mensagem"
+                                    ></textarea>
+                                </div>
+                                
+                                <div class="flex justify-end space-x-3 pt-4 border-t border-gray-200 dark:border-gray-700">
+                                    <button 
+                                        type="button"
+                                        @click="open = false" 
+                                        class="px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
+                                    >
+                                        Cancelar
+                                    </button>
+                                    <button 
+                                        type="submit"
+                                        class="px-4 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition-colors"
+                                    >
+                                        Enviar
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal de Confirmação -->
+    <section class="space-y-4">
+        <h2 class="text-2xl font-semibold">Modal de Confirmação</h2>
+        <div class="border rounded-lg p-6">
+            <div class="flex items-center justify-center space-x-4">
+                <div x-data="{ open: false }">
+                    <button 
+                        @click="open = true"
+                        class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
+                    >
+                        Excluir Item
+                    </button>
+                    
+                    <div x-show="open" 
+                         x-transition:enter="transition ease-out duration-300"
+                         x-transition:enter-start="opacity-0"
+                         x-transition:enter-end="opacity-100"
+                         x-transition:leave="transition ease-in duration-200"
+                         x-transition:leave-start="opacity-100"
+                         x-transition:leave-end="opacity-0"
+                         class="fixed inset-0 z-50 flex items-center justify-center px-4" 
+                         style="display: none;">
+                        
+                        <div @click="open = false" class="fixed inset-0 bg-black bg-opacity-50"></div>
+                        
+                        <div x-show="open"
+                             x-transition:enter="transition ease-out duration-300"
+                             x-transition:enter-start="opacity-0 scale-95"
+                             x-transition:enter-end="opacity-100 scale-100"
+                             x-transition:leave="transition ease-in duration-200"
+                             x-transition:leave-start="opacity-100 scale-100"
+                             x-transition:leave-end="opacity-0 scale-95"
+                             class="relative bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-md mx-4">
+                            
+                            <div class="px-6 py-4">
+                                <div class="flex items-center space-x-3">
+                                    <div class="flex-shrink-0">
+                                        <div class="w-10 h-10 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center">
+                                            {% icon "exclamation-triangle" size="6" class="text-red-600 dark:text-red-400" %}
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                                            Confirmar Exclusão
+                                        </h3>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                                            Tem certeza de que deseja excluir este item? Esta ação não pode ser desfeita.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex justify-end space-x-3 px-6 py-4 border-t border-gray-200 dark:border-gray-700">
+                                <button @click="open = false" class="px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200">
+                                    Cancelar
+                                </button>
+                                <button 
+                                    @click="open = false; alert('Item excluído!')"
+                                    class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
+                                >
+                                    Sim, Excluir
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div x-data="{ open: false }">
+                    <button 
+                        @click="open = true"
+                        class="px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition-colors"
+                    >
+                        Sair do Sistema
+                    </button>
+                    
+                    <div x-show="open" 
+                         x-transition:enter="transition ease-out duration-300"
+                         x-transition:enter-start="opacity-0"
+                         x-transition:enter-end="opacity-100"
+                         x-transition:leave="transition ease-in duration-200"
+                         x-transition:leave-start="opacity-100"
+                         x-transition:leave-end="opacity-0"
+                         class="fixed inset-0 z-50 flex items-center justify-center px-4" 
+                         style="display: none;">
+                        
+                        <div @click="open = false" class="fixed inset-0 bg-black bg-opacity-50"></div>
+                        
+                        <div x-show="open"
+                             x-transition:enter="transition ease-out duration-300"
+                             x-transition:enter-start="opacity-0 scale-95"
+                             x-transition:enter-end="opacity-100 scale-100"
+                             x-transition:leave="transition ease-in duration-200"
+                             x-transition:leave-start="opacity-100 scale-100"
+                             x-transition:leave-end="opacity-0 scale-95"
+                             class="relative bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-md mx-4">
+                            
+                            <div class="px-6 py-4">
+                                <div class="flex items-center space-x-3">
+                                    <div class="flex-shrink-0">
+                                        <div class="w-10 h-10 bg-yellow-100 dark:bg-yellow-900/20 rounded-full flex items-center justify-center">
+                                            {% icon "question-mark-circled" size="6" class="text-yellow-600 dark:text-yellow-400" %}
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                                            Sair do Sistema
+                                        </h3>
+                                        <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                                            Tem certeza de que deseja sair? Você precisará fazer login novamente.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex justify-end space-x-3 px-6 py-4 border-t border-gray-200 dark:border-gray-700">
+                                <button @click="open = false" class="px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200">
+                                    Cancelar
+                                </button>
+                                <button 
+                                    @click="open = false; alert('Logout realizado!')"
+                                    class="px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition-colors"
+                                >
+                                    Sim, Sair
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Parâmetros -->
+    <section class="space-y-4">
+        <h2 class="text-2xl font-semibold">Parâmetros</h2>
+        <div class="overflow-x-auto">
+            <table class="w-full border-collapse border border-gray-200 dark:border-gray-700">
+                <thead>
+                    <tr class="bg-gray-50 dark:bg-gray-800">
+                        {% for header in modal_params.headers %}
+                        <th class="border border-gray-200 dark:border-gray-700 px-4 py-2 text-left font-medium">{{ header }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in modal_params.data %}
+                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-800">
+                        {% for cell in row %}
+                        <td class="border border-gray-200 dark:border-gray-700 px-4 py-2">{{ cell|safe }}</td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>
+{% endblock %} 

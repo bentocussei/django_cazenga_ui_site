@@ -1,0 +1,117 @@
+{% extends "components_base.html" %}
+
+{% block main_content %}
+<div class="space-y-6">
+    <div class="border-b border-border pb-4">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-3xl font-bold">Badge</h1>
+                <p class="text-muted-foreground mt-1">Etiqueta pequena para categorizar e destacar</p>
+            </div>
+            <a href="/components/" class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+                Voltar
+            </a>
+        </div>
+    </div>
+
+    <div class="grid gap-6">
+        <!-- Instalação -->
+        <div class="space-y-4">
+            <h2 class="text-2xl font-bold">Instalação</h2>
+            <div class="relative" x-data="{ copied: false }">
+                <div class="bg-muted rounded-radius-lg p-3 text-sm">
+                    <code x-ref="code">{% verbatim %}{% include "components/badge.html" with text="Badge" %}{% endverbatim %}</code>
+                </div>
+                <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                        class="absolute top-2 right-2 p-2 rounded-radius-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Variantes -->
+        <div class="space-y-4">
+            <h2 class="text-2xl font-bold">Variantes</h2>
+            <div class="border border-border rounded-radius-lg p-6">
+                <div class="flex items-center gap-4">
+                    {% for badge in badge_examples %}
+                    {% include "components/badge.html" with text=badge.text variant=badge.variant %}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="relative" x-data="{ copied: false }">
+                <div class="bg-muted rounded-radius-lg p-3 text-sm">
+                    <code x-ref="code">{% verbatim %}{% include "components/badge.html" with text="Novo" variant="default" %}
+{% include "components/badge.html" with text="Popular" variant="secondary" %}
+{% include "components/badge.html" with text="Descontinuado" variant="destructive" %}
+{% include "components/badge.html" with text="Em breve" variant="outline" %}{% endverbatim %}</code>
+                </div>
+                <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                        class="absolute top-2 right-2 p-2 rounded-radius-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Com Ícones -->
+        <div class="space-y-4">
+            <h2 class="text-2xl font-bold">Com Ícones</h2>
+            <div class="border border-border rounded-radius-lg p-6">
+                <div class="flex items-center gap-4">
+                    {% include "components/badge.html" with text="Novo" variant="default" icon="star" %}
+                    {% include "components/badge.html" with text="Popular" variant="secondary" icon="heart" %}
+                    {% include "components/badge.html" with text="Erro" variant="destructive" icon="exclamation-triangle" %}
+                    {% include "components/badge.html" with text="Pendente" variant="outline" icon="clock" %}
+                </div>
+            </div>
+            <div class="relative" x-data="{ copied: false }">
+                <div class="bg-muted rounded-radius-lg p-3 text-sm">
+                    <code x-ref="code">{% verbatim %}{% include "components/badge.html" with text="Novo" variant="default" icon="star" %}
+{% include "components/badge.html" with text="Popular" variant="secondary" icon="heart" %}
+{% include "components/badge.html" with text="Erro" variant="destructive" icon="exclamation-triangle" %}
+{% include "components/badge.html" with text="Pendente" variant="outline" icon="clock" %}{% endverbatim %}</code>
+                </div>
+                <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                        class="absolute top-2 right-2 p-2 rounded-radius-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Tamanhos -->
+        <div class="space-y-4">
+            <h2 class="text-2xl font-bold">Tamanhos</h2>
+            <div class="border border-border rounded-radius-lg p-6">
+                <div class="flex items-center gap-4">
+                    {% include "components/badge.html" with text="Pequeno" size="sm" %}
+                    {% include "components/badge.html" with text="Médio" size="md" %}
+                    {% include "components/badge.html" with text="Grande" size="lg" %}
+                </div>
+            </div>
+            <div class="relative" x-data="{ copied: false }">
+                <div class="bg-muted rounded-radius-lg p-3 text-sm">
+                    <code x-ref="code">{% verbatim %}{% include "components/badge.html" with text="Pequeno" size="sm" %}
+{% include "components/badge.html" with text="Médio" size="md" %}
+{% include "components/badge.html" with text="Grande" size="lg" %}{% endverbatim %}</code>
+                </div>
+                <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                        class="absolute top-2 right-2 p-2 rounded-radius-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Parâmetros -->
+        <div class="space-y-4">
+            <h2 class="text-2xl font-bold">Parâmetros</h2>
+            <div class="border border-border rounded-radius-lg overflow-hidden">
+                {% include "components/table.html" with headers=badge_params.headers rows=badge_params.data %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

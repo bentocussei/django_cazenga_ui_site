@@ -1,0 +1,573 @@
+{% extends "components_base.html" %}
+{% load icon_tags %}
+
+{% block page_title %}Sheet{% endblock %}
+{% block page_description %}Painel lateral versátil para formulários, configurações e conteúdo detalhado{% endblock %}
+
+{% block component_content %}
+<div class="max-w-4xl mx-auto space-y-8">
+    <!-- Instalação -->
+    <section class="space-y-4">
+        <h2 class="text-2xl font-semibold">Instalação</h2>
+        <div class="relative">
+            <pre class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto"><code>{% templatetag openblock %} include "components/sheet.html" with position="right" size="md" closable=true {% templatetag closeblock %}</code></pre>
+            <button 
+                class="absolute top-2 right-2 p-2 bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                x-data="{ copied: false }"
+                @click="navigator.clipboard.writeText($el.previousElementSibling.textContent); copied = true; setTimeout(() => copied = false, 2000)"
+            >
+                <span x-show="!copied">{% icon "copy" size="4" %}</span>
+                <span x-show="copied" class="text-green-600">{% icon "check" size="4" %}</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- Sheet de Formulário -->
+    <section class="space-y-4">
+        <h2 class="text-2xl font-semibold">Sheet de Formulário</h2>
+        <div class="border rounded-lg p-6">
+            <div class="space-y-4">
+                <div class="text-sm text-gray-600 dark:text-gray-400">
+                    Sheet lateral para edição de formulários e criação de tarefas
+                </div>
+                <div class="flex justify-center" x-data="{ formSheetOpen: false }">
+                    <button @click="formSheetOpen = true" 
+                            class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
+                        Criar Nova Tarefa
+                    </button>
+
+                    <!-- Overlay -->
+                    <div x-show="formSheetOpen" 
+                         x-transition:enter="transition-opacity ease-linear duration-300"
+                         x-transition:enter-start="opacity-0"
+                         x-transition:enter-end="opacity-100"
+                         x-transition:leave="transition-opacity ease-linear duration-300"
+                         x-transition:leave-start="opacity-100"
+                         x-transition:leave-end="opacity-0"
+                         @click="formSheetOpen = false"
+                         class="fixed inset-0 bg-black bg-opacity-50 z-40">
+                    </div>
+
+                    <!-- Sheet -->
+                    <div x-show="formSheetOpen" 
+                         x-transition:enter="transition ease-in-out duration-300 transform"
+                         x-transition:enter-start="translate-x-full"
+                         x-transition:enter-end="translate-x-0"
+                         x-transition:leave="transition ease-in-out duration-300 transform"
+                         x-transition:leave-start="translate-x-0"
+                         x-transition:leave-end="translate-x-full"
+                         class="fixed right-0 top-0 h-full w-96 bg-white dark:bg-gray-800 shadow-xl z-50 overflow-y-auto">
+                        
+                        <!-- Header -->
+                        <div class="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Nova Tarefa</h3>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">Preencha os detalhes da tarefa</p>
+                            </div>
+                            <button @click="formSheetOpen = false" 
+                                    class="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                                {% icon "cross-1" size="5" %}
+                            </button>
+                        </div>
+                        
+                        <!-- Content -->
+                        <div class="p-6">
+                            <form class="space-y-6" @submit.prevent="formSheetOpen = false">
+                                {% for field in sheet_data.form_fields %}
+                                <div class="space-y-2">
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                        {{ field.label }}
+                                        {% if field.required %}
+                                        <span class="text-red-500">*</span>
+                                        {% endif %}
+                                    </label>
+                                    
+                                    {% if field.type == 'text' %}
+                                    <input type="text" 
+                                           name="{{ field.name }}"
+                                           placeholder="{{ field.placeholder }}"
+                                           class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+                                    
+                                    {% elif field.type == 'textarea' %}
+                                    <textarea name="{{ field.name }}" 
+                                              rows="4"
+                                              placeholder="{{ field.placeholder }}"
+                                              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"></textarea>
+                                    
+                                    {% elif field.type == 'select' %}
+                                    <select name="{{ field.name }}" 
+                                            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+                                        <option value="">Selecione...</option>
+                                        {% for option in field.options %}
+                                        <option value="{{ option.value }}">{{ option.label }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    
+                                    {% elif field.type == 'date' %}
+                                    <input type="date" 
+                                           name="{{ field.name }}"
+                                           class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+                                    {% endif %}
+                                </div>
+                                {% endfor %}
+                                
+                                <!-- Actions -->
+                                <div class="flex justify-end space-x-3 pt-4 border-t border-gray-200 dark:border-gray-700">
+                                    <button type="button" 
+                                            @click="formSheetOpen = false"
+                                            class="px-4 py-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                                        Cancelar
+                                    </button>
+                                    <button type="submit" 
+                                            class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
+                                        Criar Tarefa
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sheet de Configurações -->
+    <section class="space-y-4">
+        <h2 class="text-2xl font-semibold">Sheet de Configurações</h2>
+        <div class="border rounded-lg p-6">
+            <div class="space-y-4">
+                <div class="text-sm text-gray-600 dark:text-gray-400">
+                    Sheet para configurações e preferências do usuário
+                </div>
+                <div class="flex justify-center" x-data="{ settingsSheetOpen: false }">
+                    <button @click="settingsSheetOpen = true" 
+                            class="px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors">
+                        Abrir Configurações
+                    </button>
+
+                    <!-- Overlay -->
+                    <div x-show="settingsSheetOpen" 
+                         x-transition:enter="transition-opacity ease-linear duration-300"
+                         x-transition:enter-start="opacity-0"
+                         x-transition:enter-end="opacity-100"
+                         x-transition:leave="transition-opacity ease-linear duration-300"
+                         x-transition:leave-start="opacity-100"
+                         x-transition:leave-end="opacity-0"
+                         @click="settingsSheetOpen = false"
+                         class="fixed inset-0 bg-black bg-opacity-50 z-40">
+                    </div>
+
+                    <!-- Sheet -->
+                    <div x-show="settingsSheetOpen" 
+                         x-transition:enter="transition ease-in-out duration-300 transform"
+                         x-transition:enter-start="translate-x-full"
+                         x-transition:enter-end="translate-x-0"
+                         x-transition:leave="transition ease-in-out duration-300 transform"
+                         x-transition:leave-start="translate-x-0"
+                         x-transition:leave-end="translate-x-full"
+                         class="fixed right-0 top-0 h-full w-80 bg-white dark:bg-gray-800 shadow-xl z-50 overflow-y-auto">
+                        
+                        <!-- Header -->
+                        <div class="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Configurações</h3>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">Gerencie suas preferências</p>
+                            </div>
+                            <button @click="settingsSheetOpen = false" 
+                                    class="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                                {% icon "cross-1" size="5" %}
+                            </button>
+                        </div>
+                        
+                        <!-- Content -->
+                        <div class="p-6">
+                            <!-- User Profile -->
+                            <div class="flex items-center space-x-3 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg mb-6">
+                                <img src="{{ sheet_data.user_profile.avatar }}" alt="Avatar" class="w-12 h-12 rounded-full">
+                                <div>
+                                    <div class="font-medium text-gray-900 dark:text-gray-100">{{ sheet_data.user_profile.name }}</div>
+                                    <div class="text-sm text-gray-500 dark:text-gray-400">{{ sheet_data.user_profile.role }}</div>
+                                    <div class="text-xs text-gray-400 dark:text-gray-500">{{ sheet_data.user_profile.email }}</div>
+                                </div>
+                            </div>
+                            
+                            <!-- Settings -->
+                            <div class="space-y-6">
+                                <div>
+                                    <h4 class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-4">Preferências</h4>
+                                    <div class="space-y-4">
+                                        {% for setting in sheet_data.settings %}
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex-1">
+                                                <div class="text-sm font-medium text-gray-700 dark:text-gray-300">{{ setting.label }}</div>
+                                                {% if setting.description %}
+                                                <div class="text-xs text-gray-500 dark:text-gray-400">{{ setting.description }}</div>
+                                                {% endif %}
+                                            </div>
+                                            <div class="flex-shrink-0">
+                                                {% if setting.type == 'toggle' %}
+                                                <button 
+                                                    x-data="{ enabled: false }"
+                                                    @click="enabled = !enabled"
+                                                    :class="enabled ? 'bg-blue-500' : 'bg-gray-300 dark:bg-gray-600'"
+                                                    class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                                                    <span 
+                                                        :class="enabled ? 'translate-x-5' : 'translate-x-0'"
+                                                        class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out">
+                                                    </span>
+                                                </button>
+                                                
+                                                {% elif setting.type == 'select' %}
+                                                <select class="text-sm border border-gray-300 dark:border-gray-600 rounded px-2 py-1 dark:bg-gray-700 dark:text-white">
+                                                    {% for option in setting.options %}
+                                                    <option value="{{ option.value }}">{{ option.label }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                
+                                <!-- Account Actions -->
+                                <div class="pt-4 border-t border-gray-200 dark:border-gray-700">
+                                    <h4 class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-4">Conta</h4>
+                                    <div class="space-y-2">
+                                        <button class="w-full flex items-center justify-between px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                                            <span>Editar perfil</span>
+                                            {% icon "chevron-right" size="4" %}
+                                        </button>
+                                        <button class="w-full flex items-center justify-between px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
+                                            <span>Alterar senha</span>
+                                            {% icon "chevron-right" size="4" %}
+                                        </button>
+                                        <button class="w-full flex items-center justify-between px-3 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors">
+                                            <span>Sair</span>
+                                            {% icon "exit" size="4" %}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sheet de Arquivos -->
+    <section class="space-y-4">
+        <h2 class="text-2xl font-semibold">Sheet de Arquivos</h2>
+        <div class="border rounded-lg p-6">
+            <div class="space-y-4">
+                <div class="text-sm text-gray-600 dark:text-gray-400">
+                    Sheet para visualização e gerenciamento de arquivos
+                </div>
+                <div class="flex justify-center" x-data="{ filesSheetOpen: false }">
+                    <button @click="filesSheetOpen = true" 
+                            class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors">
+                        Arquivos Recentes
+                    </button>
+
+                    <!-- Overlay -->
+                    <div x-show="filesSheetOpen" 
+                         x-transition:enter="transition-opacity ease-linear duration-300"
+                         x-transition:enter-start="opacity-0"
+                         x-transition:enter-end="opacity-100"
+                         x-transition:leave="transition-opacity ease-linear duration-300"
+                         x-transition:leave-start="opacity-100"
+                         x-transition:leave-end="opacity-0"
+                         @click="filesSheetOpen = false"
+                         class="fixed inset-0 bg-black bg-opacity-50 z-40">
+                    </div>
+
+                    <!-- Sheet -->
+                    <div x-show="filesSheetOpen" 
+                         x-transition:enter="transition ease-in-out duration-300 transform"
+                         x-transition:enter-start="translate-x-full"
+                         x-transition:enter-end="translate-x-0"
+                         x-transition:leave="transition ease-in-out duration-300 transform"
+                         x-transition:leave-start="translate-x-0"
+                         x-transition:leave-end="translate-x-full"
+                         class="fixed right-0 top-0 h-full w-80 bg-white dark:bg-gray-800 shadow-xl z-50 overflow-y-auto">
+                        
+                        <!-- Header -->
+                        <div class="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Arquivos Recentes</h3>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">Seus arquivos mais recentes</p>
+                            </div>
+                            <button @click="filesSheetOpen = false" 
+                                    class="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                                {% icon "cross-1" size="5" %}
+                            </button>
+                        </div>
+                        
+                        <!-- Content -->
+                        <div class="p-6">
+                            <div class="space-y-4">
+                                {% for file in sheet_data.recent_files %}
+                                <div class="flex items-center space-x-3 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors cursor-pointer">
+                                    <div class="flex-shrink-0">
+                                        <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900/20 rounded-lg flex items-center justify-center">
+                                            {% icon "file" size="5" class="text-blue-600 dark:text-blue-400" %}
+                                        </div>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <div class="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">{{ file.name }}</div>
+                                        <div class="text-xs text-gray-500 dark:text-gray-400">{{ file.size }} • {{ file.date }}</div>
+                                    </div>
+                                    <div class="flex-shrink-0">
+                                        <button class="p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 rounded transition-colors">
+                                            {% icon "dots-vertical" size="4" %}
+                                        </button>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            
+                            <!-- Actions -->
+                            <div class="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
+                                <button class="w-full flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors">
+                                    {% icon "plus" size="4" class="mr-2" %}
+                                    Fazer Upload
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sheet de Tamanho Grande -->
+    <section class="space-y-4">
+        <h2 class="text-2xl font-semibold">Sheet Grande</h2>
+        <div class="border rounded-lg p-6">
+            <div class="space-y-4">
+                <div class="text-sm text-gray-600 dark:text-gray-400">
+                    Sheet com tamanho maior para conteúdo mais complexo
+                </div>
+                <div class="flex justify-center" x-data="{ largeSheetOpen: false }">
+                    <button @click="largeSheetOpen = true" 
+                            class="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors">
+                        Abrir Sheet Grande
+                    </button>
+
+                    <!-- Overlay -->
+                    <div x-show="largeSheetOpen" 
+                         x-transition:enter="transition-opacity ease-linear duration-300"
+                         x-transition:enter-start="opacity-0"
+                         x-transition:enter-end="opacity-100"
+                         x-transition:leave="transition-opacity ease-linear duration-300"
+                         x-transition:leave-start="opacity-100"
+                         x-transition:leave-end="opacity-0"
+                         @click="largeSheetOpen = false"
+                         class="fixed inset-0 bg-black bg-opacity-50 z-40">
+                    </div>
+
+                    <!-- Sheet -->
+                    <div x-show="largeSheetOpen" 
+                         x-transition:enter="transition ease-in-out duration-300 transform"
+                         x-transition:enter-start="translate-x-full"
+                         x-transition:enter-end="translate-x-0"
+                         x-transition:leave="transition ease-in-out duration-300 transform"
+                         x-transition:leave-start="translate-x-0"
+                         x-transition:leave-end="translate-x-full"
+                         class="fixed right-0 top-0 h-full w-2/3 max-w-2xl bg-white dark:bg-gray-800 shadow-xl z-50 overflow-y-auto">
+                        
+                        <!-- Header -->
+                        <div class="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
+                            <div>
+                                <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Dashboard Analytics</h3>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">Visualização detalhada dos dados</p>
+                            </div>
+                            <button @click="largeSheetOpen = false" 
+                                    class="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                                {% icon "cross-1" size="5" %}
+                            </button>
+                        </div>
+                        
+                        <!-- Content -->
+                        <div class="p-6">
+                            <div class="grid grid-cols-2 gap-6">
+                                <!-- Metrics -->
+                                <div class="col-span-2 grid grid-cols-4 gap-4">
+                                    <div class="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg">
+                                        <div class="text-2xl font-bold text-blue-600 dark:text-blue-400">1,234</div>
+                                        <div class="text-sm text-gray-600 dark:text-gray-400">Usuários</div>
+                                    </div>
+                                    <div class="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg">
+                                        <div class="text-2xl font-bold text-green-600 dark:text-green-400">567</div>
+                                        <div class="text-sm text-gray-600 dark:text-gray-400">Vendas</div>
+                                    </div>
+                                    <div class="bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-lg">
+                                        <div class="text-2xl font-bold text-yellow-600 dark:text-yellow-400">R$ 12.5K</div>
+                                        <div class="text-sm text-gray-600 dark:text-gray-400">Receita</div>
+                                    </div>
+                                    <div class="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-lg">
+                                        <div class="text-2xl font-bold text-purple-600 dark:text-purple-400">89</div>
+                                        <div class="text-sm text-gray-600 dark:text-gray-400">Pedidos</div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Chart Area -->
+                                <div class="col-span-2 bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                                    <h4 class="font-medium text-gray-900 dark:text-gray-100 mb-4">Gráfico de Vendas</h4>
+                                    <div class="h-48 bg-white dark:bg-gray-800 rounded border-2 border-dashed border-gray-300 dark:border-gray-600 flex items-center justify-center">
+                                        <div class="text-center">
+                                            <div class="text-4xl mb-2">📊</div>
+                                            <div class="text-sm text-gray-500 dark:text-gray-400">Gráfico seria renderizado aqui</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Table -->
+                                <div class="col-span-2">
+                                    <h4 class="font-medium text-gray-900 dark:text-gray-100 mb-4">Transações Recentes</h4>
+                                    <div class="space-y-2">
+                                        <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                                            <div class="flex items-center space-x-3">
+                                                <div class="w-8 h-8 bg-green-100 dark:bg-green-900/20 rounded-full flex items-center justify-center">
+                                                    <span class="text-green-600 dark:text-green-400 text-sm">+</span>
+                                                </div>
+                                                <div>
+                                                    <div class="text-sm font-medium text-gray-900 dark:text-gray-100">Venda #1234</div>
+                                                    <div class="text-xs text-gray-500 dark:text-gray-400">2 horas atrás</div>
+                                                </div>
+                                            </div>
+                                            <div class="text-sm font-medium text-green-600 dark:text-green-400">+R$ 150</div>
+                                        </div>
+                                        
+                                        <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                                            <div class="flex items-center space-x-3">
+                                                <div class="w-8 h-8 bg-blue-100 dark:bg-blue-900/20 rounded-full flex items-center justify-center">
+                                                    <span class="text-blue-600 dark:text-blue-400 text-sm">+</span>
+                                                </div>
+                                                <div>
+                                                    <div class="text-sm font-medium text-gray-900 dark:text-gray-100">Venda #1233</div>
+                                                    <div class="text-xs text-gray-500 dark:text-gray-400">4 horas atrás</div>
+                                                </div>
+                                            </div>
+                                            <div class="text-sm font-medium text-green-600 dark:text-green-400">+R$ 89</div>
+                                        </div>
+                                        
+                                        <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                                            <div class="flex items-center space-x-3">
+                                                <div class="w-8 h-8 bg-orange-100 dark:bg-orange-900/20 rounded-full flex items-center justify-center">
+                                                    <span class="text-orange-600 dark:text-orange-400 text-sm">-</span>
+                                                </div>
+                                                <div>
+                                                    <div class="text-sm font-medium text-gray-900 dark:text-gray-100">Estorno #1232</div>
+                                                    <div class="text-xs text-gray-500 dark:text-gray-400">1 dia atrás</div>
+                                                </div>
+                                            </div>
+                                            <div class="text-sm font-medium text-red-600 dark:text-red-400">-R$ 45</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sheet de Tamanho Completo -->
+    <section class="space-y-4">
+        <h2 class="text-2xl font-semibold">Sheet Tela Completa</h2>
+        <div class="border rounded-lg p-6">
+            <div class="space-y-4">
+                <div class="text-sm text-gray-600 dark:text-gray-400">
+                    Sheet que ocupa toda a largura da tela para máximo espaço
+                </div>
+                <div class="flex justify-center" x-data="{ fullSheetOpen: false }">
+                    <button @click="fullSheetOpen = true" 
+                            class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors">
+                        Abrir Sheet Completo
+                    </button>
+
+                    <!-- Overlay -->
+                    <div x-show="fullSheetOpen" 
+                         x-transition:enter="transition-opacity ease-linear duration-300"
+                         x-transition:enter-start="opacity-0"
+                         x-transition:enter-end="opacity-100"
+                         x-transition:leave="transition-opacity ease-linear duration-300"
+                         x-transition:leave-start="opacity-100"
+                         x-transition:leave-end="opacity-0"
+                         @click="fullSheetOpen = false"
+                         class="fixed inset-0 bg-black bg-opacity-50 z-40">
+                    </div>
+
+                    <!-- Sheet -->
+                    <div x-show="fullSheetOpen" 
+                         x-transition:enter="transition ease-in-out duration-300 transform"
+                         x-transition:enter-start="translate-x-full"
+                         x-transition:enter-end="translate-x-0"
+                         x-transition:leave="transition ease-in-out duration-300 transform"
+                         x-transition:leave-start="translate-x-0"
+                         x-transition:leave-end="translate-x-full"
+                         class="fixed right-0 top-0 h-full w-full bg-white dark:bg-gray-800 shadow-xl z-50 overflow-y-auto">
+                        
+                        <!-- Header -->
+                        <div class="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
+                            <div>
+                                <h3 class="text-2xl font-semibold text-gray-900 dark:text-gray-100">Editor de Documento</h3>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">Edição em tela completa</p>
+                            </div>
+                            <button @click="fullSheetOpen = false" 
+                                    class="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                                {% icon "cross-1" size="6" %}
+                            </button>
+                        </div>
+                        
+                        <!-- Content -->
+                        <div class="p-6">
+                            <div class="max-w-4xl mx-auto">
+                                <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg p-8 min-h-96">
+                                    <div class="text-center text-gray-500 dark:text-gray-400">
+                                        <div class="text-6xl mb-4">📄</div>
+                                        <h3 class="text-xl font-semibold mb-2">Editor de Documento</h3>
+                                        <p>Aqui seria renderizado um editor de texto completo com todas as funcionalidades.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Parâmetros -->
+    <section class="space-y-4">
+        <h2 class="text-2xl font-semibold">Parâmetros</h2>
+        <div class="border rounded-lg overflow-hidden">
+            <table class="w-full">
+                <thead class="bg-gray-50 dark:bg-gray-800">
+                    <tr>
+                        {% for header in sheet_params.headers %}
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                            {{ header }}
+                        </th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody class="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
+                    {% for row in sheet_params.data %}
+                    <tr>
+                        {% for cell in row %}
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
+                            {{ cell|safe }}
+                        </td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>
+{% endblock %} 

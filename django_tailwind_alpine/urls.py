@@ -16,8 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from django.shortcuts import render
 
 from core.views import index, demo, components_list, component_detail, icons_page
+
+def spa_test(request):
+    """View para testar o sistema SPA"""
+    return render(request, "spa-test.html")
 
 urlpatterns = [
     path("", index, name="index"),
@@ -25,6 +30,7 @@ urlpatterns = [
     path("components/", components_list, name="components_list"),
     path("components/<slug:component_slug>/", component_detail, name="component_detail"),
     path("icons/", icons_page, name="icons_page"),
+    path("spa-test/", spa_test, name="spa_test"),
     path('admin/', admin.site.urls),
     path("__reload__/", include("django_browser_reload.urls")),
 ]
