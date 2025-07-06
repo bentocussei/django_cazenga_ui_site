@@ -5,143 +5,259 @@
 {% block page_description %}Permite seleção múltipla de itens em uma lista de opções.{% endblock %}
 
 {% block component_content %}
-<div class="max-w-4xl mx-auto space-y-8">
-    <!-- Instalação -->
-    <div class="space-y-3">
-        <h2 class="text-2xl font-semibold">Instalação</h2>
-        <div class="bg-muted rounded-lg p-4 relative" x-data="{ copied: false }">
-            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
-                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
-                <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
-                <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
-            </button>
-            <code class="text-sm" x-ref="code">{% verbatim %}{% include "components/checkbox.html" with name="checkbox" label="Aceitar termos" %}{% endverbatim %}</code>
+{% load icon_tags %}
+
+<div class="space-y-6">
+    <!-- Cabeçalho -->
+    <div class="border-b border-border pb-4">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-3xl font-bold">Checkbox</h1>
+                <p class="text-muted-foreground mt-1">Componente para seleção múltipla com Alpine.js</p>
+            </div>
+            <a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+                Voltar
+            </a>
         </div>
     </div>
 
-    <!-- Exemplos -->
-    <div class="space-y-6">
-        <h2 class="text-2xl font-semibold">Exemplos</h2>
-        
-        <!-- Exemplo Básico -->
-        <div class="space-y-3">
-            <h3 class="text-lg font-medium">Básico</h3>
-            <div class="border rounded-lg p-6">
-                {% include "components/checkbox.html" with name="checkbox_basic" label="Aceitar termos e condições" %}
-            </div>
-            <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
-                <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
-                        class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
-                    <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
-                    <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
-                </button>
-                <code x-ref="code">{% verbatim %}{% include "components/checkbox.html" with name="checkbox_basic" label="Aceitar termos e condições" %}{% endverbatim %}</code>
+    <!-- Instalação -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Instalação</h2>
+        <div class="relative">
+            <pre class="bg-muted p-4 rounded-radius-md overflow-x-auto text-sm"><code>{% verbatim %}{% include 'components/checkbox.html' with name="aceito" label="Aceito os termos" %}{% endverbatim %}</code></pre>
+            <button 
+                class="absolute top-2 right-2 p-2 bg-background rounded-radius-md shadow-sm hover:bg-accent border border-border"
+                x-data 
+                @click="navigator.clipboard.writeText('{% verbatim %}{% include \'components/checkbox.html\' with name=\"aceito\" label=\"Aceito os termos\" %}{% endverbatim %}')"
+                title="Copiar código"
+            >
+                {% svg_icon "copy" "size-4" %}
+            </button>
+        </div>
+    </div>
+
+    <!-- Exemplo Básico -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Exemplo Básico</h2>
+        <div class="border border-border rounded-radius-lg p-6">
+            <div class="space-y-3">
+                {% include "components/checkbox.html" with name="basico" label="Aceito os termos de uso" %}
+                {% include "components/checkbox.html" with name="newsletter" label="Desejo receber newsletter" checked=True %}
+                {% include "components/checkbox.html" with name="promocoes" label="Aceito receber promoções" %}
             </div>
         </div>
+    </div>
 
-        <!-- Exemplo Marcado -->
-        <div class="space-y-3">
-            <h3 class="text-lg font-medium">Marcado</h3>
-            <div class="border rounded-lg p-6">
-                {% include "components/checkbox.html" with name="checkbox_checked" label="Opção já marcada" checked=True %}
-            </div>
-            <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
-                <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
-                        class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
-                    <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
-                    <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
-                </button>
-                <code x-ref="code">{% verbatim %}{% include "components/checkbox.html" with name="checkbox_checked" label="Opção já marcada" checked=True %}{% endverbatim %}</code>
+    <!-- Estados -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Estados</h2>
+        <div class="border border-border rounded-radius-lg p-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Normal -->
+                <div class="space-y-3">
+                    <h3 class="text-lg font-medium">Normal</h3>
+                    {% include "components/checkbox.html" with name="normal" label="Checkbox normal" %}
+                </div>
+
+                <!-- Checked -->
+                <div class="space-y-3">
+                    <h3 class="text-lg font-medium">Marcado</h3>
+                    {% include "components/checkbox.html" with name="marcado" label="Checkbox marcado" checked=True %}
+                </div>
+
+                <!-- Disabled -->
+                <div class="space-y-3">
+                    <h3 class="text-lg font-medium">Desabilitado</h3>
+                    {% include "components/checkbox.html" with name="desabilitado1" label="Desabilitado desmarcado" disabled=True %}
+                    {% include "components/checkbox.html" with name="desabilitado2" label="Desabilitado marcado" checked=True disabled=True %}
+                </div>
+
+                <!-- Required -->
+                <div class="space-y-3">
+                    <h3 class="text-lg font-medium">Obrigatório</h3>
+                    {% include "components/checkbox.html" with name="obrigatorio" label="Campo obrigatório *" required=True %}
+                </div>
             </div>
         </div>
+    </div>
 
-        <!-- Exemplo Desabilitado -->
-        <div class="space-y-3">
-            <h3 class="text-lg font-medium">Desabilitado</h3>
-            <div class="border rounded-lg p-6 space-y-4">
-                {% include "components/checkbox.html" with name="checkbox_disabled" label="Opção desabilitada" disabled=True %}
-                {% include "components/checkbox.html" with name="checkbox_disabled_checked" label="Opção desabilitada e marcada" disabled=True checked=True %}
-            </div>
-            <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
-                <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
-                        class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
-                    <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
-                    <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
-                </button>
-                <code x-ref="code">{% verbatim %}{% include "components/checkbox.html" with name="checkbox_disabled" label="Opção desabilitada" disabled=True %}{% endverbatim %}</code>
+    <!-- Com Descrição -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Com Descrição</h2>
+        <div class="border border-border rounded-radius-lg p-6">
+            <div class="space-y-4">
+                {% include "components/checkbox.html" with name="termos" label="Aceito os termos de uso" description="Li e concordo com todos os termos e condições de uso da plataforma." %}
+                {% include "components/checkbox.html" with name="privacidade" label="Aceito a política de privacidade" description="Concordo com o tratamento dos meus dados pessoais conforme a política de privacidade." %}
+                {% include "components/checkbox.html" with name="marketing" label="Aceito comunicações de marketing" description="Autorizo o envio de emails promocionais e comunicações de marketing." %}
             </div>
         </div>
+    </div>
 
-        <!-- Exemplo com Grupo -->
-        <div class="space-y-3">
-            <h3 class="text-lg font-medium">Grupo de Opções</h3>
-            <div class="border rounded-lg p-6">
-                <div class="space-y-4" x-data="{ 
-                    selections: [],
-                    updateSelection(value, checked) {
-                        if (checked) {
-                            this.selections.push(value);
-                        } else {
-                            this.selections = this.selections.filter(item => item !== value);
-                        }
+    <!-- Lista de Opções -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Lista de Opções</h2>
+        <div class="border border-border rounded-radius-lg p-6">
+            <div x-data="{ 
+                selectedOptions: [],
+                allOptions: ['frontend', 'backend', 'mobile', 'devops'],
+                
+                toggleAll() {
+                    if (this.selectedOptions.length === this.allOptions.length) {
+                        this.selectedOptions = [];
+                    } else {
+                        this.selectedOptions = [...this.allOptions];
                     }
-                }">
-                    <h4 class="font-medium text-sm">Selecione suas preferências:</h4>
-                    <div class="space-y-2">
-                        {% for option in checkbox_options %}
-                        <label class="flex items-center space-x-2 cursor-pointer">
-                            <input type="checkbox" 
-                                   name="preferences" 
-                                   value="{{ option.value }}"
-                                   @change="updateSelection('{{ option.value }}', $event.target.checked)"
-                                   class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
-                            <span class="text-sm">{{ option.label }}</span>
+                },
+                
+                get isAllSelected() {
+                    return this.selectedOptions.length === this.allOptions.length;
+                },
+                
+                get isIndeterminate() {
+                    return this.selectedOptions.length > 0 && this.selectedOptions.length < this.allOptions.length;
+                }
+            }">
+                <div class="space-y-4">
+                    <div class="pb-2 border-b border-border">
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <input
+                                type="checkbox"
+                                :checked="isAllSelected"
+                                :indeterminate="isIndeterminate"
+                                @change="toggleAll()"
+                                class="size-4 rounded border-border focus:ring-primary focus:ring-2 focus:ring-offset-2"
+                            >
+                            <span class="text-sm font-medium">Selecionar todas as tecnologias</span>
                         </label>
-                        {% endfor %}
                     </div>
-                    <div class="mt-4 p-3 bg-muted rounded text-sm">
-                        <strong>Selecionados:</strong> <span x-text="selections.length ? selections.join(', ') : 'Nenhum'"></span>
+                    
+                    <div class="space-y-3 pl-7">
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <input
+                                type="checkbox"
+                                value="frontend"
+                                x-model="selectedOptions"
+                                class="size-4 rounded border-border focus:ring-primary focus:ring-2 focus:ring-offset-2"
+                            >
+                            <div>
+                                <div class="text-sm font-medium">Frontend Development</div>
+                                <div class="text-xs text-muted-foreground">React, Vue, Angular, etc.</div>
+                            </div>
+                        </label>
+                        
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <input
+                                type="checkbox"
+                                value="backend"
+                                x-model="selectedOptions"
+                                class="size-4 rounded border-border focus:ring-primary focus:ring-2 focus:ring-offset-2"
+                            >
+                            <div>
+                                <div class="text-sm font-medium">Backend Development</div>
+                                <div class="text-xs text-muted-foreground">Node.js, Python, Django, etc.</div>
+                            </div>
+                        </label>
+                        
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <input
+                                type="checkbox"
+                                value="mobile"
+                                x-model="selectedOptions"
+                                class="size-4 rounded border-border focus:ring-primary focus:ring-2 focus:ring-offset-2"
+                            >
+                            <div>
+                                <div class="text-sm font-medium">Mobile Development</div>
+                                <div class="text-xs text-muted-foreground">React Native, Flutter, iOS, Android</div>
+                            </div>
+                        </label>
+                        
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <input
+                                type="checkbox"
+                                value="devops"
+                                x-model="selectedOptions"
+                                class="size-4 rounded border-border focus:ring-primary focus:ring-2 focus:ring-offset-2"
+                            >
+                            <div>
+                                <div class="text-sm font-medium">DevOps</div>
+                                <div class="text-xs text-muted-foreground">Docker, Kubernetes, CI/CD, etc.</div>
+                            </div>
+                        </label>
+                    </div>
+                    
+                    <div class="pt-4 border-t border-border">
+                        <p class="text-sm text-muted-foreground">
+                            Selecionadas: <span x-text="selectedOptions.length"></span> de <span x-text="allOptions.length"></span>
+                        </p>
+                        <div x-show="selectedOptions.length > 0" class="mt-2">
+                            <div class="text-xs text-muted-foreground">Tecnologias selecionadas:</div>
+                            <div class="flex flex-wrap gap-1 mt-1">
+                                <template x-for="option in selectedOptions" :key="option">
+                                    {% include "components/badge.html" with text="option" variant="secondary" class="text-xs" %}
+                                </template>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
-                <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
-                        class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
-                    <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
-                    <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
-                </button>
-                <code x-ref="code">{% verbatim %}{% for option in checkbox_options %}
-{% include "components/checkbox.html" with name="preferences" label=option.label value=option.value %}
-{% endfor %}{% endverbatim %}</code>
-            </div>
+        </div>
+    </div>
+
+    <!-- Em Formulário -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Em Formulário</h2>
+        <div class="border border-border rounded-radius-lg p-6">
+            <form class="space-y-6" x-data="{ 
+                formData: {
+                    nome: '',
+                    email: '',
+                    newsletter: false,
+                    termos: false,
+                    idade: false
+                },
+                
+                submitForm() {
+                    if (!this.formData.termos) {
+                        alert('Você deve aceitar os termos de uso');
+                        return;
+                    }
+                    if (!this.formData.idade) {
+                        alert('Você deve confirmar ser maior de idade');
+                        return;
+                    }
+                    alert('Formulário enviado com sucesso!');
+                }
+            }">
+                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                     <input type="text" placeholder="Seu nome completo" name="nome" x-model="formData.nome" class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input flex h-9 w-full min-w-0 rounded-radius-md border bg-transparent text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive px-3 py-1">
+                     <input type="email" placeholder="seu@email.com" name="email" x-model="formData.email" class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input flex h-9 w-full min-w-0 rounded-radius-md border bg-transparent text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive px-3 py-1">
+                 </div>
+                 
+                 <div class="space-y-3">
+                     <label class="flex items-center space-x-3 cursor-pointer">
+                         <input type="checkbox" name="newsletter_form" x-model="formData.newsletter" class="size-4 rounded border-border focus:ring-primary focus:ring-2 focus:ring-offset-2">
+                         <span class="text-sm font-medium">Desejo receber newsletter</span>
+                     </label>
+                     <label class="flex items-center space-x-3 cursor-pointer">
+                         <input type="checkbox" name="termos_form" x-model="formData.termos" required class="size-4 rounded border-border focus:ring-primary focus:ring-2 focus:ring-offset-2">
+                         <span class="text-sm font-medium">Aceito os termos de uso *</span>
+                     </label>
+                     <label class="flex items-center space-x-3 cursor-pointer">
+                         <input type="checkbox" name="idade_form" x-model="formData.idade" required class="size-4 rounded border-border focus:ring-primary focus:ring-2 focus:ring-offset-2">
+                         <span class="text-sm font-medium">Confirmo ser maior de 18 anos *</span>
+                     </label>
+                 </div>
+                 
+                 <button type="submit" @click="submitForm()" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-radius-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] bg-primary text-primary-foreground shadow-xs hover:bg-primary/90 h-9 px-4 py-2">Cadastrar</button>
+            </form>
         </div>
     </div>
 
     <!-- Parâmetros -->
-    <div class="space-y-3">
+    <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Parâmetros</h2>
-        <div class="rounded-lg border bg-card">
-            <div class="overflow-x-auto">
-                <table class="w-full text-sm">
-                    <thead>
-                        <tr class="border-b">
-                            {% for header in checkbox_params.headers %}
-                                <th class="p-3 text-left font-medium">{{ header|safe }}</th>
-                            {% endfor %}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for row in checkbox_params.data %}
-                            <tr class="border-b last:border-b-0">
-                                {% for cell in row %}
-                                    <td class="p-3">{{ cell|safe }}</td>
-                                {% endfor %}
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
+        {% include "components/table.html" with headers=checkbox_params.headers data=checkbox_params.data caption="Parâmetros disponíveis para o componente Checkbox" %}
     </div>
 </div>
 {% endblock %} 

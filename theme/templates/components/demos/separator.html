@@ -1,231 +1,227 @@
-{% extends "components_base.html" %}
+<!-- Template independente do Separator para consistência SPA/Reload -->
+{% load icon_tags %}
 
-{% block title %}Separator{% endblock %}
-{% block page_title %}Separator{% endblock %}
-{% block page_description %}Linha divisória visual que separa conteúdo ou seções na interface.{% endblock %}
-
-{% block component_content %}
-<div class="max-w-4xl mx-auto space-y-8">
-    <!-- Instalação -->
-    <div class="space-y-3">
-        <h2 class="text-2xl font-semibold">Instalação</h2>
-        <div class="bg-muted rounded-lg p-4 relative" x-data="{ copied: false }">
-            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
-                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
-                <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
-                <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
-            </button>
-            <code class="text-sm" x-ref="code">{% verbatim %}{% include "components/separator.html" %}{% endverbatim %}</code>
+<div class="space-y-6">
+    <!-- Cabeçalho -->
+    <div class="border-b border-border pb-4">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-3xl font-bold">Separator</h1>
+                <p class="text-muted-foreground mt-1">Componente para separar visualmente elementos da interface</p>
+            </div>
+            <a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+                Voltar
+            </a>
         </div>
     </div>
 
-    <!-- Exemplos -->
-    <div class="space-y-6">
-        <h2 class="text-2xl font-semibold">Exemplos</h2>
-        
-        <!-- Exemplo Horizontal -->
-        <div class="space-y-3">
-            <h3 class="text-lg font-medium">Horizontal</h3>
-            <div class="border rounded-lg p-6">
-                <div class="space-y-4">
-                    <p class="text-sm">Seção superior</p>
-                    {% include "components/separator.html" %}
-                    <p class="text-sm">Seção inferior</p>
+    <!-- Instalação -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Instalação</h2>
+        <div class="relative">
+            <pre class="bg-muted p-4 rounded-radius-md overflow-x-auto text-sm"><code>{% verbatim %}{% include 'components/separator.html' %}{% endverbatim %}</code></pre>
+            <button 
+                class="absolute top-2 right-2 p-2 bg-background rounded-radius-md shadow-sm hover:bg-accent border border-border"
+                x-data 
+                @click="navigator.clipboard.writeText('{% verbatim %}{% include \'components/separator.html\' %}{% endverbatim %}')"
+                title="Copiar código"
+            >
+                {% svg_icon "copy" "size-4" %}
+            </button>
+        </div>
+    </div>
+
+    <!-- Exemplo Básico -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Exemplo Básico</h2>
+        <div class="border border-border rounded-radius-lg p-6">
+            <div class="space-y-4">
+                <div>
+                    <h4 class="text-sm font-medium">Seção 1</h4>
+                    <p class="text-sm text-muted-foreground">Conteúdo da primeira seção.</p>
+                </div>
+                
+                <div class="shrink-0 bg-border h-[1px] w-full"></div>
+                
+                <div>
+                    <h4 class="text-sm font-medium">Seção 2</h4>
+                    <p class="text-sm text-muted-foreground">Conteúdo da segunda seção.</p>
                 </div>
             </div>
-            <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
-                <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
-                        class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
-                    <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
-                    <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
-                </button>
-                <code x-ref="code">{% verbatim %}{% include "components/separator.html" %}{% endverbatim %}</code>
-            </div>
         </div>
+    </div>
 
-        <!-- Exemplo Vertical -->
-        <div class="space-y-3">
-            <h3 class="text-lg font-medium">Vertical</h3>
-            <div class="border rounded-lg p-6">
-                <div class="flex items-center space-x-4 h-12">
-                    <span class="text-sm">Seção esquerda</span>
-                    {% include "components/separator.html" with orientation="vertical" %}
-                    <span class="text-sm">Seção direita</span>
+    <!-- Orientações -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Orientações</h2>
+        <div class="border border-border rounded-radius-lg p-6">
+            <div class="space-y-6">
+                <!-- Horizontal -->
+                <div class="space-y-2">
+                    <h3 class="text-lg font-medium">Horizontal</h3>
+                    <div class="space-y-4">
+                        <p class="text-sm text-muted-foreground">Conteúdo acima do separator horizontal.</p>
+                        <div class="shrink-0 bg-border h-[1px] w-full"></div>
+                        <p class="text-sm text-muted-foreground">Conteúdo abaixo do separator horizontal.</p>
+                    </div>
+                </div>
+
+                <!-- Vertical -->
+                <div class="space-y-2">
+                    <h3 class="text-lg font-medium">Vertical</h3>
+                    <div class="flex h-20 items-center space-x-4">
+                        <div class="text-sm text-muted-foreground">Esquerda</div>
+                        <div class="shrink-0 bg-border w-[1px] h-full"></div>
+                        <div class="text-sm text-muted-foreground">Centro</div>
+                        <div class="shrink-0 bg-border w-[1px] h-full"></div>
+                        <div class="text-sm text-muted-foreground">Direita</div>
+                    </div>
                 </div>
             </div>
-            <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
-                <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
-                        class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
-                    <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
-                    <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
-                </button>
-                <code x-ref="code">{% verbatim %}{% include "components/separator.html" with orientation="vertical" %}{% endverbatim %}</code>
+        </div>
+    </div>
+
+    <!-- Em Menu -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Em Menu</h2>
+        <div class="border border-border rounded-radius-lg p-6">
+            <div class="w-56 border border-border rounded-radius-md bg-background">
+                <div class="p-1">
+                    <div class="px-2 py-1.5 text-sm rounded-radius-sm hover:bg-accent cursor-pointer">
+                        Perfil
+                    </div>
+                    <div class="px-2 py-1.5 text-sm rounded-radius-sm hover:bg-accent cursor-pointer">
+                        Configurações
+                    </div>
+                    <div class="px-2 py-1.5 text-sm rounded-radius-sm hover:bg-accent cursor-pointer">
+                        Ajuda
+                    </div>
+                    
+                    <div class="my-1 h-[1px] bg-border"></div>
+                    
+                    <div class="px-2 py-1.5 text-sm rounded-radius-sm hover:bg-accent cursor-pointer text-destructive">
+                        Sair
+                    </div>
+                </div>
             </div>
         </div>
+    </div>
 
-        <!-- Exemplo em Lista -->
-        <div class="space-y-3">
-            <h3 class="text-lg font-medium">Em Lista</h3>
-            <div class="border rounded-lg p-6">
-                <div class="space-y-4">
-                    <div class="flex items-center space-x-3">
-                        <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
-                            <span class="text-white text-sm font-medium">A</span>
+    <!-- Em Card -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Em Card</h2>
+        <div class="border border-border rounded-radius-lg p-6">
+            <div class="max-w-md">
+                <div class="rounded-radius-lg border bg-card text-card-foreground shadow-sm">
+                    <div class="flex flex-col space-y-1.5 p-6">
+                        <div class="text-2xl font-semibold leading-none tracking-tight">Informações do Usuário</div>
+                        <div class="text-sm text-muted-foreground">Dados pessoais e configurações</div>
+                    </div>
+                    
+                    <div class="p-6 pt-0">
+                        <div class="space-y-4">
+                            <div>
+                                <h4 class="text-sm font-medium">Nome</h4>
+                                <p class="text-sm text-muted-foreground">João Silva</p>
+                            </div>
+                            
+                            <div class="h-[1px] bg-border"></div>
+                            
+                            <div>
+                                <h4 class="text-sm font-medium">Email</h4>
+                                <p class="text-sm text-muted-foreground">joao@exemplo.com</p>
+                            </div>
+                            
+                            <div class="h-[1px] bg-border"></div>
+                            
+                            <div>
+                                <h4 class="text-sm font-medium">Telefone</h4>
+                                <p class="text-sm text-muted-foreground">(11) 99999-9999</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Em Lista -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Em Lista</h2>
+        <div class="border border-border rounded-radius-lg p-6">
+            <div class="space-y-0">
+                <div class="flex items-center justify-between py-4">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                            <span class="text-primary-foreground text-sm font-medium">1</span>
                         </div>
                         <div>
-                            <p class="font-medium text-sm">Alice Silva</p>
-                            <p class="text-xs text-muted-foreground">Administradora</p>
+                            <p class="text-sm font-medium">Primeira tarefa</p>
+                            <p class="text-sm text-muted-foreground">Descrição da primeira tarefa</p>
                         </div>
                     </div>
-                    {% include "components/separator.html" %}
-                    <div class="flex items-center space-x-3">
-                        <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
-                            <span class="text-white text-sm font-medium">B</span>
+                    <button class="text-sm text-primary hover:underline">Editar</button>
+                </div>
+                
+                <div class="h-[1px] bg-border"></div>
+                
+                <div class="flex items-center justify-between py-4">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-8 h-8 bg-secondary rounded-full flex items-center justify-center">
+                            <span class="text-secondary-foreground text-sm font-medium">2</span>
                         </div>
                         <div>
-                            <p class="font-medium text-sm">Bruno Santos</p>
-                            <p class="text-xs text-muted-foreground">Desenvolvedor</p>
+                            <p class="text-sm font-medium">Segunda tarefa</p>
+                            <p class="text-sm text-muted-foreground">Descrição da segunda tarefa</p>
                         </div>
                     </div>
-                    {% include "components/separator.html" %}
-                    <div class="flex items-center space-x-3">
-                        <div class="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center">
-                            <span class="text-white text-sm font-medium">C</span>
+                    <button class="text-sm text-primary hover:underline">Editar</button>
+                </div>
+                
+                <div class="h-[1px] bg-border"></div>
+                
+                <div class="flex items-center justify-between py-4">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-8 h-8 bg-muted rounded-full flex items-center justify-center">
+                            <span class="text-muted-foreground text-sm font-medium">3</span>
                         </div>
                         <div>
-                            <p class="font-medium text-sm">Carla Ferreira</p>
-                            <p class="text-xs text-muted-foreground">Designer</p>
+                            <p class="text-sm font-medium">Terceira tarefa</p>
+                            <p class="text-sm text-muted-foreground">Descrição da terceira tarefa</p>
                         </div>
                     </div>
+                    <button class="text-sm text-primary hover:underline">Editar</button>
                 </div>
-            </div>
-            <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
-                <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
-                        class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
-                    <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
-                    <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
-                </button>
-                <code x-ref="code">{% verbatim %}<div class="user-item">User 1</div>
-{% include "components/separator.html" %}
-<div class="user-item">User 2</div>{% endverbatim %}</code>
-            </div>
-        </div>
-
-        <!-- Exemplo em Navegação -->
-        <div class="space-y-3">
-            <h3 class="text-lg font-medium">Em Navegação</h3>
-            <div class="border rounded-lg p-6">
-                <nav class="flex items-center space-x-2 text-sm">
-                    <a href="#" class="hover:text-primary">Home</a>
-                    {% include "components/separator.html" with orientation="vertical" %}
-                    <a href="#" class="hover:text-primary">Produtos</a>
-                    {% include "components/separator.html" with orientation="vertical" %}
-                    <a href="#" class="hover:text-primary">Serviços</a>
-                    {% include "components/separator.html" with orientation="vertical" %}
-                    <a href="#" class="text-muted-foreground">Contato</a>
-                </nav>
-            </div>
-            <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
-                <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
-                        class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
-                    <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
-                    <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
-                </button>
-                <code x-ref="code">{% verbatim %}<nav class="flex items-center space-x-2">
-    <a href="#">Home</a>
-    {% include "components/separator.html" with orientation="vertical" %}
-    <a href="#">Produtos</a>
-    {% include "components/separator.html" with orientation="vertical" %}
-    <a href="#">Contato</a>
-</nav>{% endverbatim %}</code>
-            </div>
-        </div>
-
-        <!-- Exemplo em Layout -->
-        <div class="space-y-3">
-            <h3 class="text-lg font-medium">Em Layout</h3>
-            <div class="border rounded-lg p-6">
-                <div class="space-y-6">
-                    <div class="text-center">
-                        <h4 class="text-lg font-semibold">Título Principal</h4>
-                        <p class="text-sm text-muted-foreground">Subtítulo ou descrição</p>
-                    </div>
-                    
-                    {% include "components/separator.html" %}
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="text-center p-4 bg-muted rounded">
-                            <h5 class="font-medium">Seção A</h5>
-                            <p class="text-sm text-muted-foreground">Conteúdo da seção A</p>
-                        </div>
-                        <div class="text-center p-4 bg-muted rounded">
-                            <h5 class="font-medium">Seção B</h5>
-                            <p class="text-sm text-muted-foreground">Conteúdo da seção B</p>
-                        </div>
-                    </div>
-                    
-                    {% include "components/separator.html" %}
-                    
-                    <div class="text-center text-sm text-muted-foreground">
-                        <p>Rodapé ou informações adicionais</p>
-                    </div>
-                </div>
-            </div>
-            <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
-                <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
-                        class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
-                    <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
-                    <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
-                </button>
-                <code x-ref="code">{% verbatim %}<div class="header">Header</div>
-{% include "components/separator.html" %}
-<div class="content">Content</div>
-{% include "components/separator.html" %}
-<div class="footer">Footer</div>{% endverbatim %}</code>
             </div>
         </div>
     </div>
 
     <!-- Parâmetros -->
-    <div class="space-y-3">
+    <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Parâmetros</h2>
-        <div class="rounded-lg border bg-card">
-            <div class="overflow-x-auto">
-                <table class="w-full text-sm">
-                    <thead>
-                        <tr class="border-b">
-                            {% for header in separator_params.headers %}
-                                <th class="p-3 text-left font-medium">{{ header|safe }}</th>
-                            {% endfor %}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for row in separator_params.data %}
-                            <tr class="border-b last:border-b-0">
-                                {% for cell in row %}
-                                    <td class="p-3">{{ cell|safe }}</td>
-                                {% endfor %}
-                            </tr>
+        <div class="overflow-x-auto">
+            <table class="w-full caption-bottom text-sm border-collapse">
+                <thead>
+                    <tr class="border-b border-border">
+                        {% for header in separator_params.headers %}
+                        <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
+                            {{ header }}
+                        </th>
                         {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in separator_params.data %}
+                    <tr class="border-b border-border">
+                        {% for cell in row %}
+                        <td class="p-4 align-middle">
+                            {{ cell|safe }}
+                        </td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
-
-    <!-- Acessibilidade -->
-    <div class="space-y-3">
-        <h2 class="text-2xl font-semibold">Acessibilidade</h2>
-        <div class="rounded-lg border bg-card p-4">
-            <div class="space-y-3 text-sm">
-                <p><strong>Semântico vs Decorativo:</strong></p>
-                <ul class="list-disc pl-5 space-y-1 text-muted-foreground">
-                    <li>Use <code>role="separator"</code> para separadores semânticos que dividem conteúdo logicamente</li>
-                    <li>Use <code>aria-hidden="true"</code> para separadores puramente decorativos</li>
-                    <li>Considere o contexto: em listas, o separador é semântico; em layouts, pode ser decorativo</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
-{% endblock %} 
+</div> 
