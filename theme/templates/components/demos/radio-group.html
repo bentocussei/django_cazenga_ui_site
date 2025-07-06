@@ -1,182 +1,118 @@
-{% extends "components_base.html" %}
+{% load icon_tags %}
 
-{% block title %}Radio Group{% endblock %}
-{% block page_title %}Radio Group{% endblock %}
-{% block page_description %}Conjunto de opções onde apenas uma pode ser selecionada por vez.{% endblock %}
-
-{% block component_content %}
-<div class="max-w-4xl mx-auto space-y-8">
-    <!-- Instalação -->
-    <div class="space-y-3">
-        <h2 class="text-2xl font-semibold">Instalação</h2>
-        <div class="bg-muted rounded-lg p-4 relative" x-data="{ copied: false }">
-            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
-                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
-                <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
-                <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
-            </button>
-            <code class="text-sm" x-ref="code">{% verbatim %}{% include "components/radio-group.html" with name="payment" options=radio_options %}{% endverbatim %}</code>
+<div class="space-y-6">
+    <!-- Cabeçalho -->
+    <div class="border-b border-border pb-4">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-3xl font-bold">Radio Group</h1>
+                <p class="text-muted-foreground mt-1">Componente para seleção única entre múltiplas opções</p>
+            </div>
+            <a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+                Voltar
+            </a>
         </div>
     </div>
 
-    <!-- Exemplos -->
-    <div class="space-y-6">
-        <h2 class="text-2xl font-semibold">Exemplos</h2>
-        
-        <!-- Exemplo Básico -->
-        <div class="space-y-3">
-            <h3 class="text-lg font-medium">Básico</h3>
-            <div class="border rounded-lg p-6">
-                {% include "components/radio-group.html" with name="payment_basic" options=radio_payment %}
-            </div>
-            <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
-                <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
-                        class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
-                    <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
-                    <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
-                </button>
-                <code x-ref="code">{% verbatim %}{% include "components/radio-group.html" with name="payment_basic" options=radio_payment %}{% endverbatim %}</code>
-            </div>
+    <!-- Instalação -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Instalação</h2>
+        <div class="relative">
+            <pre class="bg-muted p-4 rounded-radius-md overflow-x-auto text-sm"><code>{% verbatim %}{% include 'components/radio-group.html' with name="opcoes" options=radio_options %}{% endverbatim %}</code></pre>
+            <button 
+                class="absolute top-2 right-2 p-2 bg-background rounded-radius-md shadow-sm hover:bg-accent border border-border"
+                x-data 
+                @click="navigator.clipboard.writeText('{% verbatim %}{% include \'components/radio-group.html\' with name=\'opcoes\' options=radio_options %}{% endverbatim %}')"
+                title="Copiar código"
+            >
+                {% svg_icon "copy" "size-4" %}
+            </button>
         </div>
+    </div>
 
-        <!-- Exemplo Horizontal -->
-        <div class="space-y-3">
-            <h3 class="text-lg font-medium">Horizontal</h3>
-            <div class="border rounded-lg p-6">
-                {% include "components/radio-group.html" with name="size_horizontal" options=radio_sizes orientation="horizontal" %}
-            </div>
-            <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
-                <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
-                        class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
-                    <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
-                    <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
-                </button>
-                <code x-ref="code">{% verbatim %}{% include "components/radio-group.html" with name="size_horizontal" options=radio_sizes orientation="horizontal" %}{% endverbatim %}</code>
-            </div>
+    <!-- Exemplo Básico -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Exemplo Básico</h2>
+        <div class="border border-border rounded-radius-lg p-6">
+            {% include "components/radio-group.html" with name="basic" options=radio_group_options.basic %}
         </div>
+    </div>
 
-        <!-- Exemplo com Descrições -->
-        <div class="space-y-3">
-            <h3 class="text-lg font-medium">Com Descrições</h3>
-            <div class="border rounded-lg p-6">
-                {% include "components/radio-group.html" with name="plans" options=radio_plans %}
-            </div>
-            <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
-                <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
-                        class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
-                    <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
-                    <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
-                </button>
-                <code x-ref="code">{% verbatim %}{% include "components/radio-group.html" with name="plans" options=radio_plans %}{% endverbatim %}</code>
-            </div>
+    <!-- Radio Group com Descrições -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Com Descrições</h2>
+        <div class="border border-border rounded-radius-lg p-6">
+            {% include "components/radio-group.html" with name="payment" options=radio_group_options.payment value="card" %}
         </div>
+    </div>
 
-        <!-- Exemplo com Opções Desabilitadas -->
-        <div class="space-y-3">
-            <h3 class="text-lg font-medium">Com Opções Desabilitadas</h3>
-            <div class="border rounded-lg p-6">
-                {% include "components/radio-group.html" with name="delivery" options=radio_delivery %}
-            </div>
-            <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
-                <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
-                        class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
-                    <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
-                    <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
-                </button>
-                <code x-ref="code">{% verbatim %}{% include "components/radio-group.html" with name="delivery" options=radio_delivery %}{% endverbatim %}</code>
-            </div>
+    <!-- Radio Group Horizontal -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Orientação Horizontal</h2>
+        <div class="border border-border rounded-radius-lg p-6">
+            {% include "components/radio-group.html" with name="size" options=radio_group_options.size orientation="horizontal" %}
         </div>
+    </div>
 
-        <!-- Exemplo com Alpine.js -->
-        <div class="space-y-3">
-            <h3 class="text-lg font-medium">Com Alpine.js</h3>
-            <div class="border rounded-lg p-6">
-                <div x-data="{ 
-                    selected: 'medium',
-                    options: [
-                        { value: 'small', label: 'Pequeno', description: 'Até 10 itens' },
-                        { value: 'medium', label: 'Médio', description: 'Até 50 itens' },
-                        { value: 'large', label: 'Grande', description: 'Até 100 itens' }
-                    ]
-                }">
-                    <div class="space-y-4">
-                        <h4 class="font-medium text-sm">Selecione o tamanho:</h4>
-                        <div class="space-y-2">
-                            <template x-for="option in options" :key="option.value">
-                                <label class="flex items-start space-x-3 cursor-pointer">
-                                    <input type="radio" 
-                                           name="size_alpine" 
-                                           :value="option.value"
-                                           x-model="selected"
-                                           class="mt-1 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300">
-                                    <div class="flex-1">
-                                        <div class="font-medium text-sm" x-text="option.label"></div>
-                                        <div class="text-xs text-muted-foreground" x-text="option.description"></div>
-                                    </div>
-                                </label>
-                            </template>
-                        </div>
-                        <div class="mt-4 p-3 bg-muted rounded text-sm">
-                            <strong>Selecionado:</strong> <span x-text="selected"></span>
-                        </div>
-                    </div>
+    <!-- Radio Group com Opções Desabilitadas -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Com Opções Desabilitadas</h2>
+        <div class="border border-border rounded-radius-lg p-6">
+            {% include "components/radio-group.html" with name="availability" options=radio_group_options.disabled value="available" %}
+        </div>
+    </div>
+
+    <!-- Radio Group com Alpine.js -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Com Alpine.js</h2>
+        <div class="border border-border rounded-radius-lg p-6">
+            <div x-data="{ selectedPlan: 'basic' }" class="space-y-4">
+                {% include "components/radio-group.html" with name="plan_alpine" options=radio_group_options.plan x_model="selectedPlan" %}
+                
+                <div class="mt-4 p-4 bg-muted rounded-lg">
+                    <p class="text-sm">
+                        Plano selecionado: <strong x-text="selectedPlan"></strong>
+                    </p>
                 </div>
             </div>
-            <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
-                <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
-                        class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
-                    <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
-                    <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
-                </button>
-                <code x-ref="code">{% verbatim %}<div x-data="{ selected: 'medium' }">
-    <input type="radio" name="size" value="small" x-model="selected">
-    <input type="radio" name="size" value="medium" x-model="selected">
-    <input type="radio" name="size" value="large" x-model="selected">
-</div>{% endverbatim %}</code>
+        </div>
+    </div>
+
+    <!-- Radio Group com Validação -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Com Validação</h2>
+        <div class="border border-border rounded-radius-lg p-6">
+            <div x-data="{ 
+                selectedOption: '',
+                showError: false,
+                validate() {
+                    this.showError = !this.selectedOption;
+                    if (!this.showError) {
+                        alert('Formulário válido!');
+                    }
+                }
+            }" class="space-y-4">
+                <form @submit.prevent="validate()">
+                    <div class="space-y-3">
+                        <label class="text-sm font-medium">Selecione uma opção *</label>
+                        {% include "components/radio-group.html" with name="validation" options=radio_group_options.basic x_model="selectedOption" %}
+                        
+                        <div x-show="showError" class="text-sm text-red-600">
+                            Este campo é obrigatório.
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="mt-4 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-radius-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] bg-primary text-primary-foreground shadow-xs hover:bg-primary/90 h-9 px-4 py-2">
+                        Validar
+                    </button>
+                </form>
             </div>
         </div>
     </div>
 
     <!-- Parâmetros -->
-    <div class="space-y-3">
+    <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Parâmetros</h2>
-        <div class="rounded-lg border bg-card">
-            <div class="overflow-x-auto">
-                <table class="w-full text-sm">
-                    <thead>
-                        <tr class="border-b">
-                            {% for header in radio_group_params.headers %}
-                                <th class="p-3 text-left font-medium">{{ header|safe }}</th>
-                            {% endfor %}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for row in radio_group_params.data %}
-                            <tr class="border-b last:border-b-0">
-                                {% for cell in row %}
-                                    <td class="p-3">{{ cell|safe }}</td>
-                                {% endfor %}
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
+        {% include "components/table.html" with headers=radio_group_params.headers data=radio_group_params.data caption="Parâmetros disponíveis para o componente Radio Group" %}
     </div>
-
-    <!-- Estrutura da Opção -->
-    <div class="space-y-3">
-        <h2 class="text-2xl font-semibold">Estrutura da Opção</h2>
-        <div class="rounded-lg border bg-card p-4">
-            <div class="bg-muted rounded p-3 text-sm">
-                <code>{
-    "value": "valor_opcao",
-    "label": "Texto da Opção",
-    "description": "Descrição opcional",  // Opcional
-    "disabled": False  // Opcional
-}</code>
-            </div>
-        </div>
-    </div>
-</div>
-{% endblock %} 
+</div> 

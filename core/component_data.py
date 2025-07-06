@@ -1576,4 +1576,337 @@ SONNER_PARAMS = {
         ['<code>action</code>', 'object', '-', 'Botão de ação personalizado'],
         ['<code>class</code>', 'string', '-', 'Classes CSS adicionais'],
     ]
+}
+
+# Dados para Breadcrumb
+BREADCRUMB_DATA = {
+    'items': [
+        # Exemplo básico
+        [
+            {'label': 'Home', 'href': '/'},
+            {'label': 'Produtos', 'href': '/produtos'},
+            {'label': 'Categoria', 'href': '/produtos/categoria'},
+            {'label': 'Item Atual', 'current': True}
+        ],
+        # Múltiplos níveis
+        [
+            {'label': 'Dashboard', 'href': '/dashboard'},
+            {'label': 'Usuários', 'href': '/dashboard/usuarios'},
+            {'label': 'Perfil', 'href': '/dashboard/usuarios/perfil'},
+            {'label': 'Configurações', 'href': '/dashboard/usuarios/perfil/config'},
+            {'label': 'Segurança', 'current': True}
+        ],
+        # Muitos itens
+        [
+            {'label': 'Raiz', 'href': '/'},
+            {'label': 'Nível 1', 'href': '/nivel1'},
+            {'label': 'Nível 2', 'href': '/nivel1/nivel2'},
+            {'label': 'Nível 3', 'href': '/nivel1/nivel2/nivel3'},
+            {'label': 'Nível 4', 'href': '/nivel1/nivel2/nivel3/nivel4'},
+            {'label': 'Nível 5', 'href': '/nivel1/nivel2/nivel3/nivel4/nivel5'},
+            {'label': 'Nível 6', 'href': '/nivel1/nivel2/nivel3/nivel4/nivel5/nivel6'},
+            {'label': 'Página Atual', 'current': True}
+        ]
+    ]
+}
+
+BREADCRUMB_WITH_ICONS = [
+    {'label': 'Home', 'href': '/', 'icon': 'home'},
+    {'label': 'Documentos', 'href': '/docs', 'icon': 'file-text'},
+    {'label': 'Projetos', 'href': '/docs/projetos', 'icon': 'folder'},
+    {'label': 'Projeto Alpha', 'current': True, 'icon': 'star'}
+]
+
+# Dados para parâmetros do Breadcrumb
+BREADCRUMB_PARAMS = {
+    'headers': ['Parâmetro', 'Tipo', 'Padrão', 'Descrição'],
+    'data': [
+        ['<code>items</code>', 'array', '-', 'Lista de itens da navegação'],
+        ['<code>items.label</code>', 'string', '-', 'Texto do item'],
+        ['<code>items.href</code>', 'string', '-', 'Link do item'],
+        ['<code>items.current</code>', 'boolean', 'false', 'Se é a página atual'],
+        ['<code>items.icon</code>', 'string', '-', 'Ícone do item'],
+        ['<code>separator</code>', 'string', '/', 'Separador entre itens'],
+        ['<code>max_items</code>', 'number', '-', 'Máximo de itens visíveis'],
+        ['<code>class</code>', 'string', '-', 'Classes CSS adicionais'],
+    ]
+}
+
+# Dados para Progress
+PROGRESS_PARAMS = {
+    'headers': ['Parâmetro', 'Tipo', 'Padrão', 'Descrição'],
+    'data': [
+        ['<code>value</code>', 'number', '0', 'Valor do progresso (0-100)'],
+        ['<code>label</code>', 'string', '-', 'Rótulo do progresso'],
+        ['<code>show_value</code>', 'boolean', 'false', 'Mostrar valor percentual'],
+        ['<code>variant</code>', 'string', 'default', 'Variante: default, success, warning, danger'],
+        ['<code>size</code>', 'string', 'md', 'Tamanho: sm, md, lg'],
+        ['<code>striped</code>', 'boolean', 'false', 'Mostrar listras'],
+        ['<code>animated</code>', 'boolean', 'false', 'Animar listras'],
+        ['<code>class</code>', 'string', '-', 'Classes CSS adicionais'],
+    ]
+}
+
+# Dados para Radio Group
+RADIO_GROUP_DATA = {
+    'basic': [
+        {'value': 'option1', 'label': 'Opção 1'},
+        {'value': 'option2', 'label': 'Opção 2'},
+        {'value': 'option3', 'label': 'Opção 3'},
+    ],
+    'payment': [
+        {'value': 'card', 'label': 'Cartão de Crédito', 'description': 'Visa, MasterCard, American Express'},
+        {'value': 'pix', 'label': 'PIX', 'description': 'Pagamento instantâneo'},
+        {'value': 'bank', 'label': 'Transferência Bancária', 'description': 'TED ou DOC'},
+        {'value': 'boleto', 'label': 'Boleto Bancário', 'description': 'Vencimento em 3 dias úteis'},
+    ],
+    'size': [
+        {'value': 'xs', 'label': 'XS'},
+        {'value': 'sm', 'label': 'SM'},
+        {'value': 'md', 'label': 'MD'},
+        {'value': 'lg', 'label': 'LG'},
+        {'value': 'xl', 'label': 'XL'},
+    ],
+    'disabled': [
+        {'value': 'available', 'label': 'Disponível'},
+        {'value': 'limited', 'label': 'Limitado'},
+        {'value': 'unavailable', 'label': 'Indisponível', 'disabled': True},
+    ],
+    'plan': [
+        {'value': 'basic', 'label': 'Básico', 'description': 'Recursos essenciais'},
+        {'value': 'pro', 'label': 'Profissional', 'description': 'Recursos avançados'},
+        {'value': 'enterprise', 'label': 'Empresarial', 'description': 'Recursos completos'},
+    ]
+}
+
+# Dados para parâmetros do Radio Group
+RADIO_GROUP_PARAMS = {
+    'headers': ['Parâmetro', 'Tipo', 'Padrão', 'Descrição'],
+    'data': [
+        ['<code>name</code>', 'string', '-', 'Nome do grupo (obrigatório)'],
+        ['<code>options</code>', 'array', '-', 'Lista de opções'],
+        ['<code>options.value</code>', 'string', '-', 'Valor da opção'],
+        ['<code>options.label</code>', 'string', '-', 'Rótulo da opção'],
+        ['<code>options.description</code>', 'string', '-', 'Descrição da opção'],
+        ['<code>options.disabled</code>', 'boolean', 'false', 'Se a opção está desabilitada'],
+        ['<code>value</code>', 'string', '-', 'Valor selecionado inicialmente'],
+        ['<code>orientation</code>', 'string', 'vertical', 'Orientação: vertical, horizontal'],
+        ['<code>x_model</code>', 'string', '-', 'Modelo Alpine.js para two-way binding'],
+        ['<code>class</code>', 'string', '-', 'Classes CSS adicionais'],
+    ]
+}
+
+# Dados para Accordion
+ACCORDION_DATA = {
+    'basic_items': [
+        {
+            'title': 'O que é React?',
+            'content': 'React é uma biblioteca JavaScript para construção de interfaces de usuário, especialmente para aplicações web de página única onde você precisa de uma experiência de usuário rápida e interativa.'
+        },
+        {
+            'title': 'Como instalar o React?',
+            'content': 'Você pode instalar o React usando npm ou yarn. O comando mais comum é: <code>npx create-react-app meu-app</code> para criar um novo projeto React.'
+        },
+        {
+            'title': 'Quais são os principais conceitos?',
+            'content': 'Os principais conceitos do React incluem: Components, JSX, Props, State, Hooks, Virtual DOM, e Context. Cada um desses conceitos é fundamental para entender como o React funciona.'
+        }
+    ],
+    'advanced_items': [
+        {
+            'title': 'Configurações de Conta',
+            'content': '<div class="space-y-4"><p>Gerencie suas configurações de conta:</p><ul class="list-disc pl-6"><li>Alterar senha</li><li>Configurações de privacidade</li><li>Notificações</li><li>Preferências de idioma</li></ul></div>'
+        },
+        {
+            'title': 'Configurações de Pagamento',
+            'content': '<div class="space-y-4"><p>Métodos de pagamento aceitos:</p><div class="grid grid-cols-2 gap-4"><div class="p-3 border rounded">💳 Cartão de Crédito</div><div class="p-3 border rounded">🏦 PIX</div></div></div>'
+        },
+        {
+            'title': 'Suporte Técnico',
+            'content': '<div class="space-y-4"><p>Precisa de ajuda? Entre em contato:</p><div class="flex gap-4"><button class="px-4 py-2 bg-blue-500 text-white rounded">Chat ao Vivo</button><button class="px-4 py-2 border rounded">Email</button></div></div>'
+        }
+    ]
+}
+
+# Dados para parâmetros do Accordion
+ACCORDION_PARAMS = {
+    'headers': ['Parâmetro', 'Tipo', 'Padrão', 'Descrição'],
+    'data': [
+        ['<code>items</code>', 'array', '-', 'Lista de itens do accordion'],
+        ['<code>items.title</code>', 'string', '-', 'Título do item'],
+        ['<code>items.content</code>', 'HTML', '-', 'Conteúdo do item'],
+        ['<code>items.open</code>', 'boolean', 'false', 'Se o item inicia aberto'],
+        ['<code>multiple</code>', 'boolean', 'false', 'Permite múltiplos itens abertos'],
+        ['<code>collapsible</code>', 'boolean', 'true', 'Permite fechar item aberto'],
+        ['<code>class</code>', 'string', '-', 'Classes CSS adicionais'],
+    ]
+}
+
+# Dados para Collapsible
+COLLAPSIBLE_DATA = {
+    'simple_content': 'Este conteúdo pode ser expandido ou recolhido clicando no botão acima.',
+    'detailed_content': '''
+    <div class="space-y-4">
+        <p>Este é um exemplo de conteúdo mais detalhado que pode ser mostrado ou ocultado.</p>
+        <ul class="list-disc pl-6">
+            <li>Item de lista 1</li>
+            <li>Item de lista 2</li>
+            <li>Item de lista 3</li>
+        </ul>
+        <p>Você pode incluir qualquer conteúdo HTML aqui, incluindo imagens, links, formulários, etc.</p>
+    </div>
+    ''',
+    'form_content': '''
+    <div class="space-y-4">
+        <div class="grid grid-cols-2 gap-4">
+            <input type="text" placeholder="Nome" class="px-3 py-2 border rounded">
+            <input type="email" placeholder="Email" class="px-3 py-2 border rounded">
+        </div>
+        <textarea placeholder="Mensagem" class="w-full px-3 py-2 border rounded h-20"></textarea>
+        <button class="px-4 py-2 bg-blue-500 text-white rounded">Enviar</button>
+    </div>
+    '''
+}
+
+# Dados para parâmetros do Collapsible
+COLLAPSIBLE_PARAMS = {
+    'headers': ['Parâmetro', 'Tipo', 'Padrão', 'Descrição'],
+    'data': [
+        ['<code>title</code>', 'string', '-', 'Título do trigger'],
+        ['<code>content</code>', 'HTML', '-', 'Conteúdo a ser mostrado/ocultado'],
+        ['<code>open</code>', 'boolean', 'false', 'Estado inicial (aberto/fechado)'],
+        ['<code>trigger_variant</code>', 'string', 'default', 'Variante do botão trigger'],
+        ['<code>animated</code>', 'boolean', 'true', 'Animação ao expandir/recolher'],
+        ['<code>class</code>', 'string', '-', 'Classes CSS adicionais'],
+    ]
+}
+
+# Dados para Tabs
+TABS_DATA = {
+    'basic_tabs': [
+        {'id': 'tab1', 'title': 'Overview', 'content': 'Conteúdo da aba Overview com informações gerais.'},
+        {'id': 'tab2', 'title': 'Analytics', 'content': 'Dados analíticos e métricas importantes.'},
+        {'id': 'tab3', 'title': 'Reports', 'content': 'Relatórios detalhados e estatísticas.'},
+        {'id': 'tab4', 'title': 'Notifications', 'content': 'Central de notificações e alertas.'}
+    ],
+    'detailed_tabs': [
+        {
+            'id': 'profile',
+            'title': 'Perfil',
+            'content': '''
+                <div class="space-y-4">
+                    <h3 class="text-lg font-semibold">Informações Pessoais</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Nome</label>
+                            <input type="text" value="João Silva" class="w-full px-3 py-2 border rounded">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Email</label>
+                            <input type="email" value="joao@exemplo.com" class="w-full px-3 py-2 border rounded">
+                        </div>
+                    </div>
+                </div>
+            '''
+        },
+        {
+            'id': 'security',
+            'title': 'Segurança',
+            'content': '''
+                <div class="space-y-4">
+                    <h3 class="text-lg font-semibold">Configurações de Segurança</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span>Autenticação de dois fatores</span>
+                            <button class="px-3 py-1 bg-green-500 text-white rounded text-sm">Ativada</button>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span>Sessões ativas</span>
+                            <button class="px-3 py-1 bg-blue-500 text-white rounded text-sm">Gerenciar</button>
+                        </div>
+                    </div>
+                </div>
+            '''
+        },
+        {
+            'id': 'preferences',
+            'title': 'Preferências',
+            'content': '''
+                <div class="space-y-4">
+                    <h3 class="text-lg font-semibold">Preferências do Sistema</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span>Tema escuro</span>
+                            <input type="checkbox" class="toggle">
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span>Notificações por email</span>
+                            <input type="checkbox" class="toggle" checked>
+                        </div>
+                    </div>
+                </div>
+            '''
+        }
+    ]
+}
+
+# Dados para parâmetros do Tabs
+TABS_PARAMS = {
+    'headers': ['Parâmetro', 'Tipo', 'Padrão', 'Descrição'],
+    'data': [
+        ['<code>tabs</code>', 'array', '-', 'Lista de abas'],
+        ['<code>tabs.id</code>', 'string', '-', 'ID único da aba'],
+        ['<code>tabs.title</code>', 'string', '-', 'Título da aba'],
+        ['<code>tabs.content</code>', 'HTML', '-', 'Conteúdo da aba'],
+        ['<code>tabs.disabled</code>', 'boolean', 'false', 'Se a aba está desabilitada'],
+        ['<code>default_tab</code>', 'string', '-', 'ID da aba ativa inicialmente'],
+        ['<code>orientation</code>', 'string', 'horizontal', 'Orientação: horizontal, vertical'],
+        ['<code>class</code>', 'string', '-', 'Classes CSS adicionais'],
+    ]
+}
+
+# Dados para Select
+SELECT_DATA = {
+    'basic_options': [
+        {'value': 'option1', 'label': 'Opção 1'},
+        {'value': 'option2', 'label': 'Opção 2'},
+        {'value': 'option3', 'label': 'Opção 3'},
+        {'value': 'option4', 'label': 'Opção 4'},
+    ],
+    'countries': [
+        {'value': 'br', 'label': 'Brasil'},
+        {'value': 'us', 'label': 'Estados Unidos'},
+        {'value': 'ca', 'label': 'Canadá'},
+        {'value': 'mx', 'label': 'México'},
+        {'value': 'ar', 'label': 'Argentina'},
+    ],
+    'priority': [
+        {'value': 'low', 'label': 'Baixa'},
+        {'value': 'medium', 'label': 'Média'},
+        {'value': 'high', 'label': 'Alta'},
+        {'value': 'urgent', 'label': 'Urgente'},
+    ],
+    'status': [
+        {'value': 'draft', 'label': 'Rascunho'},
+        {'value': 'pending', 'label': 'Pendente'},
+        {'value': 'approved', 'label': 'Aprovado'},
+        {'value': 'rejected', 'label': 'Rejeitado'},
+    ]
+}
+
+# Dados para parâmetros do Select
+SELECT_PARAMS = {
+    'headers': ['Parâmetro', 'Tipo', 'Padrão', 'Descrição'],
+    'data': [
+        ['<code>name</code>', 'string', '-', 'Nome do campo'],
+        ['<code>options</code>', 'array', '-', 'Lista de opções'],
+        ['<code>options.value</code>', 'string', '-', 'Valor da opção'],
+        ['<code>options.label</code>', 'string', '-', 'Rótulo da opção'],
+        ['<code>placeholder</code>', 'string', 'Selecione...', 'Texto placeholder'],
+        ['<code>value</code>', 'string', '-', 'Valor selecionado inicialmente'],
+        ['<code>disabled</code>', 'boolean', 'false', 'Se o select está desabilitado'],
+        ['<code>required</code>', 'boolean', 'false', 'Se o campo é obrigatório'],
+        ['<code>size</code>', 'string', 'md', 'Tamanho: sm, md, lg'],
+        ['<code>class</code>', 'string', '-', 'Classes CSS adicionais'],
+    ]
 } 

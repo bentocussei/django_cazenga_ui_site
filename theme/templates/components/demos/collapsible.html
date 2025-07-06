@@ -1,618 +1,74 @@
-{% extends "components_base.html" %}
 {% load icon_tags %}
 
-{% block page_title %}Collapsible{% endblock %}
-{% block page_description %}Componente expansível para organizar conteúdo{% endblock %}
+<div class="space-y-6">
+    <!-- Cabeçalho -->
+    <div class="border-b border-border pb-4">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-3xl font-bold">Collapsible</h1>
+                <p class="text-muted-foreground mt-1">Componente para exibir e ocultar conteúdo de forma expansível</p>
+            </div>
+            <a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+                Voltar
+            </a>
+        </div>
+    </div>
 
-{% block component_content %}
-<div class="max-w-4xl mx-auto space-y-8">
     <!-- Instalação -->
-    <section class="space-y-4">
+    <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Instalação</h2>
         <div class="relative">
-            <pre class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto"><code>{% templatetag openblock %} include "components/collapsible.html" with title="Título" content="Conteúdo" {% templatetag closeblock %}</code></pre>
+            <pre class="bg-muted p-4 rounded-radius-md overflow-x-auto text-sm"><code>{% verbatim %}{% include 'components/collapsible.html' with title="Título" content="Conteúdo aqui" %}{% endverbatim %}</code></pre>
             <button 
-                class="absolute top-2 right-2 p-2 bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
-                x-data="{ copied: false }"
-                @click="navigator.clipboard.writeText($el.previousElementSibling.textContent); copied = true; setTimeout(() => copied = false, 2000)"
+                class="absolute top-2 right-2 p-2 bg-background rounded-radius-md shadow-sm hover:bg-accent border border-border"
+                x-data 
+                @click="navigator.clipboard.writeText('{% verbatim %}{% include \'components/collapsible.html\' with title=\'Título\' content=\'Conteúdo aqui\' %}{% endverbatim %}')"
+                title="Copiar código"
             >
-                <span x-show="!copied">{% icon "copy" size="4" %}</span>
-                <span x-show="copied" class="text-green-600">{% icon "check" size="4" %}</span>
+                {% svg_icon "copy" "size-4" %}
             </button>
         </div>
-    </section>
+    </div>
 
-    <!-- Collapsible Básico -->
-    <section class="space-y-4">
-        <h2 class="text-2xl font-semibold">Collapsible Básico</h2>
-        <div class="border rounded-lg p-6">
-            <div class="max-w-2xl mx-auto space-y-4">
-                <!-- Exemplo Simples -->
-                <div x-data="{ open: false }" class="border border-gray-200 dark:border-gray-700 rounded-lg">
-                    <button 
-                        @click="open = !open"
-                        class="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-                    >
-                        <span class="font-medium text-gray-900 dark:text-gray-100">
-                            O que é desenvolvimento web?
-                        </span>
-                        {% icon "chevron-down" size="5" class="text-gray-500 transition-transform" x-bind:class="open ? 'rotate-180' : ''" %}
-                    </button>
-                    <div x-show="open" 
-                         x-collapse
-                         class="px-4 pb-3 text-gray-700 dark:text-gray-300">
-                        <p>
-                            Desenvolvimento web é o processo de criação e manutenção de websites e aplicações web. 
-                            Envolve várias disciplinas incluindo design, programação, testes e otimização para 
-                            criar experiências digitais funcionais e atrativas.
-                        </p>
-                    </div>
-                </div>
+    <!-- Exemplo Básico -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Exemplo Básico</h2>
+        <div class="border border-border rounded-radius-lg p-6">
+            {% include "components/collapsible.html" with title="Mais informações" content=collapsible_simple_content %}
+        </div>
+    </div>
 
-                <!-- Exemplo com Ícone -->
-                <div x-data="{ open: true }" class="border border-gray-200 dark:border-gray-700 rounded-lg">
-                    <button 
-                        @click="open = !open"
-                        class="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-                    >
-                        <div class="flex items-center space-x-3">
-                            {% icon "question-mark-circled" size="5" class="text-blue-500" %}
-                            <span class="font-medium text-gray-900 dark:text-gray-100">
-                                Quais tecnologias são usadas?
-                            </span>
-                        </div>
-                        {% icon "chevron-down" size="5" class="text-gray-500 transition-transform" x-bind:class="open ? 'rotate-180' : ''" %}
-                    </button>
-                    <div x-show="open" 
-                         x-collapse
-                         class="px-4 pb-3 text-gray-700 dark:text-gray-300">
-                        <div class="space-y-3">
-                            <p>
-                                As principais tecnologias incluem:
-                            </p>
-                            <ul class="list-disc list-inside space-y-1 text-sm">
-                                <li><strong>Frontend:</strong> HTML, CSS, JavaScript, React, Vue.js</li>
-                                <li><strong>Backend:</strong> Node.js, Python, PHP, Java, Ruby</li>
-                                <li><strong>Banco de Dados:</strong> PostgreSQL, MySQL, MongoDB</li>
-                                <li><strong>Ferramentas:</strong> Git, Docker, VS Code, Figma</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+    <!-- Collapsible Inicialmente Aberto -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Inicialmente Aberto</h2>
+        <div class="border border-border rounded-radius-lg p-6">
+            {% include "components/collapsible.html" with title="Conteúdo detalhado" content=collapsible_detailed_content open=True %}
+        </div>
+    </div>
 
-                <!-- Exemplo com Badge -->
-                <div x-data="{ open: false }" class="border border-gray-200 dark:border-gray-700 rounded-lg">
-                    <button 
-                        @click="open = !open"
-                        class="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-                    >
-                        <div class="flex items-center space-x-3">
-                            <span class="font-medium text-gray-900 dark:text-gray-100">
-                                Como começar na carreira?
-                            </span>
-                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-200">
-                                Popular
-                            </span>
-                        </div>
-                        {% icon "chevron-down" size="5" class="text-gray-500 transition-transform" x-bind:class="open ? 'rotate-180' : ''" %}
-                    </button>
-                    <div x-show="open" 
-                         x-collapse
-                         class="px-4 pb-3 text-gray-700 dark:text-gray-300">
-                        <div class="space-y-3">
-                            <p>Para começar na carreira de desenvolvimento web:</p>
-                            <ol class="list-decimal list-inside space-y-1 text-sm">
-                                <li>Aprenda HTML, CSS e JavaScript básico</li>
-                                <li>Pratique com projetos pessoais</li>
-                                <li>Escolha uma especialização (frontend ou backend)</li>
-                                <li>Construa um portfólio</li>
-                                <li>Contribua para projetos open source</li>
-                                <li>Prepare-se para entrevistas técnicas</li>
-                            </ol>
-                        </div>
-                    </div>
-                </div>
+    <!-- Collapsible com Conteúdo Customizado -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Conteúdo Customizado</h2>
+        <div class="border border-border rounded-radius-lg p-6">
+            {% include "components/collapsible.html" with title="Formulário de contato" content=collapsible_form_content %}
+        </div>
+    </div>
+
+    <!-- Variantes do Trigger -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Variantes do Trigger</h2>
+        <div class="border border-border rounded-radius-lg p-6">
+            <div class="space-y-4">
+                {% include "components/collapsible.html" with title="Trigger Padrão" content=collapsible_simple_content trigger_variant="default" %}
+                {% include "components/collapsible.html" with title="Trigger Outline" content=collapsible_simple_content trigger_variant="outline" %}
+                {% include "components/collapsible.html" with title="Trigger Secondary" content=collapsible_simple_content trigger_variant="secondary" %}
             </div>
         </div>
-        <div class="relative">
-            <pre class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto text-sm"><code>&lt;div x-data="{ open: false }" class="border border-gray-200 rounded-lg"&gt;
-  &lt;button 
-    @click="open = !open"
-    class="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-gray-50 transition-colors"
-  &gt;
-    &lt;span class="font-medium text-gray-900"&gt;Título do Collapsible&lt;/span&gt;
-    &lt;svg class="w-5 h-5 text-gray-500 transition-transform" :class="open ? 'rotate-180' : ''"&gt;...&lt;/svg&gt;
-  &lt;/button&gt;
-  &lt;div x-show="open" x-collapse class="px-4 pb-3 text-gray-700"&gt;
-    &lt;p&gt;Conteúdo que será expandido/recolhido...&lt;/p&gt;
-  &lt;/div&gt;
-&lt;/div&gt;</code></pre>
-            <button 
-                class="absolute top-2 right-2 p-2 bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
-                x-data="{ copied: false }"
-                @click="navigator.clipboard.writeText($el.previousElementSibling.textContent); copied = true; setTimeout(() => copied = false, 2000)"
-            >
-                <span x-show="!copied">{% icon "copy" size="4" %}</span>
-                <span x-show="copied" class="text-green-600">{% icon "check" size="4" %}</span>
-            </button>
-        </div>
-    </section>
-
-    <!-- Múltiplos Collapsibles -->
-    <section class="space-y-4">
-        <h2 class="text-2xl font-semibold">Múltiplos Collapsibles</h2>
-        <div class="border rounded-lg p-6">
-            <div class="max-w-2xl mx-auto space-y-4">
-                <h3 class="text-lg font-medium mb-4">FAQ - Perguntas Frequentes</h3>
-                
-                <div x-data="{ activeItem: 1 }" class="space-y-2">
-                    <!-- Item 1 -->
-                    <div class="border border-gray-200 dark:border-gray-700 rounded-lg">
-                        <button 
-                            @click="activeItem = activeItem === 1 ? null : 1"
-                            class="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-                        >
-                            <span class="font-medium text-gray-900 dark:text-gray-100">
-                                Quanto tempo leva para aprender programação?
-                            </span>
-                            {% icon "chevron-down" size="5" class="text-gray-500 transition-transform" x-bind:class="activeItem === 1 ? 'rotate-180' : ''" %}
-                        </button>
-                        <div x-show="activeItem === 1" 
-                             x-collapse
-                             class="px-4 pb-3 text-gray-700 dark:text-gray-300">
-                            <p>
-                                O tempo varia de pessoa para pessoa, mas geralmente leva de 6 meses a 2 anos para 
-                                se tornar proficiente, dependendo da dedicação diária e dos objetivos específicos.
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Item 2 -->
-                    <div class="border border-gray-200 dark:border-gray-700 rounded-lg">
-                        <button 
-                            @click="activeItem = activeItem === 2 ? null : 2"
-                            class="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-                        >
-                            <span class="font-medium text-gray-900 dark:text-gray-100">
-                                É necessário faculdade para ser programador?
-                            </span>
-                            {% icon "chevron-down" size="5" class="text-gray-500 transition-transform" x-bind:class="activeItem === 2 ? 'rotate-180' : ''" %}
-                        </button>
-                        <div x-show="activeItem === 2" 
-                             x-collapse
-                             class="px-4 pb-3 text-gray-700 dark:text-gray-300">
-                            <p>
-                                Não é obrigatório, mas pode ajudar. Muitas empresas valorizam mais a experiência 
-                                prática e habilidades demonstráveis através de projetos e portfólio.
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Item 3 -->
-                    <div class="border border-gray-200 dark:border-gray-700 rounded-lg">
-                        <button 
-                            @click="activeItem = activeItem === 3 ? null : 3"
-                            class="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-                        >
-                            <span class="font-medium text-gray-900 dark:text-gray-100">
-                                Qual linguagem devo aprender primeiro?
-                            </span>
-                            {% icon "chevron-down" size="5" class="text-gray-500 transition-transform" x-bind:class="activeItem === 3 ? 'rotate-180' : ''" %}
-                        </button>
-                        <div x-show="activeItem === 3" 
-                             x-collapse
-                             class="px-4 pb-3 text-gray-700 dark:text-gray-300">
-                            <div class="space-y-2">
-                                <p>Depende do seu objetivo:</p>
-                                <ul class="list-disc list-inside space-y-1 text-sm">
-                                    <li><strong>Web:</strong> JavaScript (HTML/CSS primeiro)</li>
-                                    <li><strong>Mobile:</strong> Swift (iOS) ou Kotlin (Android)</li>
-                                    <li><strong>Desktop:</strong> Python, Java ou C#</li>
-                                    <li><strong>Iniciantes:</strong> Python pela simplicidade</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Item 4 -->
-                    <div class="border border-gray-200 dark:border-gray-700 rounded-lg">
-                        <button 
-                            @click="activeItem = activeItem === 4 ? null : 4"
-                            class="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-                        >
-                            <span class="font-medium text-gray-900 dark:text-gray-100">
-                                Como conseguir o primeiro emprego?
-                            </span>
-                            {% icon "chevron-down" size="5" class="text-gray-500 transition-transform" x-bind:class="activeItem === 4 ? 'rotate-180' : ''" %}
-                        </button>
-                        <div x-show="activeItem === 4" 
-                             x-collapse
-                             class="px-4 pb-3 text-gray-700 dark:text-gray-300">
-                            <div class="space-y-2">
-                                <p>Estratégias para conseguir o primeiro emprego:</p>
-                                <ul class="list-disc list-inside space-y-1 text-sm">
-                                    <li>Construa um portfólio sólido com projetos reais</li>
-                                    <li>Contribua para projetos open source</li>
-                                    <li>Faça networking em eventos e comunidades</li>
-                                    <li>Considere estágios ou posições júnior</li>
-                                    <li>Prepare-se bem para entrevistas técnicas</li>
-                                    <li>Mantenha-se atualizado com as tecnologias</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Collapsible com Conteúdo Rico -->
-    <section class="space-y-4">
-        <h2 class="text-2xl font-semibold">Collapsible com Conteúdo Rico</h2>
-        <div class="border rounded-lg p-6">
-            <div class="max-w-3xl mx-auto space-y-4">
-                <!-- Documentação de API -->
-                <div x-data="{ openDocs: false }" class="border border-gray-200 dark:border-gray-700 rounded-lg">
-                    <button 
-                        @click="openDocs = !openDocs"
-                        class="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-                    >
-                        <div class="flex items-center space-x-3">
-                            {% icon "code" size="5" class="text-purple-500" %}
-                            <div>
-                                <div class="font-medium text-gray-900 dark:text-gray-100">API de Usuários</div>
-                                <div class="text-sm text-gray-500 dark:text-gray-400">GET /api/users</div>
-                            </div>
-                        </div>
-                        {% icon "chevron-down" size="5" class="text-gray-500 transition-transform" x-bind:class="openDocs ? 'rotate-180' : ''" %}
-                    </button>
-                    <div x-show="openDocs" 
-                         x-collapse
-                         class="px-4 pb-4 text-gray-700 dark:text-gray-300">
-                        <div class="space-y-4">
-                            <div>
-                                <h4 class="font-medium mb-2">Descrição</h4>
-                                <p class="text-sm">Retorna uma lista paginada de usuários do sistema.</p>
-                            </div>
-                            
-                            <div>
-                                <h4 class="font-medium mb-2">Parâmetros</h4>
-                                <div class="bg-gray-50 dark:bg-gray-700 rounded p-3 text-sm">
-                                    <div class="grid grid-cols-3 gap-2 font-medium border-b border-gray-200 dark:border-gray-600 pb-2 mb-2">
-                                        <span>Nome</span>
-                                        <span>Tipo</span>
-                                        <span>Descrição</span>
-                                    </div>
-                                    <div class="grid grid-cols-3 gap-2 mb-1">
-                                        <span class="font-mono">page</span>
-                                        <span>number</span>
-                                        <span>Número da página (padrão: 1)</span>
-                                    </div>
-                                    <div class="grid grid-cols-3 gap-2 mb-1">
-                                        <span class="font-mono">limit</span>
-                                        <span>number</span>
-                                        <span>Itens por página (padrão: 10)</span>
-                                    </div>
-                                    <div class="grid grid-cols-3 gap-2">
-                                        <span class="font-mono">search</span>
-                                        <span>string</span>
-                                        <span>Termo de busca (opcional)</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div>
-                                <h4 class="font-medium mb-2">Exemplo de Resposta</h4>
-                                <pre class="bg-gray-900 text-gray-100 rounded p-3 text-sm overflow-x-auto"><code>{
-  "data": [
-    {
-      "id": 1,
-      "name": "João Silva",
-      "email": "joao@email.com",
-      "created_at": "2024-01-15T10:30:00Z"
-    }
-  ],
-  "pagination": {
-    "page": 1,
-    "limit": 10,
-    "total": 50,
-    "total_pages": 5
-  }
-}</code></pre>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Configurações Avançadas -->
-                <div x-data="{ openSettings: false }" class="border border-gray-200 dark:border-gray-700 rounded-lg">
-                    <button 
-                        @click="openSettings = !openSettings"
-                        class="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-                    >
-                        <div class="flex items-center space-x-3">
-                            {% icon "gear" size="5" class="text-orange-500" %}
-                            <div>
-                                <div class="font-medium text-gray-900 dark:text-gray-100">Configurações Avançadas</div>
-                                <div class="text-sm text-gray-500 dark:text-gray-400">Personalize sua experiência</div>
-                            </div>
-                        </div>
-                        {% icon "chevron-down" size="5" class="text-gray-500 transition-transform" x-bind:class="openSettings ? 'rotate-180' : ''" %}
-                    </button>
-                    <div x-show="openSettings" 
-                         x-collapse
-                         class="px-4 pb-4">
-                        <div class="space-y-4" x-data="{ 
-                            notifications: true, 
-                            autoSave: false, 
-                            theme: 'light',
-                            language: 'pt'
-                        }">
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div class="space-y-3">
-                                    <h4 class="font-medium text-gray-900 dark:text-gray-100">Notificações</h4>
-                                    <label class="flex items-center space-x-2">
-                                        <input type="checkbox" x-model="notifications" class="w-4 h-4 text-blue-600 rounded">
-                                        <span class="text-sm">Receber notificações por email</span>
-                                    </label>
-                                    <label class="flex items-center space-x-2">
-                                        <input type="checkbox" class="w-4 h-4 text-blue-600 rounded">
-                                        <span class="text-sm">Notificações push</span>
-                                    </label>
-                                    <label class="flex items-center space-x-2">
-                                        <input type="checkbox" class="w-4 h-4 text-blue-600 rounded">
-                                        <span class="text-sm">SMS para eventos importantes</span>
-                                    </label>
-                                </div>
-
-                                <div class="space-y-3">
-                                    <h4 class="font-medium text-gray-900 dark:text-gray-100">Preferências</h4>
-                                    <label class="flex items-center space-x-2">
-                                        <input type="checkbox" x-model="autoSave" class="w-4 h-4 text-blue-600 rounded">
-                                        <span class="text-sm">Salvamento automático</span>
-                                    </label>
-                                    <div class="space-y-2">
-                                        <label class="block text-sm">Tema</label>
-                                        <select x-model="theme" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700">
-                                            <option value="light">Claro</option>
-                                            <option value="dark">Escuro</option>
-                                            <option value="auto">Automático</option>
-                                        </select>
-                                    </div>
-                                    <div class="space-y-2">
-                                        <label class="block text-sm">Idioma</label>
-                                        <select x-model="language" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700">
-                                            <option value="pt">Português</option>
-                                            <option value="en">English</option>
-                                            <option value="es">Español</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="pt-3 border-t border-gray-200 dark:border-gray-700">
-                                <div class="flex justify-between">
-                                    <button class="px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200">
-                                        Redefinir
-                                    </button>
-                                    <button class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
-                                        Salvar Configurações
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Estatísticas -->
-                <div x-data="{ openStats: false }" class="border border-gray-200 dark:border-gray-700 rounded-lg">
-                    <button 
-                        @click="openStats = !openStats"
-                        class="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-                    >
-                        <div class="flex items-center space-x-3">
-                            {% icon "bar-chart" size="5" class="text-green-500" %}
-                            <div>
-                                <div class="font-medium text-gray-900 dark:text-gray-100">Estatísticas do Projeto</div>
-                                <div class="text-sm text-gray-500 dark:text-gray-400">Métricas e relatórios</div>
-                            </div>
-                        </div>
-                        {% icon "chevron-down" size="5" class="text-gray-500 transition-transform" x-bind:class="openStats ? 'rotate-180' : ''" %}
-                    </button>
-                    <div x-show="openStats" 
-                         x-collapse
-                         class="px-4 pb-4">
-                        <div class="space-y-4">
-                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                                <div class="text-center p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-                                    <div class="text-2xl font-bold text-blue-600 dark:text-blue-400">1,234</div>
-                                    <div class="text-sm text-gray-600 dark:text-gray-400">Usuários</div>
-                                </div>
-                                <div class="text-center p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
-                                    <div class="text-2xl font-bold text-green-600 dark:text-green-400">89</div>
-                                    <div class="text-sm text-gray-600 dark:text-gray-400">Projetos</div>
-                                </div>
-                                <div class="text-center p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg">
-                                    <div class="text-2xl font-bold text-yellow-600 dark:text-yellow-400">567</div>
-                                    <div class="text-sm text-gray-600 dark:text-gray-400">Tarefas</div>
-                                </div>
-                                <div class="text-center p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
-                                    <div class="text-2xl font-bold text-purple-600 dark:text-purple-400">23</div>
-                                    <div class="text-sm text-gray-600 dark:text-gray-400">Equipes</div>
-                                </div>
-                            </div>
-
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div>
-                                    <h4 class="font-medium mb-2">Atividade Recente</h4>
-                                    <div class="space-y-2">
-                                        <div class="flex items-center space-x-2 text-sm">
-                                            <div class="w-2 h-2 bg-green-500 rounded-full"></div>
-                                            <span>Nova tarefa criada</span>
-                                            <span class="text-gray-500">há 2 min</span>
-                                        </div>
-                                        <div class="flex items-center space-x-2 text-sm">
-                                            <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
-                                            <span>Usuário adicionado</span>
-                                            <span class="text-gray-500">há 5 min</span>
-                                        </div>
-                                        <div class="flex items-center space-x-2 text-sm">
-                                            <div class="w-2 h-2 bg-yellow-500 rounded-full"></div>
-                                            <span>Projeto atualizado</span>
-                                            <span class="text-gray-500">há 10 min</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <h4 class="font-medium mb-2">Performance</h4>
-                                    <div class="space-y-3">
-                                        <div>
-                                            <div class="flex justify-between text-sm mb-1">
-                                                <span>CPU</span>
-                                                <span>23%</span>
-                                            </div>
-                                            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                                                <div class="bg-blue-500 h-2 rounded-full" style="width: 23%"></div>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div class="flex justify-between text-sm mb-1">
-                                                <span>Memória</span>
-                                                <span>67%</span>
-                                            </div>
-                                            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                                                <div class="bg-yellow-500 h-2 rounded-full" style="width: 67%"></div>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div class="flex justify-between text-sm mb-1">
-                                                <span>Armazenamento</span>
-                                                <span>45%</span>
-                                            </div>
-                                            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                                                <div class="bg-green-500 h-2 rounded-full" style="width: 45%"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Collapsible Aninhado -->
-    <section class="space-y-4">
-        <h2 class="text-2xl font-semibold">Collapsible Aninhado</h2>
-        <div class="border rounded-lg p-6">
-            <div class="max-w-2xl mx-auto">
-                <div x-data="{ openMain: false, openSub1: false, openSub2: false }" class="border border-gray-200 dark:border-gray-700 rounded-lg">
-                    <!-- Nível Principal -->
-                    <button 
-                        @click="openMain = !openMain"
-                        class="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-                    >
-                        <div class="flex items-center space-x-3">
-                            {% icon "folder" size="5" class="text-blue-500" %}
-                            <span class="font-medium text-gray-900 dark:text-gray-100">
-                                Estrutura do Projeto
-                            </span>
-                        </div>
-                        {% icon "chevron-down" size="5" class="text-gray-500 transition-transform" x-bind:class="openMain ? 'rotate-180' : ''" %}
-                    </button>
-                    
-                    <div x-show="openMain" x-collapse class="border-t border-gray-200 dark:border-gray-700">
-                        <!-- Sub-item 1 -->
-                        <div class="border-b border-gray-100 dark:border-gray-600">
-                            <button 
-                                @click="openSub1 = !openSub1"
-                                class="w-full flex items-center justify-between px-6 py-3 text-left hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-                            >
-                                <div class="flex items-center space-x-3">
-                                    {% icon "folder" size="4" class="text-yellow-500" %}
-                                    <span class="text-gray-900 dark:text-gray-100">Frontend</span>
-                                </div>
-                                {% icon "chevron-down" size="4" class="text-gray-500 transition-transform" x-bind:class="openSub1 ? 'rotate-180' : ''" %}
-                            </button>
-                            <div x-show="openSub1" x-collapse class="px-8 pb-3 space-y-2">
-                                <div class="flex items-center space-x-3 text-sm text-gray-600 dark:text-gray-400">
-                                    {% icon "file" size="4" %}
-                                    <span>index.html</span>
-                                </div>
-                                <div class="flex items-center space-x-3 text-sm text-gray-600 dark:text-gray-400">
-                                    {% icon "file" size="4" %}
-                                    <span>styles.css</span>
-                                </div>
-                                <div class="flex items-center space-x-3 text-sm text-gray-600 dark:text-gray-400">
-                                    {% icon "file" size="4" %}
-                                    <span>app.js</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Sub-item 2 -->
-                        <div>
-                            <button 
-                                @click="openSub2 = !openSub2"
-                                class="w-full flex items-center justify-between px-6 py-3 text-left hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-                            >
-                                <div class="flex items-center space-x-3">
-                                    {% icon "folder" size="4" class="text-green-500" %}
-                                    <span class="text-gray-900 dark:text-gray-100">Backend</span>
-                                </div>
-                                {% icon "chevron-down" size="4" class="text-gray-500 transition-transform" x-bind:class="openSub2 ? 'rotate-180' : ''" %}
-                            </button>
-                            <div x-show="openSub2" x-collapse class="px-8 pb-3 space-y-2">
-                                <div class="flex items-center space-x-3 text-sm text-gray-600 dark:text-gray-400">
-                                    {% icon "file" size="4" %}
-                                    <span>server.js</span>
-                                </div>
-                                <div class="flex items-center space-x-3 text-sm text-gray-600 dark:text-gray-400">
-                                    {% icon "file" size="4" %}
-                                    <span>database.js</span>
-                                </div>
-                                <div class="flex items-center space-x-3 text-sm text-gray-600 dark:text-gray-400">
-                                    {% icon "folder" size="4" class="text-orange-500" %}
-                                    <span>routes/</span>
-                                </div>
-                                <div class="flex items-center space-x-3 text-sm text-gray-600 dark:text-gray-400">
-                                    {% icon "folder" size="4" class="text-orange-500" %}
-                                    <span>models/</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    </div>
 
     <!-- Parâmetros -->
-    <section class="space-y-4">
+    <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Parâmetros</h2>
-        <div class="overflow-x-auto">
-            <table class="w-full border-collapse border border-gray-200 dark:border-gray-700">
-                <thead>
-                    <tr class="bg-gray-50 dark:bg-gray-800">
-                        {% for header in collapsible_params.headers %}
-                        <th class="border border-gray-200 dark:border-gray-700 px-4 py-2 text-left font-medium">{{ header }}</th>
-                        {% endfor %}
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for row in collapsible_params.data %}
-                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-800">
-                        {% for cell in row %}
-                        <td class="border border-gray-200 dark:border-gray-700 px-4 py-2">{{ cell|safe }}</td>
-                        {% endfor %}
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </section>
-</div>
-{% endblock %} 
+        {% include "components/table.html" with headers=collapsible_params.headers data=collapsible_params.data caption="Parâmetros disponíveis para o componente Collapsible" %}
+    </div>
+</div> 

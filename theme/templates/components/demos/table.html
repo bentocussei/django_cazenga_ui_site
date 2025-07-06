@@ -1,114 +1,104 @@
-{% extends "components_base.html" %}
+{% load icon_tags %}
 
-{% block main_content %}
 <div class="space-y-6">
+    <!-- Cabeçalho -->
     <div class="border-b border-border pb-4">
         <div class="flex items-center justify-between">
             <div>
                 <h1 class="text-3xl font-bold">Table</h1>
-                <p class="text-muted-foreground mt-1">Tabela para exibir dados estruturados</p>
+                <p class="text-muted-foreground mt-1">Componente para exibir dados tabulares de forma organizada</p>
             </div>
-            <a href="/components/" class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+            <a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
                 Voltar
             </a>
         </div>
     </div>
 
-    <div class="grid gap-6">
-        <!-- Instalação -->
-        <div class="space-y-4">
-            <h2 class="text-2xl font-bold">Instalação</h2>
-            <div class="relative" x-data="{ copied: false }">
-                <div class="bg-muted rounded-radius-lg p-3 text-sm">
-                    <code x-ref="code">{% verbatim %}{% include "components/table.html" with headers=table_headers rows=table_rows %}{% endverbatim %}</code>
-                </div>
-                <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
-                        class="absolute top-2 right-2 p-2 rounded-radius-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
-                    <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
-                    <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
-                </button>
-            </div>
+    <!-- Instalação -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Instalação</h2>
+        <div class="relative">
+            <pre class="bg-muted p-4 rounded-radius-md overflow-x-auto text-sm"><code>{% verbatim %}{% include 'components/table.html' with headers=table_headers data=table_data %}{% endverbatim %}</code></pre>
+            <button 
+                class="absolute top-2 right-2 p-2 bg-background rounded-radius-md shadow-sm hover:bg-accent border border-border"
+                x-data 
+                @click="navigator.clipboard.writeText('{% verbatim %}{% include \'components/table.html\' with headers=table_headers data=table_data %}{% endverbatim %}')"
+                title="Copiar código"
+            >
+                {% svg_icon "copy" "size-4" %}
+            </button>
         </div>
+    </div>
 
-        <!-- Exemplo Default -->
-        <div class="space-y-4">
-            <h2 class="text-2xl font-bold">Exemplo</h2>
-            <div class="border border-border rounded-radius-lg overflow-hidden">
-                {% include "components/table.html" with headers=table_data.headers rows=table_data.rows %}
-            </div>
-            <div class="relative" x-data="{ copied: false }">
-                <div class="bg-muted rounded-radius-lg p-3 text-sm">
-                    <code x-ref="code">{% verbatim %}{% include "components/table.html" with headers=table_data.headers rows=table_data.rows %}{% endverbatim %}</code>
-                </div>
-                <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
-                        class="absolute top-2 right-2 p-2 rounded-radius-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
-                    <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
-                    <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
-                </button>
-            </div>
+    <!-- Exemplo Básico -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Exemplo Básico</h2>
+        <div class="border border-border rounded-radius-lg p-6">
+            {% include "components/table.html" with headers=table_basic_headers data=table_basic_data %}
         </div>
+    </div>
 
-        <!-- Com Ações -->
-        <div class="space-y-4">
-            <h2 class="text-2xl font-bold">Com Ações</h2>
-            <div class="border border-border rounded-radius-lg overflow-hidden">
-                {% include "components/table.html" with headers=table_data_with_actions.headers rows=table_data_with_actions.rows %}
-            </div>
-            <div class="relative" x-data="{ copied: false }">
-                <div class="bg-muted rounded-radius-lg p-3 text-sm">
-                    <code x-ref="code">{% verbatim %}{% include "components/table.html" with headers=table_data_with_actions.headers rows=table_data_with_actions.rows %}{% endverbatim %}</code>
-                </div>
-                <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
-                        class="absolute top-2 right-2 p-2 rounded-radius-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
-                    <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
-                    <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
-                </button>
-            </div>
+    <!-- Tabela com Hover -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Com Hover</h2>
+        <div class="border border-border rounded-radius-lg p-6">
+            {% include "components/table.html" with headers=table_basic_headers data=table_basic_data hover=True %}
         </div>
+    </div>
 
-        <!-- Responsiva -->
-        <div class="space-y-4">
-            <h2 class="text-2xl font-bold">Responsiva</h2>
-            <div class="border border-border rounded-radius-lg overflow-hidden">
-                {% include "components/table.html" with headers=table_data.headers rows=table_data.rows responsive=True %}
-            </div>
-            <div class="relative" x-data="{ copied: false }">
-                <div class="bg-muted rounded-radius-lg p-3 text-sm">
-                    <code x-ref="code">{% verbatim %}{% include "components/table.html" with headers=table_data.headers rows=table_data.rows responsive=True %}{% endverbatim %}</code>
-                </div>
-                <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
-                        class="absolute top-2 right-2 p-2 rounded-radius-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
-                    <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
-                    <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
-                </button>
-            </div>
+    <!-- Tabela com Listras -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Com Listras</h2>
+        <div class="border border-border rounded-radius-lg p-6">
+            {% include "components/table.html" with headers=table_basic_headers data=table_basic_data striped=True %}
         </div>
+    </div>
 
-        <!-- Hover -->
-        <div class="space-y-4">
-            <h2 class="text-2xl font-bold">Com Hover</h2>
-            <div class="border border-border rounded-radius-lg overflow-hidden">
-                {% include "components/table.html" with headers=table_data.headers rows=table_data.rows hover=True %}
-            </div>
-            <div class="relative" x-data="{ copied: false }">
-                <div class="bg-muted rounded-radius-lg p-3 text-sm">
-                    <code x-ref="code">{% verbatim %}{% include "components/table.html" with headers=table_data.headers rows=table_data.rows hover=True %}{% endverbatim %}</code>
-                </div>
-                <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
-                        class="absolute top-2 right-2 p-2 rounded-radius-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
-                    <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
-                    <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
-                </button>
-            </div>
+    <!-- Tabela com Bordas -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Com Bordas</h2>
+        <div class="border border-border rounded-radius-lg p-6">
+            {% include "components/table.html" with headers=table_basic_headers data=table_basic_data bordered=True %}
         </div>
+    </div>
 
-        <!-- Parâmetros -->
-        <div class="space-y-4">
-            <h2 class="text-2xl font-bold">Parâmetros</h2>
-            <div class="border border-border rounded-radius-lg overflow-hidden">
-                {% include "components/table.html" with headers=table_params.headers rows=table_params.data %}
+    <!-- Tabela Compacta -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Tabela Compacta</h2>
+        <div class="border border-border rounded-radius-lg p-6">
+            {% include "components/table.html" with headers=table_basic_headers data=table_basic_data size="sm" %}
+        </div>
+    </div>
+
+    <!-- Tabela com Ações -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Com Ações</h2>
+        <div class="border border-border rounded-radius-lg p-6">
+            {% include "components/table.html" with headers=table_with_actions.headers data=table_with_actions.data hover=True %}
+        </div>
+    </div>
+
+    <!-- Tabela Responsiva -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Tabela Responsiva</h2>
+        <div class="border border-border rounded-radius-lg p-6">
+            <div class="overflow-x-auto">
+                {% include "components/table.html" with headers=table_responsive_headers data=table_responsive_data hover=True striped=True %}
             </div>
         </div>
     </div>
-</div>
-{% endblock %} 
+
+    <!-- Tabela com Caption -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Com Caption</h2>
+        <div class="border border-border rounded-radius-lg p-6">
+            {% include "components/table.html" with headers=table_basic_headers data=table_basic_data caption="Lista de usuários do sistema" %}
+        </div>
+    </div>
+
+    <!-- Parâmetros -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Parâmetros</h2>
+        {% include "components/table.html" with headers=table_params.headers data=table_params.data caption="Parâmetros disponíveis para o componente Table" %}
+    </div>
+</div> 

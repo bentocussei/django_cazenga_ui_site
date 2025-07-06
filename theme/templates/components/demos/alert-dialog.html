@@ -1,24 +1,31 @@
-{% extends 'components_base.html' %}
+{% load icon_tags %}
 
-{% block page_title %}Alert Dialog{% endblock %}
-{% block page_description %}Modais de confirmação para ações importantes que requerem atenção do usuário.{% endblock %}
+<div class="space-y-6">
+    <!-- Cabeçalho -->
+    <div class="border-b border-border pb-4">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-3xl font-bold">Alert Dialog</h1>
+                <p class="text-muted-foreground mt-1">Componente modal para exibir alertas e confirmações importantes</p>
+            </div>
+            <a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+                Voltar
+            </a>
+        </div>
+    </div>
 
-{% block component_content %}
-<div class="max-w-4xl mx-auto space-y-8">
     <!-- Instalação -->
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Instalação</h2>
         <div class="relative">
-            <pre class="bg-gray-100 p-4 rounded-md overflow-x-auto"><code>{% verbatim %}{% include 'components/alert-dialog.html' with title="Confirmar ação" description="Tem certeza que deseja continuar?" %}{% endverbatim %}</code></pre>
+            <pre class="bg-muted p-4 rounded-radius-md overflow-x-auto text-sm"><code>{% verbatim %}{% include 'components/alert-dialog.html' with title="Confirmar ação" description="Tem certeza que deseja continuar?" %}{% endverbatim %}</code></pre>
             <button 
-                class="absolute top-2 right-2 p-2 bg-white rounded-md shadow-sm hover:bg-gray-50 border"
+                class="absolute top-2 right-2 p-2 bg-background rounded-radius-md shadow-sm hover:bg-accent border border-border"
                 x-data 
                 @click="navigator.clipboard.writeText('{% verbatim %}{% include \'components/alert-dialog.html\' with title=\'Confirmar ação\' description=\'Tem certeza que deseja continuar?\' %}{% endverbatim %}')"
                 title="Copiar código"
             >
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
-                </svg>
+                {% svg_icon "copy" "size-4" %}
             </button>
         </div>
     </div>
@@ -26,157 +33,41 @@
     <!-- Exemplo Básico -->
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Exemplo Básico</h2>
-        <div class="border rounded-lg p-6">
+        <div class="border border-border rounded-radius-lg p-6">
             <div x-data="{ showDialog: false }">
-                <button 
-                    @click="showDialog = true"
-                    class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors"
-                >
-                    Excluir Item
+                <button @click="showDialog = true" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-radius-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] bg-primary text-primary-foreground shadow-xs hover:bg-primary/90 h-9 px-4 py-2">
+                    Mostrar Alert Dialog
                 </button>
                 
-                <!-- Dialog -->
-                <div x-show="showDialog" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="fixed inset-0 z-50 overflow-y-auto" style="display: none;">
-                    <div class="flex items-center justify-center min-h-screen px-4 py-6 text-center sm:block sm:p-0">
-                        <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity" @click="showDialog = false"></div>
-                        <div class="relative inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
-                            <div class="sm:flex sm:items-start">
-                                <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
-                                    <svg class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L5.082 16.5c-.77.833.192 2.5 1.732 2.5z"/>
-                                    </svg>
-                                </div>
-                                <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                                    <h3 class="text-lg leading-6 font-medium text-gray-900">Excluir Item</h3>
-                                    <div class="mt-2">
-                                        <p class="text-sm text-gray-500">Tem certeza que deseja excluir este item? Esta ação não pode ser desfeita.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
-                                <button 
-                                    @click="showDialog = false"
-                                    class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
-                                >
-                                    Excluir
-                                </button>
-                                <button 
-                                    @click="showDialog = false"
-                                    class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm"
-                                >
-                                    Cancelar
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                {% include "components/alert-dialog.html" with title="Confirmar exclusão" description="Tem certeza que deseja excluir este item? Esta ação não pode ser desfeita." x_show="showDialog" %}
             </div>
         </div>
     </div>
 
-    <!-- Variações -->
+    <!-- Alert Dialog Destrutivo -->
     <div class="space-y-4">
-        <h2 class="text-2xl font-semibold">Variações</h2>
-        
-        <!-- Confirmação de Alteração -->
-        <div class="space-y-2">
-            <h3 class="text-lg font-medium">Confirmação de Alteração</h3>
-            <div class="border rounded-lg p-4">
-                <div x-data="{ showDialog: false }">
-                    <button 
-                        @click="showDialog = true"
-                        class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
-                    >
-                        Publicar Alterações
-                    </button>
-                    
-                    <!-- Dialog -->
-                    <div x-show="showDialog" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="fixed inset-0 z-50 overflow-y-auto" style="display: none;">
-                        <div class="flex items-center justify-center min-h-screen px-4 py-6 text-center sm:block sm:p-0">
-                            <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity" @click="showDialog = false"></div>
-                            <div class="relative inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
-                                <div class="sm:flex sm:items-start">
-                                    <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 sm:mx-0 sm:h-10 sm:w-10">
-                                        <svg class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                        </svg>
-                                    </div>
-                                    <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                                        <h3 class="text-lg leading-6 font-medium text-gray-900">Publicar Alterações</h3>
-                                        <div class="mt-2">
-                                            <p class="text-sm text-gray-500">Você tem 3 alterações não salvas. Deseja publicar todas as alterações?</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
-                                    <button 
-                                        @click="showDialog = false"
-                                        class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
-                                    >
-                                        Publicar
-                                    </button>
-                                    <button 
-                                        @click="showDialog = false"
-                                        class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm"
-                                    >
-                                        Cancelar
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <h2 class="text-2xl font-semibold">Alert Dialog Destrutivo</h2>
+        <div class="border border-border rounded-radius-lg p-6">
+            <div x-data="{ showDialog: false }">
+                <button @click="showDialog = true" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-radius-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] bg-red-600 text-white shadow-xs hover:bg-red-700 h-9 px-4 py-2">
+                    Excluir Conta
+                </button>
+                
+                {% include "components/alert-dialog.html" with title="Excluir conta permanentemente" description="Esta ação não pode ser desfeita. Todos os seus dados serão removidos permanentemente de nossos servidores." variant="destructive" x_show="showDialog" %}
             </div>
         </div>
+    </div>
 
-        <!-- Aviso de Saída -->
-        <div class="space-y-2">
-            <h3 class="text-lg font-medium">Aviso de Saída</h3>
-            <div class="border rounded-lg p-4">
-                <div x-data="{ showDialog: false }">
-                    <button 
-                        @click="showDialog = true"
-                        class="bg-yellow-600 text-white px-4 py-2 rounded-md hover:bg-yellow-700 transition-colors"
-                    >
-                        Sair sem Salvar
-                    </button>
-                    
-                    <!-- Dialog -->
-                    <div x-show="showDialog" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="fixed inset-0 z-50 overflow-y-auto" style="display: none;">
-                        <div class="flex items-center justify-center min-h-screen px-4 py-6 text-center sm:block sm:p-0">
-                            <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity" @click="showDialog = false"></div>
-                            <div class="relative inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
-                                <div class="sm:flex sm:items-start">
-                                    <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-yellow-100 sm:mx-0 sm:h-10 sm:w-10">
-                                        <svg class="h-6 w-6 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L5.082 16.5c-.77.833.192 2.5 1.732 2.5z"/>
-                                        </svg>
-                                    </div>
-                                    <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                                        <h3 class="text-lg leading-6 font-medium text-gray-900">Alterações Não Salvas</h3>
-                                        <div class="mt-2">
-                                            <p class="text-sm text-gray-500">Você tem alterações não salvas. Se sair agora, todas as alterações serão perdidas.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
-                                    <button 
-                                        @click="showDialog = false"
-                                        class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-yellow-600 text-base font-medium text-white hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 sm:ml-3 sm:w-auto sm:text-sm"
-                                    >
-                                        Sair Mesmo Assim
-                                    </button>
-                                    <button 
-                                        @click="showDialog = false"
-                                        class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm"
-                                    >
-                                        Continuar Editando
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <!-- Alert Dialog com Conteúdo Customizado -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Conteúdo Customizado</h2>
+        <div class="border border-border rounded-radius-lg p-6">
+            <div x-data="{ showDialog: false }">
+                <button @click="showDialog = true" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-radius-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] bg-blue-600 text-white shadow-xs hover:bg-blue-700 h-9 px-4 py-2">
+                    Atualizar Sistema
+                </button>
+                
+                {% include "components/alert-dialog.html" with title="Atualização do sistema" description="Uma nova versão está disponível. A atualização incluirá as seguintes melhorias:" content='<ul class="mt-3 space-y-2 text-sm"><li class="flex items-start gap-2"><span class="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2"></span>Interface renovada com melhor usabilidade</li><li class="flex items-start gap-2"><span class="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2"></span>Correções de bugs e melhorias de performance</li><li class="flex items-start gap-2"><span class="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2"></span>Novos recursos de segurança</li></ul>' x_show="showDialog" %}
             </div>
         </div>
     </div>
@@ -184,30 +75,6 @@
     <!-- Parâmetros -->
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Parâmetros</h2>
-        <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
-                    <tr>
-                        {% for header in alert_dialog_params.headers %}
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            {{ header }}
-                        </th>
-                        {% endfor %}
-                    </tr>
-                </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
-                    {% for row in alert_dialog_params.data %}
-                    <tr>
-                        {% for cell in row %}
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                            {{ cell|safe }}
-                        </td>
-                        {% endfor %}
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+        {% include "components/table.html" with headers=alert_dialog_params.headers data=alert_dialog_params.data caption="Parâmetros disponíveis para o componente Alert Dialog" %}
     </div>
-</div>
-{% endblock %} 
+</div> 

@@ -1,200 +1,134 @@
-{% extends "components_base.html" %}
+{% load icon_tags %}
 
-{% block title %}Progress{% endblock %}
-{% block page_title %}Progress{% endblock %}
-{% block page_description %}Indica o progresso de uma tarefa, mostrando visualmente o quanto foi concluído.{% endblock %}
+<div class="space-y-6">
+    <!-- Cabeçalho -->
+    <div class="border-b border-border pb-4">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-3xl font-bold">Progress</h1>
+                <p class="text-muted-foreground mt-1">Componente para exibir o progresso de uma tarefa ou processo</p>
+            </div>
+            <a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+                Voltar
+            </a>
+        </div>
+    </div>
 
-{% block component_content %}
-<div class="max-w-4xl mx-auto space-y-8">
     <!-- Instalação -->
-    <div class="space-y-3">
+    <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Instalação</h2>
-        <div class="bg-muted rounded-lg p-4 relative" x-data="{ copied: false }">
-            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
-                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
-                <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
-                <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
+        <div class="relative">
+            <pre class="bg-muted p-4 rounded-radius-md overflow-x-auto text-sm"><code>{% verbatim %}{% include 'components/progress.html' with value=50 %}{% endverbatim %}</code></pre>
+            <button 
+                class="absolute top-2 right-2 p-2 bg-background rounded-radius-md shadow-sm hover:bg-accent border border-border"
+                x-data 
+                @click="navigator.clipboard.writeText('{% verbatim %}{% include \'components/progress.html\' with value=50 %}{% endverbatim %}')"
+                title="Copiar código"
+            >
+                {% svg_icon "copy" "size-4" %}
             </button>
-            <code class="text-sm" x-ref="code">{% verbatim %}{% include "components/progress.html" with value=50 %}{% endverbatim %}</code>
         </div>
     </div>
 
-    <!-- Exemplos -->
-    <div class="space-y-6">
-        <h2 class="text-2xl font-semibold">Exemplos</h2>
-        
-        <!-- Exemplo Básico -->
-        <div class="space-y-3">
-            <h3 class="text-lg font-medium">Básico</h3>
-            <div class="border rounded-lg p-6">
-                {% include "components/progress.html" with value=33 %}
-            </div>
-            <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
-                <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
-                        class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
-                    <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
-                    <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
-                </button>
-                <code x-ref="code">{% verbatim %}{% include "components/progress.html" with value=33 %}{% endverbatim %}</code>
-            </div>
+    <!-- Exemplo Básico -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Exemplo Básico</h2>
+        <div class="border border-border rounded-radius-lg p-6">
+            {% include "components/progress.html" with value=65 %}
         </div>
-
-        <!-- Exemplo com Variantes -->
-        <div class="space-y-3">
-            <h3 class="text-lg font-medium">Variantes</h3>
-            <div class="border rounded-lg p-6 space-y-4">
-                <div class="space-y-2">
-                    <label class="text-sm font-medium">Padrão (75%)</label>
-                    {% include "components/progress.html" with value=75 %}
-                </div>
-                <div class="space-y-2">
-                    <label class="text-sm font-medium">Sucesso (100%)</label>
-                    {% include "components/progress.html" with value=100 variant="success" %}
-                </div>
-                <div class="space-y-2">
-                    <label class="text-sm font-medium">Aviso (45%)</label>
-                    {% include "components/progress.html" with value=45 variant="warning" %}
-                </div>
-                <div class="space-y-2">
-                    <label class="text-sm font-medium">Erro (25%)</label>
-                    {% include "components/progress.html" with value=25 variant="danger" %}
-                </div>
-            </div>
-            <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
-                <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
-                        class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
-                    <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
-                    <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
-                </button>
-                <code x-ref="code">{% verbatim %}{% include "components/progress.html" with value=75 %}
-{% include "components/progress.html" with value=100 variant="success" %}
-{% include "components/progress.html" with value=45 variant="warning" %}
-{% include "components/progress.html" with value=25 variant="danger" %}{% endverbatim %}</code>
-            </div>
-        </div>
-
-        <!-- Exemplo com Tamanhos -->
-        <div class="space-y-3">
-            <h3 class="text-lg font-medium">Tamanhos</h3>
-            <div class="border rounded-lg p-6 space-y-4">
-                <div class="space-y-2">
-                    <label class="text-sm font-medium">Pequeno</label>
-                    {% include "components/progress.html" with value=60 size="sm" %}
-                </div>
-                <div class="space-y-2">
-                    <label class="text-sm font-medium">Médio (padrão)</label>
-                    {% include "components/progress.html" with value=60 size="md" %}
-                </div>
-                <div class="space-y-2">
-                    <label class="text-sm font-medium">Grande</label>
-                    {% include "components/progress.html" with value=60 size="lg" %}
-                </div>
-            </div>
-            <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
-                <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
-                        class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
-                    <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
-                    <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
-                </button>
-                <code x-ref="code">{% verbatim %}{% include "components/progress.html" with value=60 size="sm" %}
-{% include "components/progress.html" with value=60 size="md" %}
-{% include "components/progress.html" with value=60 size="lg" %}{% endverbatim %}</code>
-            </div>
-        </div>
-
-        <!-- Exemplo com Listras -->
-        <div class="space-y-3">
-            <h3 class="text-lg font-medium">Com Listras Animadas</h3>
-            <div class="border rounded-lg p-6 space-y-4">
-                <div class="space-y-2">
-                    <label class="text-sm font-medium">Listras estáticas</label>
-                    {% include "components/progress.html" with value=65 striped=True %}
-                </div>
-                <div class="space-y-2">
-                    <label class="text-sm font-medium">Listras animadas</label>
-                    {% include "components/progress.html" with value=65 striped=True animated=True %}
-                </div>
-            </div>
-            <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
-                <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
-                        class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
-                    <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
-                    <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
-                </button>
-                <code x-ref="code">{% verbatim %}{% include "components/progress.html" with value=65 striped=True %}
-{% include "components/progress.html" with value=65 striped=True animated=True %}{% endverbatim %}</code>
-            </div>
-        </div>
-
-        <!-- Exemplo Dinâmico -->
-        <div class="space-y-3">
-            <h3 class="text-lg font-medium">Progresso Dinâmico</h3>
-            <div class="border rounded-lg p-6">
-                <div class="space-y-4" x-data="{ progress: 0 }" x-init="
-                    setInterval(() => {
-                        progress += 2;
-                        if (progress > 100) progress = 0;
-                    }, 200)
-                ">
-                    <div class="space-y-2">
-                        <div class="flex justify-between">
-                            <label class="text-sm font-medium">Progresso: <span x-text="progress + '%'"></span></label>
-                            <button @click="progress = 0" class="text-xs text-muted-foreground hover:text-foreground">
-                                Resetar
-                            </button>
-                        </div>
-                        <div class="w-full bg-gray-200 rounded-full h-2">
-                            <div 
-                                class="bg-blue-600 h-2 rounded-full transition-all duration-300"
-                                :style="'width: ' + progress + '%'"
-                            ></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
-                <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
-                        class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
-                    <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
-                    <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
-                </button>
-                <code x-ref="code">{% verbatim %}<div x-data="{ progress: 0 }">
-    <div class="w-full bg-gray-200 rounded-full h-2">
-        <div 
-            class="bg-blue-600 h-2 rounded-full transition-all duration-300"
-            :style="'width: ' + progress + '%'"
-        ></div>
     </div>
-</div>{% endverbatim %}</code>
+
+    <!-- Progress com Label -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Com Label</h2>
+        <div class="border border-border rounded-radius-lg p-6">
+            <div class="space-y-4">
+                {% include "components/progress.html" with value=75 label="Upload de arquivo" %}
+                {% include "components/progress.html" with value=45 label="Processamento" %}
+                {% include "components/progress.html" with value=90 label="Instalação" %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Progress com Valor Exibido -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Com Valor Exibido</h2>
+        <div class="border border-border rounded-radius-lg p-6">
+            <div class="space-y-4">
+                {% include "components/progress.html" with value=30 show_value=True %}
+                {% include "components/progress.html" with value=60 label="Carregando dados" show_value=True %}
+                {% include "components/progress.html" with value=100 label="Concluído" show_value=True %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Variantes -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Variantes</h2>
+        <div class="border border-border rounded-radius-lg p-6">
+            <div class="space-y-4">
+                {% include "components/progress.html" with value=40 variant="default" label="Padrão" show_value=True %}
+                {% include "components/progress.html" with value=85 variant="success" label="Sucesso" show_value=True %}
+                {% include "components/progress.html" with value=25 variant="warning" label="Atenção" show_value=True %}
+                {% include "components/progress.html" with value=15 variant="danger" label="Erro" show_value=True %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Tamanhos -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Tamanhos</h2>
+        <div class="border border-border rounded-radius-lg p-6">
+            <div class="space-y-4">
+                {% include "components/progress.html" with value=50 size="sm" label="Pequeno" %}
+                {% include "components/progress.html" with value=50 size="md" label="Médio" %}
+                {% include "components/progress.html" with value=50 size="lg" label="Grande" %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Progress Animado -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Progress Animado</h2>
+        <div class="border border-border rounded-radius-lg p-6">
+            <div class="space-y-4">
+                {% include "components/progress.html" with value=70 striped=True animated=True label="Com listras animadas" show_value=True %}
+                {% include "components/progress.html" with value=45 striped=True label="Apenas com listras" show_value=True %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Progress Interativo -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Progress Interativo</h2>
+        <div class="border border-border rounded-radius-lg p-6">
+            <div x-data="{ progress: 0, loading: false }" class="space-y-4">
+                <div class="flex gap-2">
+                    <button @click="progress = Math.min(progress + 10, 100)" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-radius-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] bg-primary text-primary-foreground shadow-xs hover:bg-primary/90 h-9 px-4 py-2">
+                        Aumentar
+                    </button>
+                    <button @click="progress = Math.max(progress - 10, 0)" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-radius-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2">
+                        Diminuir
+                    </button>
+                    <button @click="progress = 0" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-radius-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2">
+                        Reset
+                    </button>
+                </div>
+                
+                <div class="bg-gray-200 rounded-full h-4 overflow-hidden">
+                    <div class="bg-blue-600 h-full transition-all duration-300 ease-in-out rounded-full" :style="`width: ${progress}%`"></div>
+                </div>
+                
+                <p class="text-sm text-muted-foreground">
+                    Progresso atual: <span x-text="progress"></span>%
+                </p>
             </div>
         </div>
     </div>
 
     <!-- Parâmetros -->
-    <div class="space-y-3">
+    <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Parâmetros</h2>
-        <div class="rounded-lg border bg-card">
-            <div class="overflow-x-auto">
-                <table class="w-full text-sm">
-                    <thead>
-                        <tr class="border-b">
-                            {% for header in progress_params.headers %}
-                                <th class="p-3 text-left font-medium">{{ header|safe }}</th>
-                            {% endfor %}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for row in progress_params.data %}
-                            <tr class="border-b last:border-b-0">
-                                {% for cell in row %}
-                                    <td class="p-3">{{ cell|safe }}</td>
-                                {% endfor %}
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
+        {% include "components/table.html" with headers=progress_params.headers data=progress_params.data caption="Parâmetros disponíveis para o componente Progress" %}
     </div>
-</div>
-{% endblock %} 
+</div> 
