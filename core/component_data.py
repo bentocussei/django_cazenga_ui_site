@@ -936,13 +936,11 @@ TABS_PARAMS = {
 COLLAPSIBLE_PARAMS = {
     'headers': ['Parâmetro', 'Tipo', 'Padrão', 'Descrição'],
     'data': [
-        ['<code>title</code>', 'string', '-', 'Título do collapsible'],
-        ['<code>content</code>', 'string/HTML', '-', 'Conteúdo do collapsible'],
-        ['<code>trigger_text</code>', 'string', '-', 'Texto do trigger personalizado'],
+        ['<code>title</code>', 'string', '-', 'Título do trigger'],
+        ['<code>content</code>', 'HTML', '-', 'Conteúdo a ser mostrado/ocultado'],
         ['<code>open</code>', 'boolean', 'false', 'Estado inicial (aberto/fechado)'],
-        ['<code>disabled</code>', 'boolean', 'false', 'Se o collapsible está desabilitado'],
-        ['<code>trigger_class</code>', 'string', '-', 'Classes CSS adicionais para o trigger'],
-        ['<code>content_class</code>', 'string', '-', 'Classes CSS adicionais para o conteúdo'],
+        ['<code>trigger_variant</code>', 'string', 'default', 'Variante do botão trigger'],
+        ['<code>animated</code>', 'boolean', 'true', 'Animação ao expandir/recolher'],
         ['<code>class</code>', 'string', '-', 'Classes CSS adicionais'],
     ]
 }
@@ -999,7 +997,7 @@ TABS_DATA_WITH_ICONS = [
 
 TABLE_DATA_WITH_ACTIONS = {
     'headers': ['Nome', 'E-mail', 'Cargo', 'Status', 'Ações'],
-    'rows': [
+    'data': [
         ['Ana Silva', 'ana@email.com', 'Desenvolvedora', 'Ativo', '<button class="text-sm text-primary hover:underline">Editar</button>'],
         ['Carlos Santos', 'carlos@email.com', 'Designer', 'Ativo', '<button class="text-sm text-primary hover:underline">Editar</button>'],
         ['Maria Oliveira', 'maria@email.com', 'Gerente', 'Inativo', '<button class="text-sm text-primary hover:underline">Editar</button>'],
@@ -1907,6 +1905,106 @@ SELECT_PARAMS = {
         ['<code>disabled</code>', 'boolean', 'false', 'Se o select está desabilitado'],
         ['<code>required</code>', 'boolean', 'false', 'Se o campo é obrigatório'],
         ['<code>size</code>', 'string', 'md', 'Tamanho: sm, md, lg'],
+        ['<code>class</code>', 'string', '-', 'Classes CSS adicionais'],
+    ]
+}
+
+# Dados básicos para Table
+TABLE_BASIC_DATA = {
+    'headers': ['Nome', 'E-mail', 'Cargo', 'Status'],
+    'data': [
+        ['Ana Silva', 'ana@email.com', 'Desenvolvedora', 'Ativo'],
+        ['Carlos Santos', 'carlos@email.com', 'Designer', 'Ativo'],
+        ['Maria Oliveira', 'maria@email.com', 'Gerente', 'Inativo'],
+        ['João Pereira', 'joao@email.com', 'Analista', 'Ativo'],
+    ]
+}
+
+# Dados para tabela responsiva
+TABLE_RESPONSIVE_DATA = {
+    'headers': ['ID', 'Nome', 'E-mail', 'Cargo', 'Departamento', 'Data Admissão', 'Status', 'Telefone'],
+    'data': [
+        ['001', 'Ana Silva', 'ana@email.com', 'Desenvolvedora', 'Tecnologia', '15/03/2023', 'Ativo', '(11) 99999-0001'],
+        ['002', 'Carlos Santos', 'carlos@email.com', 'Designer', 'Marketing', '22/07/2022', 'Ativo', '(11) 99999-0002'],
+        ['003', 'Maria Oliveira', 'maria@email.com', 'Gerente', 'Vendas', '10/01/2021', 'Inativo', '(11) 99999-0003'],
+        ['004', 'João Pereira', 'joao@email.com', 'Analista', 'Financeiro', '05/11/2023', 'Ativo', '(11) 99999-0004'],
+        ['005', 'Lucia Costa', 'lucia@email.com', 'Desenvolvedora', 'Tecnologia', '18/09/2022', 'Ativo', '(11) 99999-0005'],
+    ]
+}
+
+# Parâmetros para Alert
+ALERT_PARAMS = {
+    'headers': ['Parâmetro', 'Tipo', 'Padrão', 'Descrição'],
+    'data': [
+        ['<code>title</code>', 'string', '-', 'Título do alerta'],
+        ['<code>description</code>', 'string', '-', 'Descrição/conteúdo do alerta'],
+        ['<code>variant</code>', 'string', 'default', 'Variante: default, destructive, warning, success'],
+        ['<code>icon</code>', 'string', '-', 'Nome do ícone'],
+        ['<code>dismissible</code>', 'boolean', 'false', 'Se pode ser fechado'],
+        ['<code>content</code>', 'HTML', '-', 'Conteúdo HTML personalizado'],
+        ['<code>class</code>', 'string', '-', 'Classes CSS adicionais'],
+    ]
+}
+
+# Parâmetros para Checkbox
+CHECKBOX_PARAMS = {
+    'headers': ['Parâmetro', 'Tipo', 'Padrão', 'Descrição'],
+    'data': [
+        ['<code>name</code>', 'string', '-', 'Nome do campo'],
+        ['<code>id</code>', 'string', '-', 'ID do elemento'],
+        ['<code>label</code>', 'string', '-', 'Texto do rótulo'],
+        ['<code>checked</code>', 'boolean', 'false', 'Estado inicial'],
+        ['<code>disabled</code>', 'boolean', 'false', 'Se está desabilitado'],
+        ['<code>required</code>', 'boolean', 'false', 'Se é obrigatório'],
+        ['<code>description</code>', 'string', '-', 'Texto de descrição'],
+        ['<code>x_model</code>', 'string', '-', 'Modelo Alpine.js para two-way binding'],
+        ['<code>class</code>', 'string', '-', 'Classes CSS adicionais'],
+    ]
+}
+
+# Parâmetros para Switch
+SWITCH_PARAMS = {
+    'headers': ['Parâmetro', 'Tipo', 'Padrão', 'Descrição'],
+    'data': [
+        ['<code>name</code>', 'string', '-', 'Nome do campo'],
+        ['<code>id</code>', 'string', '-', 'ID do elemento'],
+        ['<code>label</code>', 'string', '-', 'Texto do rótulo'],
+        ['<code>checked</code>', 'boolean', 'false', 'Estado inicial'],
+        ['<code>disabled</code>', 'boolean', 'false', 'Se está desabilitado'],
+        ['<code>size</code>', 'string', 'md', 'Tamanho: sm, md, lg'],
+        ['<code>description</code>', 'string', '-', 'Texto de descrição'],
+        ['<code>x_model</code>', 'string', '-', 'Modelo Alpine.js para two-way binding'],
+        ['<code>class</code>', 'string', '-', 'Classes CSS adicionais'],
+    ]
+}
+
+# Parâmetros para Textarea
+TEXTAREA_PARAMS = {
+    'headers': ['Parâmetro', 'Tipo', 'Padrão', 'Descrição'],
+    'data': [
+        ['<code>name</code>', 'string', '-', 'Nome do campo'],
+        ['<code>id</code>', 'string', '-', 'ID do elemento'],
+        ['<code>placeholder</code>', 'string', '-', 'Texto de placeholder'],
+        ['<code>value</code>', 'string', '-', 'Valor inicial'],
+        ['<code>rows</code>', 'number', '4', 'Número de linhas'],
+        ['<code>cols</code>', 'number', '-', 'Número de colunas'],
+        ['<code>maxlength</code>', 'number', '-', 'Máximo de caracteres'],
+        ['<code>required</code>', 'boolean', 'false', 'Se é obrigatório'],
+        ['<code>disabled</code>', 'boolean', 'false', 'Se está desabilitado'],
+        ['<code>readonly</code>', 'boolean', 'false', 'Se é somente leitura'],
+        ['<code>resize</code>', 'string', 'vertical', 'Tipo de redimensionamento: none, both, horizontal, vertical'],
+        ['<code>x_model</code>', 'string', '-', 'Modelo Alpine.js para two-way binding'],
+        ['<code>class</code>', 'string', '-', 'Classes CSS adicionais'],
+    ]
+}
+
+# Parâmetros para Separator
+SEPARATOR_PARAMS = {
+    'headers': ['Parâmetro', 'Tipo', 'Padrão', 'Descrição'],
+    'data': [
+        ['<code>orientation</code>', 'string', 'horizontal', 'Orientação: horizontal, vertical'],
+        ['<code>size</code>', 'string', 'md', 'Espessura: sm, md, lg'],
+        ['<code>variant</code>', 'string', 'default', 'Variante: default, dashed, dotted'],
         ['<code>class</code>', 'string', '-', 'Classes CSS adicionais'],
     ]
 } 

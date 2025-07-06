@@ -483,7 +483,7 @@ def component_detail(request, component_slug):
         'current_component': component_slug,
     }
     
-    # Preparar dados específicos do componente (ex: button params)
+    # Preparar dados específicos do componente
     if component_slug == 'button':
         context['button_params'] = BUTTON_PARAMS
     elif component_slug == 'card':
@@ -492,6 +492,74 @@ def component_detail(request, component_slug):
         context['input_params'] = INPUT_PARAMS
     elif component_slug == 'layout':
         context['layout_params'] = LAYOUT_PARAMS
+    elif component_slug == 'alert-dialog':
+        context['alert_dialog_params'] = ALERT_DIALOG_PARAMS
+    elif component_slug == 'breadcrumb':
+        context.update({
+            'breadcrumb_items': BREADCRUMB_DATA['items'],
+            'breadcrumb_with_icons': BREADCRUMB_WITH_ICONS,
+            'breadcrumb_params': BREADCRUMB_PARAMS
+        })
+    elif component_slug == 'progress':
+        context['progress_params'] = PROGRESS_PARAMS
+    elif component_slug == 'radio-group':
+        context.update({
+            'radio_group_options': RADIO_GROUP_DATA,
+            'radio_group_params': RADIO_GROUP_PARAMS
+        })
+    elif component_slug == 'accordion':
+        context.update({
+            'accordion_basic_items': ACCORDION_DATA['basic_items'],
+            'accordion_advanced_items': ACCORDION_DATA['advanced_items'],
+            'accordion_params': ACCORDION_PARAMS
+        })
+    elif component_slug == 'collapsible':
+        context.update({
+            'collapsible_simple_content': COLLAPSIBLE_DATA['simple_content'],
+            'collapsible_detailed_content': COLLAPSIBLE_DATA['detailed_content'],
+            'collapsible_form_content': COLLAPSIBLE_DATA['form_content'],
+            'collapsible_params': COLLAPSIBLE_PARAMS
+        })
+    elif component_slug == 'tabs':
+        context.update({
+            'tabs_basic_tabs': TABS_DATA['basic_tabs'],
+            'tabs_detailed_tabs': TABS_DATA['detailed_tabs'],
+            'tabs_params': TABS_PARAMS
+        })
+    elif component_slug == 'select':
+        context.update({
+            'select_basic_options': SELECT_DATA['basic_options'],
+            'select_countries': SELECT_DATA['countries'],
+            'select_priority': SELECT_DATA['priority'],
+            'select_status': SELECT_DATA['status'],
+            'select_params': SELECT_PARAMS
+        })
+    elif component_slug == 'table':
+        context.update({
+            'table_basic_headers': TABLE_BASIC_DATA['headers'],
+            'table_basic_data': TABLE_BASIC_DATA['data'],
+            'table_with_actions_headers': TABLE_DATA_WITH_ACTIONS['headers'],
+            'table_with_actions_data': TABLE_DATA_WITH_ACTIONS['data'],
+            'table_responsive_headers': TABLE_RESPONSIVE_DATA['headers'],
+            'table_responsive_data': TABLE_RESPONSIVE_DATA['data'],
+            'table_params': TABLE_PARAMS
+        })
+    elif component_slug == 'alert':
+        context['alert_params'] = ALERT_PARAMS
+    elif component_slug == 'badge':
+        context['badge_params'] = BADGE_PARAMS
+    elif component_slug == 'avatar':
+        context['avatar_params'] = AVATAR_PARAMS
+    elif component_slug == 'checkbox':
+        context['checkbox_params'] = CHECKBOX_PARAMS
+    elif component_slug == 'switch':
+        context['switch_params'] = SWITCH_PARAMS
+    elif component_slug == 'textarea':
+        context['textarea_params'] = TEXTAREA_PARAMS
+    elif component_slug == 'separator':
+        context['separator_params'] = SEPARATOR_PARAMS
+    elif component_slug == 'label':
+        context['label_params'] = LABEL_PARAMS
     
     # Construir conteúdo da sidebar para ambos os casos
     sidebar_content = '<nav class="space-y-1">'
