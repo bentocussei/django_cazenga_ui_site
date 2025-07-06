@@ -45,7 +45,7 @@
         <h2 class="text-2xl font-semibold">Com Data Pré-selecionada</h2>
         <div class="border border-border rounded-radius-lg p-6">
             <div class="max-w-sm mx-auto">
-                {% include "components/calendar.html" with selected_date="25/12/2024" %}
+                {% include "components/calendar.html" with selected_date="2025-01-25" %}
             </div>
         </div>
     </div>
@@ -55,7 +55,7 @@
         <h2 class="text-2xl font-semibold">Seleção Múltipla</h2>
         <div class="border border-border rounded-radius-lg p-6">
             <div class="max-w-sm mx-auto">
-                {% include "components/calendar.html" with multiple=True selected_dates=calendar_multiple_dates %}
+                {% include "components/calendar.html" with mode="multiple" selected_dates=calendar_multiple_dates %}
             </div>
         </div>
     </div>

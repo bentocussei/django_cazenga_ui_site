@@ -18,6 +18,7 @@ Parâmetros:
 - class: Classes CSS adicionais (opcional)
 - onchange: Função JavaScript para executar na mudança (opcional)
 - x_model: Variável Alpine.js para binding bidirecional (opcional)
+- highlight_dates: Lista de datas destacadas (formato JSON, opcional)
 
 Exemplo:
 include "components/calendar.html" with 
@@ -26,6 +27,7 @@ include "components/calendar.html" with
     name="date"
     show_outside_days=True
     x_model="selectedDate"
+    highlight_dates=calendar_highlight_dates
 -->
 {% with mode=mode|default:"single" show_outside_days=show_outside_days|default:True show_week_numbers=show_week_numbers|default:False first_day_of_week=first_day_of_week|default:0 %}
 <div 
@@ -39,6 +41,7 @@ include "components/calendar.html" with
         minDate: '{{ min_date|default:'' }}' ? new Date('{{ min_date }}') : null,
         maxDate: '{{ max_date|default:'' }}' ? new Date('{{ max_date }}') : null,
         disabledDates: '{{ disabled_dates|default:'' }}'.split(',').filter(d => d).map(d => new Date(d)),
+        highlightDates: {{ highlight_dates|default:'[]'|safe }},
         showOutsideDays: {{ show_outside_days|yesno:'true,false' }},
         showWeekNumbers: {{ show_week_numbers|yesno:'true,false' }},
         firstDayOfWeek: {{ first_day_of_week }},
@@ -185,6 +188,21 @@ include "components/calendar.html" with
             d.setDate(d.getDate() + 3 - (d.getDay() + 6) % 7);
             const week1 = new Date(d.getFullYear(), 0, 4);
             return 1 + Math.round(((d - week1) / 86400000 - 3 + (week1.getDay() + 6) % 7) / 7);
+        },
+        
+        // Função para verificar se data está destacada
+        isHighlighted(date) {
+            if (!this.highlightDates || this.highlightDates.length === 0) return false;
+            const dateStr = date.toISOString().split('T')[0];
+            return this.highlightDates.some(highlight => highlight.date === dateStr);
+        },
+        
+        // Função para obter tipo de destaque
+        getHighlightType(date) {
+            if (!this.highlightDates || this.highlightDates.length === 0) return '';
+            const dateStr = date.toISOString().split('T')[0];
+            const highlight = this.highlightDates.find(h => h.date === dateStr);
+            return highlight ? highlight.type : '';
         }
     }"
     class="bg-background p-3 w-fit border border-border rounded-lg {{ class|default:'' }}"
@@ -249,7 +267,9 @@ include "components/calendar.html" with
                                 'bg-primary text-primary-foreground': (isRangeStart(date) || isRangeEnd(date)) && mode === 'range',
                                 'bg-accent text-accent-foreground': isInRange(date) && mode === 'range',
                                 'bg-accent text-accent-foreground': isToday(date) && !isSelected(date),
-                                'ring-2 ring-primary': isSelected(date) && mode === 'multiple'
+                                'ring-2 ring-primary': isSelected(date) && mode === 'multiple',
+                                'bg-red-100 text-red-800 border border-red-200': isHighlighted(date) && getHighlightType(date) === 'holiday',
+                                'bg-blue-100 text-blue-800 border border-blue-200': isHighlighted(date) && getHighlightType(date) === 'event'
                             }"
                             :style="{ display: (!showOutsideDays && isOutsideMonth(date)) ? 'none' : 'flex' }"
                             class="w-full h-full flex items-center justify-center text-sm font-normal rounded-md hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 transition-colors"
