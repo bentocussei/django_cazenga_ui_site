@@ -58,6 +58,8 @@ from .sidebar_data import SIDEBAR_DATA
 from .navigation_menu_data import NAVIGATION_MENU_DATA
 from .resizable_data import RESIZABLE_DATA
 from .scroll_area_data import SCROLL_AREA_DATA
+from .text_editor_data import TEXT_EDITOR_DATA
+from .content_manager_data import CONTENT_MANAGER_DATA
 
 # Mapeamento para facilitar o acesso
 COMPONENT_DATA = {
@@ -280,6 +282,8 @@ COMPONENT_DATA = {
     'navigation-menu': NAVIGATION_MENU_DATA,
     'resizable': RESIZABLE_DATA,
     'scroll-area': SCROLL_AREA_DATA,
+    'text-editor': TEXT_EDITOR_DATA,
+    'content-manager': CONTENT_MANAGER_DATA,
 }
 
 # Facilitar importação direta

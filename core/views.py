@@ -23,6 +23,7 @@ COMPONENTS_LIST = [
     {'name': 'Checkbox', 'slug': 'checkbox'},
     {'name': 'Collapsible', 'slug': 'collapsible'},
     {'name': 'Command', 'slug': 'command'},
+    {'name': 'Content Manager', 'slug': 'content-manager'},
     {'name': 'Context Menu', 'slug': 'context-menu'},
     {'name': 'Dialog', 'slug': 'dialog'},
     {'name': 'Drawer', 'slug': 'drawer'},
@@ -54,6 +55,7 @@ COMPONENTS_LIST = [
     {'name': 'Switch', 'slug': 'switch'},
     {'name': 'Table', 'slug': 'table'},
     {'name': 'Tabs', 'slug': 'tabs'},
+    {'name': 'Text Editor', 'slug': 'text-editor'},
     {'name': 'Textarea', 'slug': 'textarea'},
     {'name': 'Toggle', 'slug': 'toggle'},
     {'name': 'Toggle Group', 'slug': 'toggle-group'},
@@ -622,6 +624,20 @@ def component_detail(request, component_name):
             context['scroll_area_table'] = component_data_context.get('table')
             context['scroll_area_infinite'] = component_data_context.get('infinite')
             context['scroll_area_params'] = component_data_context.get('params')
+            context['text_editor_basic'] = component_data_context.get('basic')
+            context['text_editor_complete'] = component_data_context.get('complete')
+            context['text_editor_minimal'] = component_data_context.get('minimal')
+            context['text_editor_readonly'] = component_data_context.get('readonly')
+            context['text_editor_code'] = component_data_context.get('code')
+            context['text_editor_collaborative'] = component_data_context.get('collaborative')
+            context['text_editor_toolbar_options'] = component_data_context.get('toolbar_options')
+            context['text_editor_params'] = component_data_context.get('params')
+            context['content_manager_blog'] = component_data_context.get('blog')
+            context['content_manager_news'] = component_data_context.get('news')
+            context['content_manager_product'] = component_data_context.get('product')
+            context['content_manager_page'] = component_data_context.get('page')
+            context['content_manager_field_types'] = component_data_context.get('field_types')
+            context['content_manager_params'] = component_data_context.get('params')
     else:
         # Fallback para componentes ainda não migrados
         print(f"⚠️ Componente {component_name} não encontrado no COMPONENT_DATA, usando fallback")
@@ -643,9 +659,9 @@ def component_detail(request, component_name):
             'breadcrumb': 'slash', 'button': 'button', 'calendar': 'calendar', 
             'card': 'card-stack', 'carousel': 'dots-horizontal', 'chart': 'bar-chart',
             'checkbox': 'checkbox', 'collapsible': 'chevron-up', 'command': 'magnifying-glass',
-            'context-menu': 'dots-vertical', 'dialog': 'chat-bubble', 'drawer': 'hamburger-menu',
-            'dropdown': 'caret-down', 'dropdown-menu': 'dropdown-menu', 'form': 'clipboard',
-            'hover-card': 'card-stack', 'input': 'input', 'input-otp': 'lock-closed',
+            'content-manager': 'clipboard', 'context-menu': 'dots-vertical', 'dialog': 'chat-bubble', 
+            'drawer': 'hamburger-menu', 'dropdown': 'caret-down', 'dropdown-menu': 'dropdown-menu', 
+            'form': 'clipboard', 'hover-card': 'card-stack', 'input': 'input', 'input-otp': 'lock-closed',
             'label': 'pilcrow', 'layout': 'layout', 'menubar': 'hamburger-menu',
             'modal': 'external-link', 'navigation-menu': 'hamburger-menu', 'pagination': 'dots-horizontal',
             'popover': 'chat-bubble', 'progress': 'timer', 'radio-group': 'radiobutton',
@@ -653,8 +669,8 @@ def component_detail(request, component_name):
             'separator': 'dash', 'sheet': 'hamburger-menu', 'sidebar': 'layout',
             'skeleton': 'transparency-grid', 'slider': 'slider', 'sonner': 'bell',
             'spinner': 'reload', 'switch': 'switch', 'table': 'table',
-            'tabs': 'dots-horizontal', 'textarea': 'text-align-top', 'toggle': 'switch',
-            'toggle-group': 'mix', 'tooltip': 'question-mark-circled'
+            'tabs': 'dots-horizontal', 'text-editor': 'pencil-1', 'textarea': 'text-align-top', 
+            'toggle': 'switch', 'toggle-group': 'mix', 'tooltip': 'question-mark-circled'
         }
         icon_name = icon_mapping.get(comp['slug'], 'dot-filled')
         active_class = 'bg-accent text-accent-foreground' if comp['slug'] == component_name else 'hover:bg-accent'
@@ -793,9 +809,9 @@ def components_list(request):
             'breadcrumb': 'slash', 'button': 'button', 'calendar': 'calendar', 
             'card': 'card-stack', 'carousel': 'dots-horizontal', 'chart': 'bar-chart',
             'checkbox': 'checkbox', 'collapsible': 'chevron-up', 'command': 'magnifying-glass',
-            'context-menu': 'dots-vertical', 'dialog': 'chat-bubble', 'drawer': 'hamburger-menu',
-            'dropdown': 'caret-down', 'dropdown-menu': 'dropdown-menu', 'form': 'clipboard',
-            'hover-card': 'card-stack', 'input': 'input', 'input-otp': 'lock-closed',
+            'content-manager': 'clipboard', 'context-menu': 'dots-vertical', 'dialog': 'chat-bubble', 
+            'drawer': 'hamburger-menu', 'dropdown': 'caret-down', 'dropdown-menu': 'dropdown-menu', 
+            'form': 'clipboard', 'hover-card': 'card-stack', 'input': 'input', 'input-otp': 'lock-closed',
             'label': 'pilcrow', 'layout': 'layout', 'menubar': 'hamburger-menu',
             'modal': 'external-link', 'navigation-menu': 'hamburger-menu', 'pagination': 'dots-horizontal',
             'popover': 'chat-bubble', 'progress': 'timer', 'radio-group': 'radiobutton',
@@ -803,8 +819,8 @@ def components_list(request):
             'separator': 'dash', 'sheet': 'hamburger-menu', 'sidebar': 'layout',
             'skeleton': 'transparency-grid', 'slider': 'slider', 'sonner': 'bell',
             'spinner': 'reload', 'switch': 'switch', 'table': 'table',
-            'tabs': 'dots-horizontal', 'textarea': 'text-align-top', 'toggle': 'switch',
-            'toggle-group': 'mix', 'tooltip': 'question-mark-circled'
+            'tabs': 'dots-horizontal', 'text-editor': 'pencil-1', 'textarea': 'text-align-top', 
+            'toggle': 'switch', 'toggle-group': 'mix', 'tooltip': 'question-mark-circled'
         }
         icon_name = icon_mapping.get(component['slug'], 'dot-filled')
         

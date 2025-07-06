@@ -1,0 +1,191 @@
+<!-- Template independente do Text Editor para consistência SPA/Reload -->
+{% load icon_tags %}
+
+<div class="space-y-8">
+    <!-- Cabeçalho -->
+    <div class="border-b border-border pb-6">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-4xl font-bold">Text Editor</h1>
+                <p class="text-muted-foreground mt-2">Editor de texto rico com formatação avançada</p>
+            </div>
+            {% include "components/button.html" with variant="outline" href="/components/" text="Voltar" %}
+        </div>
+    </div>
+
+    <!-- Instalação -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Instalação</h2>
+        {% include "components/card.html" with class="p-6" %}
+        <div class="p-6 bg-muted rounded-lg relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-4 right-4 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+            </button>
+            <code class="text-sm font-mono" x-ref="code">{% verbatim %}{% include "components/text-editor.html" %}{% endverbatim %}</code>
+        </div>
+    </div>
+
+    <!-- Editor Básico -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Editor Básico</h2>
+        <p class="text-muted-foreground">Editor simples com formatação essencial</p>
+        
+        <div class="border rounded-lg p-6 bg-card">
+            {% include "components/text-editor.html" with content="<p>Este é um exemplo de <strong>texto formatado</strong> com <em>itálico</em> e <u>sublinhado</u>.</p>" %}
+        </div>
+        
+        <div class="bg-muted rounded-lg p-4 relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code1.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-4 right-4 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+            </button>
+            <code class="text-sm font-mono" x-ref="code1">{% verbatim %}{% include "components/text-editor.html" %}{% endverbatim %}</code>
+        </div>
+    </div>
+
+    <!-- Editor com Contador de Palavras -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Editor Completo</h2>
+        <p class="text-muted-foreground">Editor com todas as funcionalidades habilitadas</p>
+        
+        <div class="border rounded-lg p-6 bg-card">
+            {% include "components/text-editor.html" with content="<h2>Título de Exemplo</h2><p>Este é um editor mais completo com <strong>formatação</strong>, listas e outras funcionalidades.</p><ul><li>Item 1</li><li>Item 2</li></ul>" word_count=true auto_save=true %}
+        </div>
+        
+        <div class="bg-muted rounded-lg p-4 relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code2.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-4 right-4 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+            </button>
+            <code class="text-sm font-mono" x-ref="code2">{% verbatim %}{% include "components/text-editor.html" with word_count=true auto_save=true %}{% endverbatim %}</code>
+        </div>
+    </div>
+
+    <!-- Editor Somente Leitura -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Modo Somente Leitura</h2>
+        <p class="text-muted-foreground">Perfeito para exibir conteúdo formatado</p>
+        
+        <div class="border rounded-lg p-6 bg-card">
+            {% include "components/text-editor.html" with content="<h1>Artigo Publicado</h1><p class='text-muted-foreground text-sm'>Publicado em 15 de Janeiro, 2024 • 5 min de leitura</p><p>Este é um exemplo de conteúdo em <strong>modo somente leitura</strong>. Todo o texto mantém sua formatação original.</p><blockquote><p>\"A escrita é a pintura da voz.\" - Voltaire</p></blockquote>" editable=false word_count=true %}
+        </div>
+        
+        <div class="bg-muted rounded-lg p-4 relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code3.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-4 right-4 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+            </button>
+            <code class="text-sm font-mono" x-ref="code3">{% verbatim %}{% include "components/text-editor.html" with editable=false %}{% endverbatim %}</code>
+        </div>
+    </div>
+
+    <!-- Editor de Código -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Editor de Código</h2>
+        <p class="text-muted-foreground">Otimizado para markdown e código</p>
+        
+        <div class="border rounded-lg p-6 bg-card">
+            {% include "components/text-editor.html" with mode="markdown" content="# Título em Markdown\n\nEste é um editor otimizado para **código** e *markdown*.\n\n## Exemplo:\n\n```python\ndef hello_world():\n    print('Hello, World!')\n```\n\n- Item 1\n- Item 2" %}
+        </div>
+        
+        <div class="bg-muted rounded-lg p-4 relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code4.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-4 right-4 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+            </button>
+            <code class="text-sm font-mono" x-ref="code4">{% verbatim %}{% include "components/text-editor.html" with mode="markdown" %}{% endverbatim %}</code>
+        </div>
+    </div>
+
+    <!-- Editor Colaborativo -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Editor Colaborativo</h2>
+        <p class="text-muted-foreground">Com comentários e feedback em tempo real</p>
+        
+        <div class="border rounded-lg p-6 bg-card">
+            {% include "components/text-editor.html" with content="<h2>Documento Colaborativo</h2><p>Este documento pode ser editado por múltiplos usuários. As alterações são sincronizadas em tempo real.</p>" collaborative=true word_count=true %}
+        </div>
+        
+        <div class="bg-muted rounded-lg p-4 relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code5.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-4 right-4 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+            </button>
+            <code class="text-sm font-mono" x-ref="code5">{% verbatim %}{% include "components/text-editor.html" with collaborative=true %}{% endverbatim %}</code>
+        </div>
+    </div>
+
+    <!-- Modo Foco -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Modo Foco</h2>
+        <p class="text-muted-foreground">Interface minimalista para escrita focada</p>
+        
+        <div class="border rounded-lg p-6 bg-card">
+            {% include "components/text-editor.html" with content="<p>Clique aqui para ativar o modo foco...</p>" focus_mode=true placeholder="Conte sua história..." %}
+        </div>
+        
+        <div class="bg-muted rounded-lg p-4 relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code6.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-4 right-4 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+            </button>
+            <code class="text-sm font-mono" x-ref="code6">{% verbatim %}{% include "components/text-editor.html" with focus_mode=true %}{% endverbatim %}</code>
+        </div>
+    </div>
+
+    <!-- Recursos Principais -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Recursos Principais</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="bg-card border border-border rounded-lg p-6">
+                <div class="text-2xl mb-3">✨</div>
+                <h3 class="font-semibold mb-2">Formatação Rica</h3>
+                <p class="text-sm text-muted-foreground">Negrito, itálico, sublinhado, listas, links e muito mais</p>
+            </div>
+            
+            <div class="bg-card border border-border rounded-lg p-6">
+                <div class="text-2xl mb-3">📊</div>
+                <h3 class="font-semibold mb-2">Estatísticas</h3>
+                <p class="text-sm text-muted-foreground">Contador de palavras, caracteres e tempo de leitura</p>
+            </div>
+            
+            <div class="bg-card border border-border rounded-lg p-6">
+                <div class="text-2xl mb-3">💾</div>
+                <h3 class="font-semibold mb-2">Auto-Save</h3>
+                <p class="text-sm text-muted-foreground">Salvamento automático para nunca perder conteúdo</p>
+            </div>
+            
+            <div class="bg-card border border-border rounded-lg p-6">
+                <div class="text-2xl mb-3">👥</div>
+                <h3 class="font-semibold mb-2">Colaborativo</h3>
+                <p class="text-sm text-muted-foreground">Edição em tempo real com comentários</p>
+            </div>
+            
+            <div class="bg-card border border-border rounded-lg p-6">
+                <div class="text-2xl mb-3">🎯</div>
+                <h3 class="font-semibold mb-2">Modo Foco</h3>
+                <p class="text-sm text-muted-foreground">Interface limpa para escrita concentrada</p>
+            </div>
+            
+            <div class="bg-card border border-border rounded-lg p-6">
+                <div class="text-2xl mb-3">📝</div>
+                <h3 class="font-semibold mb-2">Múltiplos Modos</h3>
+                <p class="text-sm text-muted-foreground">WYSIWYG, Markdown e código</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Parâmetros -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Parâmetros</h2>
+        {% include "components/table.html" with headers=text_editor_params.headers data=text_editor_params.data caption="Parâmetros disponíveis para o componente Text Editor" %}
+    </div>
+</div> 
