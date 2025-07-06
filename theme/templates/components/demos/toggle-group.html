@@ -1,10 +1,5 @@
-{% extends "components_base.html" %}
 {% load icon_tags %}
 
-{% block page_title %}Toggle Group{% endblock %}
-{% block page_description %}Grupo de toggles para seleção única ou múltipla{% endblock %}
-
-{% block component_content %}
 <div class="space-y-6">
     <!-- Cabeçalho -->
     <div class="border-b border-border pb-4">
@@ -35,7 +30,7 @@
     <!-- Alinhamento (Single Selection) -->
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Alinhamento (Seleção Única)</h2>
-        <div class="border rounded-lg p-6">
+        <div class="border border-border rounded-radius-lg p-6">
             {% include "components/toggle-group.html" with items=toggle_group_alignment.items labels=toggle_group_alignment.labels icons=toggle_group_alignment.icons value=toggle_group_alignment.value type=toggle_group_alignment.type name=toggle_group_alignment.name %}
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
@@ -57,7 +52,7 @@
     <!-- Formatação (Multiple Selection) -->
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Formatação (Seleção Múltipla)</h2>
-        <div class="border rounded-lg p-6">
+        <div class="border border-border rounded-radius-lg p-6">
             {% include "components/toggle-group.html" with items=toggle_group_format.items labels=toggle_group_format.labels icons=toggle_group_format.icons value=toggle_group_format.value type=toggle_group_format.type name=toggle_group_format.name %}
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
@@ -84,7 +79,7 @@
             <!-- Default -->
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Default</h3>
-                <div class="border rounded-lg p-4">
+                <div class="border border-border rounded-radius-lg p-4">
                     {% include "components/toggle-group.html" with items=toggle_group_view.items labels=toggle_group_view.labels icons=toggle_group_view.icons value=toggle_group_view.value type=toggle_group_view.type name=toggle_group_view.name %}
                 </div>
                 <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
@@ -100,7 +95,7 @@
             <!-- Outline -->
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Outline</h3>
-                <div class="border rounded-lg p-4">
+                <div class="border border-border rounded-radius-lg p-4">
                     {% include "components/toggle-group.html" with items=toggle_group_size.items labels=toggle_group_size.labels value=toggle_group_size.value type=toggle_group_size.type name=toggle_group_size.name variant=toggle_group_size.variant %}
                 </div>
                 <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
@@ -124,7 +119,7 @@
             <!-- Small -->
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Small</h3>
-                <div class="border rounded-lg p-4">
+                <div class="border border-border rounded-radius-lg p-4">
                     {% include "components/toggle-group.html" with items=toggle_group_priority.items labels=toggle_group_priority.labels value=toggle_group_priority.value type=toggle_group_priority.type name=toggle_group_priority.name size=toggle_group_priority.size %}
                 </div>
                 <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
@@ -140,7 +135,7 @@
             <!-- Default -->
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Default</h3>
-                <div class="border rounded-lg p-4">
+                <div class="border border-border rounded-radius-lg p-4">
                     {% include "components/toggle-group.html" with items=toggle_group_alignment.items labels=toggle_group_alignment.labels icons=toggle_group_alignment.icons value=toggle_group_alignment.value type=toggle_group_alignment.type name="alignment_default" %}
                 </div>
                 <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
@@ -156,7 +151,7 @@
             <!-- Large -->
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Large</h3>
-                <div class="border rounded-lg p-4">
+                <div class="border border-border rounded-radius-lg p-4">
                     {% include "components/toggle-group.html" with items=toggle_group_view.items labels=toggle_group_view.labels icons=toggle_group_view.icons value=toggle_group_view.value type=toggle_group_view.type name="view_large" size="lg" %}
                 </div>
                 <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
@@ -180,7 +175,7 @@
             <!-- Enabled -->
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Habilitado</h3>
-                <div class="border rounded-lg p-4">
+                <div class="border border-border rounded-radius-lg p-4">
                     {% include "components/toggle-group.html" with items=toggle_group_alignment.items labels=toggle_group_alignment.labels value=toggle_group_alignment.value type=toggle_group_alignment.type name="alignment_enabled" %}
                 </div>
                 <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
@@ -196,7 +191,7 @@
             <!-- Disabled -->
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Desabilitado</h3>
-                <div class="border rounded-lg p-4">
+                <div class="border border-border rounded-radius-lg p-4">
                     {% include "components/toggle-group.html" with items=toggle_group_disabled.items labels=toggle_group_disabled.labels value=toggle_group_disabled.value type=toggle_group_disabled.type name=toggle_group_disabled.name disabled=toggle_group_disabled.disabled %}
                 </div>
                 <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
@@ -215,7 +210,7 @@
     <!-- Em Formulário -->
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Em Formulário</h2>
-        <div class="border rounded-lg p-6">
+        <div class="border border-border rounded-radius-lg p-6">
             <div x-data="{ 
                 alignment: 'center',
                 format: ['bold'],
@@ -260,5 +255,4 @@
         <h2 class="text-2xl font-semibold">Parâmetros</h2>
         {% include "components/table.html" with headers=toggle_group_params.headers data=toggle_group_params.data caption="Parâmetros disponíveis para o componente Toggle Group" %}
     </div>
-</div>
-{% endblock %} 
+</div> 

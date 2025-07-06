@@ -44,36 +44,8 @@
     {% include "components/layout.html" with layout_type="sidebar-left" sidebar_collapsible=True sidebar_content=sidebar_content header_content=header_content main_content=component_main_content spa_enabled=True %}
 {% endif %}
 
-<!-- Conteúdo para os templates dos componentes quando não há main_content -->
-{% if not main_content %}
-<script>
-    // Capturar o conteúdo do componente e injetar no layout
-    document.addEventListener('DOMContentLoaded', function() {
-        const layoutMain = document.querySelector('main');
-        if (layoutMain) {
-            layoutMain.innerHTML = `
-                <div class="space-y-6">
-                    <div class="border-b border-border pb-4">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <h1 class="text-3xl font-bold">{% block page_title %}Componentes{% endblock %}</h1>
-                                <p class="text-muted-foreground mt-1">{% block page_description %}Demonstração de componentes{% endblock %}</p>
-                            </div>
-                            <a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
-                                Voltar
-                            </a>
-                        </div>
-                    </div>
-                    <div id="component-content-placeholder">
-                        {% block component_content %}
-                        {% endblock %}
-                    </div>
-                </div>
-            `;
-        }
-    });
-</script>
-{% endif %}
+<!-- REMOVER A LÓGICA QUE INJETA TÍTULOS AUTOMÁTICOS -->
+<!-- Os templates de demo agora são independentes e têm seus próprios cabeçalhos -->
 
 </body>
 </html> 

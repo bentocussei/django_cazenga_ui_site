@@ -1,464 +1,198 @@
-{% extends "components_base.html" %}
+<!-- Template independente do Sonner para consistência SPA/Reload -->
+{% load icon_tags %}
 
-{% block title %}Sonner - Notificações Toast{% endblock %}
-
-{% block content %}
-<div class="space-y-8">
-    <!-- Header -->
-    <div class="border-b pb-4">
-        <h1 class="text-3xl font-bold text-gray-900">Sonner</h1>
-        <p class="text-gray-600 mt-2">Sistema de notificações toast elegante e personalizável</p>
+<div class="space-y-6">
+    <!-- Cabeçalho -->
+    <div class="border-b border-border pb-4">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-3xl font-bold">Sonner</h1>
+                <p class="text-muted-foreground mt-1">Sistema de notificações toast elegante e personalizável</p>
+            </div>
+            <a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+                Voltar
+            </a>
+        </div>
     </div>
-
-    <!-- Alpine.js Data -->
-    <div x-data="{
-        toasts: [],
-        nextId: 1,
-        position: 'top-right',
-        duration: 4000,
-        
-        showToast(type, title, description, options = {}) {
-            const toast = {
-                id: this.nextId++,
-                type: type || 'info',
-                title: title || 'Notificação',
-                description: description || '',
-                duration: options.duration !== undefined ? options.duration : this.duration,
-                position: options.position || this.position,
-                closable: options.closable !== undefined ? options.closable : true,
-                action: options.action || null,
-                timestamp: new Date().toLocaleTimeString(),
-                ...options
-            };
-            
-            this.toasts.push(toast);
-            
-            // Auto remove after duration
-            if (toast.duration > 0) {
-                setTimeout(() => this.removeToast(toast.id), toast.duration);
-            }
-        },
-        
-        removeToast(id) {
-            this.toasts = this.toasts.filter(t => t.id !== id);
-        },
-        
-        clearAll() {
-            this.toasts = [];
-        },
-        
-        getToastsByPosition(position) {
-            return this.toasts.filter(toast => toast.position === position);
-        },
-        
-        getPositionClasses(position) {
-            const positions = {
-                'top-right': 'top-4 right-4',
-                'top-left': 'top-4 left-4',
-                'bottom-right': 'bottom-4 right-4',
-                'bottom-left': 'bottom-4 left-4',
-                'top-center': 'top-4 left-1/2 transform -translate-x-1/2',
-                'bottom-center': 'bottom-4 left-1/2 transform -translate-x-1/2'
-            };
-            return positions[position] || 'top-4 right-4';
-        },
-        
-        getToastAnimation(position) {
-            const animations = {
-                'top-right': 'animate-slide-in-right',
-                'top-left': 'animate-slide-in-left',
-                'bottom-right': 'animate-slide-in-right',
-                'bottom-left': 'animate-slide-in-left',
-                'top-center': 'animate-slide-in-top',
-                'bottom-center': 'animate-slide-in-bottom'
-            };
-            return animations[position] || 'animate-slide-in-right';
-        }
-    }">
-        
-        <!-- Toast Containers -->
-        <template x-for="pos in ['top-right', 'top-left', 'bottom-right', 'bottom-left', 'top-center', 'bottom-center']" :key="pos">
-            <div 
-                x-show="getToastsByPosition(pos).length > 0"
-                :class="getPositionClasses(pos)"
-                class="fixed z-50 flex flex-col space-y-2 max-w-sm w-full pointer-events-none"
-                style="min-width: 300px;"
-            >
-                <template x-for="toast in getToastsByPosition(pos)" :key="toast.id">
-                    <div 
-                        x-show="true"
-                        x-transition:enter="transition ease-out duration-300"
-                        x-transition:enter-start="opacity-0 transform scale-95"
-                        x-transition:enter-end="opacity-100 transform scale-100"
-                        x-transition:leave="transition ease-in duration-200"
-                        x-transition:leave-start="opacity-100 transform scale-100"
-                        x-transition:leave-end="opacity-0 transform scale-95"
-                        class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg pointer-events-auto"
-                        :class="{
-                            'border-green-200 dark:border-green-800': toast.type === 'success',
-                            'border-red-200 dark:border-red-800': toast.type === 'error',
-                            'border-yellow-200 dark:border-yellow-800': toast.type === 'warning',
-                            'border-blue-200 dark:border-blue-800': toast.type === 'info'
-                        }"
-                    >
-                        <div class="p-4">
-                            <div class="flex items-start">
-                                <!-- Icon -->
-                                <div class="flex-shrink-0 mr-3">
-                                    <div class="w-6 h-6 rounded-full flex items-center justify-center text-white"
-                                         :class="{
-                                             'bg-green-500': toast.type === 'success',
-                                             'bg-red-500': toast.type === 'error',
-                                             'bg-yellow-500': toast.type === 'warning',
-                                             'bg-blue-500': toast.type === 'info'
-                                         }">
-                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                            <path x-show="toast.type === 'success'" fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                            <path x-show="toast.type === 'error'" fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                                            <path x-show="toast.type === 'warning'" fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
-                                            <path x-show="toast.type === 'info'" fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
-                                        </svg>
-                                    </div>
-                                </div>
-                                
-                                <!-- Content -->
-                                <div class="flex-1 min-w-0">
-                                    <h4 class="text-sm font-semibold text-gray-900 dark:text-white" x-text="toast.title"></h4>
-                                    <p class="text-sm text-gray-600 dark:text-gray-300 mt-1" x-text="toast.description"></p>
-                                    
-                                    <!-- Action Button -->
-                                    <div x-show="toast.action" class="mt-3">
-                                        <button 
-                                            @click="toast.action.handler(); removeToast(toast.id)"
-                                            class="text-sm font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300"
-                                            x-text="toast.action?.text || 'Ação'"
-                                        ></button>
-                                    </div>
-                                </div>
-                                
-                                <!-- Close Button -->
-                                <div x-show="toast.closable" class="flex-shrink-0 ml-3">
-                                    <button 
-                                        @click="removeToast(toast.id)"
-                                        class="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400"
-                                    >
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-                            
-                            <!-- Progress Bar -->
-                            <div x-show="toast.duration > 0" class="mt-3">
-                                <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1">
-                                    <div 
-                                        class="h-1 rounded-full transition-all duration-100"
-                                        :class="{
-                                            'bg-green-500': toast.type === 'success',
-                                            'bg-red-500': toast.type === 'error',
-                                            'bg-yellow-500': toast.type === 'warning',
-                                            'bg-blue-500': toast.type === 'info'
-                                        }"
-                                        :style="'width: ' + (100 - ((Date.now() - new Date(toast.timestamp).getTime()) / toast.duration) * 100) + '%'"
-                                    ></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </template>
-            </div>
-        </template>
-
-        <!-- Demo Content -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <!-- Basic Examples -->
-            <div class="space-y-6">
-                <div class="bg-white rounded-lg border border-gray-200 p-6">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Tipos de Notificação</h3>
-                    <div class="space-y-3">
-                        <button 
-                            @click="showToast('success', 'Sucesso!', 'Operação concluída com sucesso.')"
-                            class="w-full bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md transition-colors"
-                        >
-                            Sucesso
-                        </button>
-                        <button 
-                            @click="showToast('error', 'Erro!', 'Ocorreu um erro ao processar a solicitação.')"
-                            class="w-full bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md transition-colors"
-                        >
-                            Erro
-                        </button>
-                        <button 
-                            @click="showToast('warning', 'Atenção!', 'Verifique os dados antes de continuar.')"
-                            class="w-full bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md transition-colors"
-                        >
-                            Aviso
-                        </button>
-                        <button 
-                            @click="showToast('info', 'Informação', 'Nova atualização disponível.')"
-                            class="w-full bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition-colors"
-                        >
-                            Informação
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Configuration -->
-                <div class="bg-white rounded-lg border border-gray-200 p-6">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Configurações</h3>
-                    <div class="space-y-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Posição</label>
-                            <select x-model="position" class="w-full border border-gray-300 rounded-md px-3 py-2">
-                                <option value="top-right">Superior Direita</option>
-                                <option value="top-left">Superior Esquerda</option>
-                                <option value="bottom-right">Inferior Direita</option>
-                                <option value="bottom-left">Inferior Esquerda</option>
-                                <option value="top-center">Superior Centro</option>
-                                <option value="bottom-center">Inferior Centro</option>
-                            </select>
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Duração (ms)</label>
-                            <input 
-                                type="number" 
-                                x-model="duration" 
-                                min="0" 
-                                step="500"
-                                class="w-full border border-gray-300 rounded-md px-3 py-2"
-                            />
-                            <p class="text-xs text-gray-500 mt-1">0 = permanente</p>
-                        </div>
-                        
-                        <button 
-                            @click="showToast('info', 'Teste', 'Notificação na posição ' + position)"
-                            class="w-full bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition-colors"
-                        >
-                            Testar Configuração
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Advanced Examples -->
-            <div class="space-y-6">
-                <div class="bg-white rounded-lg border border-gray-200 p-6">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Exemplos Avançados</h3>
-                    <div class="space-y-3">
-                        <button 
-                            @click="showToast('success', 'Upload Concluído', 'Arquivo enviado com sucesso!', {
-                                action: {
-                                    text: 'Visualizar',
-                                    handler: () => alert('Abrindo arquivo...')
-                                }
-                            })"
-                            class="w-full bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md transition-colors"
-                        >
-                            Com Ação
-                        </button>
-                        
-                        <button 
-                            @click="showToast('warning', 'Sessão Expirando', 'Sua sessão expirará em 5 minutos.', {
-                                duration: 0,
-                                action: {
-                                    text: 'Renovar',
-                                    handler: () => alert('Renovando sessão...')
-                                }
-                            })"
-                            class="w-full bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md transition-colors"
-                        >
-                            Permanente
-                        </button>
-                        
-                        <button 
-                            @click="showToast('info', 'Backup Iniciado', 'Fazendo backup dos dados...', {
-                                closable: false,
-                                duration: 8000
-                            })"
-                            class="w-full bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition-colors"
-                        >
-                            Não Fechável
-                        </button>
-                        
-                        <button 
-                            @click="showToast('error', 'Falha na Conexão', 'Não foi possível conectar ao servidor.', {
-                                duration: 10000,
-                                action: {
-                                    text: 'Tentar Novamente',
-                                    handler: () => showToast('info', 'Reconectando...', 'Tentando reconectar...')
-                                }
-                            })"
-                            class="w-full bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md transition-colors"
-                        >
-                            Com Retry
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Bulk Actions -->
-                <div class="bg-white rounded-lg border border-gray-200 p-6">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Ações em Lote</h3>
-                    <div class="space-y-3">
-                        <button 
-                            @click="
-                                showToast('info', 'Processo Iniciado', 'Iniciando operação em lote...', {duration: 2000});
-                                setTimeout(() => showToast('success', 'Arquivo 1', 'Processado com sucesso'), 1000);
-                                setTimeout(() => showToast('success', 'Arquivo 2', 'Processado com sucesso'), 2000);
-                                setTimeout(() => showToast('warning', 'Arquivo 3', 'Processado com avisos'), 3000);
-                                setTimeout(() => showToast('success', 'Concluído', 'Todos os arquivos foram processados'), 4000);
-                            "
-                            class="w-full bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-md transition-colors"
-                        >
-                            Sequência de Toasts
-                        </button>
-                        
-                        <button 
-                            @click="
-                                ['Iniciando...', 'Carregando dados...', 'Processando...', 'Finalizando...'].forEach((msg, i) => {
-                                    setTimeout(() => showToast('info', 'Progresso', msg, {duration: 1500}), i * 800);
-                                });
-                                setTimeout(() => showToast('success', 'Concluído!', 'Operação finalizada'), 4000);
-                            "
-                            class="w-full bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded-md transition-colors"
-                        >
-                            Progresso Simulado
-                        </button>
-                        
-                        <button 
-                            @click="clearAll()"
-                            class="w-full bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-md transition-colors"
-                        >
-                            Limpar Todas
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Toast Status -->
-                <div class="bg-white rounded-lg border border-gray-200 p-6">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Status</h3>
-                    <div class="text-sm text-gray-600 space-y-2">
-                        <div class="flex justify-between">
-                            <span>Toasts Ativas:</span>
-                            <span class="font-medium" x-text="toasts.length"></span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span>Próximo ID:</span>
-                            <span class="font-medium" x-text="nextId"></span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span>Posição Atual:</span>
-                            <span class="font-medium" x-text="position"></span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span>Duração Padrão:</span>
-                            <span class="font-medium" x-text="duration + 'ms'"></span>
-                        </div>
-                    </div>
+    
+    <!-- Instalação -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Instalação</h2>
+        <div class="bg-yellow-50 border border-yellow-200 rounded-radius-md p-4">
+            <div class="flex gap-2">
+                <div class="text-yellow-600 text-sm">⚠️</div>
+                <div>
+                    <h4 class="font-medium text-yellow-800">Instalação</h4>
+                    <p class="text-sm text-yellow-700 mt-1">O componente Sonner deve ser incluído no template base uma vez:</p>
                 </div>
             </div>
         </div>
-
-        <!-- Code Examples -->
-        <div class="bg-white rounded-lg border border-gray-200 p-6">
-            <h3 class="text-lg font-semibold text-gray-900 mb-4">Exemplos de Código</h3>
-            <div class="space-y-4">
-                <div>
-                    <h4 class="font-medium text-gray-900 mb-2">Toast Básico</h4>
-                    <pre class="bg-gray-50 p-4 rounded-lg text-sm overflow-x-auto"><code>showToast('success', 'Sucesso!', 'Operação concluída com sucesso.')</code></pre>
-                </div>
-                
-                <div>
-                    <h4 class="font-medium text-gray-900 mb-2">Toast com Ação</h4>
-                    <pre class="bg-gray-50 p-4 rounded-lg text-sm overflow-x-auto"><code>showToast('info', 'Nova Mensagem', 'Você tem uma nova mensagem.', {
-  action: {
-    text: 'Visualizar',
-    handler: () => window.open('/messages')
-  }
-})</code></pre>
-                </div>
-                
-                <div>
-                    <h4 class="font-medium text-gray-900 mb-2">Toast Permanente</h4>
-                    <pre class="bg-gray-50 p-4 rounded-lg text-sm overflow-x-auto"><code>showToast('warning', 'Atenção', 'Ação requerida', {
-  duration: 0,
-  closable: true
-})</code></pre>
-                </div>
-                
-                <div>
-                    <h4 class="font-medium text-gray-900 mb-2">Toast Customizado</h4>
-                    <pre class="bg-gray-50 p-4 rounded-lg text-sm overflow-x-auto"><code>showToast('error', 'Erro Crítico', 'Falha no sistema', {
-  duration: 10000,
-  position: 'top-center',
-  closable: false
-})</code></pre>
-                </div>
-            </div>
+        <div class="bg-muted rounded-lg p-4 relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+            </button>
+            <code class="text-sm" x-ref="code">{% verbatim %}{% include "components/sonner.html" %}{% endverbatim %}</code>
         </div>
     </div>
-</div>
-
-<style>
-@keyframes slide-in-right {
-    from {
-        transform: translateX(100%);
-        opacity: 0;
-    }
-    to {
-        transform: translateX(0);
-        opacity: 1;
-    }
-}
-
-@keyframes slide-in-left {
-    from {
-        transform: translateX(-100%);
-        opacity: 0;
-    }
-    to {
-        transform: translateX(0);
-        opacity: 1;
-    }
-}
-
-@keyframes slide-in-top {
-    from {
-        transform: translateY(-100%);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
-
-@keyframes slide-in-bottom {
-    from {
-        transform: translateY(100%);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
-
-.animate-slide-in-right {
-    animation: slide-in-right 0.3s ease-out;
-}
-
-.animate-slide-in-left {
-    animation: slide-in-left 0.3s ease-out;
-}
-
-.animate-slide-in-top {
-    animation: slide-in-top 0.3s ease-out;
-}
-
-.animate-slide-in-bottom {
-    animation: slide-in-bottom 0.3s ease-out;
-}
-</style>
-{% endblock %} 
+    
+    <!-- Tipos de Notificação -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Tipos de Notificação</h2>
+        <p class="text-muted-foreground text-sm">Diferentes tipos de toast para diferentes situações.</p>
+        
+        <div class="border border-border rounded-radius-lg p-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <button onclick="window.showToast('{{ sonner_basic.examples.0.title }}', '{{ sonner_basic.examples.0.type }}', '{{ sonner_basic.examples.0.description }}')" 
+                        class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-green-600 text-white hover:bg-green-700 h-10 px-4 py-2">
+                    {{ sonner_basic.examples.0.type|title }}
+                </button>
+                <button onclick="window.showToast('{{ sonner_basic.examples.1.title }}', '{{ sonner_basic.examples.1.type }}', '{{ sonner_basic.examples.1.description }}')"
+                        class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-red-600 text-white hover:bg-red-700 h-10 px-4 py-2">
+                    {{ sonner_basic.examples.1.type|title }}
+                </button>
+                <button onclick="window.showToast('{{ sonner_basic.examples.2.title }}', '{{ sonner_basic.examples.2.type }}', '{{ sonner_basic.examples.2.description }}')"
+                        class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-yellow-600 text-white hover:bg-yellow-700 h-10 px-4 py-2">
+                    {{ sonner_basic.examples.2.type|title }}
+                </button>
+                <button onclick="window.showToast('{{ sonner_basic.examples.3.title }}', '{{ sonner_basic.examples.3.type }}', '{{ sonner_basic.examples.3.description }}')"
+                        class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-blue-600 text-white hover:bg-blue-700 h-10 px-4 py-2">
+                    {{ sonner_basic.examples.3.type|title }}
+                </button>
+            </div>
+        </div>
+        
+        <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+            </button>
+            <code x-ref="code">showToast('Título', 'tipo', 'Descrição')</code>
+        </div>
+    </div>
+    
+    <!-- Toast com Ação -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Toast com Ação</h2>
+        <p class="text-muted-foreground text-sm">Toast que permite interação do usuário.</p>
+        
+        <div class="border border-border rounded-radius-lg p-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <button onclick="window.showToast('{{ sonner_with_action.examples.0.title }}', '{{ sonner_with_action.examples.0.type }}', '{{ sonner_with_action.examples.0.description }}', { action: { text: '{{ sonner_with_action.examples.0.action }}', handler: () => alert('Ação executada!') } })"
+                        class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-green-600 text-white hover:bg-green-700 h-10 px-4 py-2">
+                    Upload com Ação
+                </button>
+                <button onclick="window.showToast('{{ sonner_with_action.examples.1.title }}', '{{ sonner_with_action.examples.1.type }}', '{{ sonner_with_action.examples.1.description }}', { action: { text: '{{ sonner_with_action.examples.1.action }}', handler: () => alert('Abrindo mensagem...') } })"
+                        class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-blue-600 text-white hover:bg-blue-700 h-10 px-4 py-2">
+                    Mensagem com Ação
+                </button>
+            </div>
+        </div>
+        
+        <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+            </button>
+            <code x-ref="code">showToast('Título', 'tipo', 'Descrição', { action: { text: 'Botão', handler: () => {} } })</code>
+        </div>
+    </div>
+    
+    <!-- Toast Permanente -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Toast Permanente</h2>
+        <p class="text-muted-foreground text-sm">Toast que não desaparece automaticamente.</p>
+        
+        <div class="border border-border rounded-radius-lg p-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <button onclick="window.showToast('{{ sonner_permanent.examples.0.title }}', '{{ sonner_permanent.examples.0.type }}', '{{ sonner_permanent.examples.0.description }}', { duration: 0, action: { text: '{{ sonner_permanent.examples.0.action }}', handler: () => alert('Renovando sessão...') } })"
+                        class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-yellow-600 text-white hover:bg-yellow-700 h-10 px-4 py-2">
+                    Sessão Expirando
+                </button>
+                <button onclick="window.showToast('{{ sonner_permanent.examples.1.title }}', '{{ sonner_permanent.examples.1.type }}', '{{ sonner_permanent.examples.1.description }}', { duration: 0, action: { text: '{{ sonner_permanent.examples.1.action }}', handler: () => alert('Atualizando...') } })"
+                        class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-blue-600 text-white hover:bg-blue-700 h-10 px-4 py-2">
+                    Atualização Disponível
+                </button>
+            </div>
+        </div>
+        
+        <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+            </button>
+            <code x-ref="code">showToast('Título', 'tipo', 'Descrição', { duration: 0 })</code>
+        </div>
+    </div>
+    
+    <!-- Posições -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Posições</h2>
+        <p class="text-muted-foreground text-sm">Toast pode aparecer em diferentes posições na tela.</p>
+        
+        <div class="border border-border rounded-radius-lg p-6">
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                {% for example in sonner_positions.examples %}
+                <button onclick="window.showToast('{{ example.title }}', '{{ example.type }}', '{{ example.description }}', { position: '{{ example.position }}' })"
+                        class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+                    {{ example.position|title }}
+                </button>
+                {% endfor %}
+            </div>
+        </div>
+        
+        <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+            </button>
+            <code x-ref="code">showToast('Título', 'tipo', 'Descrição', { position: 'top-right' })</code>
+        </div>
+    </div>
+    
+    <!-- Configurações Especiais -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Configurações Especiais</h2>
+        <p class="text-muted-foreground text-sm">Toast com configurações avançadas.</p>
+        
+        <div class="border border-border rounded-radius-lg p-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <button onclick="window.showToast('{{ sonner_special.examples.0.title }}', '{{ sonner_special.examples.0.type }}', '{{ sonner_special.examples.0.description }}', { duration: {{ sonner_special.examples.0.duration }}, closable: false })"
+                        class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-blue-600 text-white hover:bg-blue-700 h-10 px-4 py-2">
+                    Não Fechável
+                </button>
+                <button onclick="window.showToast('{{ sonner_special.examples.1.title }}', '{{ sonner_special.examples.1.type }}', '{{ sonner_special.examples.1.description }}', { duration: {{ sonner_special.examples.1.duration }}, action: { text: '{{ sonner_special.examples.1.action }}', handler: () => alert('Tentando novamente...') } })"
+                        class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-red-600 text-white hover:bg-red-700 h-10 px-4 py-2">
+                    Com Retry
+                </button>
+                <button onclick="window.showToast('{{ sonner_special.examples.2.title }}', '{{ sonner_special.examples.2.type }}', '{{ sonner_special.examples.2.description }}', { duration: {{ sonner_special.examples.2.duration }} })"
+                        class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-green-600 text-white hover:bg-green-700 h-10 px-4 py-2">
+                    Duração Customizada
+                </button>
+            </div>
+        </div>
+        
+        <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+            </button>
+            <code x-ref="code">showToast('Título', 'tipo', 'Descrição', { duration: 8000, closable: false })</code>
+        </div>
+    </div>
+    
+    <!-- Parâmetros -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Parâmetros</h2>
+        {% include "components/table.html" with headers=sonner_params.headers data=sonner_params.data caption="Parâmetros disponíveis para o componente Sonner" %}
+    </div>
+    
+    <!-- Incluir o componente no template -->
+    {% include "components/sonner.html" %}
+</div> 

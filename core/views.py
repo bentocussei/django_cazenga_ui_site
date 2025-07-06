@@ -131,9 +131,6 @@ def is_spa_request(request):
     is_partial = request.GET.get('partial') == 'true'
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
     
-    # DEBUG TEMPORÁRIO
-    print(f"🔍 SPA Debug - partial: {is_partial}, ajax: {is_ajax}")
-    
     return is_partial or is_ajax
 
 # Função auxiliar para retornar resposta SPA
@@ -487,6 +484,24 @@ def component_detail(request, component_name):
             context['toggle_group_priority'] = component_data_context.get('priority')
             context['toggle_group_disabled'] = component_data_context.get('disabled')
             context['toggle_group_params'] = component_data_context.get('params')
+        # Componentes Sonner e Form
+        elif component_name == 'sonner':
+            # Dados do sonner
+            context['sonner_basic'] = component_data_context.get('basic')
+            context['sonner_with_action'] = component_data_context.get('with_action')
+            context['sonner_permanent'] = component_data_context.get('permanent')
+            context['sonner_positions'] = component_data_context.get('positions')
+            context['sonner_special'] = component_data_context.get('special')
+            context['sonner_params'] = component_data_context.get('params')
+        elif component_name == 'form':
+            # Dados do form
+            context['form_basic_contact'] = component_data_context.get('basic_contact')
+            context['form_register'] = component_data_context.get('register')
+            context['form_profile'] = component_data_context.get('profile')
+            context['form_settings'] = component_data_context.get('settings')
+            context['form_validation'] = component_data_context.get('validation')
+            context['form_field_types'] = component_data_context.get('field_types')
+            context['form_params'] = component_data_context.get('params')
     else:
         # Fallback para componentes ainda não migrados
         print(f"⚠️ Componente {component_name} não encontrado no COMPONENT_DATA, usando fallback")

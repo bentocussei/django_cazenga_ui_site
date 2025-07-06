@@ -1,401 +1,137 @@
-{% extends 'components_base.html' %}
+<!-- Template independente do Form para consistência SPA/Reload -->
+{% load icon_tags %}
 
-{% block page_title %}Form{% endblock %}
-{% block page_description %}Formulários robustos com validação, diferentes tipos de campos e layouts responsivos.{% endblock %}
-
-{% block component_content %}
-<div class="max-w-4xl mx-auto space-y-8">
+<div class="space-y-6">
+    <!-- Cabeçalho -->
+    <div class="border-b border-border pb-4">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-3xl font-bold">Form</h1>
+                <p class="text-muted-foreground mt-1">Formulários robustos com validação, diferentes tipos de campos e layouts responsivos</p>
+            </div>
+            <a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+                Voltar
+            </a>
+        </div>
+    </div>
+    
     <!-- Instalação -->
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Instalação</h2>
-        <div class="relative">
-            <pre class="bg-gray-100 p-4 rounded-md overflow-x-auto"><code>{% verbatim %}{% include 'components/form.html' %}{% endverbatim %}</code></pre>
-            <button 
-                class="absolute top-2 right-2 p-2 bg-white rounded-md shadow-sm hover:bg-gray-50 border"
-                x-data 
-                @click="navigator.clipboard.writeText('{% verbatim %}{% include \'components/form.html\' %}{% endverbatim %}')"
-                title="Copiar código"
-            >
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
-                </svg>
+        <div class="bg-muted rounded-lg p-4 relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
+            <code class="text-sm" x-ref="code">{% verbatim %}{% include "components/form.html" with fields=form_fields %}{% endverbatim %}</code>
         </div>
     </div>
-
-    <!-- Exemplo Básico -->
+    
+    <!-- Formulário Básico de Contato -->
     <div class="space-y-4">
-        <h2 class="text-2xl font-semibold">Exemplo Básico</h2>
-        <div class="border rounded-lg p-6">
-            <form class="space-y-6" x-data="{ formData: { firstName: '', lastName: '', email: '', phone: '' } }">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label for="firstName" class="block text-sm font-medium text-gray-700">Nome</label>
-                        <input 
-                            type="text" 
-                            id="firstName" 
-                            x-model="formData.firstName"
-                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                            placeholder="Digite seu nome"
-                        >
-                    </div>
-                    <div>
-                        <label for="lastName" class="block text-sm font-medium text-gray-700">Sobrenome</label>
-                        <input 
-                            type="text" 
-                            id="lastName" 
-                            x-model="formData.lastName"
-                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                            placeholder="Digite seu sobrenome"
-                        >
-                    </div>
-                </div>
-                <div>
-                    <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                    <input 
-                        type="email" 
-                        id="email" 
-                        x-model="formData.email"
-                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        placeholder="seu@email.com"
-                    >
-                </div>
-                <div>
-                    <label for="phone" class="block text-sm font-medium text-gray-700">Telefone</label>
-                    <input 
-                        type="tel" 
-                        id="phone" 
-                        x-model="formData.phone"
-                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        placeholder="(11) 99999-9999"
-                    >
-                </div>
-                <div class="flex justify-end space-x-3">
-                    <button 
-                        type="button" 
-                        class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                    >
-                        Cancelar
-                    </button>
-                    <button 
-                        type="submit" 
-                        class="bg-indigo-600 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                    >
-                        Salvar
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Variações -->
-    <div class="space-y-4">
-        <h2 class="text-2xl font-semibold">Variações</h2>
+        <h2 class="text-2xl font-semibold">Formulário Básico</h2>
+        <p class="text-muted-foreground text-sm">Formulário de contato com campos essenciais.</p>
         
-        <!-- Formulário com Validação -->
-        <div class="space-y-2">
-            <h3 class="text-lg font-medium">Formulário com Validação</h3>
-            <div class="border rounded-lg p-4">
-                <form class="space-y-6" x-data="{ 
-                    formData: { email: '', password: '', confirmPassword: '' },
-                    errors: {},
-                    
-                    validateForm() {
-                        this.errors = {};
-                        
-                        if (!this.formData.email) {
-                            this.errors.email = 'Email é obrigatório';
-                        } else if (!/\S+@\S+\.\S+/.test(this.formData.email)) {
-                            this.errors.email = 'Email inválido';
-                        }
-                        
-                        if (!this.formData.password) {
-                            this.errors.password = 'Senha é obrigatória';
-                        } else if (this.formData.password.length < 6) {
-                            this.errors.password = 'Senha deve ter pelo menos 6 caracteres';
-                        }
-                        
-                        if (!this.formData.confirmPassword) {
-                            this.errors.confirmPassword = 'Confirmação de senha é obrigatória';
-                        } else if (this.formData.password !== this.formData.confirmPassword) {
-                            this.errors.confirmPassword = 'Senhas não coincidem';
-                        }
-                        
-                        return Object.keys(this.errors).length === 0;
-                    },
-                    
-                    submitForm() {
-                        if (this.validateForm()) {
-                            alert('Formulário válido!');
-                        }
-                    }
-                }">
-                    <div>
-                        <label for="validatedEmail" class="block text-sm font-medium text-gray-700">Email *</label>
-                        <input 
-                            type="email" 
-                            id="validatedEmail" 
-                            x-model="formData.email"
-                            @blur="validateForm()"
-                            :class="{ 'border-red-300': errors.email }"
-                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                            placeholder="seu@email.com"
-                        >
-                        <p x-show="errors.email" class="mt-2 text-sm text-red-600" x-text="errors.email"></p>
-                    </div>
-                    <div>
-                        <label for="validatedPassword" class="block text-sm font-medium text-gray-700">Senha *</label>
-                        <input 
-                            type="password" 
-                            id="validatedPassword" 
-                            x-model="formData.password"
-                            @blur="validateForm()"
-                            :class="{ 'border-red-300': errors.password }"
-                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                            placeholder="••••••••"
-                        >
-                        <p x-show="errors.password" class="mt-2 text-sm text-red-600" x-text="errors.password"></p>
-                    </div>
-                    <div>
-                        <label for="confirmPassword" class="block text-sm font-medium text-gray-700">Confirmar Senha *</label>
-                        <input 
-                            type="password" 
-                            id="confirmPassword" 
-                            x-model="formData.confirmPassword"
-                            @blur="validateForm()"
-                            :class="{ 'border-red-300': errors.confirmPassword }"
-                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                            placeholder="••••••••"
-                        >
-                        <p x-show="errors.confirmPassword" class="mt-2 text-sm text-red-600" x-text="errors.confirmPassword"></p>
-                    </div>
-                    <div class="flex justify-end">
-                        <button 
-                            type="button" 
-                            @click="submitForm()"
-                            class="bg-indigo-600 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                        >
-                            Criar Conta
-                        </button>
-                    </div>
-                </form>
-            </div>
+        <div class="border border-border rounded-radius-lg p-6">
+            {% include "components/form.html" with fields=form_basic_contact.fields action=form_basic_contact.action method=form_basic_contact.method submit_button=form_basic_contact.submit_button cancel_button=form_basic_contact.cancel_button %}
         </div>
-
-        <!-- Formulário Complexo -->
-        <div class="space-y-2">
-            <h3 class="text-lg font-medium">Formulário Complexo</h3>
-            <div class="border rounded-lg p-4">
-                <form class="space-y-8" x-data="{ 
-                    formData: { 
-                        profile: { name: '', email: '', bio: '' },
-                        address: { street: '', city: '', state: '', zip: '' },
-                        preferences: { notifications: true, newsletter: false, theme: 'light' }
-                    }
-                }">
-                    <!-- Seção Perfil -->
-                    <div>
-                        <h4 class="text-lg font-medium text-gray-900 mb-4">Informações Pessoais</h4>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label for="profileName" class="block text-sm font-medium text-gray-700">Nome Completo</label>
-                                <input 
-                                    type="text" 
-                                    id="profileName" 
-                                    x-model="formData.profile.name"
-                                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                    placeholder="Seu nome completo"
-                                >
-                            </div>
-                            <div>
-                                <label for="profileEmail" class="block text-sm font-medium text-gray-700">Email</label>
-                                <input 
-                                    type="email" 
-                                    id="profileEmail" 
-                                    x-model="formData.profile.email"
-                                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                    placeholder="seu@email.com"
-                                >
-                            </div>
-                        </div>
-                        <div class="mt-6">
-                            <label for="bio" class="block text-sm font-medium text-gray-700">Biografia</label>
-                            <textarea 
-                                id="bio" 
-                                x-model="formData.profile.bio"
-                                rows="3"
-                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                placeholder="Conte um pouco sobre você..."
-                            ></textarea>
-                        </div>
-                    </div>
-
-                    <!-- Seção Endereço -->
-                    <div>
-                        <h4 class="text-lg font-medium text-gray-900 mb-4">Endereço</h4>
-                        <div class="grid grid-cols-1 gap-6">
-                            <div>
-                                <label for="street" class="block text-sm font-medium text-gray-700">Rua</label>
-                                <input 
-                                    type="text" 
-                                    id="street" 
-                                    x-model="formData.address.street"
-                                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                    placeholder="Rua, número, complemento"
-                                >
-                            </div>
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                <div>
-                                    <label for="city" class="block text-sm font-medium text-gray-700">Cidade</label>
-                                    <input 
-                                        type="text" 
-                                        id="city" 
-                                        x-model="formData.address.city"
-                                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                        placeholder="Cidade"
-                                    >
-                                </div>
-                                <div>
-                                    <label for="state" class="block text-sm font-medium text-gray-700">Estado</label>
-                                    <select 
-                                        id="state" 
-                                        x-model="formData.address.state"
-                                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                    >
-                                        <option value="">Selecione</option>
-                                        <option value="SP">São Paulo</option>
-                                        <option value="RJ">Rio de Janeiro</option>
-                                        <option value="MG">Minas Gerais</option>
-                                        <option value="RS">Rio Grande do Sul</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label for="zip" class="block text-sm font-medium text-gray-700">CEP</label>
-                                    <input 
-                                        type="text" 
-                                        id="zip" 
-                                        x-model="formData.address.zip"
-                                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                        placeholder="00000-000"
-                                    >
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Seção Preferências -->
-                    <div>
-                        <h4 class="text-lg font-medium text-gray-900 mb-4">Preferências</h4>
-                        <div class="space-y-6">
-                            <div>
-                                <label class="text-sm font-medium text-gray-700">Tema</label>
-                                <div class="mt-2 space-y-2">
-                                    <div class="flex items-center">
-                                        <input 
-                                            type="radio" 
-                                            id="themeLight" 
-                                            name="theme" 
-                                            value="light"
-                                            x-model="formData.preferences.theme"
-                                            class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300"
-                                        >
-                                        <label for="themeLight" class="ml-2 block text-sm text-gray-900">Claro</label>
-                                    </div>
-                                    <div class="flex items-center">
-                                        <input 
-                                            type="radio" 
-                                            id="themeDark" 
-                                            name="theme" 
-                                            value="dark"
-                                            x-model="formData.preferences.theme"
-                                            class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300"
-                                        >
-                                        <label for="themeDark" class="ml-2 block text-sm text-gray-900">Escuro</label>
-                                    </div>
-                                    <div class="flex items-center">
-                                        <input 
-                                            type="radio" 
-                                            id="themeSystem" 
-                                            name="theme" 
-                                            value="system"
-                                            x-model="formData.preferences.theme"
-                                            class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300"
-                                        >
-                                        <label for="themeSystem" class="ml-2 block text-sm text-gray-900">Sistema</label>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="space-y-4">
-                                <div class="flex items-center">
-                                    <input 
-                                        type="checkbox" 
-                                        id="notifications" 
-                                        x-model="formData.preferences.notifications"
-                                        class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-                                    >
-                                    <label for="notifications" class="ml-2 block text-sm text-gray-900">Receber notificações</label>
-                                </div>
-                                <div class="flex items-center">
-                                    <input 
-                                        type="checkbox" 
-                                        id="newsletter" 
-                                        x-model="formData.preferences.newsletter"
-                                        class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-                                    >
-                                    <label for="newsletter" class="ml-2 block text-sm text-gray-900">Receber newsletter</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Botões -->
-                    <div class="flex justify-end space-x-3">
-                        <button 
-                            type="button" 
-                            class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                        >
-                            Cancelar
-                        </button>
-                        <button 
-                            type="submit" 
-                            class="bg-indigo-600 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                        >
-                            Salvar Configurações
-                        </button>
-                    </div>
-                </form>
-            </div>
+        
+        <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+            </button>
+            <code x-ref="code">{% verbatim %}{% include "components/form.html" with fields=form_fields action="/contato" method="POST" %}{% endverbatim %}</code>
         </div>
     </div>
-
+    
+    <!-- Formulário de Registro -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Formulário de Registro</h2>
+        <p class="text-muted-foreground text-sm">Formulário para cadastro de novos usuários.</p>
+        
+        <div class="border border-border rounded-radius-lg p-6">
+            {% include "components/form.html" with fields=form_register.fields action=form_register.action method=form_register.method submit_button=form_register.submit_button %}
+        </div>
+        
+        <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+            </button>
+            <code x-ref="code">{% verbatim %}{% include "components/form.html" with fields=register_fields action="/register" %}{% endverbatim %}</code>
+        </div>
+    </div>
+    
+    <!-- Formulário de Perfil -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Formulário de Perfil</h2>
+        <p class="text-muted-foreground text-sm">Formulário para edição de perfil com upload de arquivo.</p>
+        
+        <div class="border border-border rounded-radius-lg p-6">
+            {% include "components/form.html" with fields=form_profile.fields action=form_profile.action method=form_profile.method enctype=form_profile.enctype submit_button=form_profile.submit_button cancel_button=form_profile.cancel_button %}
+        </div>
+        
+        <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+            </button>
+            <code x-ref="code">{% verbatim %}{% include "components/form.html" with fields=profile_fields enctype="multipart/form-data" %}{% endverbatim %}</code>
+        </div>
+    </div>
+    
+    <!-- Formulário de Configurações -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Formulário de Configurações</h2>
+        <p class="text-muted-foreground text-sm">Formulário com diferentes tipos de controles (switch, radio, select).</p>
+        
+        <div class="border border-border rounded-radius-lg p-6">
+            {% include "components/form.html" with fields=form_settings.fields action=form_settings.action method=form_settings.method submit_button=form_settings.submit_button %}
+        </div>
+        
+        <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+            </button>
+            <code x-ref="code">{% verbatim %}{% include "components/form.html" with fields=settings_fields %}{% endverbatim %}</code>
+        </div>
+    </div>
+    
+    <!-- Formulário com Validação -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Formulário com Validação</h2>
+        <p class="text-muted-foreground text-sm">Formulário com estados de erro e validação.</p>
+        
+        <div class="border border-border rounded-radius-lg p-6">
+            {% include "components/form.html" with fields=form_validation.fields action=form_validation.action method=form_validation.method x_data=form_validation.x_data submit_button=form_validation.submit_button %}
+        </div>
+        
+        <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+            </button>
+            <code x-ref="code">{% verbatim %}{% include "components/form.html" with fields=validation_fields %}{% endverbatim %}</code>
+        </div>
+    </div>
+    
+    <!-- Tipos de Campos -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Tipos de Campos</h2>
+        {% include "components/table.html" with headers=form_field_types.headers data=form_field_types.data caption="Tipos de campos disponíveis para o componente Form" %}
+    </div>
+    
     <!-- Parâmetros -->
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Parâmetros</h2>
-        <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
-                    <tr>
-                        {% for header in form_params.headers %}
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            {{ header }}
-                        </th>
-                        {% endfor %}
-                    </tr>
-                </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
-                    {% for row in form_params.data %}
-                    <tr>
-                        {% for cell in row %}
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                            {{ cell|safe }}
-                        </td>
-                        {% endfor %}
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+        {% include "components/table.html" with headers=form_params.headers data=form_params.data caption="Parâmetros disponíveis para o componente Form" %}
     </div>
-</div>
-{% endblock %} 
+</div> 

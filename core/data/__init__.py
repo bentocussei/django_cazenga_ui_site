@@ -37,6 +37,10 @@ from .select_data import *
 from .slider_data import *
 from .toggle_group_data import *
 
+# Componentes Sonner e Form
+from .sonner_data import *
+from .form_data import *
+
 # Mapeamento para facilitar o acesso
 COMPONENT_DATA = {
     'button': {
@@ -182,6 +186,24 @@ COMPONENT_DATA = {
         'priority': toggle_group_priority,
         'disabled': toggle_group_disabled,
         'params': toggle_group_params,
+    },
+    # Componentes Sonner e Form
+    'sonner': {
+        'basic': sonner_basic,
+        'with_action': sonner_with_action,
+        'permanent': sonner_permanent,
+        'positions': sonner_positions,
+        'special': sonner_special,
+        'params': sonner_params,
+    },
+    'form': {
+        'basic_contact': form_basic_contact,
+        'register': form_register,
+        'profile': form_profile,
+        'settings': form_settings,
+        'validation': form_validation,
+        'field_types': form_field_types,
+        'params': form_params,
     },
 }
 

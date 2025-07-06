@@ -143,35 +143,15 @@ Parâmetros:
                     {% if sidebar_content %}
                         {{ sidebar_content|safe }}
                     {% else %}
-                        <!-- Default Sidebar Content -->
-                        <nav class="space-y-2">
-                            <a href="#" 
-                               {% if spa_enabled %}data-spa-link{% endif %}
-                               class="flex items-center gap-3 rounded-radius-md px-3 py-2 text-sm font-medium hover:bg-accent transition-colors">
-                                <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"/>
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5a2 2 0 012-2h4a2 2 0 012 2v4H8V5z"/>
-                                </svg>
-                                <span x-show="!sidebarCollapsed || isMobile">Dashboard</span>
-                            </a>
-                            <a href="#" 
-                               {% if spa_enabled %}data-spa-link{% endif %}
-                               class="flex items-center gap-3 rounded-radius-md px-3 py-2 text-sm font-medium hover:bg-accent transition-colors">
-                                <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"/>
-                                </svg>
-                                <span x-show="!sidebarCollapsed || isMobile">Usuários</span>
-                            </a>
-                            <a href="#" 
-                               {% if spa_enabled %}data-spa-link{% endif %}
-                               class="flex items-center gap-3 rounded-radius-md px-3 py-2 text-sm font-medium hover:bg-accent transition-colors">
-                                <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                                </svg>
-                                <span x-show="!sidebarCollapsed || isMobile">Configurações</span>
-                            </a>
-                        </nav>
+                        <!-- Conteúdo Padrão Informativo -->
+                        <div class="space-y-4">
+                            <div class="text-center py-8">
+                                <div class="text-4xl mb-2">⚠️</div>
+                                <h3 class="text-lg font-medium text-muted-foreground">Sidebar Padrão</h3>
+                                <p class="text-sm text-muted-foreground mt-1">Nenhum conteúdo de sidebar foi fornecido</p>
+                                <p class="text-xs text-muted-foreground mt-2">Este é o conteúdo fallback do layout</p>
+                            </div>
+                        </div>
                     {% endif %}
                 </div>
             </aside>
@@ -197,9 +177,13 @@ Parâmetros:
                             {% if header_content %}
                                 {{ header_content|safe }}
                             {% else %}
-                                <!-- Default Header Content -->
+                                <!-- Header Padrão Informativo -->
                                 <div class="flex items-center gap-4">
-                                    <h1 class="text-xl font-semibold">Dashboard</h1>
+                                    <div class="flex items-center gap-2">
+                                        <div class="size-2 rounded-full bg-yellow-500"></div>
+                                        <h1 class="text-xl font-semibold text-muted-foreground">Header Padrão</h1>
+                                    </div>
+                                    <span class="text-xs text-muted-foreground">Fallback do Layout</span>
                                 </div>
                                 <div class="flex items-center gap-4">
                                     <!-- SPA Loading Indicator -->
@@ -215,8 +199,8 @@ Parâmetros:
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-5 5M4 19l5-5M13 7h5l-5-5M4 5l5 5"/>
                                         </svg>
                                     </button>
-                                    <div class="size-8 rounded-radius-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-medium">
-                                        U
+                                    <div class="size-8 rounded-radius-full bg-muted text-muted-foreground flex items-center justify-center text-sm font-medium">
+                                        ?
                                     </div>
                                 </div>
                             {% endif %}
@@ -230,9 +214,20 @@ Parâmetros:
                     {% if main_content %}
                         {{ main_content|safe }}
                     {% else %}
-                        <!-- Default Main Content -->
-                        <div class="space-y-6">
-                            
+                        <!-- Conteúdo Principal Padrão Informativo -->
+                        <div class="flex items-center justify-center h-full">
+                            <div class="text-center max-w-md">
+                                <div class="text-6xl mb-4">🚧</div>
+                                <h2 class="text-2xl font-bold mb-2">Conteúdo Principal Padrão</h2>
+                                <p class="text-muted-foreground mb-4">Nenhum conteúdo principal foi fornecido para este layout</p>
+                                <div class="bg-muted/50 rounded-lg p-4">
+                                    <p class="text-sm text-muted-foreground">
+                                        <strong>Para desenvolvedores:</strong><br>
+                                        Isso indica que o template não conseguiu renderizar o conteúdo correto.<br>
+                                        Verifique se os dados estão sendo passados corretamente para o template.
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     {% endif %}
                 </main>
@@ -244,12 +239,10 @@ Parâmetros:
                             {% if footer_content %}
                                 {{ footer_content|safe }}
                             {% else %}
-                                <!-- Default Footer Content -->
-                                <p class="text-sm text-muted-foreground">© 2024 Dashboard. Todos os direitos reservados.</p>
+                                <!-- Footer Padrão Informativo -->
+                                <p class="text-sm text-muted-foreground">© 2024 Layout Padrão - Conteúdo Fallback</p>
                                 <div class="flex items-center gap-4">
-                                    <a href="#" class="text-sm text-muted-foreground hover:text-foreground transition-colors">Privacidade</a>
-                                    <a href="#" class="text-sm text-muted-foreground hover:text-foreground transition-colors">Termos</a>
-                                    <a href="#" class="text-sm text-muted-foreground hover:text-foreground transition-colors">Suporte</a>
+                                    <span class="text-xs text-muted-foreground">Footer padrão do layout</span>
                                 </div>
                             {% endif %}
                         </div>
@@ -276,18 +269,15 @@ Parâmetros:
                     {% if sidebar_content %}
                         {{ sidebar_content|safe }}
                     {% else %}
-                        <!-- Default Sidebar Content -->
-                        <nav class="space-y-2">
-                            <a href="#" 
-                               {% if spa_enabled %}data-spa-link{% endif %}
-                               class="flex items-center gap-3 rounded-radius-md px-3 py-2 text-sm font-medium hover:bg-accent transition-colors">
-                                <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"/>
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5a2 2 0 012-2h4a2 2 0 012 2v4H8V5z"/>
-                                </svg>
-                                <span>Dashboard</span>
-                            </a>
-                        </nav>
+                        <!-- Conteúdo Padrão Informativo -->
+                        <div class="space-y-4">
+                            <div class="text-center py-8">
+                                <div class="text-4xl mb-2">⚠️</div>
+                                <h3 class="text-lg font-medium text-muted-foreground">Sidebar Padrão</h3>
+                                <p class="text-sm text-muted-foreground mt-1">Nenhum conteúdo de sidebar foi fornecido</p>
+                                <p class="text-xs text-muted-foreground mt-2">Este é o conteúdo fallback do layout</p>
+                            </div>
+                        </div>
                     {% endif %}
                 </div>
             </aside>
