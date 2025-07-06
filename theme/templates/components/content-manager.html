@@ -23,19 +23,22 @@
                     <div x-show="saved && !saving" class="w-2 h-2 bg-green-500 rounded-full"></div>
                 </div>
 
-                <!-- Botões de ação -->
+                <!-- Botões de ação com ícones -->
                 <button @click="saveAsDraft()" 
-                        class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 px-4">
-                    Salvar Rascunho
+                        class="inline-flex items-center justify-center gap-2 rounded-radius-md text-sm font-medium border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 px-4">
+                    {% include "components/icon.html" with name="file" size="size-4" %}
+                    Rascunho
                 </button>
                 
                 <button @click="togglePreview()" 
-                        class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 px-4">
-                    <span x-text="isPreview ? 'Editar' : 'Visualizar'"></span>
+                        class="inline-flex items-center justify-center gap-2 rounded-radius-md text-sm font-medium border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 px-4">
+                    {% include "components/icon.html" with name="eye-open" size="size-4" %}
+                    <span x-text="isPreview ? 'Editar' : 'Preview'"></span>
                 </button>
                 
                 <button @click="publish()" 
-                        class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4">
+                        class="inline-flex items-center justify-center gap-2 rounded-radius-md text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4">
+                    {% include "components/icon.html" with name="rocket" size="size-4" %}
                     Publicar
                 </button>
             </div>
@@ -57,7 +60,8 @@
                 
                 <!-- Campo Título Principal -->
                 <div class="space-y-2">
-                    <label class="text-sm font-medium text-foreground">
+                    <label class="text-sm font-medium text-foreground flex items-center gap-2">
+                        {% include "components/icon.html" with name="text" size="size-4" %}
                         Título Principal 
                         <span class="text-destructive">*</span>
                     </label>
@@ -65,22 +69,28 @@
                            name="title" 
                            id="content-title"
                            x-model="formData.title"
-                           placeholder="Digite o título..."
+                           placeholder="Digite o título da sua postagem..."
+                           dir="ltr"
                            class="flex h-10 w-full rounded-radius-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 text-lg font-semibold">
                 </div>
 
                 <!-- Campo Resumo/Excerpt -->
                 <div class="space-y-2">
-                    <label class="text-sm font-medium text-foreground">Resumo</label>
+                    <label class="text-sm font-medium text-foreground flex items-center gap-2">
+                        {% include "components/icon.html" with name="text-align-left" size="size-4" %}
+                        Resumo
+                    </label>
                     <div class="relative">
                         <textarea name="excerpt" 
                                   id="content-excerpt"
                                   x-model="formData.excerpt"
-                                  placeholder="Breve descrição..." 
+                                  placeholder="Breve descrição que aparecerá na listagem e redes sociais..." 
                                   rows="3"
                                   maxlength="160"
+                                  dir="ltr"
                                   class="flex min-h-[60px] w-full rounded-radius-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"></textarea>
-                        <div class="absolute bottom-2 right-2 text-xs text-muted-foreground">
+                        <div class="absolute bottom-2 right-2 text-xs text-muted-foreground flex items-center gap-1">
+                            {% include "components/icon.html" with name="counter-clockwise-clock" size="size-3" %}
                             <span x-text="formData.excerpt ? formData.excerpt.length : 0"></span>/160
                         </div>
                     </div>
@@ -88,13 +98,19 @@
 
                 <!-- Editor de Conteúdo Principal -->
                 <div class="space-y-2">
-                    <label class="text-sm font-medium text-foreground">Conteúdo Principal</label>
-                    {% include "components/text-editor.html" with height="h-96" word_count=true auto_save=true %}
+                    <label class="text-sm font-medium text-foreground flex items-center gap-2">
+                        {% include "components/icon.html" with name="pencil-1" size="size-4" %}
+                        Conteúdo Principal
+                    </label>
+                    {% include "components/text-editor.html" with height="h-96" word_count=true auto_save=true placeholder="Comece a escrever o conteúdo principal aqui..." %}
                 </div>
 
                 <!-- Upload de Imagem de Destaque -->
                 <div class="space-y-2">
-                    <label class="text-sm font-medium text-foreground">Imagem de Destaque</label>
+                    <label class="text-sm font-medium text-foreground flex items-center gap-2">
+                        {% include "components/icon.html" with name="image" size="size-4" %}
+                        Imagem de Destaque
+                    </label>
                     <div class="border-2 border-dashed border-border rounded-lg p-6 text-center hover:border-primary/50 transition-colors"
                          x-data="{ dragover: false }"
                          @dragover.prevent="dragover = true"
@@ -104,14 +120,15 @@
                         
                         <div x-show="!featuredImage" class="space-y-3">
                             <div class="mx-auto w-12 h-12 text-muted-foreground">
-                                {% svg_icon "image" "size-12" %}
+                                {% include "components/icon.html" with name="image" size="size-12" %}
                             </div>
                             <div>
                                 <p class="text-sm text-muted-foreground">Arraste uma imagem ou clique para selecionar</p>
                                 <input type="file" accept="image/*" @change="handleImageUpload($event)" class="hidden" x-ref="imageInput">
                                 <button type="button" 
                                         @click="$refs.imageInput.click()"
-                                        class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 px-4 mt-2">
+                                        class="inline-flex items-center justify-center gap-2 rounded-radius-md text-sm font-medium border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 px-4 mt-2">
+                                    {% include "components/icon.html" with name="upload" size="size-4" %}
                                     Selecionar Imagem
                                 </button>
                             </div>
@@ -121,7 +138,8 @@
                             <img :src="featuredImage" class="max-w-full h-48 object-cover mx-auto rounded-md">
                             <button type="button" 
                                     @click="featuredImage = ''"
-                                    class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium bg-destructive text-destructive-foreground hover:bg-destructive/90 h-9 px-4">
+                                    class="inline-flex items-center justify-center gap-2 rounded-radius-md text-sm font-medium bg-destructive text-destructive-foreground hover:bg-destructive/90 h-9 px-4">
+                                {% include "components/icon.html" with name="trash" size="size-4" %}
                                 Remover Imagem
                             </button>
                         </div>
@@ -132,22 +150,28 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Categoria -->
                     <div class="space-y-2">
-                        <label class="text-sm font-medium text-foreground">Categoria</label>
+                        <label class="text-sm font-medium text-foreground flex items-center gap-2">
+                            {% include "components/icon.html" with name="component-instance" size="size-4" %}
+                            Categoria
+                        </label>
                         <select name="category" 
                                 id="content-category"
                                 x-model="formData.category"
                                 class="flex h-10 w-full items-center justify-between rounded-radius-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
                             <option value="">Selecione uma categoria</option>
-                            <option value="marketing">Marketing</option>
-                            <option value="tecnologia">Tecnologia</option>
-                            <option value="negocios">Negócios</option>
-                            <option value="design">Design</option>
+                            <option value="marketing">📢 Marketing</option>
+                            <option value="tecnologia">💻 Tecnologia</option>
+                            <option value="negocios">💼 Negócios</option>
+                            <option value="design">🎨 Design</option>
                         </select>
                     </div>
 
                     <!-- Tags -->
                     <div class="space-y-2">
-                        <label class="text-sm font-medium text-foreground">Tags</label>
+                        <label class="text-sm font-medium text-foreground flex items-center gap-2">
+                            {% include "components/icon.html" with name="bookmark" size="size-4" %}
+                            Tags
+                        </label>
                         <div class="space-y-2">
                             <!-- Tags selecionadas -->
                             <div class="flex flex-wrap gap-2" x-show="tags.length > 0">
@@ -156,7 +180,9 @@
                                         <span x-text="tag"></span>
                                         <button type="button" 
                                                 @click="removeTag(index)"
-                                                class="ml-2 text-secondary-foreground/60 hover:text-secondary-foreground">×</button>
+                                                class="ml-2 text-secondary-foreground/60 hover:text-secondary-foreground">
+                                            {% include "components/icon.html" with name="cross-1" size="size-3" %}
+                                        </button>
                                     </span>
                                 </template>
                             </div>
@@ -165,6 +191,7 @@
                                    name="new-tag"
                                    id="content-tag-input"
                                    placeholder="Digite uma tag e pressione Enter"
+                                   dir="ltr"
                                    @keydown.enter.prevent="addTag($event.target.value); $event.target.value = ''"
                                    class="flex h-10 w-full rounded-radius-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">
                         </div>
@@ -178,16 +205,19 @@
             
             <!-- Status de Publicação -->
             <div class="rounded-lg border bg-card text-card-foreground shadow-sm p-6">
-                <h3 class="font-semibold leading-none tracking-tight mb-4">Publicação</h3>
+                <h3 class="font-semibold leading-none tracking-tight mb-4 flex items-center gap-2">
+                    {% include "components/icon.html" with name="rocket" size="size-4" %}
+                    Publicação
+                </h3>
                 <div class="space-y-4">
                     <div>
                         <label class="text-sm font-medium text-foreground mb-2 block">Status</label>
                         <select name="status" 
                                 x-model="formData.status"
                                 class="flex h-9 w-full items-center justify-between rounded-radius-md border border-input bg-background px-3 py-2 text-sm">
-                            <option value="draft">Rascunho</option>
-                            <option value="published">Publicado</option>
-                            <option value="scheduled">Agendado</option>
+                            <option value="draft">📝 Rascunho</option>
+                            <option value="published">🚀 Publicado</option>
+                            <option value="scheduled">⏰ Agendado</option>
                         </select>
                     </div>
                     <div>
@@ -202,14 +232,19 @@
             
             <!-- SEO -->
             <div class="rounded-lg border bg-card text-card-foreground shadow-sm p-6">
-                <h3 class="font-semibold leading-none tracking-tight mb-4">SEO</h3>
+                <h3 class="font-semibold leading-none tracking-tight mb-4 flex items-center gap-2">
+                    {% include "components/icon.html" with name="magnifying-glass" size="size-4" %}
+                    SEO
+                </h3>
                 <div class="space-y-4">
                     <div>
                         <label class="text-sm font-medium text-foreground mb-2 block">Meta Título</label>
                         <input type="text" 
                                name="meta-title"
                                x-model="seoData.metaTitle"
+                               placeholder="Título que aparece no Google..."
                                maxlength="60"
+                               dir="ltr"
                                class="flex h-9 w-full rounded-radius-md border border-input bg-background px-3 py-2 text-sm">
                         <p class="text-xs text-muted-foreground mt-1">
                             <span x-text="(seoData.metaTitle || '').length"></span>/60 caracteres
@@ -219,8 +254,10 @@
                         <label class="text-sm font-medium text-foreground mb-2 block">Meta Descrição</label>
                         <textarea name="meta-description"
                                   x-model="seoData.metaDescription"
+                                  placeholder="Descrição que aparece no Google..."
                                   maxlength="160"
                                   rows="3"
+                                  dir="ltr"
                                   class="flex min-h-[60px] w-full rounded-radius-md border border-input bg-background px-3 py-2 text-sm"></textarea>
                         <p class="text-xs text-muted-foreground mt-1">
                             <span x-text="(seoData.metaDescription || '').length"></span>/160 caracteres
@@ -231,7 +268,10 @@
             
             <!-- Estatísticas -->
             <div class="rounded-lg border bg-card text-card-foreground shadow-sm p-6">
-                <h3 class="font-semibold leading-none tracking-tight mb-4">Estatísticas</h3>
+                <h3 class="font-semibold leading-none tracking-tight mb-4 flex items-center gap-2">
+                    {% include "components/icon.html" with name="bar-chart" size="size-4" %}
+                    Estatísticas
+                </h3>
                 <div class="space-y-2 text-sm">
                     <div class="flex justify-between">
                         <span class="text-muted-foreground">Palavras:</span>
@@ -254,7 +294,7 @@
     <button @click="showSidebar = !showSidebar" 
             x-show="!isPreview"
             class="fixed bottom-6 right-6 p-3 bg-primary text-primary-foreground rounded-full shadow-lg hover:bg-primary/90 transition-colors">
-        {% svg_icon "layout" "size-5" %}
+        {% include "components/icon.html" with name="layout" size="size-5" %}
     </button>
 
     <!-- Modal de Preview -->
@@ -343,7 +383,7 @@ function contentManager() {
                 preview += `<img src="${image}" alt="Imagem de destaque" class="w-full h-64 object-cover rounded-lg mb-6">`;
             }
             
-            preview += `</header><div class="prose-content">${content}</div>`;
+            preview += `</header><div class="prose-content" dir="ltr">${content}</div>`;
             
             return preview;
         },
@@ -413,21 +453,17 @@ function contentManager() {
 </script>
 
 <style>
-/* Melhorar drag & drop visual */
-.content-manager [x-data] {
-    transition: all 0.2s ease;
+/* Garantir direção LTR em todos os campos de texto */
+input[type="text"], 
+input[type="email"], 
+input[type="url"], 
+textarea,
+.prose-content {
+    direction: ltr;
+    text-align: left;
 }
 
-/* Estilização das tags */
-.tag-badge {
-    cursor: pointer;
-}
-
-.tag-badge:hover {
-    opacity: 0.8;
-}
-
-/* Preview modal */
+/* Estilização do preview */
 .prose-content img {
     border-radius: calc(var(--radius) - 2px);
     margin: 1rem 0;
