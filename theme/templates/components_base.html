@@ -11,8 +11,8 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/dist/styles.css' %}">
     
-    <!-- SPA Script Simples para Debug -->
-    <script src="{% static 'js/spa-simple.js' %}"></script>
+    <!-- SPA Inteligente -->
+    <script src="{% static 'js/spa-intelligent.js' %}"></script>
     
     <!-- Alpine.js -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -25,14 +25,13 @@
         if (localStorage.getItem('darkMode') === 'true') {
             document.documentElement.classList.add('dark');
         }
-        
-        // Debug: Verificar carregamento dos scripts
-        console.log('🚀 Página carregando...');
-        console.log('🔍 Script SPA:', '{% static "js/spa-simple.js" %}');
     </script>
 </head>
 
 <body class="bg-background text-foreground transition-colors duration-300" x-init="$watch('darkMode', val => { localStorage.setItem('darkMode', val); val ? document.documentElement.classList.add('dark') : document.documentElement.classList.remove('dark'); })">
+
+<!-- Barra de progresso SPA -->
+<div id="spa-progress-bar"></div>
 
 {% if main_content %}
     <!-- Se há main_content, está sendo usado pela view principal -->

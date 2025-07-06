@@ -1,5 +1,5 @@
 <!--
-Componente: Layout com suporte SPA
+Componente: Layout com suporte SPA Inteligente
 Uso: include "components/layout.html" with layout_type="sidebar-left" header_content="..." main_content="..." 
 
 Parâmetros:
@@ -31,11 +31,6 @@ Parâmetros:
 {% if not footer_height %}{% with footer_height="h-16" %}{% endwith %}{% endif %}
 {% if spa_enabled == None %}{% with spa_enabled=True %}{% endwith %}{% endif %}
 
-<!-- Progress bar SPA -->
-{% if spa_enabled %}
-<div id="spa-progress-bar" class="fixed top-0 left-0 right-0 h-1 bg-primary z-50 transition-all duration-300" style="width: 0%; opacity: 0;"></div>
-{% endif %}
-
 <div class="{{ class|default:'' }}">
     {% if layout_type == "sidebar-left" or layout_type == "sidebar-right" %}
         <!-- Layout com Sidebar -->
@@ -62,8 +57,8 @@ Parâmetros:
                 };
                 window.addEventListener('resize', handleResize);
                 
-                // Eventos SPA
-                if (spaEnabled) {
+                // Eventos SPA - integrar com sistema inteligente
+                if (spaEnabled && $store.spaIntelligent) {
                     // Atualizar links ativos quando navegar
                     window.addEventListener('spa:navigated', (e) => {
                         const currentPath = e.detail.path;
@@ -74,18 +69,6 @@ Parâmetros:
                                 link.classList.add('spa-active');
                             } else {
                                 link.classList.remove('spa-active');
-                            }
-                        });
-                    });
-                    
-                    // Marcar link ativo inicialmente
-                    $nextTick(() => {
-                        const currentPath = window.location.pathname;
-                        const sidebarLinks = document.querySelectorAll('[data-spa-sidebar] a');
-                        sidebarLinks.forEach(link => {
-                            const linkPath = new URL(link.href).pathname;
-                            if (linkPath === currentPath) {
-                                link.classList.add('spa-active');
                             }
                         });
                     });
@@ -221,7 +204,10 @@ Parâmetros:
                                 <div class="flex items-center gap-4">
                                     <!-- SPA Loading Indicator -->
                                     {% if spa_enabled %}
-                                        <div x-show="$store.spa.isLoading" class="spa-loading-spinner"></div>
+                                        <div x-show="$store.spaIntelligent && $store.spaIntelligent.isLoading" class="flex items-center">
+                                            <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-primary mr-2"></div>
+                                            <span class="text-sm text-muted-foreground">Carregando...</span>
+                                        </div>
                                     {% endif %}
                                     
                                     <button class="relative size-8 rounded-radius-md hover:bg-accent transition-colors flex items-center justify-center">
@@ -340,7 +326,10 @@ Parâmetros:
                         <div class="flex items-center gap-4">
                             <!-- SPA Loading Indicator -->
                             {% if spa_enabled %}
-                                <div x-show="$store.spa.isLoading" class="spa-loading-spinner"></div>
+                                <div x-show="$store.spaIntelligent && $store.spaIntelligent.isLoading" class="flex items-center">
+                                    <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-primary mr-2"></div>
+                                    <span class="text-sm text-muted-foreground">Carregando...</span>
+                                </div>
                             {% endif %}
                             
                             <button class="relative size-8 rounded-radius-md hover:bg-accent transition-colors flex items-center justify-center">
@@ -385,9 +374,4 @@ Parâmetros:
             {% endif %}
         </main>
     {% endif %}
-</div>
-
-<!-- Include SPA Script -->
-{% if spa_enabled %}
-    <script src="{% static 'js/spa.js' %}"></script>
-{% endif %} 
+</div> 
