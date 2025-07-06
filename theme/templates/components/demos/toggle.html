@@ -35,9 +35,9 @@
         <h2 class="text-2xl font-semibold">Exemplo Básico</h2>
         <div class="border border-border rounded-radius-lg p-6">
             <div class="flex items-center justify-center gap-4">
-                {% include "components/toggle.html" with text="Negrito" %}
-                {% include "components/toggle.html" with text="Itálico" %}
-                {% include "components/toggle.html" with text="Sublinhado" %}
+                {% for example in toggle_examples %}
+                    {% include "components/toggle.html" with text=example.text pressed=example.pressed variant=example.variant %}
+                {% endfor %}
             </div>
         </div>
     </div>
@@ -47,10 +47,25 @@
         <h2 class="text-2xl font-semibold">Com Ícones</h2>
         <div class="border border-border rounded-radius-lg p-6">
             <div class="flex items-center justify-center gap-4">
-                {% include "components/toggle.html" with icon="font-bold" %}
-                {% include "components/toggle.html" with icon="font-italic" %}
-                {% include "components/toggle.html" with icon="underline" %}
-                {% include "components/toggle.html" with icon="strikethrough" %}
+                {% for group in toggle_groups %}
+                    {% if group.name == "Formatação de Texto" %}
+                        {% for item in group.items %}
+                            <div x-data="{ pressed: false }" class="inline-block">
+                                <button 
+                                    @click="pressed = !pressed"
+                                    :class="{ 'bg-accent text-accent-foreground': pressed }"
+                                    type="button"
+                                    class="inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium hover:bg-muted hover:text-muted-foreground disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors whitespace-nowrap bg-transparent h-9 px-2 min-w-9"
+                                    :aria-pressed="pressed"
+                                    aria-label="{{ item.aria_label }}"
+                                    role="button"
+                                >
+                                    {% svg_icon item.icon "size-4" %}
+                                </button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endfor %}
             </div>
         </div>
     </div>
@@ -61,7 +76,7 @@
         <div class="border border-border rounded-radius-lg p-6">
             <div class="flex items-center justify-center gap-4">
                 {% include "components/toggle.html" with text="Pequeno" size="sm" %}
-                {% include "components/toggle.html" with text="Médio" size="md" %}
+                {% include "components/toggle.html" with text="Médio" size="default" %}
                 {% include "components/toggle.html" with text="Grande" size="lg" %}
             </div>
         </div>
@@ -78,48 +93,118 @@
         </div>
     </div>
 
-    <!-- Disabled -->
+    <!-- Estados -->
     <div class="space-y-4">
-        <h2 class="text-2xl font-semibold">Estado Desabilitado</h2>
+        <h2 class="text-2xl font-semibold">Estados</h2>
         <div class="border border-border rounded-radius-lg p-6">
-            <div class="flex items-center justify-center gap-4">
-                {% include "components/toggle.html" with text="Desabilitado" disabled=True %}
-                {% include "components/toggle.html" with text="Pressed + Disabled" disabled=True pressed=True %}
+            <div class="space-y-4">
+                <div class="flex items-center justify-center gap-4">
+                    {% include "components/toggle.html" with text="Normal" %}
+                    {% include "components/toggle.html" with text="Pressionado" pressed=True %}
+                    {% include "components/toggle.html" with text="Desabilitado" disabled=True %}
+                    {% include "components/toggle.html" with text="Pressed + Disabled" disabled=True pressed=True %}
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Exemplo de Uso -->
+    <!-- Exemplo de Uso Prático -->
     <div class="space-y-4">
-        <h2 class="text-2xl font-semibold">Exemplo de Uso</h2>
+        <h2 class="text-2xl font-semibold">Exemplo de Uso Prático</h2>
         <div class="border border-border rounded-radius-lg p-6">
-            <div x-data="{ formatting: { bold: false, italic: false, underline: false } }" class="space-y-4">
-                <div class="flex items-center gap-2">
-                    <button @click="formatting.bold = !formatting.bold" 
-                            :class="formatting.bold ? 'bg-accent' : ''"
-                            class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-3">
-                        {% svg_icon "font-bold" "size-4" %}
-                    </button>
-                    <button @click="formatting.italic = !formatting.italic" 
-                            :class="formatting.italic ? 'bg-accent' : ''"
-                            class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-3">
-                        {% svg_icon "font-italic" "size-4" %}
-                    </button>
-                    <button @click="formatting.underline = !formatting.underline" 
-                            :class="formatting.underline ? 'bg-accent' : ''"
-                            class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-3">
-                        {% svg_icon "underline" "size-4" %}
-                    </button>
+            <div x-data="{ formatting: { bold: false, italic: false, underline: false, align: 'left' } }" class="space-y-4">
+                <!-- Formatação de Texto -->
+                <div class="space-y-2">
+                    <h3 class="text-sm font-medium">Formatação de Texto</h3>
+                    <div class="flex items-center gap-1">
+                        <button 
+                            @click="formatting.bold = !formatting.bold"
+                            :class="{ 'bg-accent text-accent-foreground': formatting.bold }"
+                            type="button"
+                            class="inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium hover:bg-muted hover:text-muted-foreground disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors whitespace-nowrap bg-transparent h-9 px-2 min-w-9"
+                            :aria-pressed="formatting.bold"
+                            aria-label="Negrito"
+                        >
+                            {% svg_icon "font-bold" "size-4" %}
+                        </button>
+                        <button 
+                            @click="formatting.italic = !formatting.italic"
+                            :class="{ 'bg-accent text-accent-foreground': formatting.italic }"
+                            type="button"
+                            class="inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium hover:bg-muted hover:text-muted-foreground disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors whitespace-nowrap bg-transparent h-9 px-2 min-w-9"
+                            :aria-pressed="formatting.italic"
+                            aria-label="Itálico"
+                        >
+                            {% svg_icon "font-italic" "size-4" %}
+                        </button>
+                        <button 
+                            @click="formatting.underline = !formatting.underline"
+                            :class="{ 'bg-accent text-accent-foreground': formatting.underline }"
+                            type="button"
+                            class="inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium hover:bg-muted hover:text-muted-foreground disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors whitespace-nowrap bg-transparent h-9 px-2 min-w-9"
+                            :aria-pressed="formatting.underline"
+                            aria-label="Sublinhado"
+                        >
+                            {% svg_icon "underline" "size-4" %}
+                        </button>
+                    </div>
                 </div>
-                
+
+                <!-- Alinhamento -->
+                <div class="space-y-2">
+                    <h3 class="text-sm font-medium">Alinhamento</h3>
+                    <div class="flex items-center gap-1">
+                        <button 
+                            @click="formatting.align = 'left'"
+                            :class="{ 'bg-accent text-accent-foreground': formatting.align === 'left' }"
+                            type="button"
+                            class="inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium hover:bg-muted hover:text-muted-foreground disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors whitespace-nowrap bg-transparent h-9 px-2 min-w-9"
+                            aria-label="Alinhar à esquerda"
+                        >
+                            {% svg_icon "text-align-left" "size-4" %}
+                        </button>
+                        <button 
+                            @click="formatting.align = 'center'"
+                            :class="{ 'bg-accent text-accent-foreground': formatting.align === 'center' }"
+                            type="button"
+                            class="inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium hover:bg-muted hover:text-muted-foreground disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors whitespace-nowrap bg-transparent h-9 px-2 min-w-9"
+                            aria-label="Centralizar"
+                        >
+                            {% svg_icon "text-align-center" "size-4" %}
+                        </button>
+                        <button 
+                            @click="formatting.align = 'right'"
+                            :class="{ 'bg-accent text-accent-foreground': formatting.align === 'right' }"
+                            type="button"
+                            class="inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium hover:bg-muted hover:text-muted-foreground disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors whitespace-nowrap bg-transparent h-9 px-2 min-w-9"
+                            aria-label="Alinhar à direita"
+                        >
+                            {% svg_icon "text-align-right" "size-4" %}
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Preview -->
                 <div class="p-4 bg-muted rounded-lg">
                     <p :class="{
                         'font-bold': formatting.bold,
                         'italic': formatting.italic,
-                        'underline': formatting.underline
+                        'underline': formatting.underline,
+                        'text-left': formatting.align === 'left',
+                        'text-center': formatting.align === 'center',
+                        'text-right': formatting.align === 'right'
                     }">
                         Este texto será formatado baseado nos toggles acima.
                     </p>
+                </div>
+
+                <!-- Estado Debug -->
+                <div class="text-xs text-muted-foreground bg-background p-2 rounded border">
+                    <strong>Debug:</strong>
+                    Negrito: <span x-text="formatting.bold"></span>, 
+                    Itálico: <span x-text="formatting.italic"></span>, 
+                    Sublinhado: <span x-text="formatting.underline"></span>, 
+                    Alinhamento: <span x-text="formatting.align"></span>
                 </div>
             </div>
         </div>

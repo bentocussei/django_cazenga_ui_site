@@ -4,15 +4,15 @@ Dados específicos para o componente Tabs
 
 TABS_DATA = {
     'basic_tabs': [
-        {'id': 'tab1', 'title': 'Overview', 'content': 'Conteúdo da aba Overview com informações gerais.'},
-        {'id': 'tab2', 'title': 'Analytics', 'content': 'Dados analíticos e métricas importantes.'},
-        {'id': 'tab3', 'title': 'Reports', 'content': 'Relatórios detalhados e estatísticas.'},
-        {'id': 'tab4', 'title': 'Notifications', 'content': 'Central de notificações e alertas.'}
+        {'id': 'tab1', 'label': 'Overview', 'content': 'Conteúdo da aba Overview com informações gerais.'},
+        {'id': 'tab2', 'label': 'Analytics', 'content': 'Dados analíticos e métricas importantes.'},
+        {'id': 'tab3', 'label': 'Reports', 'content': 'Relatórios detalhados e estatísticas.'},
+        {'id': 'tab4', 'label': 'Notifications', 'content': 'Central de notificações e alertas.'}
     ],
     'detailed_tabs': [
         {
             'id': 'profile',
-            'title': 'Perfil',
+            'label': 'Perfil',
             'content': '''
                 <div class="space-y-4">
                     <h3 class="text-lg font-semibold">Informações Pessoais</h3>
@@ -31,7 +31,7 @@ TABS_DATA = {
         },
         {
             'id': 'security',
-            'title': 'Segurança',
+            'label': 'Segurança',
             'content': '''
                 <div class="space-y-4">
                     <h3 class="text-lg font-semibold">Configurações de Segurança</h3>
@@ -50,7 +50,7 @@ TABS_DATA = {
         },
         {
             'id': 'preferences',
-            'title': 'Preferências',
+            'label': 'Preferências',
             'content': '''
                 <div class="space-y-4">
                     <h3 class="text-lg font-semibold">Preferências do Sistema</h3>
@@ -75,7 +75,7 @@ TABS_PARAMS = {
     'data': [
         ['<code>tabs</code>', 'array', '-', 'Lista de abas'],
         ['<code>tabs.id</code>', 'string', '-', 'ID único da aba'],
-        ['<code>tabs.title</code>', 'string', '-', 'Título da aba'],
+        ['<code>tabs.label</code>', 'string', '-', 'Título da aba'],
         ['<code>tabs.content</code>', 'HTML', '-', 'Conteúdo da aba'],
         ['<code>tabs.disabled</code>', 'boolean', 'false', 'Se a aba está desabilitada'],
         ['<code>default_tab</code>', 'string', '-', 'ID da aba ativa inicialmente'],

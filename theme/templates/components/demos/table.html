@@ -34,7 +34,7 @@
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Exemplo Básico</h2>
         <div class="border border-border rounded-radius-lg p-6">
-            {% include "components/table.html" with headers=table_basic_headers data=table_basic_data %}
+            {% include "components/table.html" with headers=table_data.basic_data.headers data=table_data.basic_data.data %}
         </div>
     </div>
 
@@ -42,7 +42,7 @@
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Com Hover</h2>
         <div class="border border-border rounded-radius-lg p-6">
-            {% include "components/table.html" with headers=table_basic_headers data=table_basic_data hover=True %}
+            {% include "components/table.html" with headers=table_data.basic_data.headers data=table_data.basic_data.data hover=True %}
         </div>
     </div>
 
@@ -50,7 +50,7 @@
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Com Listras</h2>
         <div class="border border-border rounded-radius-lg p-6">
-            {% include "components/table.html" with headers=table_basic_headers data=table_basic_data striped=True %}
+            {% include "components/table.html" with headers=table_data.basic_data.headers data=table_data.basic_data.data striped=True %}
         </div>
     </div>
 
@@ -58,7 +58,7 @@
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Com Bordas</h2>
         <div class="border border-border rounded-radius-lg p-6">
-            {% include "components/table.html" with headers=table_basic_headers data=table_basic_data bordered=True %}
+            {% include "components/table.html" with headers=table_data.basic_data.headers data=table_data.basic_data.data bordered=True %}
         </div>
     </div>
 
@@ -66,25 +66,31 @@
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Tabela Compacta</h2>
         <div class="border border-border rounded-radius-lg p-6">
-            {% include "components/table.html" with headers=table_basic_headers data=table_basic_data size="sm" %}
+            {% include "components/table.html" with headers=table_data.basic_data.headers data=table_data.basic_data.data compact=True %}
         </div>
     </div>
 
     <!-- Tabela com Ações -->
     <div class="space-y-4">
-        <h2 class="text-2xl font-semibold">Com Ações</h2>
-        <div class="border border-border rounded-radius-lg p-6">
-            {% include "components/table.html" with headers=table_with_actions_headers data=table_with_actions_data hover=True %}
+        <h2 class="text-2xl font-semibold">Tabela Responsiva</h2>
+        <div class="border border-border rounded-radius-lg p-6 overflow-x-auto">
+            {% include "components/table.html" with headers=table_data.responsive_data.headers data=table_data.responsive_data.data hover=True striped=True %}
         </div>
     </div>
 
-    <!-- Tabela Responsiva -->
+    <!-- Tabela com Seleção -->
     <div class="space-y-4">
-        <h2 class="text-2xl font-semibold">Tabela Responsiva</h2>
+        <h2 class="text-2xl font-semibold">Com Seleção</h2>
         <div class="border border-border rounded-radius-lg p-6">
-            <div class="overflow-x-auto">
-                {% include "components/table.html" with headers=table_responsive_headers data=table_responsive_data hover=True striped=True %}
-            </div>
+            {% include "components/table.html" with headers=table_data.basic_data.headers data=table_data.basic_data.data selectable=True hover=True %}
+        </div>
+    </div>
+
+    <!-- Tabela com Ordenação -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Com Ordenação</h2>
+        <div class="border border-border rounded-radius-lg p-6">
+            {% include "components/table.html" with headers=table_data.basic_data.headers data=table_data.basic_data.data sortable=True hover=True %}
         </div>
     </div>
 
@@ -92,13 +98,13 @@
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Com Caption</h2>
         <div class="border border-border rounded-radius-lg p-6">
-            {% include "components/table.html" with headers=table_basic_headers data=table_basic_data caption="Lista de usuários do sistema" %}
+            {% include "components/table.html" with headers=table_data.basic_data.headers data=table_data.basic_data.data caption="Lista de usuários do sistema" %}
         </div>
     </div>
 
     <!-- Parâmetros -->
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Parâmetros</h2>
-        {% include "components/table.html" with headers=table_params.headers data=table_params.data caption="Parâmetros disponíveis para o componente Table" %}
+        {% include "components/table.html" with headers=table_data.params.headers data=table_data.params.data caption="Parâmetros disponíveis para o componente Table" %}
     </div>
 </div> 

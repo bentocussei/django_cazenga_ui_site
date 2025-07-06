@@ -17,7 +17,7 @@ include "components/spinner.html" with
     color="primary"
 -->
 {% with size=size|default:"default" variant=variant|default:"default" color=color|default:"primary" speed=speed|default:"normal" label=label|default:"Carregando..." %}
-<div role="status" class="flex items-center justify-center {{ class|default:'' }}">
+<div role="status" class="inline-flex items-center justify-center {{ class|default:'' }}">
     {% if variant == "dots" %}
         <div class="flex space-x-1">
             <div class="

@@ -376,8 +376,7 @@ def component_detail(request, component_name):
         elif component_name == 'input':
             context['input_params'] = component_data_context.get('params')
         elif component_name == 'table':
-            context['table_basic_data'] = component_data_context.get('basic_data')
-            context['table_responsive_data'] = component_data_context.get('responsive_data')
+            context['table_data'] = component_data_context
             context['table_params'] = component_data_context.get('params')
         elif component_name == 'card':
             context['card_params'] = component_data_context.get('params')
@@ -422,8 +421,9 @@ def component_detail(request, component_name):
         elif component_name == 'switch':
             context['switch_params'] = component_data_context.get('params')
         elif component_name == 'tabs':
-            context['tabs_data'] = component_data_context.get('data')
-            context['tabs_params'] = component_data_context.get('params')
+            context['tabs_data'] = component_data_context
+            from .data.tabs_data import TABS_PARAMS
+            context['tabs_params'] = TABS_PARAMS
         elif component_name == 'collapsible':
             collapsible_data = component_data_context.get('data', {})
             context['collapsible_basic_content'] = collapsible_data.get('basic_content')
@@ -433,6 +433,30 @@ def component_detail(request, component_name):
             context['alert_dialog_params'] = component_data_context.get('params')
         elif component_name == 'dialog':
             context['dialog_params'] = component_data_context.get('params')
+        # Novos componentes adicionados na FASE 1
+        elif component_name == 'label':
+            context['label_examples'] = component_data_context.get('examples')
+            context['label_params'] = component_data_context.get('params')
+        elif component_name == 'separator':
+            context['separator_examples'] = component_data_context.get('examples')
+            context['separator_params'] = component_data_context.get('params')
+        elif component_name == 'skeleton':
+            context['skeleton_examples'] = component_data_context.get('examples')
+            context['skeleton_layouts'] = component_data_context.get('data', {}).get('layouts', [])
+            context['skeleton_params'] = component_data_context.get('params')
+        elif component_name == 'spinner':
+            context['spinner_examples'] = component_data_context.get('examples')
+            context['spinner_contexts'] = component_data_context.get('data', {}).get('contexts', [])
+            context['spinner_params'] = component_data_context.get('params')
+        elif component_name == 'toggle':
+            context['toggle_examples'] = component_data_context.get('examples')
+            context['toggle_groups'] = component_data_context.get('data', {}).get('groups', [])
+            context['toggle_params'] = component_data_context.get('params')
+        elif component_name == 'tooltip':
+            context['tooltip_examples'] = component_data_context.get('examples')
+            context['tooltip_placements'] = component_data_context.get('data', {}).get('placements', [])
+            context['tooltip_contexts'] = component_data_context.get('data', {}).get('contexts', [])
+            context['tooltip_params'] = component_data_context.get('params')
     else:
         # Fallback para componentes ainda não migrados
         print(f"⚠️ Componente {component_name} não encontrado no COMPONENT_DATA, usando fallback")

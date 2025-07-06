@@ -35,10 +35,27 @@
         <h2 class="text-2xl font-semibold">Exemplo Básico</h2>
         <div class="border border-border rounded-radius-lg p-6">
             <div class="flex justify-center">
-                <div class="inline-block" x-data x-tooltip.raw="Esta é uma dica básica">
-                    <button class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+                <div x-data="{ showTooltip: false }" class="relative inline-block">
+                    <button 
+                        @mouseenter="showTooltip = true" 
+                        @mouseleave="showTooltip = false"
+                        class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
+                    >
                         Passe o mouse aqui
                     </button>
+                    <div 
+                        x-show="showTooltip"
+                        x-transition:enter="transition ease-out duration-200"
+                        x-transition:enter-start="opacity-0 scale-95"
+                        x-transition:enter-end="opacity-100 scale-100"
+                        x-transition:leave="transition ease-in duration-75"
+                        x-transition:leave-start="opacity-100 scale-100"
+                        x-transition:leave-end="opacity-0 scale-95"
+                        class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-900 text-white text-xs rounded whitespace-nowrap z-10"
+                    >
+                        Esta é uma dica básica
+                        <div class="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -49,32 +66,87 @@
         <h2 class="text-2xl font-semibold">Posicionamento</h2>
         <div class="border border-border rounded-radius-lg p-6">
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <!-- Topo -->
                 <div class="text-center">
-                    <div x-data x-tooltip.raw.placement.top="Tooltip no topo">
-                        <button class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+                    <div x-data="{ showTooltip: false }" class="relative inline-block">
+                        <button 
+                            @mouseenter="showTooltip = true" 
+                            @mouseleave="showTooltip = false"
+                            class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
+                        >
                             Topo
                         </button>
+                        <div 
+                            x-show="showTooltip"
+                            x-transition
+                            class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-900 text-white text-xs rounded whitespace-nowrap z-10"
+                        >
+                            Tooltip no topo
+                            <div class="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900"></div>
+                        </div>
                     </div>
                 </div>
+
+                <!-- Direita -->
                 <div class="text-center">
-                    <div x-data x-tooltip.raw.placement.right="Tooltip à direita">
-                        <button class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+                    <div x-data="{ showTooltip: false }" class="relative inline-block">
+                        <button 
+                            @mouseenter="showTooltip = true" 
+                            @mouseleave="showTooltip = false"
+                            class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
+                        >
                             Direita
                         </button>
+                        <div 
+                            x-show="showTooltip"
+                            x-transition
+                            class="absolute top-1/2 left-full transform -translate-y-1/2 ml-2 px-2 py-1 bg-gray-900 text-white text-xs rounded whitespace-nowrap z-10"
+                        >
+                            Tooltip à direita
+                            <div class="absolute top-1/2 right-full transform -translate-y-1/2 w-0 h-0 border-t-4 border-b-4 border-r-4 border-transparent border-r-gray-900"></div>
+                        </div>
                     </div>
                 </div>
+
+                <!-- Embaixo -->
                 <div class="text-center">
-                    <div x-data x-tooltip.raw.placement.bottom="Tooltip embaixo">
-                        <button class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+                    <div x-data="{ showTooltip: false }" class="relative inline-block">
+                        <button 
+                            @mouseenter="showTooltip = true" 
+                            @mouseleave="showTooltip = false"
+                            class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
+                        >
                             Embaixo
                         </button>
+                        <div 
+                            x-show="showTooltip"
+                            x-transition
+                            class="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 px-2 py-1 bg-gray-900 text-white text-xs rounded whitespace-nowrap z-10"
+                        >
+                            Tooltip embaixo
+                            <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-b-4 border-transparent border-b-gray-900"></div>
+                        </div>
                     </div>
                 </div>
+
+                <!-- Esquerda -->
                 <div class="text-center">
-                    <div x-data x-tooltip.raw.placement.left="Tooltip à esquerda">
-                        <button class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+                    <div x-data="{ showTooltip: false }" class="relative inline-block">
+                        <button 
+                            @mouseenter="showTooltip = true" 
+                            @mouseleave="showTooltip = false"
+                            class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
+                        >
                             Esquerda
                         </button>
+                        <div 
+                            x-show="showTooltip"
+                            x-transition
+                            class="absolute top-1/2 right-full transform -translate-y-1/2 mr-2 px-2 py-1 bg-gray-900 text-white text-xs rounded whitespace-nowrap z-10"
+                        >
+                            Tooltip à esquerda
+                            <div class="absolute top-1/2 left-full transform -translate-y-1/2 w-0 h-0 border-t-4 border-b-4 border-l-4 border-transparent border-l-gray-900"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -86,87 +158,102 @@
         <h2 class="text-2xl font-semibold">Com Ícones</h2>
         <div class="border border-border rounded-radius-lg p-6">
             <div class="flex justify-center gap-4">
-                <div x-data x-tooltip.raw="Informação importante">
-                    <button class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 w-10">
+                <div x-data="{ showTooltip: false }" class="relative inline-block">
+                    <button 
+                        @mouseenter="showTooltip = true" 
+                        @mouseleave="showTooltip = false"
+                        class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 w-10"
+                    >
                         {% svg_icon "info-circled" "size-4" %}
                     </button>
+                    <div 
+                        x-show="showTooltip"
+                        x-transition
+                        class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-900 text-white text-xs rounded whitespace-nowrap z-10"
+                    >
+                        Informação importante
+                        <div class="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900"></div>
+                    </div>
                 </div>
-                <div x-data x-tooltip.raw="Configurações">
-                    <button class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 w-10">
+
+                <div x-data="{ showTooltip: false }" class="relative inline-block">
+                    <button 
+                        @mouseenter="showTooltip = true" 
+                        @mouseleave="showTooltip = false"
+                        class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 w-10"
+                    >
                         {% svg_icon "gear" "size-4" %}
                     </button>
+                    <div 
+                        x-show="showTooltip"
+                        x-transition
+                        class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-900 text-white text-xs rounded whitespace-nowrap z-10"
+                    >
+                        Configurações
+                        <div class="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900"></div>
+                    </div>
                 </div>
-                <div x-data x-tooltip.raw="Excluir item">
-                    <button class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 w-10">
+
+                <div x-data="{ showTooltip: false }" class="relative inline-block">
+                    <button 
+                        @mouseenter="showTooltip = true" 
+                        @mouseleave="showTooltip = false"
+                        class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 w-10"
+                    >
                         {% svg_icon "trash" "size-4" %}
                     </button>
+                    <div 
+                        x-show="showTooltip"
+                        x-transition
+                        class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-900 text-white text-xs rounded whitespace-nowrap z-10"
+                    >
+                        Excluir item
+                        <div class="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900"></div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Tooltip Colorido -->
-    <div class="space-y-4">
-        <h2 class="text-2xl font-semibold">Diferentes Cores</h2>
-        <div class="border border-border rounded-radius-lg p-6">
-            <div class="flex justify-center gap-4">
-                <div x-data x-tooltip.raw="Tooltip padrão">
-                    <button class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-10 px-4 py-2">
-                        Padrão
-                    </button>
-                </div>
-                <div x-data x-tooltip.raw="Sucesso!">
-                    <button class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-green-600 text-white shadow hover:bg-green-700 h-10 px-4 py-2">
-                        Sucesso
-                    </button>
-                </div>
-                <div x-data x-tooltip.raw="Atenção necessária">
-                    <button class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-yellow-600 text-white shadow hover:bg-yellow-700 h-10 px-4 py-2">
-                        Aviso
-                    </button>
-                </div>
-                <div x-data x-tooltip.raw="Ação perigosa">
-                    <button class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-red-600 text-white shadow hover:bg-red-700 h-10 px-4 py-2">
-                        Erro
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Tooltip Rico -->
-    <div class="space-y-4">
-        <h2 class="text-2xl font-semibold">Tooltip Rico</h2>
-        <div class="border border-border rounded-radius-lg p-6">
-            <div class="flex justify-center">
-                <div x-data x-tooltip.raw="<div class='p-2'><strong>João Silva</strong><br><span class='text-sm text-gray-500'>Desenvolvedor Frontend</span><br><span class='text-sm'>joao@exemplo.com</span></div>">
-                    <button class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
-                        Perfil do Usuário
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Delays -->
+    <!-- Com Delays -->
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Com Delays</h2>
         <div class="border border-border rounded-radius-lg p-6">
             <div class="flex justify-center gap-4">
-                <div x-data x-tooltip.raw.delay.0="Aparece imediatamente">
-                    <button class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+                <div x-data="{ showTooltip: false }" class="relative inline-block">
+                    <button 
+                        @mouseenter="showTooltip = true" 
+                        @mouseleave="showTooltip = false"
+                        class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
+                    >
                         Sem delay
                     </button>
+                    <div 
+                        x-show="showTooltip"
+                        x-transition
+                        class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-900 text-white text-xs rounded whitespace-nowrap z-10"
+                    >
+                        Aparece imediatamente
+                        <div class="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900"></div>
+                    </div>
                 </div>
-                <div x-data x-tooltip.raw.delay.500="Aparece após 500ms">
-                    <button class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+
+                <div x-data="{ showTooltip: false, timeout: null }" class="relative inline-block">
+                    <button 
+                        @mouseenter="timeout = setTimeout(() => showTooltip = true, 500)" 
+                        @mouseleave="clearTimeout(timeout); showTooltip = false"
+                        class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
+                    >
                         500ms delay
                     </button>
-                </div>
-                <div x-data x-tooltip.raw.delay.1000="Aparece após 1 segundo">
-                    <button class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
-                        1s delay
-                    </button>
+                    <div 
+                        x-show="showTooltip"
+                        x-transition
+                        class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-900 text-white text-xs rounded whitespace-nowrap z-10"
+                    >
+                        Aparece após 500ms
+                        <div class="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900"></div>
+                    </div>
                 </div>
             </div>
         </div>

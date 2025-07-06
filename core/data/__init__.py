@@ -23,6 +23,14 @@ from .collapsible_data import COLLAPSIBLE_DATA, COLLAPSIBLE_PARAMS
 from .alert_dialog_data import ALERT_DIALOG_DATA
 from .dialog_data import DIALOG_DATA, DIALOG_PARAMS
 
+# Novas importações dos componentes criados
+from .label_data import LABEL_DATA, LABEL_EXAMPLES, LABEL_PARAMS
+from .separator_data import SEPARATOR_DATA, SEPARATOR_EXAMPLES, SEPARATOR_PARAMS
+from .skeleton_data import SKELETON_DATA, SKELETON_EXAMPLES, SKELETON_PARAMS
+from .spinner_data import SPINNER_DATA, SPINNER_EXAMPLES, SPINNER_PARAMS
+from .toggle_data import TOGGLE_DATA, TOGGLE_EXAMPLES, TOGGLE_PARAMS
+from .tooltip_data import TOOLTIP_DATA, TOOLTIP_EXAMPLES, TOOLTIP_PARAMS
+
 # Mapeamento para facilitar o acesso
 COMPONENT_DATA = {
     'button': {
@@ -38,12 +46,7 @@ COMPONENT_DATA = {
         'data': INPUT_DATA,
         'params': INPUT_PARAMS,
     },
-    'table': {
-        'basic_data': TABLE_BASIC_DATA,
-        'responsive_data': TABLE_RESPONSIVE_DATA,
-        'data': TABLE_DATA,
-        'params': TABLE_PARAMS,
-    },
+    'table': TABLE_DATA,
     'card': {
         'data': CARD_DATA,
         'params': CARD_PARAMS,
@@ -101,10 +104,7 @@ COMPONENT_DATA = {
         'data': SWITCH_DATA,
         'params': SWITCH_PARAMS,
     },
-    'tabs': {
-        'data': TABS_DATA,
-        'params': TABS_PARAMS,
-    },
+    'tabs': TABS_DATA,
     'collapsible': {
         'data': COLLAPSIBLE_DATA,
         'params': COLLAPSIBLE_PARAMS,
@@ -116,6 +116,37 @@ COMPONENT_DATA = {
     'dialog': {
         'data': DIALOG_DATA,
         'params': DIALOG_PARAMS,
+    },
+    # Novos componentes adicionados
+    'label': {
+        'examples': LABEL_EXAMPLES,
+        'data': LABEL_DATA,
+        'params': LABEL_PARAMS,
+    },
+    'separator': {
+        'examples': SEPARATOR_EXAMPLES,
+        'data': SEPARATOR_DATA,
+        'params': SEPARATOR_PARAMS,
+    },
+    'skeleton': {
+        'examples': SKELETON_EXAMPLES,
+        'data': SKELETON_DATA,
+        'params': SKELETON_PARAMS,
+    },
+    'spinner': {
+        'examples': SPINNER_EXAMPLES,
+        'data': SPINNER_DATA,
+        'params': SPINNER_PARAMS,
+    },
+    'toggle': {
+        'examples': TOGGLE_EXAMPLES,
+        'data': TOGGLE_DATA,
+        'params': TOGGLE_PARAMS,
+    },
+    'tooltip': {
+        'examples': TOOLTIP_EXAMPLES,
+        'data': TOOLTIP_DATA,
+        'params': TOOLTIP_PARAMS,
     },
 }
 
@@ -139,5 +170,11 @@ __all__ = [
     'TABS_DATA', 'TABS_PARAMS',
     'COLLAPSIBLE_DATA', 'COLLAPSIBLE_PARAMS',
     'ALERT_DIALOG_DATA',
+    'LABEL_DATA', 'LABEL_EXAMPLES', 'LABEL_PARAMS',
+    'SEPARATOR_DATA', 'SEPARATOR_EXAMPLES', 'SEPARATOR_PARAMS',
+    'SKELETON_DATA', 'SKELETON_EXAMPLES', 'SKELETON_PARAMS',
+    'SPINNER_DATA', 'SPINNER_EXAMPLES', 'SPINNER_PARAMS',
+    'TOGGLE_DATA', 'TOGGLE_EXAMPLES', 'TOGGLE_PARAMS',
+    'TOOLTIP_DATA', 'TOOLTIP_EXAMPLES', 'TOOLTIP_PARAMS',
     'COMPONENT_DATA',
 ] 

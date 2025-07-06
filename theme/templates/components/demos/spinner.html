@@ -18,11 +18,11 @@
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Instalação</h2>
         <div class="relative">
-            <pre class="bg-muted p-4 rounded-radius-md overflow-x-auto text-sm"><code>{% verbatim %}{% include 'components/spinner.html' with size="md" %}{% endverbatim %}</code></pre>
+            <pre class="bg-muted p-4 rounded-radius-md overflow-x-auto text-sm"><code>{% verbatim %}{% include 'components/spinner.html' with size="default" %}{% endverbatim %}</code></pre>
             <button 
                 class="absolute top-2 right-2 p-2 bg-background rounded-radius-md shadow-sm hover:bg-accent border border-border"
                 x-data 
-                @click="navigator.clipboard.writeText('{% verbatim %}{% include \'components/spinner.html\' with size=\'md\' %}{% endverbatim %}')"
+                @click="navigator.clipboard.writeText('{% verbatim %}{% include \'components/spinner.html\' with size=\'default\' %}{% endverbatim %}')"
                 title="Copiar código"
             >
                 {% svg_icon "copy" "size-4" %}
@@ -45,51 +45,12 @@
         <h2 class="text-2xl font-semibold">Tamanhos</h2>
         <div class="border border-border rounded-radius-lg p-6">
             <div class="flex items-center justify-center gap-8">
-                <div class="text-center space-y-2">
-                    <p class="text-sm font-medium">Small</p>
-                    {% include "components/spinner.html" with size="sm" %}
-                </div>
-                <div class="text-center space-y-2">
-                    <p class="text-sm font-medium">Medium</p>
-                    {% include "components/spinner.html" with size="md" %}
-                </div>
-                <div class="text-center space-y-2">
-                    <p class="text-sm font-medium">Large</p>
-                    {% include "components/spinner.html" with size="lg" %}
-                </div>
-                <div class="text-center space-y-2">
-                    <p class="text-sm font-medium">Extra Large</p>
-                    {% include "components/spinner.html" with size="xl" %}
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Cores -->
-    <div class="space-y-4">
-        <h2 class="text-2xl font-semibold">Cores</h2>
-        <div class="border border-border rounded-radius-lg p-6">
-            <div class="grid grid-cols-2 md:grid-cols-5 gap-6">
-                <div class="text-center space-y-2">
-                    <p class="text-sm font-medium">Primary</p>
-                    {% include "components/spinner.html" with color="primary" %}
-                </div>
-                <div class="text-center space-y-2">
-                    <p class="text-sm font-medium">Secondary</p>
-                    {% include "components/spinner.html" with color="secondary" %}
-                </div>
-                <div class="text-center space-y-2">
-                    <p class="text-sm font-medium">Success</p>
-                    {% include "components/spinner.html" with color="success" %}
-                </div>
-                <div class="text-center space-y-2">
-                    <p class="text-sm font-medium">Warning</p>
-                    {% include "components/spinner.html" with color="warning" %}
-                </div>
-                <div class="text-center space-y-2">
-                    <p class="text-sm font-medium">Danger</p>
-                    {% include "components/spinner.html" with color="danger" %}
-                </div>
+                {% for example in spinner_examples %}
+                    <div class="text-center space-y-2">
+                        <p class="text-sm font-medium">{{ example.size|title }}</p>
+                        {% include "components/spinner.html" with size=example.size color=example.color %}
+                    </div>
+                {% endfor %}
             </div>
         </div>
     </div>
@@ -99,74 +60,17 @@
         <h2 class="text-2xl font-semibold">Com Texto</h2>
         <div class="border border-border rounded-radius-lg p-6">
             <div class="space-y-6">
-                <div class="text-center">
-                    {% include "components/spinner.html" with text="Carregando..." %}
+                <div class="flex items-center justify-center gap-3">
+                    {% include "components/spinner.html" with size="sm" %}
+                    <span class="text-sm">Carregando...</span>
                 </div>
-                <div class="text-center">
-                    {% include "components/spinner.html" with text="Processando dados..." color="success" %}
+                <div class="flex items-center justify-center gap-3">
+                    {% include "components/spinner.html" with color="secondary" %}
+                    <span class="text-sm">Processando dados...</span>
                 </div>
-                <div class="text-center">
-                    {% include "components/spinner.html" with text="Aguarde um momento..." size="lg" %}
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Centralizado -->
-    <div class="space-y-4">
-        <h2 class="text-2xl font-semibold">Centralizado</h2>
-        <div class="border border-border rounded-radius-lg p-6">
-            <div class="h-32 relative">
-                {% include "components/spinner.html" with centered=True text="Carregando conteúdo..." %}
-            </div>
-        </div>
-    </div>
-
-    <!-- Como Overlay -->
-    <div class="space-y-4">
-        <h2 class="text-2xl font-semibold">Como Overlay</h2>
-        <div class="border border-border rounded-radius-lg p-6">
-            <div x-data="{ loading: false }" class="space-y-4">
-                <button @click="loading = true; setTimeout(() => loading = false, 3000)" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-radius-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] bg-primary text-primary-foreground shadow-xs hover:bg-primary/90 h-9 px-4 py-2">
-                    Simular Carregamento
-                </button>
-                
-                <div class="relative">
-                    <div class="p-6 bg-muted rounded-lg">
-                        <h3 class="text-lg font-medium mb-2">Conteúdo da Página</h3>
-                        <p class="text-sm text-muted-foreground">Este é o conteúdo que será sobreposto pelo spinner durante o carregamento.</p>
-                        <div class="grid grid-cols-3 gap-4 mt-4">
-                            <div class="h-20 bg-background rounded"></div>
-                            <div class="h-20 bg-background rounded"></div>
-                            <div class="h-20 bg-background rounded"></div>
-                        </div>
-                    </div>
-                    
-                    <div x-show="loading" x-transition.opacity class="absolute inset-0">
-                        {% include "components/spinner.html" with overlay=True text="Carregando dados..." %}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Em Botões -->
-    <div class="space-y-4">
-        <h2 class="text-2xl font-semibold">Em Botões</h2>
-        <div class="border border-border rounded-radius-lg p-6">
-            <div x-data="{ submitting: false }" class="space-y-4">
-                <div class="flex gap-4">
-                    <button @click="submitting = true; setTimeout(() => submitting = false, 2000)" 
-                            :disabled="submitting"
-                            class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-radius-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] bg-primary text-primary-foreground shadow-xs hover:bg-primary/90 h-9 px-4 py-2">
-                        <span x-show="submitting">{% include "components/spinner.html" with size="sm" %}</span>
-                        <span x-text="submitting ? 'Salvando...' : 'Salvar'"></span>
-                    </button>
-                    
-                    <button class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-radius-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] bg-green-600 text-white shadow-xs hover:bg-green-700 h-9 px-4 py-2">
-                        {% include "components/spinner.html" with size="sm" %}
-                        Processando...
-                    </button>
+                <div class="flex items-center justify-center gap-3">
+                    {% include "components/spinner.html" with size="lg" %}
+                    <span class="text-sm">Aguarde um momento...</span>
                 </div>
             </div>
         </div>
@@ -177,4 +81,4 @@
         <h2 class="text-2xl font-semibold">Parâmetros</h2>
         {% include "components/table.html" with headers=spinner_params.headers data=spinner_params.data caption="Parâmetros disponíveis para o componente Spinner" %}
     </div>
-</div> 
+</div>
