@@ -6,7 +6,7 @@
         <div class="flex items-center justify-between">
             <div>
                 <h1 class="text-3xl font-bold">Select</h1>
-                <p class="text-muted-foreground mt-1">Componente para seleção única em lista suspensa</p>
+                <p class="text-muted-foreground mt-1">Componente para seleção única ou múltipla em lista suspensa com busca opcional</p>
             </div>
             <a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
                 Voltar
@@ -17,67 +17,96 @@
     <!-- Instalação -->
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Instalação</h2>
-        <div class="relative">
-            <pre class="bg-muted p-4 rounded-radius-md overflow-x-auto text-sm"><code>{% verbatim %}{% include 'components/select.html' with name="opcao" options=select_options %}{% endverbatim %}</code></pre>
-            <button 
-                class="absolute top-2 right-2 p-2 bg-background rounded-radius-md shadow-sm hover:bg-accent border border-border"
-                x-data 
-                @click="navigator.clipboard.writeText('{% verbatim %}{% include \'components/select.html\' with name=\'opcao\' options=select_options %}{% endverbatim %}')"
-                title="Copiar código"
-            >
-                {% svg_icon "copy" "size-4" %}
+        <div class="bg-muted rounded-lg p-4 relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
+            <code class="text-sm" x-ref="code">{% verbatim %}{% include "components/select.html" with name="country" options=countries %}{% endverbatim %}</code>
         </div>
     </div>
 
     <!-- Exemplo Básico -->
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Exemplo Básico</h2>
-        <div class="border border-border rounded-radius-lg p-6">
-            {% include "components/select.html" with name="basic_select" options=select_basic_options placeholder="Selecione uma opção" %}
+        <div class="border rounded-lg p-6">
+            <div class="max-w-sm">
+                {% include "components/select.html" with name="basic_select" options=select_basic_options placeholder="Selecione uma opção" %}
+            </div>
+        </div>
+        <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+            </button>
+            <code x-ref="code">{% verbatim %}{% include "components/select.html" with name="basic_select" options=select_basic_options placeholder="Selecione uma opção" %}{% endverbatim %}</code>
         </div>
     </div>
 
-    <!-- Select com Valor Pré-selecionado -->
+    <!-- Valor Pré-selecionado -->
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Valor Pré-selecionado</h2>
-        <div class="border border-border rounded-radius-lg p-6">
-            {% include "components/select.html" with name="preselected" options=select_countries value="br" %}
+        <div class="border rounded-lg p-6">
+            <div class="max-w-sm">
+                {% include "components/select.html" with name="preselected" options=select_countries value="br" %}
+            </div>
         </div>
-    </div>
-
-    <!-- Select Desabilitado -->
-    <div class="space-y-4">
-        <h2 class="text-2xl font-semibold">Select Desabilitado</h2>
-        <div class="border border-border rounded-radius-lg p-6">
-            {% include "components/select.html" with name="disabled" options=select_priority disabled=True value="medium" %}
-        </div>
-    </div>
-
-    <!-- Select Obrigatório -->
-    <div class="space-y-4">
-        <h2 class="text-2xl font-semibold">Select Obrigatório</h2>
-        <div class="border border-border rounded-radius-lg p-6">
-            {% include "components/select.html" with name="required" options=select_status required=True placeholder="Selecione o status *" %}
+        <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+            </button>
+            <code x-ref="code">{% verbatim %}{% include "components/select.html" with name="preselected" options=select_countries value="br" %}{% endverbatim %}</code>
         </div>
     </div>
 
     <!-- Tamanhos -->
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Tamanhos</h2>
-        <div class="border border-border rounded-radius-lg p-6">
-            <div class="space-y-4">
-                {% include "components/select.html" with name="small" options=select_basic_options size="sm" placeholder="Pequeno" %}
-                {% include "components/select.html" with name="medium" options=select_basic_options size="md" placeholder="Médio" %}
-                {% include "components/select.html" with name="large" options=select_basic_options size="lg" placeholder="Grande" %}
+        <div class="border rounded-lg p-6">
+            <div class="space-y-4 max-w-sm">
+                {% include "components/select.html" with name="small" options=select_basic_options size="sm" placeholder="Small" %}
+                {% include "components/select.html" with name="medium" options=select_basic_options placeholder="Default" %}
             </div>
+        </div>
+        <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+            </button>
+            <code x-ref="code">{% verbatim %}{% include "components/select.html" with name="small" options=select_basic_options size="sm" placeholder="Small" %}
+{% include "components/select.html" with name="medium" options=select_basic_options placeholder="Default" %}{% endverbatim %}</code>
         </div>
     </div>
 
-    <!-- Select em Formulário -->
+    <!-- Estados -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Estados</h2>
+        <div class="border rounded-lg p-6">
+            <div class="space-y-4 max-w-sm">
+                {% include "components/select.html" with name="disabled" options=select_priority disabled=True value="medium" %}
+                {% include "components/select.html" with name="searchable" options=select_countries placeholder="Select com busca" searchable=True %}
+            </div>
+        </div>
+        <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+            </button>
+            <code x-ref="code">{% verbatim %}{% include "components/select.html" with name="disabled" options=select_priority disabled=True value="medium" %}
+{% include "components/select.html" with name="searchable" options=select_countries placeholder="Select com busca" searchable=True %}{% endverbatim %}</code>
+        </div>
+    </div>
+
+    <!-- Em Formulário -->
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Em Formulário</h2>
-        <div class="border border-border rounded-radius-lg p-6">
+        <div class="border rounded-lg p-6">
             <div x-data="{ 
                 country: '', 
                 priority: 'medium', 
@@ -85,8 +114,8 @@
                 submitForm() {
                     alert('Formulário enviado!\\nPaís: ' + this.country + '\\nPrioridade: ' + this.priority + '\\nStatus: ' + this.status);
                 }
-            }" class="space-y-4">
-                <form @submit.prevent="submitForm()">
+            }">
+                <form @submit.prevent="submitForm()" class="space-y-4">
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div class="space-y-2">
                             <label class="text-sm font-medium">País</label>
@@ -102,17 +131,17 @@
                         </div>
                     </div>
                     
-                    <div class="mt-6 flex gap-2">
-                        <button type="submit" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-radius-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] bg-primary text-primary-foreground shadow-xs hover:bg-primary/90 h-9 px-4 py-2">
+                    <div class="flex gap-2">
+                        <button type="submit" class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2">
                             Enviar
                         </button>
-                        <button type="button" @click="country = ''; priority = 'medium'; status = ''" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-radius-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2">
+                        <button type="button" @click="country = ''; priority = 'medium'; status = ''" class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
                             Limpar
                         </button>
                     </div>
                     
-                    <div class="mt-4 p-3 bg-muted rounded-lg text-sm">
-                        <p><strong>Valores atuais:</strong></p>
+                    <div class="p-4 bg-muted rounded-md text-sm">
+                        <p class="font-medium">Valores atuais:</p>
                         <p>País: <span x-text="country || 'Não selecionado'"></span></p>
                         <p>Prioridade: <span x-text="priority"></span></p>
                         <p>Status: <span x-text="status || 'Não selecionado'"></span></p>

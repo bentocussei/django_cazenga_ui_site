@@ -5,543 +5,260 @@
 {% block page_description %}Grupo de toggles para seleção única ou múltipla{% endblock %}
 
 {% block component_content %}
-<div class="max-w-4xl mx-auto space-y-8">
+<div class="space-y-6">
+    <!-- Cabeçalho -->
+    <div class="border-b border-border pb-4">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-3xl font-bold">Toggle Group</h1>
+                <p class="text-muted-foreground mt-1">Conjunto de botões toggle para seleção única ou múltipla com suporte a ícones e variantes</p>
+            </div>
+            <a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+                Voltar
+            </a>
+        </div>
+    </div>
+
     <!-- Instalação -->
-    <section class="space-y-4">
+    <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Instalação</h2>
-        <div class="relative">
-            <pre class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto"><code>{% templatetag openblock %} include "components/toggle-group.html" with items=toggle_items multiple=false {% templatetag closeblock %}</code></pre>
-            <button 
-                class="absolute top-2 right-2 p-2 bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
-                x-data="{ copied: false }"
-                @click="navigator.clipboard.writeText($el.previousElementSibling.textContent); copied = true; setTimeout(() => copied = false, 2000)"
-            >
-                <span x-show="!copied">{% icon "copy" size="4" %}</span>
-                <span x-show="copied" class="text-green-600">{% icon "check" size="4" %}</span>
+        <div class="bg-muted rounded-lg p-4 relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
+            <code class="text-sm" x-ref="code">{% verbatim %}{% include "components/toggle-group.html" with items=toggle_items name="alignment" %}{% endverbatim %}</code>
         </div>
-    </section>
+    </div>
 
-    <!-- Toggle Group Básico -->
-    <section class="space-y-4">
-        <h2 class="text-2xl font-semibold">Toggle Group Básico</h2>
+    <!-- Alinhamento (Single Selection) -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Alinhamento (Seleção Única)</h2>
         <div class="border rounded-lg p-6">
-            <div class="flex flex-col items-center space-y-6">
-                <!-- Seleção Única -->
-                <div class="space-y-3">
-                    <h3 class="text-lg font-medium">Seleção Única</h3>
-                    <div x-data="{ selected: 'center' }">
-                        <div class="flex border border-gray-300 dark:border-gray-600 rounded-lg overflow-hidden">
-                            <button 
-                                @click="selected = 'left'"
-                                :class="selected === 'left' ? 'bg-blue-500 text-white' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'"
-                                class="flex items-center space-x-2 px-4 py-2 border-r border-gray-300 dark:border-gray-600 transition-colors"
-                            >
-                                {% icon "text-align-left" size="4" %}
-                                <span>Esquerda</span>
-                            </button>
-                            <button 
-                                @click="selected = 'center'"
-                                :class="selected === 'center' ? 'bg-blue-500 text-white' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'"
-                                class="flex items-center space-x-2 px-4 py-2 border-r border-gray-300 dark:border-gray-600 transition-colors"
-                            >
-                                {% icon "text-align-center" size="4" %}
-                                <span>Centro</span>
-                            </button>
-                            <button 
-                                @click="selected = 'right'"
-                                :class="selected === 'right' ? 'bg-blue-500 text-white' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'"
-                                class="flex items-center space-x-2 px-4 py-2 transition-colors"
-                            >
-                                {% icon "text-align-right" size="4" %}
-                                <span>Direita</span>
-                            </button>
-                        </div>
-                        <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">
-                            Selecionado: <span class="font-medium" x-text="selected"></span>
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Seleção Múltipla -->
-                <div class="space-y-3">
-                    <h3 class="text-lg font-medium">Seleção Múltipla</h3>
-                    <div x-data="{ selected: ['bold', 'italic'] }">
-                        <div class="flex border border-gray-300 dark:border-gray-600 rounded-lg overflow-hidden">
-                            <button 
-                                @click="selected.includes('bold') ? selected = selected.filter(s => s !== 'bold') : selected.push('bold')"
-                                :class="selected.includes('bold') ? 'bg-blue-500 text-white' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'"
-                                class="flex items-center space-x-2 px-4 py-2 border-r border-gray-300 dark:border-gray-600 transition-colors"
-                            >
-                                {% icon "font-bold" size="4" %}
-                                <span>Negrito</span>
-                            </button>
-                            <button 
-                                @click="selected.includes('italic') ? selected = selected.filter(s => s !== 'italic') : selected.push('italic')"
-                                :class="selected.includes('italic') ? 'bg-blue-500 text-white' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'"
-                                class="flex items-center space-x-2 px-4 py-2 border-r border-gray-300 dark:border-gray-600 transition-colors"
-                            >
-                                {% icon "font-italic" size="4" %}
-                                <span>Itálico</span>
-                            </button>
-                            <button 
-                                @click="selected.includes('underline') ? selected = selected.filter(s => s !== 'underline') : selected.push('underline')"
-                                :class="selected.includes('underline') ? 'bg-blue-500 text-white' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'"
-                                class="flex items-center space-x-2 px-4 py-2 transition-colors"
-                            >
-                                {% icon "underline" size="4" %}
-                                <span>Sublinhado</span>
-                            </button>
-                        </div>
-                        <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">
-                            Selecionados: <span class="font-medium" x-text="selected.join(', ')"></span>
-                        </p>
-                    </div>
-                </div>
-            </div>
+            {% include "components/toggle-group.html" with items=toggle_group_alignment.items labels=toggle_group_alignment.labels icons=toggle_group_alignment.icons value=toggle_group_alignment.value type=toggle_group_alignment.type name=toggle_group_alignment.name %}
         </div>
-        <div class="relative">
-            <pre class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto text-sm"><code>&lt;div x-data="{ selected: 'center' }"&gt;
-  &lt;div class="flex border border-gray-300 rounded-lg overflow-hidden"&gt;
-    &lt;button 
-      @click="selected = 'left'"
-      :class="selected === 'left' ? 'bg-blue-500 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'"
-      class="flex items-center space-x-2 px-4 py-2 border-r border-gray-300 transition-colors"
-    &gt;
-      &lt;svg class="w-4 h-4"&gt;...&lt;/svg&gt;
-      &lt;span&gt;Esquerda&lt;/span&gt;
-    &lt;/button&gt;
-    &lt;!-- Mais botões... --&gt;
-  &lt;/div&gt;
-&lt;/div&gt;</code></pre>
-            <button 
-                class="absolute top-2 right-2 p-2 bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
-                x-data="{ copied: false }"
-                @click="navigator.clipboard.writeText($el.previousElementSibling.textContent); copied = true; setTimeout(() => copied = false, 2000)"
-            >
-                <span x-show="!copied">{% icon "copy" size="4" %}</span>
-                <span x-show="copied" class="text-green-600">{% icon "check" size="4" %}</span>
+        <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
+            <code x-ref="code">{% verbatim %}{% include "components/toggle-group.html" with 
+    items=alignment_items 
+    labels=alignment_labels 
+    icons=alignment_icons 
+    value="center" 
+    type="single" 
+    name="alignment" %}{% endverbatim %}</code>
         </div>
-    </section>
+    </div>
 
-    <!-- Tamanhos -->
-    <section class="space-y-4">
-        <h2 class="text-2xl font-semibold">Tamanhos</h2>
+    <!-- Formatação (Multiple Selection) -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Formatação (Seleção Múltipla)</h2>
         <div class="border rounded-lg p-6">
-            <div class="flex flex-col items-center space-y-6">
-                <!-- Pequeno -->
-                <div class="space-y-3">
-                    <h3 class="text-lg font-medium">Pequeno</h3>
-                    <div x-data="{ selected: 'sm' }">
-                        <div class="flex border border-gray-300 dark:border-gray-600 rounded-md overflow-hidden">
-                            <button 
-                                @click="selected = 'xs'"
-                                :class="selected === 'xs' ? 'bg-blue-500 text-white' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'"
-                                class="px-3 py-1 text-sm border-r border-gray-300 dark:border-gray-600 transition-colors"
-                            >
-                                XS
-                            </button>
-                            <button 
-                                @click="selected = 'sm'"
-                                :class="selected === 'sm' ? 'bg-blue-500 text-white' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'"
-                                class="px-3 py-1 text-sm border-r border-gray-300 dark:border-gray-600 transition-colors"
-                            >
-                                SM
-                            </button>
-                            <button 
-                                @click="selected = 'md'"
-                                :class="selected === 'md' ? 'bg-blue-500 text-white' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'"
-                                class="px-3 py-1 text-sm transition-colors"
-                            >
-                                MD
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Médio -->
-                <div class="space-y-3">
-                    <h3 class="text-lg font-medium">Médio</h3>
-                    <div x-data="{ selected: 'web' }">
-                        <div class="flex border border-gray-300 dark:border-gray-600 rounded-lg overflow-hidden">
-                            <button 
-                                @click="selected = 'mobile'"
-                                :class="selected === 'mobile' ? 'bg-blue-500 text-white' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'"
-                                class="flex items-center space-x-2 px-4 py-2 border-r border-gray-300 dark:border-gray-600 transition-colors"
-                            >
-                                {% icon "mobile" size="4" %}
-                                <span>Mobile</span>
-                            </button>
-                            <button 
-                                @click="selected = 'web'"
-                                :class="selected === 'web' ? 'bg-blue-500 text-white' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'"
-                                class="flex items-center space-x-2 px-4 py-2 border-r border-gray-300 dark:border-gray-600 transition-colors"
-                            >
-                                {% icon "desktop" size="4" %}
-                                <span>Web</span>
-                            </button>
-                            <button 
-                                @click="selected = 'tablet'"
-                                :class="selected === 'tablet' ? 'bg-blue-500 text-white' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'"
-                                class="flex items-center space-x-2 px-4 py-2 transition-colors"
-                            >
-                                {% icon "laptop" size="4" %}
-                                <span>Tablet</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Grande -->
-                <div class="space-y-3">
-                    <h3 class="text-lg font-medium">Grande</h3>
-                    <div x-data="{ selected: 'week' }">
-                        <div class="flex border border-gray-300 dark:border-gray-600 rounded-lg overflow-hidden">
-                            <button 
-                                @click="selected = 'day'"
-                                :class="selected === 'day' ? 'bg-blue-500 text-white' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'"
-                                class="flex items-center space-x-2 px-6 py-3 border-r border-gray-300 dark:border-gray-600 transition-colors"
-                            >
-                                {% icon "calendar" size="5" %}
-                                <span class="text-base">Dia</span>
-                            </button>
-                            <button 
-                                @click="selected = 'week'"
-                                :class="selected === 'week' ? 'bg-blue-500 text-white' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'"
-                                class="flex items-center space-x-2 px-6 py-3 border-r border-gray-300 dark:border-gray-600 transition-colors"
-                            >
-                                {% icon "table" size="5" %}
-                                <span class="text-base">Semana</span>
-                            </button>
-                            <button 
-                                @click="selected = 'month'"
-                                :class="selected === 'month' ? 'bg-blue-500 text-white' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'"
-                                class="flex items-center space-x-2 px-6 py-3 transition-colors"
-                            >
-                                {% icon "grid" size="5" %}
-                                <span class="text-base">Mês</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {% include "components/toggle-group.html" with items=toggle_group_format.items labels=toggle_group_format.labels icons=toggle_group_format.icons value=toggle_group_format.value type=toggle_group_format.type name=toggle_group_format.name %}
         </div>
-    </section>
-
-    <!-- Orientação Vertical -->
-    <section class="space-y-4">
-        <h2 class="text-2xl font-semibold">Orientação Vertical</h2>
-        <div class="border rounded-lg p-6">
-            <div class="flex items-center justify-center space-x-12">
-                <div class="space-y-3">
-                    <h3 class="text-lg font-medium">Navegação</h3>
-                    <div x-data="{ selected: 'dashboard' }">
-                        <div class="flex flex-col border border-gray-300 dark:border-gray-600 rounded-lg overflow-hidden w-48">
-                            <button 
-                                @click="selected = 'dashboard'"
-                                :class="selected === 'dashboard' ? 'bg-blue-500 text-white' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'"
-                                class="flex items-center space-x-3 px-4 py-3 border-b border-gray-300 dark:border-gray-600 transition-colors text-left"
-                            >
-                                {% icon "dashboard" size="4" %}
-                                <span>Dashboard</span>
-                            </button>
-                            <button 
-                                @click="selected = 'users'"
-                                :class="selected === 'users' ? 'bg-blue-500 text-white' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'"
-                                class="flex items-center space-x-3 px-4 py-3 border-b border-gray-300 dark:border-gray-600 transition-colors text-left"
-                            >
-                                {% icon "person" size="4" %}
-                                <span>Usuários</span>
-                            </button>
-                            <button 
-                                @click="selected = 'products'"
-                                :class="selected === 'products' ? 'bg-blue-500 text-white' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'"
-                                class="flex items-center space-x-3 px-4 py-3 border-b border-gray-300 dark:border-gray-600 transition-colors text-left"
-                            >
-                                {% icon "box" size="4" %}
-                                <span>Produtos</span>
-                            </button>
-                            <button 
-                                @click="selected = 'settings'"
-                                :class="selected === 'settings' ? 'bg-blue-500 text-white' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'"
-                                class="flex items-center space-x-3 px-4 py-3 transition-colors text-left"
-                            >
-                                {% icon "gear" size="4" %}
-                                <span>Configurações</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="space-y-3">
-                    <h3 class="text-lg font-medium">Prioridades</h3>
-                    <div x-data="{ selected: ['high', 'medium'] }">
-                        <div class="flex flex-col border border-gray-300 dark:border-gray-600 rounded-lg overflow-hidden w-48">
-                            <button 
-                                @click="selected.includes('high') ? selected = selected.filter(s => s !== 'high') : selected.push('high')"
-                                :class="selected.includes('high') ? 'bg-red-500 text-white' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'"
-                                class="flex items-center space-x-3 px-4 py-3 border-b border-gray-300 dark:border-gray-600 transition-colors text-left"
-                            >
-                                <div class="w-3 h-3 bg-red-500 rounded-full"></div>
-                                <span>Alta</span>
-                            </button>
-                            <button 
-                                @click="selected.includes('medium') ? selected = selected.filter(s => s !== 'medium') : selected.push('medium')"
-                                :class="selected.includes('medium') ? 'bg-yellow-500 text-white' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'"
-                                class="flex items-center space-x-3 px-4 py-3 border-b border-gray-300 dark:border-gray-600 transition-colors text-left"
-                            >
-                                <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                                <span>Média</span>
-                            </button>
-                            <button 
-                                @click="selected.includes('low') ? selected = selected.filter(s => s !== 'low') : selected.push('low')"
-                                :class="selected.includes('low') ? 'bg-green-500 text-white' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'"
-                                class="flex items-center space-x-3 px-4 py-3 transition-colors text-left"
-                            >
-                                <div class="w-3 h-3 bg-green-500 rounded-full"></div>
-                                <span>Baixa</span>
-                            </button>
-                        </div>
-                        <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">
-                            Selecionadas: <span class="font-medium" x-text="selected.join(', ')"></span>
-                        </p>
-                    </div>
-                </div>
-            </div>
+        <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+            </button>
+            <code x-ref="code">{% verbatim %}{% include "components/toggle-group.html" with 
+    items=format_items 
+    labels=format_labels 
+    icons=format_icons 
+    value=format_selected 
+    type="multiple" 
+    name="format" %}{% endverbatim %}</code>
         </div>
-    </section>
+    </div>
 
     <!-- Variantes -->
-    <section class="space-y-4">
+    <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Variantes</h2>
-        <div class="border rounded-lg p-6">
-            <div class="flex flex-col items-center space-y-6">
-                <!-- Outline -->
-                <div class="space-y-3">
-                    <h3 class="text-lg font-medium">Outline</h3>
-                    <div x-data="{ selected: 'react' }">
-                        <div class="flex space-x-2">
-                            <button 
-                                @click="selected = 'react'"
-                                :class="selected === 'react' ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300' : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'"
-                                class="flex items-center space-x-2 px-4 py-2 border-2 rounded-lg transition-colors"
-                            >
-                                <div class="w-3 h-3 bg-cyan-400 rounded"></div>
-                                <span>React</span>
-                            </button>
-                            <button 
-                                @click="selected = 'vue'"
-                                :class="selected === 'vue' ? 'border-green-500 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300' : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'"
-                                class="flex items-center space-x-2 px-4 py-2 border-2 rounded-lg transition-colors"
-                            >
-                                <div class="w-3 h-3 bg-green-500 rounded"></div>
-                                <span>Vue</span>
-                            </button>
-                            <button 
-                                @click="selected = 'angular'"
-                                :class="selected === 'angular' ? 'border-red-500 bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300' : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'"
-                                class="flex items-center space-x-2 px-4 py-2 border-2 rounded-lg transition-colors"
-                            >
-                                <div class="w-3 h-3 bg-red-500 rounded"></div>
-                                <span>Angular</span>
-                            </button>
-                        </div>
-                    </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            <!-- Default -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Default</h3>
+                <div class="border rounded-lg p-4">
+                    {% include "components/toggle-group.html" with items=toggle_group_view.items labels=toggle_group_view.labels icons=toggle_group_view.icons value=toggle_group_view.value type=toggle_group_view.type name=toggle_group_view.name %}
                 </div>
-
-                <!-- Ghost -->
-                <div class="space-y-3">
-                    <h3 class="text-lg font-medium">Ghost</h3>
-                    <div x-data="{ selected: ['notifications', 'email'] }">
-                        <div class="flex space-x-2">
-                            <button 
-                                @click="selected.includes('notifications') ? selected = selected.filter(s => s !== 'notifications') : selected.push('notifications')"
-                                :class="selected.includes('notifications') ? 'bg-blue-500 text-white' : 'bg-transparent text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'"
-                                class="flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors"
-                            >
-                                {% icon "bell" size="4" %}
-                                <span>Notificações</span>
-                            </button>
-                            <button 
-                                @click="selected.includes('email') ? selected = selected.filter(s => s !== 'email') : selected.push('email')"
-                                :class="selected.includes('email') ? 'bg-blue-500 text-white' : 'bg-transparent text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'"
-                                class="flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors"
-                            >
-                                {% icon "envelope-closed" size="4" %}
-                                <span>E-mail</span>
-                            </button>
-                            <button 
-                                @click="selected.includes('sms') ? selected = selected.filter(s => s !== 'sms') : selected.push('sms')"
-                                :class="selected.includes('sms') ? 'bg-blue-500 text-white' : 'bg-transparent text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'"
-                                class="flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors"
-                            >
-                                {% icon "mobile" size="4" %}
-                                <span>SMS</span>
-                            </button>
-                        </div>
-                        <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">
-                            Selecionados: <span class="font-medium" x-text="selected.join(', ')"></span>
-                        </p>
-                    </div>
+                <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+                    <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                            class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                            <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                            <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+                    </button>
+                    <code x-ref="code">{% verbatim %}{% include "components/toggle-group.html" with items=view_items labels=view_labels icons=view_icons value="list" type="single" name="view" %}{% endverbatim %}</code>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <!-- Toggle Group Avançado -->
-    <section class="space-y-4">
-        <h2 class="text-2xl font-semibold">Exemplo Avançado</h2>
-        <div class="border rounded-lg p-6">
-            <div class="max-w-2xl mx-auto space-y-6">
-                <h3 class="text-lg font-medium text-center">Configurar Exibição</h3>
-                
-                <!-- Filtros -->
-                <div class="space-y-3">
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                        Filtrar por Status
-                    </label>
-                    <div x-data="{ selected: ['active', 'pending'] }">
-                        <div class="flex flex-wrap gap-2">
-                            <button 
-                                @click="selected.includes('active') ? selected = selected.filter(s => s !== 'active') : selected.push('active')"
-                                :class="selected.includes('active') ? 'bg-green-500 text-white' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'"
-                                class="flex items-center space-x-2 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg transition-colors"
-                            >
-                                <div class="w-2 h-2 bg-green-500 rounded-full"></div>
-                                <span>Ativo</span>
-                            </button>
-                            <button 
-                                @click="selected.includes('pending') ? selected = selected.filter(s => s !== 'pending') : selected.push('pending')"
-                                :class="selected.includes('pending') ? 'bg-yellow-500 text-white' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'"
-                                class="flex items-center space-x-2 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg transition-colors"
-                            >
-                                <div class="w-2 h-2 bg-yellow-500 rounded-full"></div>
-                                <span>Pendente</span>
-                            </button>
-                            <button 
-                                @click="selected.includes('inactive') ? selected = selected.filter(s => s !== 'inactive') : selected.push('inactive')"
-                                :class="selected.includes('inactive') ? 'bg-red-500 text-white' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'"
-                                class="flex items-center space-x-2 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg transition-colors"
-                            >
-                                <div class="w-2 h-2 bg-red-500 rounded-full"></div>
-                                <span>Inativo</span>
-                            </button>
-                            <button 
-                                @click="selected.includes('draft') ? selected = selected.filter(s => s !== 'draft') : selected.push('draft')"
-                                :class="selected.includes('draft') ? 'bg-gray-500 text-white' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'"
-                                class="flex items-center space-x-2 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg transition-colors"
-                            >
-                                <div class="w-2 h-2 bg-gray-500 rounded-full"></div>
-                                <span>Rascunho</span>
-                            </button>
-                        </div>
-                        <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">
-                            Filtros ativos: <span class="font-medium" x-text="selected.join(', ')"></span>
-                        </p>
-                    </div>
+            <!-- Outline -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Outline</h3>
+                <div class="border rounded-lg p-4">
+                    {% include "components/toggle-group.html" with items=toggle_group_size.items labels=toggle_group_size.labels value=toggle_group_size.value type=toggle_group_size.type name=toggle_group_size.name variant=toggle_group_size.variant %}
                 </div>
-
-                <!-- Visualização -->
-                <div class="space-y-3">
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                        Tipo de Visualização
-                    </label>
-                    <div x-data="{ selected: 'grid' }">
-                        <div class="flex border border-gray-300 dark:border-gray-600 rounded-lg overflow-hidden">
-                            <button 
-                                @click="selected = 'list'"
-                                :class="selected === 'list' ? 'bg-blue-500 text-white' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'"
-                                class="flex items-center space-x-2 px-4 py-2 border-r border-gray-300 dark:border-gray-600 transition-colors"
-                            >
-                                {% icon "list-bullet" size="4" %}
-                                <span>Lista</span>
-                            </button>
-                            <button 
-                                @click="selected = 'grid'"
-                                :class="selected === 'grid' ? 'bg-blue-500 text-white' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'"
-                                class="flex items-center space-x-2 px-4 py-2 border-r border-gray-300 dark:border-gray-600 transition-colors"
-                            >
-                                {% icon "grid" size="4" %}
-                                <span>Grade</span>
-                            </button>
-                            <button 
-                                @click="selected = 'table'"
-                                :class="selected === 'table' ? 'bg-blue-500 text-white' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'"
-                                class="flex items-center space-x-2 px-4 py-2 transition-colors"
-                            >
-                                {% icon "table" size="4" %}
-                                <span>Tabela</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Ordenação -->
-                <div class="space-y-3">
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                        Ordenar por
-                    </label>
-                    <div x-data="{ selected: 'name' }">
-                        <div class="flex border border-gray-300 dark:border-gray-600 rounded-lg overflow-hidden">
-                            <button 
-                                @click="selected = 'name'"
-                                :class="selected === 'name' ? 'bg-blue-500 text-white' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'"
-                                class="px-4 py-2 border-r border-gray-300 dark:border-gray-600 transition-colors"
-                            >
-                                Nome
-                            </button>
-                            <button 
-                                @click="selected = 'date'"
-                                :class="selected === 'date' ? 'bg-blue-500 text-white' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'"
-                                class="px-4 py-2 border-r border-gray-300 dark:border-gray-600 transition-colors"
-                            >
-                                Data
-                            </button>
-                            <button 
-                                @click="selected = 'status'"
-                                :class="selected === 'status' ? 'bg-blue-500 text-white' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'"
-                                class="px-4 py-2 border-r border-gray-300 dark:border-gray-600 transition-colors"
-                            >
-                                Status
-                            </button>
-                            <button 
-                                @click="selected = 'priority'"
-                                :class="selected === 'priority' ? 'bg-blue-500 text-white' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'"
-                                class="px-4 py-2 transition-colors"
-                            >
-                                Prioridade
-                            </button>
-                        </div>
-                    </div>
+                <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+                    <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                            class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                            <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                            <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+                    </button>
+                    <code x-ref="code">{% verbatim %}{% include "components/toggle-group.html" with items=size_items labels=size_labels value="md" type="single" name="size" variant="outline" %}{% endverbatim %}</code>
                 </div>
             </div>
+
         </div>
-    </section>
+    </div>
+
+    <!-- Tamanhos -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Tamanhos</h2>
+        <div class="grid grid-cols-1 gap-6">
+            
+            <!-- Small -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Small</h3>
+                <div class="border rounded-lg p-4">
+                    {% include "components/toggle-group.html" with items=toggle_group_priority.items labels=toggle_group_priority.labels value=toggle_group_priority.value type=toggle_group_priority.type name=toggle_group_priority.name size=toggle_group_priority.size %}
+                </div>
+                <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+                    <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                            class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                            <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                            <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+                    </button>
+                    <code x-ref="code">{% verbatim %}{% include "components/toggle-group.html" with items=priority_items labels=priority_labels value="medium" type="single" name="priority" size="sm" %}{% endverbatim %}</code>
+                </div>
+            </div>
+
+            <!-- Default -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Default</h3>
+                <div class="border rounded-lg p-4">
+                    {% include "components/toggle-group.html" with items=toggle_group_alignment.items labels=toggle_group_alignment.labels icons=toggle_group_alignment.icons value=toggle_group_alignment.value type=toggle_group_alignment.type name="alignment_default" %}
+                </div>
+                <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+                    <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                            class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                            <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                            <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+                    </button>
+                    <code x-ref="code">{% verbatim %}{% include "components/toggle-group.html" with items=alignment_items labels=alignment_labels icons=alignment_icons value="center" type="single" name="alignment" %}{% endverbatim %}</code>
+                </div>
+            </div>
+
+            <!-- Large -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Large</h3>
+                <div class="border rounded-lg p-4">
+                    {% include "components/toggle-group.html" with items=toggle_group_view.items labels=toggle_group_view.labels icons=toggle_group_view.icons value=toggle_group_view.value type=toggle_group_view.type name="view_large" size="lg" %}
+                </div>
+                <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+                    <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                            class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                            <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                            <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+                    </button>
+                    <code x-ref="code">{% verbatim %}{% include "components/toggle-group.html" with items=view_items labels=view_labels icons=view_icons value="list" type="single" name="view" size="lg" %}{% endverbatim %}</code>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Estados -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Estados</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            <!-- Enabled -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Habilitado</h3>
+                <div class="border rounded-lg p-4">
+                    {% include "components/toggle-group.html" with items=toggle_group_alignment.items labels=toggle_group_alignment.labels value=toggle_group_alignment.value type=toggle_group_alignment.type name="alignment_enabled" %}
+                </div>
+                <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+                    <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                            class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                            <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                            <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+                    </button>
+                    <code x-ref="code">{% verbatim %}{% include "components/toggle-group.html" with items=alignment_items labels=alignment_labels value="center" type="single" name="alignment" %}{% endverbatim %}</code>
+                </div>
+            </div>
+
+            <!-- Disabled -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Desabilitado</h3>
+                <div class="border rounded-lg p-4">
+                    {% include "components/toggle-group.html" with items=toggle_group_disabled.items labels=toggle_group_disabled.labels value=toggle_group_disabled.value type=toggle_group_disabled.type name=toggle_group_disabled.name disabled=toggle_group_disabled.disabled %}
+                </div>
+                <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+                    <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                            class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                            <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                            <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+                    </button>
+                    <code x-ref="code">{% verbatim %}{% include "components/toggle-group.html" with items=options_items labels=options_labels value="option2" type="single" name="disabled_toggle" disabled=True %}{% endverbatim %}</code>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Em Formulário -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Em Formulário</h2>
+        <div class="border rounded-lg p-6">
+            <div x-data="{ 
+                alignment: 'center',
+                format: ['bold'],
+                view: 'grid',
+                submitForm() {
+                    alert('Configurações salvas!\\nAlinhamento: ' + this.alignment + '\\nFormatação: ' + this.format.join(', ') + '\\nVisualização: ' + this.view);
+                }
+            }">
+                <form @submit.prevent="submitForm()" class="space-y-6">
+                    <div class="space-y-4">
+                        <div class="space-y-2">
+                            <label class="text-sm font-medium">Alinhamento do Texto</label>
+                            {% include "components/toggle-group.html" with items=toggle_group_alignment.items labels=toggle_group_alignment.labels icons=toggle_group_alignment.icons value="center" type="single" name="form_alignment" %}
+                        </div>
+                        
+                        <div class="space-y-2">
+                            <label class="text-sm font-medium">Formatação (múltipla seleção)</label>
+                            {% include "components/toggle-group.html" with items=toggle_group_format.items labels=toggle_group_format.labels icons=toggle_group_format.icons value=toggle_group_format.value type="multiple" name="form_format" %}
+                        </div>
+                        
+                        <div class="space-y-2">
+                            <label class="text-sm font-medium">Tipo de Visualização</label>
+                            {% include "components/toggle-group.html" with items=toggle_group_view.items labels=toggle_group_view.labels icons=toggle_group_view.icons value="grid" type="single" name="form_view" variant="outline" %}
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-2">
+                        <button type="submit" class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2">
+                            Salvar Configurações
+                        </button>
+                        <button type="button" @click="alignment = 'center'; format = ['bold']; view = 'grid'" class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+                            Resetar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <!-- Parâmetros -->
-    <section class="space-y-4">
+    <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Parâmetros</h2>
-        <div class="overflow-x-auto">
-            <table class="w-full border-collapse border border-gray-200 dark:border-gray-700">
-                <thead>
-                    <tr class="bg-gray-50 dark:bg-gray-800">
-                        {% for header in toggle_group_params.headers %}
-                        <th class="border border-gray-200 dark:border-gray-700 px-4 py-2 text-left font-medium">{{ header }}</th>
-                        {% endfor %}
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for row in toggle_group_params.data %}
-                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-800">
-                        {% for cell in row %}
-                        <td class="border border-gray-200 dark:border-gray-700 px-4 py-2">{{ cell|safe }}</td>
-                        {% endfor %}
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </section>
+        {% include "components/table.html" with headers=toggle_group_params.headers data=toggle_group_params.data caption="Parâmetros disponíveis para o componente Toggle Group" %}
+    </div>
 </div>
 {% endblock %} 

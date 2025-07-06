@@ -1,474 +1,171 @@
-{% extends "components_base.html" %}
 {% load icon_tags %}
 
-{% block page_title %}Slider{% endblock %}
-{% block page_description %}Componente de controle deslizante para seleção de valores numéricos{% endblock %}
-
-{% block component_content %}
-<div class="max-w-4xl mx-auto space-y-8">
-    <!-- Instalação -->
-    <section class="space-y-4">
-        <h2 class="text-2xl font-semibold">Instalação</h2>
-        <div class="relative">
-            <pre class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto"><code>{% templatetag openblock %} include "components/slider.html" with name="volume" value=50 min=0 max=100 {% templatetag closeblock %}</code></pre>
-            <button 
-                class="absolute top-2 right-2 p-2 bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
-                x-data="{ copied: false }"
-                @click="navigator.clipboard.writeText($el.previousElementSibling.textContent); copied = true; setTimeout(() => copied = false, 2000)"
-            >
-                <span x-show="!copied">{% icon "copy" size="4" %}</span>
-                <span x-show="copied" class="text-green-600">{% icon "check" size="4" %}</span>
-            </button>
+<div class="space-y-6">
+    <!-- Cabeçalho -->
+    <div class="border-b border-border pb-4">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-3xl font-bold">Slider</h1>
+                <p class="text-muted-foreground mt-1">Componente de controle deslizante para seleção de valores numéricos com suporte a single e range</p>
+            </div>
+            <a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+                Voltar
+            </a>
         </div>
-    </section>
+    </div>
+
+    <!-- Instalação -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Instalação</h2>
+        <div class="bg-muted rounded-lg p-4 relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+            </button>
+            <code class="text-sm" x-ref="code">{% verbatim %}{% include "components/slider.html" with name="volume" value=50 min=0 max=100 %}{% endverbatim %}</code>
+        </div>
+    </div>
 
     <!-- Slider Básico -->
-    <section class="space-y-4">
+    <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Slider Básico</h2>
         <div class="border rounded-lg p-6">
-            <div class="space-y-4" x-data="{ value: 50 }">
-                <div class="flex items-center justify-between">
-                    <label class="text-sm font-medium">Volume</label>
-                    <span class="text-sm text-gray-600 dark:text-gray-400" x-text="value + '%'"></span>
-                </div>
-                <div class="relative">
-                    <input 
-                        type="range" 
-                        x-model="value"
-                        min="0" 
-                        max="100" 
-                        class="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer slider"
-                    >
-                </div>
+            <div class="max-w-md">
+                {% include "components/slider.html" with min=slider_basic.min max=slider_basic.max value=slider_basic.value name=slider_basic.name label=slider_basic.label show_value=slider_basic.show_value %}
             </div>
         </div>
-        <div class="relative">
-            <pre class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto text-sm"><code>&lt;div x-data="{ value: 50 }"&gt;
-  &lt;div class="flex items-center justify-between"&gt;
-    &lt;label class="text-sm font-medium"&gt;Volume&lt;/label&gt;
-    &lt;span class="text-sm text-gray-600 dark:text-gray-400" x-text="value + '%'"&gt;&lt;/span&gt;
-  &lt;/div&gt;
-  &lt;input 
-    type="range" 
-    x-model="value"
-    min="0" 
-    max="100" 
-    class="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer slider"
-  &gt;
-&lt;/div&gt;</code></pre>
-            <button 
-                class="absolute top-2 right-2 p-2 bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
-                x-data="{ copied: false }"
-                @click="navigator.clipboard.writeText($el.previousElementSibling.textContent); copied = true; setTimeout(() => copied = false, 2000)"
-            >
-                <span x-show="!copied">{% icon "copy" size="4" %}</span>
-                <span x-show="copied" class="text-green-600">{% icon "check" size="4" %}</span>
+        <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
+            <code x-ref="code">{% verbatim %}{% include "components/slider.html" with min=0 max=100 value=50 name="volume" label="Volume" show_value=True %}{% endverbatim %}</code>
         </div>
-    </section>
+    </div>
 
-    <!-- Sliders com Diferentes Ranges -->
-    <section class="space-y-4">
-        <h2 class="text-2xl font-semibold">Diferentes Ranges</h2>
+    <!-- Slider Range -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Slider Range</h2>
         <div class="border rounded-lg p-6">
-            <div class="space-y-6">
-                <!-- Preço -->
-                <div class="space-y-2" x-data="{ price: 150 }">
-                    <div class="flex items-center justify-between">
-                        <label class="text-sm font-medium">Preço</label>
-                        <span class="text-sm text-gray-600 dark:text-gray-400" x-text="'R$ ' + price"></span>
-                    </div>
-                    <input 
-                        type="range" 
-                        x-model="price"
-                        min="50" 
-                        max="500" 
-                        step="10"
-                        class="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer slider"
-                    >
-                    <div class="flex justify-between text-xs text-gray-500">
-                        <span>R$ 50</span>
-                        <span>R$ 500</span>
-                    </div>
-                </div>
-
-                <!-- Idade -->
-                <div class="space-y-2" x-data="{ age: 25 }">
-                    <div class="flex items-center justify-between">
-                        <label class="text-sm font-medium">Idade</label>
-                        <span class="text-sm text-gray-600 dark:text-gray-400" x-text="age + ' anos'"></span>
-                    </div>
-                    <input 
-                        type="range" 
-                        x-model="age"
-                        min="18" 
-                        max="80" 
-                        class="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer slider"
-                    >
-                    <div class="flex justify-between text-xs text-gray-500">
-                        <span>18 anos</span>
-                        <span>80 anos</span>
-                    </div>
-                </div>
-
-                <!-- Quantidade -->
-                <div class="space-y-2" x-data="{ quantity: 3 }">
-                    <div class="flex items-center justify-between">
-                        <label class="text-sm font-medium">Quantidade</label>
-                        <span class="text-sm text-gray-600 dark:text-gray-400" x-text="quantity + ' itens'"></span>
-                    </div>
-                    <input 
-                        type="range" 
-                        x-model="quantity"
-                        min="1" 
-                        max="10" 
-                        step="1"
-                        class="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer slider"
-                    >
-                    <div class="flex justify-between text-xs text-gray-500">
-                        <span>1 item</span>
-                        <span>10 itens</span>
-                    </div>
-                </div>
+            <div class="max-w-md">
+                {% include "components/slider.html" with min=slider_range.min max=slider_range.max value=slider_range.value step=slider_range.step name=slider_range.name label=slider_range.label show_value=slider_range.show_value %}
             </div>
         </div>
-    </section>
+        <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+            </button>
+            <code x-ref="code">{% verbatim %}{% include "components/slider.html" with min=0 max=1000 value="200,800" step=50 name="price_range" label="Faixa de Preço" show_value=True %}{% endverbatim %}</code>
+        </div>
+    </div>
 
-    <!-- Slider com Steps -->
-    <section class="space-y-4">
-        <h2 class="text-2xl font-semibold">Slider com Steps</h2>
+    <!-- Diferentes Steps -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Diferentes Steps</h2>
         <div class="border rounded-lg p-6">
-            <div class="space-y-4" x-data="{ rating: 7 }">
-                <div class="flex items-center justify-between">
-                    <label class="text-sm font-medium">Avaliação</label>
-                    <span class="text-sm text-gray-600 dark:text-gray-400">
-                        <span x-text="rating"></span> / 10
-                        <span class="ml-1">
-                            {% for i in "12345" %}
-                            <span x-show="rating >= {{ i|add:0 }}*2" class="text-yellow-500">★</span>
-                            <span x-show="rating < {{ i|add:0 }}*2" class="text-gray-300">★</span>
-                            {% endfor %}
-                        </span>
-                    </span>
-                </div>
-                <input 
-                    type="range" 
-                    x-model="rating"
-                    min="1" 
-                    max="10" 
-                    step="1"
-                    class="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer slider"
-                >
-                <div class="flex justify-between text-xs text-gray-500">
-                    {% for i in "12345678910" %}
-                    <span>{{ i }}</span>
-                    {% endfor %}
-                </div>
+            <div class="space-y-6 max-w-md">
+                {% include "components/slider.html" with min=slider_volume.min max=slider_volume.max value=slider_volume.value step=slider_volume.step name=slider_volume.name label=slider_volume.label show_value=slider_volume.show_value %}
+                
+                {% include "components/slider.html" with min=slider_opacity.min max=slider_opacity.max value=slider_opacity.value step=slider_opacity.step name=slider_opacity.name label=slider_opacity.label show_value=slider_opacity.show_value %}
             </div>
         </div>
-    </section>
-
-    <!-- Slider Desabilitado -->
-    <section class="space-y-4">
-        <h2 class="text-2xl font-semibold">Slider Desabilitado</h2>
-        <div class="border rounded-lg p-6">
-            <div class="space-y-4">
-                <div class="flex items-center justify-between">
-                    <label class="text-sm font-medium text-gray-400">Configuração Bloqueada</label>
-                    <span class="text-sm text-gray-400">75%</span>
-                </div>
-                <input 
-                    type="range" 
-                    value="75"
-                    min="0" 
-                    max="100" 
-                    disabled
-                    class="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-not-allowed slider opacity-50"
-                >
-                <p class="text-sm text-gray-500">Este slider está desabilitado e não pode ser alterado.</p>
-            </div>
+        <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+            </button>
+            <code x-ref="code">{% verbatim %}{% include "components/slider.html" with min=0 max=100 value=75 step=5 name="volume" label="Volume" show_value=True %}
+{% include "components/slider.html" with min=0 max=1 value=0.5 step=0.1 name="opacity" label="Opacidade" show_value=True %}{% endverbatim %}</code>
         </div>
-    </section>
-
-    <!-- Múltiplos Sliders -->
-    <section class="space-y-4">
-        <h2 class="text-2xl font-semibold">Controles de Áudio</h2>
-        <div class="border rounded-lg p-6">
-            <div class="space-y-6" x-data="{ 
-                volume: 65, 
-                bass: 40, 
-                treble: 60, 
-                balance: 50 
-            }">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Volume -->
-                    <div class="space-y-3">
-                        <div class="flex items-center justify-between">
-                            <label class="text-sm font-medium flex items-center">
-                                {% icon "speaker-moderate" size="4" class="mr-2" %}
-                                Volume
-                            </label>
-                            <span class="text-sm text-gray-600 dark:text-gray-400" x-text="volume + '%'"></span>
-                        </div>
-                        <input 
-                            type="range" 
-                            x-model="volume"
-                            min="0" 
-                            max="100" 
-                            class="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer slider"
-                        >
-                    </div>
-
-                    <!-- Bass -->
-                    <div class="space-y-3">
-                        <div class="flex items-center justify-between">
-                            <label class="text-sm font-medium flex items-center">
-                                {% icon "mixer-horizontal" size="4" class="mr-2" %}
-                                Bass
-                            </label>
-                            <span class="text-sm text-gray-600 dark:text-gray-400" x-text="bass + '%'"></span>
-                        </div>
-                        <input 
-                            type="range" 
-                            x-model="bass"
-                            min="0" 
-                            max="100" 
-                            class="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer slider"
-                        >
-                    </div>
-
-                    <!-- Treble -->
-                    <div class="space-y-3">
-                        <div class="flex items-center justify-between">
-                            <label class="text-sm font-medium flex items-center">
-                                {% icon "mixer-vertical" size="4" class="mr-2" %}
-                                Treble
-                            </label>
-                            <span class="text-sm text-gray-600 dark:text-gray-400" x-text="treble + '%'"></span>
-                        </div>
-                        <input 
-                            type="range" 
-                            x-model="treble"
-                            min="0" 
-                            max="100" 
-                            class="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer slider"
-                        >
-                    </div>
-
-                    <!-- Balance -->
-                    <div class="space-y-3">
-                        <div class="flex items-center justify-between">
-                            <label class="text-sm font-medium flex items-center">
-                                {% icon "mixer-horizontal" size="4" class="mr-2" %}
-                                Balance
-                            </label>
-                            <span class="text-sm text-gray-600 dark:text-gray-400">
-                                <span x-show="balance < 50" x-text="'L' + (50 - balance)"></span>
-                                <span x-show="balance == 50">Centro</span>
-                                <span x-show="balance > 50" x-text="'R' + (balance - 50)"></span>
-                            </span>
-                        </div>
-                        <input 
-                            type="range" 
-                            x-model="balance"
-                            min="0" 
-                            max="100" 
-                            class="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer slider"
-                        >
-                    </div>
-                </div>
-
-                <!-- Visualização -->
-                <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-                    <h4 class="font-medium mb-2">Configuração Atual</h4>
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-                        <div>
-                            <span class="text-gray-600 dark:text-gray-400">Volume:</span>
-                            <span class="ml-1 font-medium" x-text="volume + '%'"></span>
-                        </div>
-                        <div>
-                            <span class="text-gray-600 dark:text-gray-400">Bass:</span>
-                            <span class="ml-1 font-medium" x-text="bass + '%'"></span>
-                        </div>
-                        <div>
-                            <span class="text-gray-600 dark:text-gray-400">Treble:</span>
-                            <span class="ml-1 font-medium" x-text="treble + '%'"></span>
-                        </div>
-                        <div>
-                            <span class="text-gray-600 dark:text-gray-400">Balance:</span>
-                            <span class="ml-1 font-medium">
-                                <span x-show="balance < 50" x-text="'L' + (50 - balance)"></span>
-                                <span x-show="balance == 50">Centro</span>
-                                <span x-show="balance > 50" x-text="'R' + (balance - 50)"></span>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    </div>
 
     <!-- Slider Vertical -->
-    <section class="space-y-4">
+    <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Slider Vertical</h2>
         <div class="border rounded-lg p-6">
-            <div class="flex items-center justify-center space-x-8" x-data="{ 
-                level1: 30, 
-                level2: 60, 
-                level3: 40, 
-                level4: 80 
-            }">
-                <!-- Mixer Vertical -->
-                <div class="space-y-4">
-                    <div class="flex space-x-6">
-                        <div class="flex flex-col items-center space-y-2">
-                            <span class="text-sm font-medium" x-text="level1"></span>
-                            <div class="h-48 w-6 bg-gray-200 dark:bg-gray-700 rounded-lg relative">
-                                <div class="absolute bottom-0 left-0 w-full bg-blue-500 rounded-lg transition-all duration-200"
-                                     :style="'height: ' + level1 + '%'"></div>
-                            </div>
-                            <input 
-                                type="range" 
-                                x-model="level1"
-                                min="0" 
-                                max="100" 
-                                orient="vertical"
-                                class="w-6 h-48 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer slider vertical-slider"
-                                style="writing-mode: bt-lr; -webkit-appearance: slider-vertical;"
-                            >
-                            <label class="text-xs text-gray-600 dark:text-gray-400">CH1</label>
-                        </div>
-
-                        <div class="flex flex-col items-center space-y-2">
-                            <span class="text-sm font-medium" x-text="level2"></span>
-                            <div class="h-48 w-6 bg-gray-200 dark:bg-gray-700 rounded-lg relative">
-                                <div class="absolute bottom-0 left-0 w-full bg-green-500 rounded-lg transition-all duration-200"
-                                     :style="'height: ' + level2 + '%'"></div>
-                            </div>
-                            <input 
-                                type="range" 
-                                x-model="level2"
-                                min="0" 
-                                max="100" 
-                                orient="vertical"
-                                class="w-6 h-48 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer slider vertical-slider"
-                                style="writing-mode: bt-lr; -webkit-appearance: slider-vertical;"
-                            >
-                            <label class="text-xs text-gray-600 dark:text-gray-400">CH2</label>
-                        </div>
-
-                        <div class="flex flex-col items-center space-y-2">
-                            <span class="text-sm font-medium" x-text="level3"></span>
-                            <div class="h-48 w-6 bg-gray-200 dark:bg-gray-700 rounded-lg relative">
-                                <div class="absolute bottom-0 left-0 w-full bg-yellow-500 rounded-lg transition-all duration-200"
-                                     :style="'height: ' + level3 + '%'"></div>
-                            </div>
-                            <input 
-                                type="range" 
-                                x-model="level3"
-                                min="0" 
-                                max="100" 
-                                orient="vertical"
-                                class="w-6 h-48 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer slider vertical-slider"
-                                style="writing-mode: bt-lr; -webkit-appearance: slider-vertical;"
-                            >
-                            <label class="text-xs text-gray-600 dark:text-gray-400">CH3</label>
-                        </div>
-
-                        <div class="flex flex-col items-center space-y-2">
-                            <span class="text-sm font-medium" x-text="level4"></span>
-                            <div class="h-48 w-6 bg-gray-200 dark:bg-gray-700 rounded-lg relative">
-                                <div class="absolute bottom-0 left-0 w-full bg-red-500 rounded-lg transition-all duration-200"
-                                     :style="'height: ' + level4 + '%'"></div>
-                            </div>
-                            <input 
-                                type="range" 
-                                x-model="level4"
-                                min="0" 
-                                max="100" 
-                                orient="vertical"
-                                class="w-6 h-48 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer slider vertical-slider"
-                                style="writing-mode: bt-lr; -webkit-appearance: slider-vertical;"
-                            >
-                            <label class="text-xs text-gray-600 dark:text-gray-400">CH4</label>
-                        </div>
-                    </div>
-                </div>
+            <div class="flex justify-center">
+                {% include "components/slider.html" with min=slider_vertical.min max=slider_vertical.max value=slider_vertical.value name=slider_vertical.name label=slider_vertical.label show_value=slider_vertical.show_value orientation=slider_vertical.orientation %}
             </div>
         </div>
-    </section>
+        <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+            </button>
+            <code x-ref="code">{% verbatim %}{% include "components/slider.html" with min=0 max=100 value=60 name="vertical_slider" label="Slider Vertical" show_value=True orientation="vertical" %}{% endverbatim %}</code>
+        </div>
+    </div>
+
+    <!-- Slider Desabilitado -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Slider Desabilitado</h2>
+        <div class="border rounded-lg p-6">
+            <div class="max-w-md">
+                {% include "components/slider.html" with min=slider_disabled.min max=slider_disabled.max value=slider_disabled.value name=slider_disabled.name label=slider_disabled.label show_value=slider_disabled.show_value disabled=slider_disabled.disabled %}
+            </div>
+        </div>
+        <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+            </button>
+            <code x-ref="code">{% verbatim %}{% include "components/slider.html" with min=0 max=100 value=30 name="disabled_slider" label="Slider Desabilitado" show_value=True disabled=True %}{% endverbatim %}</code>
+        </div>
+    </div>
+
+    <!-- Exemplo em Formulário -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Em Formulário</h2>
+        <div class="border rounded-lg p-6">
+            <div x-data="{ 
+                volume: 50,
+                brightness: 75,
+                contrast: 60,
+                submitForm() {
+                    alert('Configurações salvas!\\nVolume: ' + this.volume + '\\nBrilho: ' + this.brightness + '\\nContraste: ' + this.contrast);
+                }
+            }">
+                <form @submit.prevent="submitForm()" class="space-y-6">
+                    <div class="space-y-4 max-w-md">
+                        <div class="space-y-2">
+                            <label class="text-sm font-medium">Volume</label>
+                            {% include "components/slider.html" with min=0 max=100 value=50 name="form_volume" show_value=True %}
+                        </div>
+                        
+                        <div class="space-y-2">
+                            <label class="text-sm font-medium">Brilho</label>
+                            {% include "components/slider.html" with min=0 max=100 value=75 name="form_brightness" show_value=True %}
+                        </div>
+                        
+                        <div class="space-y-2">
+                            <label class="text-sm font-medium">Contraste</label>
+                            {% include "components/slider.html" with min=0 max=100 value=60 name="form_contrast" show_value=True %}
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-2">
+                        <button type="submit" class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2">
+                            Salvar Configurações
+                        </button>
+                        <button type="button" @click="volume = 50; brightness = 75; contrast = 60" class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+                            Resetar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <!-- Parâmetros -->
-    <section class="space-y-4">
+    <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Parâmetros</h2>
-        <div class="overflow-x-auto">
-            <table class="w-full border-collapse border border-gray-200 dark:border-gray-700">
-                <thead>
-                    <tr class="bg-gray-50 dark:bg-gray-800">
-                        {% for header in slider_params.headers %}
-                        <th class="border border-gray-200 dark:border-gray-700 px-4 py-2 text-left font-medium">{{ header }}</th>
-                        {% endfor %}
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for row in slider_params.data %}
-                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-800">
-                        {% for cell in row %}
-                        <td class="border border-gray-200 dark:border-gray-700 px-4 py-2">{{ cell|safe }}</td>
-                        {% endfor %}
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </section>
-</div>
-
-<!-- Estilos para os sliders -->
-<style>
-.slider::-webkit-slider-thumb {
-    appearance: none;
-    height: 20px;
-    width: 20px;
-    border-radius: 50%;
-    background: #3b82f6;
-    cursor: pointer;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    transition: background 0.2s ease;
-}
-
-.slider::-webkit-slider-thumb:hover {
-    background: #2563eb;
-}
-
-.slider::-moz-range-thumb {
-    height: 20px;
-    width: 20px;
-    border-radius: 50%;
-    background: #3b82f6;
-    cursor: pointer;
-    border: none;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    transition: background 0.2s ease;
-}
-
-.slider::-moz-range-thumb:hover {
-    background: #2563eb;
-}
-
-.slider:disabled::-webkit-slider-thumb {
-    background: #9ca3af;
-    cursor: not-allowed;
-}
-
-.slider:disabled::-moz-range-thumb {
-    background: #9ca3af;
-    cursor: not-allowed;
-}
-
-.vertical-slider {
-    transform: rotate(-90deg);
-    transform-origin: center;
-}
-</style>
-{% endblock %} 
+        {% include "components/table.html" with headers=slider_params.headers data=slider_params.data caption="Parâmetros disponíveis para o componente Slider" %}
+    </div>
+</div> 

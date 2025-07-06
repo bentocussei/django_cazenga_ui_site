@@ -29,20 +29,21 @@ Onde:
 - alignment_labels = ["Esquerda", "Centro", "Direita"]
 - alignment_icons = ["<svg>...</svg>", "<svg>...</svg>", "<svg>...</svg>"]
 -->
-{% with type=type|default:"single" variant=variant|default:"default" size=size|default:"default" disabled=disabled|default:False %}
+{% with name_value=name|default:"" items_value=items|default:"[]" %}
+{% with type_value=type|default:"single" variant_value=variant|default:"default" size_value=size|default:"default" disabled_value=disabled|default:False %}
 <div 
     x-data="{ 
-        selectedValues: '{{ type }}' === 'multiple' ? 
+        selectedValues: '{{ type_value }}' === 'multiple' ? 
             {% if value %}{{ value|safe }}{% else %}[]{% endif %} : 
             {% if value %}['{{ value }}']{% else %}[]{% endif %},
-        type: '{{ type }}',
+        type: '{{ type_value }}',
         
         isSelected(value) {
             return this.selectedValues.includes(value);
         },
         
         toggle(value) {
-            if ({{ disabled|yesno:'true,false' }}) return;
+            if ({{ disabled_value|yesno:'true,false' }}) return;
             
             if (this.type === 'single') {
                 this.selectedValues = this.selectedValues[0] === value ? [] : [value];
@@ -58,25 +59,25 @@ Onde:
             {% if onchange %}{{ onchange }}{% endif %}
         }
     }"
-    class="flex w-fit items-center rounded-md {% if variant == 'outline' %}shadow-sm{% endif %} {{ class|default:'' }}"
+    class="flex w-fit items-center rounded-md {% if variant_value == 'outline' %}shadow-sm{% endif %} {{ class|default:'' }}"
     role="group"
-    {% if disabled %}aria-disabled="true"{% endif %}
+    {% if disabled_value %}aria-disabled="true"{% endif %}
 >
-    {% for item in items %}
+    {% for item in items_value %}
         <button
             @click="toggle('{{ item }}')"
             :class="{ 'bg-accent text-accent-foreground': isSelected('{{ item }}') }"
             type="button"
-            {% if disabled %}disabled{% endif %}
+            {% if disabled_value %}disabled{% endif %}
             class="inline-flex items-center justify-center gap-2 text-sm font-medium hover:bg-muted hover:text-muted-foreground disabled:pointer-events-none disabled:opacity-50 transition-colors whitespace-nowrap min-w-0 flex-1 shrink-0 rounded-none shadow-none focus:z-10 focus-visible:z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2
                 {% if forloop.first %}rounded-l-md{% endif %}
                 {% if forloop.last %}rounded-r-md{% endif %}
-                {% if variant == 'default' %}bg-transparent
-                {% elif variant == 'outline' %}border border-input bg-transparent hover:bg-accent hover:text-accent-foreground
+                {% if variant_value == 'default' %}bg-transparent
+                {% elif variant_value == 'outline' %}border border-input bg-transparent hover:bg-accent hover:text-accent-foreground
                     {% if not forloop.first %}border-l-0{% endif %}
                 {% else %}bg-transparent{% endif %}
-                {% if size == 'sm' %}h-8 px-1.5 min-w-8
-                {% elif size == 'lg' %}h-10 px-2.5 min-w-10
+                {% if size_value == 'sm' %}h-8 px-1.5 min-w-8
+                {% elif size_value == 'lg' %}h-10 px-2.5 min-w-10
                 {% else %}h-9 px-2 min-w-9{% endif %}"
             :aria-pressed="isSelected('{{ item }}')"
         >
@@ -105,10 +106,11 @@ Onde:
     {% endfor %}
     
     <!-- Hidden inputs para formulários -->
-    {% if name %}
+    {% if name_value %}
         <template x-for="value in selectedValues" :key="value">
-            <input type="hidden" :name="type === 'multiple' ? '{{ name }}[]' : '{{ name }}'" :value="value">
+            <input type="hidden" :name="type === 'multiple' ? '{{ name_value }}[]' : '{{ name_value }}'" :value="value">
         </template>
     {% endif %}
 </div>
+{% endwith %}
 {% endwith %}

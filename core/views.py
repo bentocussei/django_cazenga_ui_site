@@ -459,6 +459,34 @@ def component_detail(request, component_name):
             context['tooltip_params'] = component_data_context.get('params')
         elif component_name == 'textarea':
             context['textarea_params'] = component_data_context.get('params')
+        # Novos componentes do GRUPO 1
+        elif component_name == 'select':
+            # Dados do select
+            context['select_basic_options'] = component_data_context.get('basic_options')
+            context['select_countries'] = component_data_context.get('countries')
+            context['select_priority'] = component_data_context.get('priority')
+            context['select_status'] = component_data_context.get('status')
+            context['select_sizes'] = component_data_context.get('sizes')
+            context['select_params'] = component_data_context.get('params')
+        elif component_name == 'slider':
+            # Dados do slider
+            context['slider_basic'] = component_data_context.get('basic')
+            context['slider_range'] = component_data_context.get('range')
+            context['slider_volume'] = component_data_context.get('volume')
+            context['slider_price'] = component_data_context.get('price')
+            context['slider_opacity'] = component_data_context.get('opacity')
+            context['slider_disabled'] = component_data_context.get('disabled')
+            context['slider_vertical'] = component_data_context.get('vertical')
+            context['slider_params'] = component_data_context.get('params')
+        elif component_name == 'toggle-group':
+            # Dados do toggle-group
+            context['toggle_group_alignment'] = component_data_context.get('alignment')
+            context['toggle_group_format'] = component_data_context.get('format')
+            context['toggle_group_size'] = component_data_context.get('size')
+            context['toggle_group_view'] = component_data_context.get('view')
+            context['toggle_group_priority'] = component_data_context.get('priority')
+            context['toggle_group_disabled'] = component_data_context.get('disabled')
+            context['toggle_group_params'] = component_data_context.get('params')
     else:
         # Fallback para componentes ainda não migrados
         print(f"⚠️ Componente {component_name} não encontrado no COMPONENT_DATA, usando fallback")

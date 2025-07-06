@@ -15,14 +15,15 @@ Parâmetros:
 - x_model: Modelo Alpine.js (opcional)
 - on_change: Função JavaScript no change (opcional)
 -->
-{% with size=size|default:"default" disabled=disabled|default:False multiple=multiple|default:False searchable=searchable|default:False %}
+{% with name_value=name|default:"" options_value=options|default:"[]" %}
+{% with size_value=size|default:"default" disabled_value=disabled|default:False multiple_value=multiple|default:False searchable_value=searchable|default:False %}
 <div 
     x-data="{ 
         open: false, 
         selected: {% if value %}'{{ value }}'{% else %}null{% endif %}, 
         selectedLabel: '{{ placeholder|default:"Selecione uma opção" }}',
         search: '',
-        options: {{ options|safe }},
+        options: {{ options_value|safe }},
         get filteredOptions() {
             if (!this.search) return this.options;
             return this.options.filter(option => 
@@ -45,7 +46,7 @@ Parâmetros:
     <button
         type="button"
         @click="open = !open"
-        {% if disabled %}disabled{% endif %}
+        {% if disabled_value %}disabled{% endif %}
         :aria-expanded="open"
         aria-haspopup="listbox"
         class="border-input focus-visible:border-ring focus-visible:ring-ring/50 
@@ -54,7 +55,7 @@ Parâmetros:
             flex w-full items-center justify-between gap-2 rounded-md border bg-transparent 
             px-3 py-2 text-sm shadow-xs transition-[color,box-shadow] outline-none 
             focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50
-            {% if size == 'sm' %}h-8{% else %}h-9{% endif %}
+            {% if size_value == 'sm' %}h-8{% else %}h-9{% endif %}
             text-left"
         :class="{ 'text-muted-foreground': !selected }"
     >
@@ -73,7 +74,9 @@ Parâmetros:
     </button>
     
     <!-- Hidden input for form submission -->
-    <input type="hidden" name="{{ name }}" :value="selected" />
+    {% if name_value %}
+        <input type="hidden" name="{{ name_value }}" :value="selected" />
+    {% endif %}
     
     <!-- Dropdown -->
     <div
@@ -88,7 +91,7 @@ Parâmetros:
             rounded-md border shadow-md max-h-60 overflow-y-auto"
         role="listbox"
     >
-        {% if searchable %}
+        {% if searchable_value %}
             <!-- Search input -->
             <div class="p-2 border-b">
                 <input
@@ -139,4 +142,5 @@ Parâmetros:
         </div>
     </div>
 </div>
+{% endwith %}
 {% endwith %}

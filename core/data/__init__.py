@@ -32,6 +32,11 @@ from .spinner_data import SPINNER_DATA, SPINNER_EXAMPLES, SPINNER_PARAMS
 from .toggle_data import TOGGLE_DATA, TOGGLE_EXAMPLES, TOGGLE_PARAMS
 from .tooltip_data import TOOLTIP_DATA, TOOLTIP_EXAMPLES, TOOLTIP_PARAMS
 
+# Novos componentes do GRUPO 1
+from .select_data import *
+from .slider_data import *
+from .toggle_group_data import *
+
 # Mapeamento para facilitar o acesso
 COMPONENT_DATA = {
     'button': {
@@ -150,6 +155,34 @@ COMPONENT_DATA = {
         'params': TOOLTIP_PARAMS,
     },
     'textarea': TEXTAREA_DATA,
+    # Novos componentes do GRUPO 1
+    'select': {
+        'basic_options': select_basic_options,
+        'countries': select_countries,
+        'priority': select_priority,
+        'status': select_status,
+        'sizes': select_sizes,
+        'params': select_params,
+    },
+    'slider': {
+        'basic': slider_basic,
+        'range': slider_range,
+        'volume': slider_volume,
+        'price': slider_price,
+        'opacity': slider_opacity,
+        'disabled': slider_disabled,
+        'vertical': slider_vertical,
+        'params': slider_params,
+    },
+    'toggle-group': {
+        'alignment': toggle_group_alignment,
+        'format': toggle_group_format,
+        'size': toggle_group_size,
+        'view': toggle_group_view,
+        'priority': toggle_group_priority,
+        'disabled': toggle_group_disabled,
+        'params': toggle_group_params,
+    },
 }
 
 # Facilitar importação direta
