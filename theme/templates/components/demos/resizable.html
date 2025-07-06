@@ -1,385 +1,126 @@
-
+<!-- Template independente do Resizable para consistência SPA/Reload -->
 {% load icon_tags %}
 
-{% block page_title %}Resizable{% endblock %}
-{% block page_description %}Componente para criar painéis redimensionáveis com divisores arrastáveis{% endblock %}
-
-{% block component_content %}
-<div class="max-w-4xl mx-auto space-y-8">
-    <!-- Instalação -->
-    <section class="space-y-4">
-        <h2 class="text-2xl font-semibold">Instalação</h2>
-        <div class="relative">
-            <pre class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto"><code>{% templatetag openblock %} include "components/resizable.html" with direction="horizontal" defaultSizes="[50, 50]" {% templatetag closeblock %}</code></pre>
-            <button 
-                class="absolute top-2 right-2 p-2 bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
-                x-data="{ copied: false }"
-                @click="navigator.clipboard.writeText($el.previousElementSibling.textContent); copied = true; setTimeout(() => copied = false, 2000)"
-            >
-                <span x-show="!copied">{% icon "copy" size="4" %}</span>
-                <span x-show="copied" class="text-green-600">{% icon "check" size="4" %}</span>
-            </button>
+<div class="space-y-6">
+    <!-- Cabeçalho -->
+    <div class="border-b border-border pb-4">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-3xl font-bold">Resizable</h1>
+                <p class="text-muted-foreground mt-1">Painéis redimensionáveis para layouts flexíveis</p>
+            </div>
+            <a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+                Voltar
+            </a>
         </div>
-    </section>
+    </div>
+
+    <!-- Instalação -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Instalação</h2>
+        <div class="bg-muted rounded-lg p-4 relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+            </button>
+            <code class="text-sm" x-ref="code">{% verbatim %}{% include "components/resizable.html" with panels=panels sizes=sizes %}{% endverbatim %}</code>
+        </div>
+    </div>
 
     <!-- Resizable Horizontal -->
-    <section class="space-y-4">
+    <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Resizable Horizontal</h2>
-        <div class="border rounded-lg overflow-hidden">
-            <div class="h-64 flex" x-data="{ 
-                leftWidth: 50,
-                isDragging: false,
-                startX: 0,
-                startWidth: 0,
-                startDrag(e) {
-                    this.isDragging = true;
-                    this.startX = e.clientX;
-                    this.startWidth = this.leftWidth;
-                    document.addEventListener('mousemove', this.handleDrag);
-                    document.addEventListener('mouseup', this.stopDrag);
-                },
-                handleDrag(e) {
-                    if (!this.isDragging) return;
-                    const container = this.$refs.container;
-                    const containerWidth = container.offsetWidth;
-                    const deltaX = e.clientX - this.startX;
-                    const deltaPercent = (deltaX / containerWidth) * 100;
-                    const newWidth = Math.max(10, Math.min(90, this.startWidth + deltaPercent));
-                    this.leftWidth = newWidth;
-                },
-                stopDrag() {
-                    this.isDragging = false;
-                    document.removeEventListener('mousemove', this.handleDrag);
-                    document.removeEventListener('mouseup', this.stopDrag);
-                }
-            }" x-ref="container">
-                
-                <!-- Left Panel -->
-                <div :style="'width: ' + leftWidth + '%'" class="bg-gray-50 dark:bg-gray-800 p-4 overflow-auto">
-                    <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-3">{{ resizable_data.demo_content.left_panel.title }}</h3>
-                    <nav class="space-y-2">
-                        {% for item in resizable_data.demo_content.left_panel.content %}
-                        <a href="#" class="block px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-colors">
-                            {{ item }}
-                        </a>
-                        {% endfor %}
-                    </nav>
-                </div>
-                
-                <!-- Divider -->
-                <div @mousedown="startDrag" 
-                     :class="isDragging ? 'bg-blue-500' : 'bg-gray-300 dark:bg-gray-600 hover:bg-blue-400 dark:hover:bg-blue-500'"
-                     class="w-1 cursor-col-resize transition-colors relative group">
-                    <div class="absolute inset-y-0 -left-1 -right-1 flex items-center justify-center">
-                        <div class="w-1 h-8 bg-gray-400 dark:bg-gray-500 rounded-full group-hover:bg-blue-500 transition-colors"></div>
-                    </div>
-                </div>
-                
-                <!-- Right Panel -->
-                <div :style="'width: ' + (100 - leftWidth) + '%'" class="bg-white dark:bg-gray-900 p-4 overflow-auto">
-                    <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-3">{{ resizable_data.demo_content.main_panel.title }}</h3>
-                    <p class="text-gray-700 dark:text-gray-300">{{ resizable_data.demo_content.main_panel.content }}</p>
-                    <div class="mt-4 space-y-2">
-                        <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
-                        <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse w-3/4"></div>
-                        <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse w-1/2"></div>
-                    </div>
-                </div>
+        <div class="border rounded-lg p-2">
+            <div class="h-64">
+                {% include "components/resizable.html" with direction=resizable_horizontal.direction panels=resizable_horizontal.panels sizes=resizable_horizontal.sizes min_sizes=resizable_horizontal.min_sizes contents=resizable_horizontal.contents %}
             </div>
         </div>
-    </section>
+        <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+            </button>
+            <code x-ref="code">{% verbatim %}{% include "components/resizable.html" with direction="horizontal" panels=horizontal_panels %}{% endverbatim %}</code>
+        </div>
+    </div>
 
     <!-- Resizable Vertical -->
-    <section class="space-y-4">
+    <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Resizable Vertical</h2>
-        <div class="border rounded-lg overflow-hidden">
-            <div class="h-96 flex flex-col" x-data="{ 
-                topHeight: 60,
-                isDragging: false,
-                startY: 0,
-                startHeight: 0,
-                startDrag(e) {
-                    this.isDragging = true;
-                    this.startY = e.clientY;
-                    this.startHeight = this.topHeight;
-                    document.addEventListener('mousemove', this.handleDrag);
-                    document.addEventListener('mouseup', this.stopDrag);
-                },
-                handleDrag(e) {
-                    if (!this.isDragging) return;
-                    const container = this.$refs.container;
-                    const containerHeight = container.offsetHeight;
-                    const deltaY = e.clientY - this.startY;
-                    const deltaPercent = (deltaY / containerHeight) * 100;
-                    const newHeight = Math.max(20, Math.min(80, this.startHeight + deltaPercent));
-                    this.topHeight = newHeight;
-                },
-                stopDrag() {
-                    this.isDragging = false;
-                    document.removeEventListener('mousemove', this.handleDrag);
-                    document.removeEventListener('mouseup', this.stopDrag);
-                }
-            }" x-ref="container">
-                
-                <!-- Top Panel -->
-                <div :style="'height: ' + topHeight + '%'" class="bg-gray-900 text-gray-100 p-4 overflow-auto">
-                    <h3 class="font-semibold mb-3">{{ resizable_data.code_examples.0.title }}</h3>
-                    <pre class="text-sm font-mono"><code>{% for line in resizable_data.code_examples.0.lines %}{{ line }}
-{% endfor %}</code></pre>
-                </div>
-                
-                <!-- Divider -->
-                <div @mousedown="startDrag" 
-                     :class="isDragging ? 'bg-blue-500' : 'bg-gray-300 dark:bg-gray-600 hover:bg-blue-400 dark:hover:bg-blue-500'"
-                     class="h-1 cursor-row-resize transition-colors relative group">
-                    <div class="absolute inset-x-0 -top-1 -bottom-1 flex items-center justify-center">
-                        <div class="h-1 w-8 bg-gray-400 dark:bg-gray-500 rounded-full group-hover:bg-blue-500 transition-colors"></div>
-                    </div>
-                </div>
-                
-                <!-- Bottom Panel -->
-                <div :style="'height: ' + (100 - topHeight) + '%'" class="bg-white dark:bg-gray-800 p-4 overflow-auto">
-                    <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-3">Console</h3>
-                    <div class="space-y-1 text-sm font-mono">
-                        <div class="text-green-600">$ npm start</div>
-                        <div class="text-gray-600 dark:text-gray-400">Starting development server...</div>
-                        <div class="text-blue-600">✓ Compiled successfully</div>
-                        <div class="text-gray-600 dark:text-gray-400">Local: http://localhost:3000</div>
-                    </div>
-                </div>
+        <div class="border rounded-lg p-2">
+            <div class="h-64">
+                {% include "components/resizable.html" with direction=resizable_vertical.direction panels=resizable_vertical.panels sizes=resizable_vertical.sizes min_sizes=resizable_vertical.min_sizes contents=resizable_vertical.contents %}
             </div>
         </div>
-    </section>
+        <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+            </button>
+            <code x-ref="code">{% verbatim %}{% include "components/resizable.html" with direction="vertical" panels=vertical_panels %}{% endverbatim %}</code>
+        </div>
+    </div>
 
-    <!-- Resizable Triplo -->
-    <section class="space-y-4">
-        <h2 class="text-2xl font-semibold">Resizable Triplo</h2>
-        <div class="border rounded-lg overflow-hidden">
-            <div class="h-64 flex" x-data="{ 
-                leftWidth: 25,
-                centerWidth: 50,
-                isDragging: false,
-                dragType: null,
-                startX: 0,
-                startLeftWidth: 0,
-                startCenterWidth: 0,
-                startDrag(e, type) {
-                    this.isDragging = true;
-                    this.dragType = type;
-                    this.startX = e.clientX;
-                    this.startLeftWidth = this.leftWidth;
-                    this.startCenterWidth = this.centerWidth;
-                    document.addEventListener('mousemove', this.handleDrag);
-                    document.addEventListener('mouseup', this.stopDrag);
-                },
-                handleDrag(e) {
-                    if (!this.isDragging) return;
-                    const container = this.$refs.container;
-                    const containerWidth = container.offsetWidth;
-                    const deltaX = e.clientX - this.startX;
-                    const deltaPercent = (deltaX / containerWidth) * 100;
-                    
-                    if (this.dragType === 'left') {
-                        const newLeftWidth = Math.max(10, Math.min(70, this.startLeftWidth + deltaPercent));
-                        this.leftWidth = newLeftWidth;
-                    } else if (this.dragType === 'right') {
-                        const newCenterWidth = Math.max(20, Math.min(70, this.startCenterWidth + deltaPercent));
-                        this.centerWidth = newCenterWidth;
-                    }
-                },
-                stopDrag() {
-                    this.isDragging = false;
-                    this.dragType = null;
-                    document.removeEventListener('mousemove', this.handleDrag);
-                    document.removeEventListener('mouseup', this.stopDrag);
-                }
-            }" x-ref="container">
-                
-                <!-- Left Panel -->
-                <div :style="'width: ' + leftWidth + '%'" class="bg-gray-50 dark:bg-gray-800 p-4 overflow-auto">
-                    <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-3">Navegação</h3>
-                    <nav class="space-y-1 text-sm">
-                        <a href="#" class="block px-2 py-1 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded">Início</a>
-                        <a href="#" class="block px-2 py-1 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded">Projetos</a>
-                        <a href="#" class="block px-2 py-1 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded">Equipe</a>
-                    </nav>
-                </div>
-                
-                <!-- Left Divider -->
-                <div @mousedown="startDrag($event, 'left')" 
-                     :class="isDragging && dragType === 'left' ? 'bg-blue-500' : 'bg-gray-300 dark:bg-gray-600 hover:bg-blue-400 dark:hover:bg-blue-500'"
-                     class="w-1 cursor-col-resize transition-colors"></div>
-                
-                <!-- Center Panel -->
-                <div :style="'width: ' + centerWidth + '%'" class="bg-white dark:bg-gray-900 p-4 overflow-auto">
-                    <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-3">Conteúdo Principal</h3>
-                    <p class="text-gray-700 dark:text-gray-300">Este é o painel central que pode ser redimensionado pelos dois lados.</p>
-                    <div class="mt-4 grid grid-cols-2 gap-2">
-                        <div class="h-16 bg-gray-200 dark:bg-gray-700 rounded"></div>
-                        <div class="h-16 bg-gray-200 dark:bg-gray-700 rounded"></div>
-                    </div>
-                </div>
-                
-                <!-- Right Divider -->
-                <div @mousedown="startDrag($event, 'right')" 
-                     :class="isDragging && dragType === 'right' ? 'bg-blue-500' : 'bg-gray-300 dark:bg-gray-600 hover:bg-blue-400 dark:hover:bg-blue-500'"
-                     class="w-1 cursor-col-resize transition-colors"></div>
-                
-                <!-- Right Panel -->
-                <div :style="'width: ' + (100 - leftWidth - centerWidth) + '%'" class="bg-gray-50 dark:bg-gray-800 p-4 overflow-auto">
-                    <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-3">Informações</h3>
-                    <div class="space-y-2 text-sm">
-                        <div class="p-2 bg-blue-100 dark:bg-blue-900/20 rounded">
-                            <div class="font-medium text-blue-900 dark:text-blue-100">Notificação</div>
-                            <div class="text-blue-700 dark:text-blue-300">Nova mensagem recebida</div>
-                        </div>
-                        <div class="p-2 bg-green-100 dark:bg-green-900/20 rounded">
-                            <div class="font-medium text-green-900 dark:text-green-100">Sucesso</div>
-                            <div class="text-green-700 dark:text-green-300">Tarefa concluída</div>
-                        </div>
-                    </div>
-                </div>
+    <!-- Resizable Três Painéis -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Layout de Editor (3 Painéis)</h2>
+        <div class="border rounded-lg p-2">
+            <div class="h-80">
+                {% include "components/resizable.html" with direction=resizable_three_panels.direction panels=resizable_three_panels.panels sizes=resizable_three_panels.sizes min_sizes=resizable_three_panels.min_sizes contents=resizable_three_panels.contents %}
             </div>
         </div>
-    </section>
+        <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+            </button>
+            <code x-ref="code">{% verbatim %}{% include "components/resizable.html" with panels=three_panels sizes="20,60,20" %}{% endverbatim %}</code>
+        </div>
+    </div>
 
     <!-- Resizable Aninhado -->
-    <section class="space-y-4">
-        <h2 class="text-2xl font-semibold">Resizable Aninhado</h2>
-        <div class="border rounded-lg overflow-hidden">
-            <div class="h-96 flex" x-data="{ 
-                mainWidth: 70,
-                topHeight: 60,
-                isDragging: false,
-                dragType: null,
-                startX: 0,
-                startY: 0,
-                startMainWidth: 0,
-                startTopHeight: 0,
-                startDrag(e, type) {
-                    this.isDragging = true;
-                    this.dragType = type;
-                    this.startX = e.clientX;
-                    this.startY = e.clientY;
-                    this.startMainWidth = this.mainWidth;
-                    this.startTopHeight = this.topHeight;
-                    document.addEventListener('mousemove', this.handleDrag);
-                    document.addEventListener('mouseup', this.stopDrag);
-                },
-                handleDrag(e) {
-                    if (!this.isDragging) return;
-                    
-                    if (this.dragType === 'main') {
-                        const container = this.$refs.container;
-                        const containerWidth = container.offsetWidth;
-                        const deltaX = e.clientX - this.startX;
-                        const deltaPercent = (deltaX / containerWidth) * 100;
-                        const newWidth = Math.max(40, Math.min(80, this.startMainWidth + deltaPercent));
-                        this.mainWidth = newWidth;
-                    } else if (this.dragType === 'nested') {
-                        const container = this.$refs.nestedContainer;
-                        const containerHeight = container.offsetHeight;
-                        const deltaY = e.clientY - this.startY;
-                        const deltaPercent = (deltaY / containerHeight) * 100;
-                        const newHeight = Math.max(30, Math.min(80, this.startTopHeight + deltaPercent));
-                        this.topHeight = newHeight;
-                    }
-                },
-                stopDrag() {
-                    this.isDragging = false;
-                    this.dragType = null;
-                    document.removeEventListener('mousemove', this.handleDrag);
-                    document.removeEventListener('mouseup', this.stopDrag);
-                }
-            }" x-ref="container">
-                
-                <!-- Main Content Area -->
-                <div :style="'width: ' + mainWidth + '%'" class="flex flex-col" x-ref="nestedContainer">
-                    <!-- Top Area -->
-                    <div :style="'height: ' + topHeight + '%'" class="bg-white dark:bg-gray-900 p-4 overflow-auto border-b border-gray-200 dark:border-gray-700">
-                        <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-3">Área Principal</h3>
-                        <div class="grid grid-cols-3 gap-4">
-                            <div class="h-20 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg"></div>
-                            <div class="h-20 bg-gradient-to-r from-green-500 to-teal-500 rounded-lg"></div>
-                            <div class="h-20 bg-gradient-to-r from-orange-500 to-red-500 rounded-lg"></div>
-                        </div>
-                    </div>
-                    
-                    <!-- Nested Divider -->
-                    <div @mousedown="startDrag($event, 'nested')" 
-                         :class="isDragging && dragType === 'nested' ? 'bg-blue-500' : 'bg-gray-300 dark:bg-gray-600 hover:bg-blue-400 dark:hover:bg-blue-500'"
-                         class="h-1 cursor-row-resize transition-colors"></div>
-                    
-                    <!-- Bottom Area -->
-                    <div :style="'height: ' + (100 - topHeight) + '%'" class="bg-gray-50 dark:bg-gray-800 p-4 overflow-auto">
-                        <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-3">Área Inferior</h3>
-                        <div class="space-y-2">
-                            <div class="flex items-center space-x-2">
-                                <div class="w-8 h-8 bg-blue-500 rounded-full"></div>
-                                <span class="text-gray-700 dark:text-gray-300">Elemento 1</span>
-                            </div>
-                            <div class="flex items-center space-x-2">
-                                <div class="w-8 h-8 bg-green-500 rounded-full"></div>
-                                <span class="text-gray-700 dark:text-gray-300">Elemento 2</span>
-                            </div>
-                            <div class="flex items-center space-x-2">
-                                <div class="w-8 h-8 bg-purple-500 rounded-full"></div>
-                                <span class="text-gray-700 dark:text-gray-300">Elemento 3</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Main Divider -->
-                <div @mousedown="startDrag($event, 'main')" 
-                     :class="isDragging && dragType === 'main' ? 'bg-blue-500' : 'bg-gray-300 dark:bg-gray-600 hover:bg-blue-400 dark:hover:bg-blue-500'"
-                     class="w-1 cursor-col-resize transition-colors"></div>
-                
-                <!-- Sidebar -->
-                <div :style="'width: ' + (100 - mainWidth) + '%'" class="bg-gray-100 dark:bg-gray-800 p-4 overflow-auto">
-                    <h3 class="font-semibold text-gray-900 dark:text-gray-100 mb-3">Barra Lateral</h3>
-                    <div class="space-y-3">
-                        <div class="bg-white dark:bg-gray-700 p-3 rounded-lg">
-                            <h4 class="font-medium text-gray-900 dark:text-gray-100">Widget 1</h4>
-                            <p class="text-sm text-gray-600 dark:text-gray-400">Conteúdo do widget</p>
-                        </div>
-                        <div class="bg-white dark:bg-gray-700 p-3 rounded-lg">
-                            <h4 class="font-medium text-gray-900 dark:text-gray-100">Widget 2</h4>
-                            <p class="text-sm text-gray-600 dark:text-gray-400">Mais conteúdo</p>
-                        </div>
-                    </div>
-                </div>
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Layout Aninhado</h2>
+        <div class="border rounded-lg p-2">
+            <div class="h-64">
+                {% include "components/resizable.html" with direction=resizable_nested.direction panels=resizable_nested.panels sizes=resizable_nested.sizes min_sizes=resizable_nested.min_sizes nested=resizable_nested.nested contents=resizable_nested.contents %}
             </div>
         </div>
-    </section>
+        <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+            </button>
+            <code x-ref="code">{% verbatim %}{% include "components/resizable.html" with nested=true panels=nested_panels %}{% endverbatim %}</code>
+        </div>
+    </div>
+
+    <!-- Resizable Dinâmico -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Layout Dinâmico (Lista/Detalhe)</h2>
+        <div class="border rounded-lg p-2">
+            <div class="h-80">
+                {% include "components/resizable.html" with direction=resizable_dynamic.direction panels=resizable_dynamic.panels sizes=resizable_dynamic.sizes min_sizes=resizable_dynamic.min_sizes contents=resizable_dynamic.contents %}
+            </div>
+        </div>
+        <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+            </button>
+            <code x-ref="code">{% verbatim %}{% include "components/resizable.html" with panels=dynamic_panels sizes="40,60" %}{% endverbatim %}</code>
+        </div>
+    </div>
 
     <!-- Parâmetros -->
-    <section class="space-y-4">
+    <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Parâmetros</h2>
-        <div class="border rounded-lg overflow-hidden">
-            <table class="w-full">
-                <thead class="bg-gray-50 dark:bg-gray-800">
-                    <tr>
-                        {% for header in resizable_params.headers %}
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                            {{ header }}
-                        </th>
-                        {% endfor %}
-                    </tr>
-                </thead>
-                <tbody class="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
-                    {% for row in resizable_params.data %}
-                    <tr>
-                        {% for cell in row %}
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
-                            {{ cell|safe }}
-                        </td>
-                        {% endfor %}
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </section>
-</div>
-{% endblock %} 
+        {% include "components/table.html" with headers=resizable_params.headers data=resizable_params.data caption="Parâmetros disponíveis para o componente Resizable" %}
+    </div>
+</div> 

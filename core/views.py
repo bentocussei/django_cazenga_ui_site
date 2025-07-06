@@ -502,6 +502,126 @@ def component_detail(request, component_name):
             context['form_validation'] = component_data_context.get('validation')
             context['form_field_types'] = component_data_context.get('field_types')
             context['form_params'] = component_data_context.get('params')
+        # Novos componentes corrigidos com dados
+        elif component_name == 'carousel':
+            # Dados do carousel
+            context['carousel_basic'] = component_data_context.get('basic')
+            context['carousel_autoplay'] = component_data_context.get('autoplay')
+            context['carousel_simple'] = component_data_context.get('simple')
+            context['carousel_params'] = component_data_context.get('params')
+        elif component_name == 'drawer':
+            # Dados do drawer
+            context['drawer_basic'] = component_data_context.get('basic')
+            context['drawer_right'] = component_data_context.get('right')
+            context['drawer_footer'] = component_data_context.get('footer')
+            context['drawer_params'] = component_data_context.get('params')
+        elif component_name == 'dropdown':
+            # Dados do dropdown
+            context['dropdown_states'] = component_data_context.get('states')
+            context['dropdown_colors'] = component_data_context.get('colors')
+            context['dropdown_basic'] = component_data_context.get('basic')
+            context['dropdown_countries'] = component_data_context.get('countries')
+            context['dropdown_sizes'] = component_data_context.get('sizes')
+            context['dropdown_params'] = component_data_context.get('params')
+        elif component_name == 'chart':
+            # Dados do chart
+            context['chart_bar'] = component_data_context.get('bar')
+            context['chart_pie'] = component_data_context.get('pie')
+            context['chart_line'] = component_data_context.get('line')
+            context['chart_metrics'] = component_data_context.get('metrics')
+            context['chart_params'] = component_data_context.get('params')
+        elif component_name == 'context-menu':
+            # Dados do context-menu
+            context['context_menu_basic'] = component_data_context.get('basic')
+            context['context_menu_submenu'] = component_data_context.get('submenu')
+            context['context_menu_files'] = component_data_context.get('files')
+            context['context_menu_params'] = component_data_context.get('params')
+        elif component_name == 'dropdown-menu':
+            # Dados do dropdown-menu
+            context['dropdown_menu_basic'] = component_data_context.get('basic')
+            context['dropdown_menu_user'] = component_data_context.get('user')
+            context['dropdown_menu_submenu'] = component_data_context.get('submenu')
+            context['dropdown_menu_notifications'] = component_data_context.get('notifications')
+            context['dropdown_menu_params'] = component_data_context.get('params')
+        elif component_name == 'hover-card':
+            # Dados do hover-card
+            context['hover_card_basic'] = component_data_context.get('basic')
+            context['hover_card_user'] = component_data_context.get('user')
+            context['hover_card_product'] = component_data_context.get('product')
+            context['hover_card_location'] = component_data_context.get('location')
+            context['hover_card_params'] = component_data_context.get('params')
+        elif component_name == 'layout':
+            # Dados do layout
+            context['layout_sidebar_left'] = component_data_context.get('sidebar_left')
+            context['layout_sidebar_right'] = component_data_context.get('sidebar_right')
+            context['layout_header_only'] = component_data_context.get('header_only')
+            context['layout_full'] = component_data_context.get('full')
+            context['layout_params'] = component_data_context.get('params')
+        elif component_name == 'input-otp':
+            # Dados do input-otp
+            context['input_otp_basic'] = component_data_context.get('basic')
+            context['input_otp_pin'] = component_data_context.get('pin')
+            context['input_otp_long'] = component_data_context.get('long')
+            context['input_otp_validation'] = component_data_context.get('validation')
+            context['input_otp_custom'] = component_data_context.get('custom')
+            context['input_otp_sizes'] = component_data_context.get('sizes')
+            context['input_otp_states'] = component_data_context.get('states')
+            context['input_otp_params'] = component_data_context.get('params')
+        elif component_name == 'modal':
+            # Dados do modal
+            context['modal_basic'] = component_data_context.get('basic')
+            context['modal_confirmation'] = component_data_context.get('confirmation')
+            context['modal_form'] = component_data_context.get('form')
+            context['modal_info'] = component_data_context.get('info')
+            context['modal_fullscreen'] = component_data_context.get('fullscreen')
+            context['modal_params'] = component_data_context.get('params')
+        elif component_name == 'menubar':
+            # Dados do menubar
+            context['menubar_basic'] = component_data_context.get('basic')
+            context['menubar_simple'] = component_data_context.get('simple')
+            context['menubar_with_icons'] = component_data_context.get('with_icons')
+            context['menubar_editor'] = component_data_context.get('editor')
+            context['menubar_params'] = component_data_context.get('params')
+        elif component_name == 'sheet':
+            # Dados do sheet
+            context['sheet_basic'] = component_data_context.get('basic')
+            context['sheet_form'] = component_data_context.get('form')
+            context['sheet_details'] = component_data_context.get('details')
+            context['sheet_filters'] = component_data_context.get('filters')
+            context['sheet_params'] = component_data_context.get('params')
+        elif component_name == 'sidebar':
+            # Dados do sidebar
+            context['sidebar_basic'] = component_data_context.get('basic')
+            context['sidebar_submenu'] = component_data_context.get('submenu')
+            context['sidebar_minimal'] = component_data_context.get('minimal')
+            context['sidebar_with_badges'] = component_data_context.get('with_badges')
+            context['sidebar_collapsed'] = component_data_context.get('collapsed')
+            context['sidebar_params'] = component_data_context.get('params')
+        elif component_name == 'navigation-menu':
+            # Dados do navigation-menu
+            context['navigation_menu_basic'] = component_data_context.get('basic')
+            context['navigation_menu_with_icons'] = component_data_context.get('with_icons')
+            context['navigation_menu_vertical'] = component_data_context.get('vertical')
+            context['navigation_menu_compact'] = component_data_context.get('compact')
+            context['navigation_menu_mobile'] = component_data_context.get('mobile')
+            context['navigation_menu_params'] = component_data_context.get('params')
+        elif component_name == 'resizable':
+            # Dados do resizable
+            context['resizable_horizontal'] = component_data_context.get('horizontal')
+            context['resizable_vertical'] = component_data_context.get('vertical')
+            context['resizable_three_panels'] = component_data_context.get('three_panels')
+            context['resizable_nested'] = component_data_context.get('nested')
+            context['resizable_dynamic'] = component_data_context.get('dynamic')
+            context['resizable_params'] = component_data_context.get('params')
+        elif component_name == 'scroll-area':
+            # Dados do scroll-area
+            context['scroll_area_basic'] = component_data_context.get('basic')
+            context['scroll_area_horizontal'] = component_data_context.get('horizontal')
+            context['scroll_area_mixed'] = component_data_context.get('mixed')
+            context['scroll_area_custom'] = component_data_context.get('custom')
+            context['scroll_area_table'] = component_data_context.get('table')
+            context['scroll_area_infinite'] = component_data_context.get('infinite')
+            context['scroll_area_params'] = component_data_context.get('params')
     else:
         # Fallback para componentes ainda não migrados
         print(f"⚠️ Componente {component_name} não encontrado no COMPONENT_DATA, usando fallback")

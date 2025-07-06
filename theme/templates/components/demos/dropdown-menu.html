@@ -1,553 +1,100 @@
-
+<!-- Template independente do Dropdown Menu para consistência SPA/Reload -->
 {% load icon_tags %}
 
-{% block page_title %}Dropdown Menu{% endblock %}
-{% block page_description %}Menu suspenso com opções clicáveis e navegação{% endblock %}
+<div class="space-y-6">
+    <!-- Cabeçalho -->
+    <div class="border-b border-border pb-4">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-3xl font-bold">Dropdown Menu</h1>
+                <p class="text-muted-foreground mt-1">Menu suspenso com opções de navegação e ações</p>
+            </div>
+            <a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+                Voltar
+            </a>
+        </div>
+    </div>
 
-{% block component_content %}
-<div class="max-w-4xl mx-auto space-y-8">
     <!-- Instalação -->
-    <section class="space-y-4">
+    <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Instalação</h2>
-        <div class="relative">
-            <pre class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto"><code>{% templatetag openblock %} include "components/dropdown-menu.html" with trigger_text="Menu" items=menu_items {% templatetag closeblock %}</code></pre>
-            <button 
-                class="absolute top-2 right-2 p-2 bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
-                x-data="{ copied: false }"
-                @click="navigator.clipboard.writeText($el.previousElementSibling.textContent); copied = true; setTimeout(() => copied = false, 2000)"
-            >
-                <span x-show="!copied">{% icon "copy" size="4" %}</span>
-                <span x-show="copied" class="text-green-600">{% icon "check" size="4" %}</span>
+        <div class="bg-muted rounded-lg p-4 relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
+            <code class="text-sm" x-ref="code">{% verbatim %}{% include "components/dropdown-menu.html" with trigger_text="Menu" items=menu_items %}{% endverbatim %}</code>
         </div>
-    </section>
+    </div>
 
-    <!-- Dropdown Básico -->
-    <section class="space-y-4">
-        <h2 class="text-2xl font-semibold">Dropdown Básico</h2>
+    <!-- Dropdown Menu Básico -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Dropdown Menu Básico</h2>
         <div class="border rounded-lg p-6">
-            <div class="flex items-center justify-center space-x-8">
-                <div class="relative" x-data="{ open: false }">
-                    <button 
-                        @click="open = !open"
-                        @click.away="open = false"
-                        class="flex items-center space-x-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
-                    >
-                        <span>Menu Principal</span>
-                        {% icon "chevron-down" size="4" class="transition-transform" %}
-                    </button>
-                    <div x-show="open" 
-                         x-transition:enter="transition ease-out duration-200"
-                         x-transition:enter-start="opacity-0 scale-95"
-                         x-transition:enter-end="opacity-100 scale-100"
-                         x-transition:leave="transition ease-in duration-150"
-                         x-transition:leave-start="opacity-100 scale-100"
-                         x-transition:leave-end="opacity-0 scale-95"
-                         class="absolute top-full left-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 py-1 z-50">
-                        <a href="#" class="flex items-center space-x-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
-                            {% icon "home" size="4" %}
-                            <span>Início</span>
-                        </a>
-                        <a href="#" class="flex items-center space-x-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
-                            {% icon "person" size="4" %}
-                            <span>Perfil</span>
-                        </a>
-                        <a href="#" class="flex items-center space-x-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
-                            {% icon "gear" size="4" %}
-                            <span>Configurações</span>
-                        </a>
-                        <div class="border-t border-gray-200 dark:border-gray-600 my-1"></div>
-                        <a href="#" class="flex items-center space-x-2 px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-700">
-                            {% icon "exit" size="4" %}
-                            <span>Sair</span>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="relative" x-data="{ open: false }">
-                    <button 
-                        @click="open = !open"
-                        @click.away="open = false"
-                        class="flex items-center space-x-2 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-                    >
-                        <span>Ações</span>
-                        {% icon "dots-vertical" size="4" %}
-                    </button>
-                    <div x-show="open" 
-                         x-transition:enter="transition ease-out duration-200"
-                         x-transition:enter-start="opacity-0 scale-95"
-                         x-transition:enter-end="opacity-100 scale-100"
-                         x-transition:leave="transition ease-in duration-150"
-                         x-transition:leave-start="opacity-100 scale-100"
-                         x-transition:leave-end="opacity-0 scale-95"
-                         class="absolute top-full right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 py-1 z-50">
-                        <button class="flex items-center space-x-2 w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 text-left">
-                            {% icon "pencil-1" size="4" %}
-                            <span>Editar</span>
-                        </button>
-                        <button class="flex items-center space-x-2 w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 text-left">
-                            {% icon "copy" size="4" %}
-                            <span>Duplicar</span>
-                        </button>
-                        <button class="flex items-center space-x-2 w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 text-left">
-                            {% icon "share-1" size="4" %}
-                            <span>Compartilhar</span>
-                        </button>
-                        <div class="border-t border-gray-200 dark:border-gray-600 my-1"></div>
-                        <button class="flex items-center space-x-2 w-full px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-700 text-left">
-                            {% icon "trash" size="4" %}
-                            <span>Excluir</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
+            {% include "components/dropdown-menu.html" with trigger_text=dropdown_menu_basic.trigger_text items=dropdown_menu_basic.items %}
         </div>
-        <div class="relative">
-            <pre class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto text-sm"><code>&lt;div class="relative" x-data="{ open: false }"&gt;
-  &lt;button 
-    @click="open = !open"
-    @click.away="open = false"
-    class="flex items-center space-x-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
-  &gt;
-    &lt;span&gt;Menu Principal&lt;/span&gt;
-    &lt;svg class="w-4 h-4"&gt;...&lt;/svg&gt;
-  &lt;/button&gt;
-  &lt;div x-show="open" 
-       x-transition
-       class="absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-lg border py-1 z-50"&gt;
-    &lt;a href="#" class="flex items-center space-x-2 px-4 py-2 text-sm hover:bg-gray-100"&gt;
-      &lt;svg class="w-4 h-4"&gt;...&lt;/svg&gt;
-      &lt;span&gt;Início&lt;/span&gt;
-    &lt;/a&gt;
-    &lt;!-- Mais itens... --&gt;
-  &lt;/div&gt;
-&lt;/div&gt;</code></pre>
-            <button 
-                class="absolute top-2 right-2 p-2 bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
-                x-data="{ copied: false }"
-                @click="navigator.clipboard.writeText($el.previousElementSibling.textContent); copied = true; setTimeout(() => copied = false, 2000)"
-            >
-                <span x-show="!copied">{% icon "copy" size="4" %}</span>
-                <span x-show="copied" class="text-green-600">{% icon "check" size="4" %}</span>
+        <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
+            <code x-ref="code">{% verbatim %}{% include "components/dropdown-menu.html" with trigger_text="Menu" items=basic_items %}{% endverbatim %}</code>
         </div>
-    </section>
+    </div>
 
-    <!-- Submenus -->
-    <section class="space-y-4">
-        <h2 class="text-2xl font-semibold">Submenus</h2>
+    <!-- Dropdown Menu de Usuário -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Menu de Usuário</h2>
         <div class="border rounded-lg p-6">
-            <div class="flex items-center justify-center">
-                <div class="relative" x-data="{ 
-                    mainOpen: false, 
-                    submenuOpen: '',
-                    
-                    toggleSubmenu(menu) {
-                        this.submenuOpen = this.submenuOpen === menu ? '' : menu;
-                    }
-                }">
-                    <button 
-                        @click="mainOpen = !mainOpen"
-                        @click.away="mainOpen = false; submenuOpen = ''"
-                        class="flex items-center space-x-2 px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors"
-                    >
-                        <span>Menu com Submenus</span>
-                        {% icon "chevron-down" size="4" %}
-                    </button>
-                    <div x-show="mainOpen" 
-                         x-transition:enter="transition ease-out duration-200"
-                         x-transition:enter-start="opacity-0 scale-95"
-                         x-transition:enter-end="opacity-100 scale-100"
-                         x-transition:leave="transition ease-in duration-150"
-                         x-transition:leave-start="opacity-100 scale-100"
-                         x-transition:leave-end="opacity-0 scale-95"
-                         class="absolute top-full left-0 mt-2 w-56 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 py-1 z-50">
-                        
-                        <a href="#" class="flex items-center space-x-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
-                            {% icon "dashboard" size="4" %}
-                            <span>Dashboard</span>
-                        </a>
-                        
-                        <div class="relative">
-                            <button 
-                                @click="toggleSubmenu('products')"
-                                class="flex items-center justify-between w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 text-left"
-                            >
-                                <div class="flex items-center space-x-2">
-                                    {% icon "box" size="4" %}
-                                    <span>Produtos</span>
-                                </div>
-                                {% icon "chevron-right" size="4" class="transition-transform" %}
-                            </button>
-                            <div x-show="submenuOpen === 'products'" 
-                                 x-transition:enter="transition ease-out duration-200"
-                                 x-transition:enter-start="opacity-0 translate-x-1"
-                                 x-transition:enter-end="opacity-100 translate-x-0"
-                                 class="absolute top-0 left-full ml-1 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 py-1">
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Ver Todos</a>
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Adicionar Produto</a>
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Categorias</a>
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Estoque</a>
-                            </div>
-                        </div>
-                        
-                        <div class="relative">
-                            <button 
-                                @click="toggleSubmenu('users')"
-                                class="flex items-center justify-between w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 text-left"
-                            >
-                                <div class="flex items-center space-x-2">
-                                    {% icon "person" size="4" %}
-                                    <span>Usuários</span>
-                                </div>
-                                {% icon "chevron-right" size="4" %}
-                            </button>
-                            <div x-show="submenuOpen === 'users'" 
-                                 x-transition:enter="transition ease-out duration-200"
-                                 x-transition:enter-start="opacity-0 translate-x-1"
-                                 x-transition:enter-end="opacity-100 translate-x-0"
-                                 class="absolute top-0 left-full ml-1 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 py-1">
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Todos Usuários</a>
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Adicionar Usuário</a>
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Permissões</a>
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">Grupos</a>
-                            </div>
-                        </div>
-                        
-                        <div class="border-t border-gray-200 dark:border-gray-600 my-1"></div>
-                        
-                        <a href="#" class="flex items-center space-x-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
-                            {% icon "gear" size="4" %}
-                            <span>Configurações</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
+            {% include "components/dropdown-menu.html" with trigger_text=dropdown_menu_user.trigger_text trigger_avatar=dropdown_menu_user.trigger_avatar items=dropdown_menu_user.items %}
         </div>
-    </section>
+        <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+            </button>
+            <code x-ref="code">{% verbatim %}{% include "components/dropdown-menu.html" with trigger_text="João Silva" trigger_avatar="/avatar.jpg" items=user_items %}{% endverbatim %}</code>
+        </div>
+    </div>
 
-    <!-- Dropdown com Checkbox -->
-    <section class="space-y-4">
-        <h2 class="text-2xl font-semibold">Dropdown com Seleção Múltipla</h2>
+    <!-- Dropdown Menu com Submenus -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Menu com Submenus</h2>
         <div class="border rounded-lg p-6">
-            <div class="flex items-center justify-center">
-                <div class="relative" x-data="{ 
-                    open: false,
-                    selected: ['javascript', 'python'],
-                    
-                    toggleSelection(value) {
-                        if (this.selected.includes(value)) {
-                            this.selected = this.selected.filter(item => item !== value);
-                        } else {
-                            this.selected.push(value);
-                        }
-                    },
-                    
-                    get selectedText() {
-                        if (this.selected.length === 0) return 'Selecionar tecnologias';
-                        if (this.selected.length === 1) return this.selected[0];
-                        return `${this.selected.length} tecnologias selecionadas`;
-                    }
-                }">
-                    <button 
-                        @click="open = !open"
-                        @click.away="open = false"
-                        class="flex items-center justify-between w-64 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-                    >
-                        <span x-text="selectedText" class="text-sm"></span>
-                        {% icon "chevron-down" size="4" %}
-                    </button>
-                    <div x-show="open" 
-                         x-transition:enter="transition ease-out duration-200"
-                         x-transition:enter-start="opacity-0 scale-95"
-                         x-transition:enter-end="opacity-100 scale-100"
-                         x-transition:leave="transition ease-in duration-150"
-                         x-transition:leave-start="opacity-100 scale-100"
-                         x-transition:leave-end="opacity-0 scale-95"
-                         class="absolute top-full left-0 mt-2 w-64 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 py-2 z-50 max-h-60 overflow-y-auto">
-                        
-                        <label class="flex items-center space-x-3 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer">
-                            <input 
-                                type="checkbox" 
-                                value="javascript"
-                                @change="toggleSelection('javascript')"
-                                :checked="selected.includes('javascript')"
-                                class="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
-                            >
-                            <div class="flex items-center space-x-2">
-                                <div class="w-3 h-3 bg-yellow-400 rounded"></div>
-                                <span class="text-sm">JavaScript</span>
-                            </div>
-                        </label>
-                        
-                        <label class="flex items-center space-x-3 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer">
-                            <input 
-                                type="checkbox" 
-                                value="python"
-                                @change="toggleSelection('python')"
-                                :checked="selected.includes('python')"
-                                class="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
-                            >
-                            <div class="flex items-center space-x-2">
-                                <div class="w-3 h-3 bg-blue-500 rounded"></div>
-                                <span class="text-sm">Python</span>
-                            </div>
-                        </label>
-                        
-                        <label class="flex items-center space-x-3 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer">
-                            <input 
-                                type="checkbox" 
-                                value="react"
-                                @change="toggleSelection('react')"
-                                :checked="selected.includes('react')"
-                                class="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
-                            >
-                            <div class="flex items-center space-x-2">
-                                <div class="w-3 h-3 bg-cyan-400 rounded"></div>
-                                <span class="text-sm">React</span>
-                            </div>
-                        </label>
-                        
-                        <label class="flex items-center space-x-3 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer">
-                            <input 
-                                type="checkbox" 
-                                value="vue"
-                                @change="toggleSelection('vue')"
-                                :checked="selected.includes('vue')"
-                                class="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
-                            >
-                            <div class="flex items-center space-x-2">
-                                <div class="w-3 h-3 bg-green-500 rounded"></div>
-                                <span class="text-sm">Vue.js</span>
-                            </div>
-                        </label>
-                        
-                        <label class="flex items-center space-x-3 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer">
-                            <input 
-                                type="checkbox" 
-                                value="angular"
-                                @change="toggleSelection('angular')"
-                                :checked="selected.includes('angular')"
-                                class="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
-                            >
-                            <div class="flex items-center space-x-2">
-                                <div class="w-3 h-3 bg-red-500 rounded"></div>
-                                <span class="text-sm">Angular</span>
-                            </div>
-                        </label>
-                        
-                        <div class="border-t border-gray-200 dark:border-gray-600 mt-2 pt-2">
-                            <div class="px-4 py-2">
-                                <div class="text-xs text-gray-500 dark:text-gray-400">
-                                    <span x-text="selected.length"></span> de 5 selecionadas
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {% include "components/dropdown-menu.html" with trigger_text=dropdown_menu_submenu.trigger_text items=dropdown_menu_submenu.items %}
         </div>
-    </section>
+        <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+            </button>
+            <code x-ref="code">{% verbatim %}{% include "components/dropdown-menu.html" with trigger_text="Ações" items=submenu_items %}{% endverbatim %}</code>
+        </div>
+    </div>
 
-    <!-- Dropdown com Busca -->
-    <section class="space-y-4">
-        <h2 class="text-2xl font-semibold">Dropdown com Busca</h2>
+    <!-- Dropdown Menu de Notificações -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Menu de Notificações</h2>
         <div class="border rounded-lg p-6">
-            <div class="flex items-center justify-center">
-                <div class="relative w-64" x-data="{ 
-                    open: false,
-                    search: '',
-                    selected: null,
-                    
-                    countries: [
-                        { code: 'BR', name: 'Brasil', flag: '🇧🇷' },
-                        { code: 'US', name: 'Estados Unidos', flag: '🇺🇸' },
-                        { code: 'FR', name: 'França', flag: '🇫🇷' },
-                        { code: 'DE', name: 'Alemanha', flag: '🇩🇪' },
-                        { code: 'JP', name: 'Japão', flag: '🇯🇵' },
-                        { code: 'AU', name: 'Austrália', flag: '🇦🇺' },
-                        { code: 'CA', name: 'Canadá', flag: '🇨🇦' },
-                        { code: 'IT', name: 'Itália', flag: '🇮🇹' },
-                        { code: 'ES', name: 'Espanha', flag: '🇪🇸' },
-                        { code: 'NL', name: 'Holanda', flag: '🇳🇱' }
-                    ],
-                    
-                    get filteredCountries() {
-                        if (!this.search) return this.countries;
-                        return this.countries.filter(country => 
-                            country.name.toLowerCase().includes(this.search.toLowerCase())
-                        );
-                    },
-                    
-                    selectCountry(country) {
-                        this.selected = country;
-                        this.open = false;
-                        this.search = '';
-                    }
-                }">
-                    <button 
-                        @click="open = !open"
-                        @click.away="open = false"
-                        class="flex items-center justify-between w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-                    >
-                        <div class="flex items-center space-x-2">
-                            <template x-if="selected">
-                                <div class="flex items-center space-x-2">
-                                    <span x-text="selected.flag"></span>
-                                    <span x-text="selected.name" class="text-sm"></span>
-                                </div>
-                            </template>
-                            <template x-if="!selected">
-                                <span class="text-sm text-gray-500">Selecionar país</span>
-                            </template>
-                        </div>
-                        {% icon "chevron-down" size="4" %}
-                    </button>
-                    
-                    <div x-show="open" 
-                         x-transition:enter="transition ease-out duration-200"
-                         x-transition:enter-start="opacity-0 scale-95"
-                         x-transition:enter-end="opacity-100 scale-100"
-                         x-transition:leave="transition ease-in duration-150"
-                         x-transition:leave-start="opacity-100 scale-100"
-                         x-transition:leave-end="opacity-0 scale-95"
-                         class="absolute top-full left-0 mt-2 w-full bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-50">
-                        
-                        <div class="p-2 border-b border-gray-200 dark:border-gray-600">
-                            <div class="relative">
-                                <input 
-                                    type="text"
-                                    x-model="search"
-                                    placeholder="Buscar país..."
-                                    class="w-full pl-8 pr-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-700"
-                                >
-                                <div class="absolute left-2 top-1/2 transform -translate-y-1/2">
-                                    {% icon "magnifying-glass" size="4" class="text-gray-400" %}
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="max-h-48 overflow-y-auto py-1">
-                            <template x-for="country in filteredCountries" :key="country.code">
-                                <button 
-                                    @click="selectCountry(country)"
-                                    class="flex items-center space-x-3 w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 text-left"
-                                >
-                                    <span x-text="country.flag"></span>
-                                    <span x-text="country.name"></span>
-                                </button>
-                            </template>
-                            
-                            <div x-show="filteredCountries.length === 0" class="px-4 py-2 text-sm text-gray-500 dark:text-gray-400">
-                                Nenhum país encontrado
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {% include "components/dropdown-menu.html" with trigger_icon=dropdown_menu_notifications.trigger_icon trigger_badge=dropdown_menu_notifications.trigger_badge items=dropdown_menu_notifications.items %}
         </div>
-    </section>
-
-    <!-- Dropdown com Grupos -->
-    <section class="space-y-4">
-        <h2 class="text-2xl font-semibold">Dropdown com Grupos</h2>
-        <div class="border rounded-lg p-6">
-            <div class="flex items-center justify-center">
-                <div class="relative" x-data="{ open: false }">
-                    <button 
-                        @click="open = !open"
-                        @click.away="open = false"
-                        class="flex items-center space-x-2 px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors"
-                    >
-                        <span>Ferramentas</span>
-                        {% icon "chevron-down" size="4" %}
-                    </button>
-                    <div x-show="open" 
-                         x-transition:enter="transition ease-out duration-200"
-                         x-transition:enter-start="opacity-0 scale-95"
-                         x-transition:enter-end="opacity-100 scale-100"
-                         x-transition:leave="transition ease-in duration-150"
-                         x-transition:leave-start="opacity-100 scale-100"
-                         x-transition:leave-end="opacity-0 scale-95"
-                         class="absolute top-full left-0 mt-2 w-56 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 py-1 z-50">
-                        
-                        <!-- Grupo Arquivo -->
-                        <div class="px-3 py-2 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                            Arquivo
-                        </div>
-                        <a href="#" class="flex items-center space-x-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
-                            {% icon "file-plus" size="4" %}
-                            <span>Novo Arquivo</span>
-                            <span class="ml-auto text-xs text-gray-400">Ctrl+N</span>
-                        </a>
-                        <a href="#" class="flex items-center space-x-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
-                            {% icon "card-stack-plus" size="4" %}
-                            <span>Nova Pasta</span>
-                            <span class="ml-auto text-xs text-gray-400">Ctrl+Shift+N</span>
-                        </a>
-                        
-                        <div class="border-t border-gray-200 dark:border-gray-600 my-1"></div>
-                        
-                        <!-- Grupo Editar -->
-                        <div class="px-3 py-2 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                            Editar
-                        </div>
-                        <a href="#" class="flex items-center space-x-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
-                            {% icon "copy" size="4" %}
-                            <span>Copiar</span>
-                            <span class="ml-auto text-xs text-gray-400">Ctrl+C</span>
-                        </a>
-                        <a href="#" class="flex items-center space-x-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
-                            {% icon "clipboard" size="4" %}
-                            <span>Colar</span>
-                            <span class="ml-auto text-xs text-gray-400">Ctrl+V</span>
-                        </a>
-                        
-                        <div class="border-t border-gray-200 dark:border-gray-600 my-1"></div>
-                        
-                        <!-- Grupo Ver -->
-                        <div class="px-3 py-2 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                            Ver
-                        </div>
-                        <a href="#" class="flex items-center space-x-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
-                            {% icon "zoom-in" size="4" %}
-                            <span>Ampliar</span>
-                            <span class="ml-auto text-xs text-gray-400">Ctrl++</span>
-                        </a>
-                        <a href="#" class="flex items-center space-x-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
-                            {% icon "zoom-out" size="4" %}
-                            <span>Reduzir</span>
-                            <span class="ml-auto text-xs text-gray-400">Ctrl+-</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
+        <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+            </button>
+            <code x-ref="code">{% verbatim %}{% include "components/dropdown-menu.html" with trigger_icon="bell" trigger_badge=3 items=notification_items %}{% endverbatim %}</code>
         </div>
-    </section>
+    </div>
 
     <!-- Parâmetros -->
-    <section class="space-y-4">
+    <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Parâmetros</h2>
-        <div class="overflow-x-auto">
-            <table class="w-full border-collapse border border-gray-200 dark:border-gray-700">
-                <thead>
-                    <tr class="bg-gray-50 dark:bg-gray-800">
-                        {% for header in dropdown_menu_params.headers %}
-                        <th class="border border-gray-200 dark:border-gray-700 px-4 py-2 text-left font-medium">{{ header }}</th>
-                        {% endfor %}
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for row in dropdown_menu_params.data %}
-                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-800">
-                        {% for cell in row %}
-                        <td class="border border-gray-200 dark:border-gray-700 px-4 py-2">{{ cell|safe }}</td>
-                        {% endfor %}
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </section>
-</div>
-{% endblock %} 
+        {% include "components/table.html" with headers=dropdown_menu_params.headers data=dropdown_menu_params.data caption="Parâmetros disponíveis para o componente Dropdown Menu" %}
+    </div>
+</div> 

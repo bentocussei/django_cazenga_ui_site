@@ -1,612 +1,84 @@
-
+<!-- Template independente do Drawer para consistência SPA/Reload -->
 {% load icon_tags %}
 
-{% block page_title %}Drawer{% endblock %}
-{% block page_description %}Painéis deslizantes para navegação e conteúdo lateral{% endblock %}
+<div class="space-y-6">
+    <!-- Cabeçalho -->
+    <div class="border-b border-border pb-4">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-3xl font-bold">Drawer</h1>
+                <p class="text-muted-foreground mt-1">Painel lateral deslizante para navegação e conteúdo</p>
+            </div>
+            <a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+                Voltar
+            </a>
+        </div>
+    </div>
 
-{% block component_content %}
-<div class="max-w-4xl mx-auto space-y-8">
     <!-- Instalação -->
-    <section class="space-y-4">
+    <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Instalação</h2>
-        <div class="relative">
-            <pre class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto"><code>{% templatetag openblock %} include "components/drawer.html" with position="left" size="md" overlay=true {% templatetag closeblock %}</code></pre>
-            <button 
-                class="absolute top-2 right-2 p-2 bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
-                x-data="{ copied: false }"
-                @click="navigator.clipboard.writeText($el.previousElementSibling.textContent); copied = true; setTimeout(() => copied = false, 2000)"
-            >
-                <span x-show="!copied">{% icon "copy" size="4" %}</span>
-                <span x-show="copied" class="text-green-600">{% icon "check" size="4" %}</span>
+        <div class="bg-muted rounded-lg p-4 relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
+            <code class="text-sm" x-ref="code">{% verbatim %}{% include "components/drawer.html" with trigger_text="Abrir Drawer" %}{% endverbatim %}</code>
         </div>
-    </section>
+    </div>
 
-    <!-- Drawer Básico (Esquerda) -->
-    <section class="space-y-4">
-        <h2 class="text-2xl font-semibold">Drawer Básico (Esquerda)</h2>
+    <!-- Drawer Básico -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Drawer Básico</h2>
         <div class="border rounded-lg p-6">
-            <div class="space-y-4">
-                <div class="text-sm text-gray-600 dark:text-gray-400">
-                    Drawer lateral esquerdo para menu de navegação
-                </div>
-                <div class="flex justify-center" x-data="{ leftDrawerOpen: false }">
-                    <button @click="leftDrawerOpen = true" 
-                            class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
-                        Abrir Menu (Esquerda)
-                    </button>
-
-                    <!-- Overlay -->
-                    <div x-show="leftDrawerOpen" 
-                         x-transition:enter="transition-opacity ease-linear duration-300"
-                         x-transition:enter-start="opacity-0"
-                         x-transition:enter-end="opacity-100"
-                         x-transition:leave="transition-opacity ease-linear duration-300"
-                         x-transition:leave-start="opacity-100"
-                         x-transition:leave-end="opacity-0"
-                         @click="leftDrawerOpen = false"
-                         class="fixed inset-0 bg-black bg-opacity-50 z-40">
-                    </div>
-
-                    <!-- Drawer -->
-                    <div x-show="leftDrawerOpen" 
-                         x-transition:enter="transition ease-in-out duration-300 transform"
-                         x-transition:enter-start="-translate-x-full"
-                         x-transition:enter-end="translate-x-0"
-                         x-transition:leave="transition ease-in-out duration-300 transform"
-                         x-transition:leave-start="translate-x-0"
-                         x-transition:leave-end="-translate-x-full"
-                         class="fixed left-0 top-0 h-full w-80 bg-white dark:bg-gray-800 shadow-xl z-50 overflow-y-auto">
-                        
-                        <!-- Header -->
-                        <div class="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
-                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Menu</h3>
-                            <button @click="leftDrawerOpen = false" 
-                                    class="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                                {% icon "cross-1" size="5" %}
-                            </button>
-                        </div>
-                        
-                        <!-- Content -->
-                        <div class="p-6">
-                            <!-- User Profile -->
-                            <div class="flex items-center space-x-3 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg mb-6">
-                                <img src="{{ drawer_data.user_profile.avatar }}" alt="Avatar" class="w-10 h-10 rounded-full">
-                                <div>
-                                    <div class="font-medium text-gray-900 dark:text-gray-100">{{ drawer_data.user_profile.name }}</div>
-                                    <div class="text-sm text-gray-500 dark:text-gray-400">{{ drawer_data.user_profile.email }}</div>
-                                </div>
-                            </div>
-                            
-                            <!-- Navigation -->
-                            <nav class="space-y-2">
-                                {% for item in drawer_data.menu_items %}
-                                <a href="{{ item.href }}" class="flex items-center space-x-3 px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
-                                    {% icon item.icon size="5" %}
-                                    <span>{{ item.text }}</span>
-                                </a>
-                                {% endfor %}
-                            </nav>
-                            
-                            <!-- Footer -->
-                            <div class="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
-                                <button class="flex items-center space-x-3 px-3 py-2 w-full text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors">
-                                    {% icon "exit" size="5" %}
-                                    <span>Sair</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {% include "components/drawer.html" with trigger_text="Abrir Menu" content=drawer_basic.content title="Menu Lateral" position="left" %}
         </div>
-        <div class="relative">
-            <pre class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto text-sm"><code>&lt;div x-data="{ drawerOpen: false }"&gt;
-    &lt;!-- Trigger --&gt;
-    &lt;button @click="drawerOpen = true"&gt;Abrir Drawer&lt;/button&gt;
-
-    &lt;!-- Overlay --&gt;
-    &lt;div x-show="drawerOpen" 
-         x-transition:enter="transition-opacity duration-300"
-         @click="drawerOpen = false"
-         class="fixed inset-0 bg-black bg-opacity-50 z-40"&gt;
-    &lt;/div&gt;
-
-    &lt;!-- Drawer --&gt;
-    &lt;div x-show="drawerOpen" 
-         x-transition:enter="transition duration-300 transform"
-         x-transition:enter-start="-translate-x-full"
-         x-transition:enter-end="translate-x-0"
-         class="fixed left-0 top-0 h-full w-80 bg-white shadow-xl z-50"&gt;
-        &lt;!-- Content --&gt;
-    &lt;/div&gt;
-&lt;/div&gt;</code></pre>
-            <button 
-                class="absolute top-2 right-2 p-2 bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
-                x-data="{ copied: false }"
-                @click="navigator.clipboard.writeText($el.previousElementSibling.textContent); copied = true; setTimeout(() => copied = false, 2000)"
-            >
-                <span x-show="!copied">{% icon "copy" size="4" %}</span>
-                <span x-show="copied" class="text-green-600">{% icon "check" size="4" %}</span>
+        <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
+            <code x-ref="code">{% verbatim %}{% include "components/drawer.html" with trigger_text="Abrir Menu" title="Menu Lateral" %}{% endverbatim %}</code>
         </div>
-    </section>
+    </div>
 
-    <!-- Drawer Direita -->
-    <section class="space-y-4">
-        <h2 class="text-2xl font-semibold">Drawer (Direita)</h2>
+    <!-- Drawer da Direita -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Drawer da Direita</h2>
         <div class="border rounded-lg p-6">
-            <div class="space-y-4">
-                <div class="text-sm text-gray-600 dark:text-gray-400">
-                    Drawer lateral direito para notificações e configurações
-                </div>
-                <div class="flex justify-center" x-data="{ rightDrawerOpen: false }">
-                    <button @click="rightDrawerOpen = true" 
-                            class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors">
-                        Abrir Notificações (Direita)
-                    </button>
-
-                    <!-- Overlay -->
-                    <div x-show="rightDrawerOpen" 
-                         x-transition:enter="transition-opacity ease-linear duration-300"
-                         x-transition:enter-start="opacity-0"
-                         x-transition:enter-end="opacity-100"
-                         x-transition:leave="transition-opacity ease-linear duration-300"
-                         x-transition:leave-start="opacity-100"
-                         x-transition:leave-end="opacity-0"
-                         @click="rightDrawerOpen = false"
-                         class="fixed inset-0 bg-black bg-opacity-50 z-40">
-                    </div>
-
-                    <!-- Drawer -->
-                    <div x-show="rightDrawerOpen" 
-                         x-transition:enter="transition ease-in-out duration-300 transform"
-                         x-transition:enter-start="translate-x-full"
-                         x-transition:enter-end="translate-x-0"
-                         x-transition:leave="transition ease-in-out duration-300 transform"
-                         x-transition:leave-start="translate-x-0"
-                         x-transition:leave-end="translate-x-full"
-                         class="fixed right-0 top-0 h-full w-80 bg-white dark:bg-gray-800 shadow-xl z-50 overflow-y-auto">
-                        
-                        <!-- Header -->
-                        <div class="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
-                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Notificações</h3>
-                            <button @click="rightDrawerOpen = false" 
-                                    class="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                                {% icon "cross-1" size="5" %}
-                            </button>
-                        </div>
-                        
-                        <!-- Content -->
-                        <div class="p-6">
-                            <div class="space-y-4">
-                                {% for notification in drawer_data.notifications %}
-                                <div class="flex items-start space-x-3 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                                    <div class="flex-shrink-0 w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
-                                        {% icon "bell" size="4" class="text-white" %}
-                                    </div>
-                                    <div class="flex-1">
-                                        <h4 class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ notification.title }}</h4>
-                                        <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">{{ notification.description }}</p>
-                                        <p class="text-xs text-gray-500 dark:text-gray-500 mt-2">{{ notification.time }}</p>
-                                    </div>
-                                </div>
-                                {% endfor %}
-                            </div>
-                            
-                            <div class="mt-6">
-                                <button class="w-full px-4 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors">
-                                    Ver todas as notificações
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {% include "components/drawer.html" with trigger_text="Configurações" content=drawer_right.content title="Configurações" position="right" %}
         </div>
-    </section>
+        <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+            </button>
+            <code x-ref="code">{% verbatim %}{% include "components/drawer.html" with trigger_text="Configurações" position="right" %}{% endverbatim %}</code>
+        </div>
+    </div>
 
-    <!-- Drawer Top -->
-    <section class="space-y-4">
-        <h2 class="text-2xl font-semibold">Drawer (Topo)</h2>
+    <!-- Drawer com Footer -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Drawer com Footer</h2>
         <div class="border rounded-lg p-6">
-            <div class="space-y-4">
-                <div class="text-sm text-gray-600 dark:text-gray-400">
-                    Drawer no topo da tela para alertas e banners
-                </div>
-                <div class="flex justify-center" x-data="{ topDrawerOpen: false }">
-                    <button @click="topDrawerOpen = true" 
-                            class="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors">
-                        Mostrar Banner (Topo)
-                    </button>
-
-                    <!-- Overlay -->
-                    <div x-show="topDrawerOpen" 
-                         x-transition:enter="transition-opacity ease-linear duration-300"
-                         x-transition:enter-start="opacity-0"
-                         x-transition:enter-end="opacity-100"
-                         x-transition:leave="transition-opacity ease-linear duration-300"
-                         x-transition:leave-start="opacity-100"
-                         x-transition:leave-end="opacity-0"
-                         @click="topDrawerOpen = false"
-                         class="fixed inset-0 bg-black bg-opacity-50 z-40">
-                    </div>
-
-                    <!-- Drawer -->
-                    <div x-show="topDrawerOpen" 
-                         x-transition:enter="transition ease-in-out duration-300 transform"
-                         x-transition:enter-start="-translate-y-full"
-                         x-transition:enter-end="translate-y-0"
-                         x-transition:leave="transition ease-in-out duration-300 transform"
-                         x-transition:leave-start="translate-y-0"
-                         x-transition:leave-end="-translate-y-full"
-                         class="fixed top-0 left-0 right-0 h-60 bg-white dark:bg-gray-800 shadow-xl z-50 overflow-y-auto">
-                        
-                        <!-- Content -->
-                        <div class="p-6">
-                            <div class="flex items-center justify-between mb-4">
-                                <div class="flex items-center space-x-3">
-                                    <div class="w-10 h-10 bg-orange-100 dark:bg-orange-900/20 rounded-full flex items-center justify-center">
-                                        {% icon "exclamation-triangle" size="5" class="text-orange-600 dark:text-orange-400" %}
-                                    </div>
-                                    <div>
-                                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Aviso Importante</h3>
-                                        <p class="text-sm text-gray-600 dark:text-gray-400">Manutenção programada</p>
-                                    </div>
-                                </div>
-                                <button @click="topDrawerOpen = false" 
-                                        class="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                                    {% icon "cross-1" size="5" %}
-                                </button>
-                            </div>
-                            
-                            <div class="space-y-4">
-                                <p class="text-gray-700 dark:text-gray-300">
-                                    Haverá uma manutenção programada no sistema no dia 15/12 das 02:00 às 04:00. 
-                                    Durante este período, algumas funcionalidades podem ficar indisponíveis.
-                                </p>
-                                
-                                <div class="flex space-x-3">
-                                    <button class="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors text-sm">
-                                        Entendi
-                                    </button>
-                                    <button class="px-4 py-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors text-sm">
-                                        Lembrar mais tarde
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {% include "components/drawer.html" with trigger_text="Detalhes" content=drawer_footer.content title="Detalhes do Item" footer=drawer_footer.footer %}
         </div>
-    </section>
-
-    <!-- Drawer Bottom -->
-    <section class="space-y-4">
-        <h2 class="text-2xl font-semibold">Drawer (Fundo)</h2>
-        <div class="border rounded-lg p-6">
-            <div class="space-y-4">
-                <div class="text-sm text-gray-600 dark:text-gray-400">
-                    Drawer no fundo da tela para ações rápidas (mobile-friendly)
-                </div>
-                <div class="flex justify-center" x-data="{ bottomDrawerOpen: false }">
-                    <button @click="bottomDrawerOpen = true" 
-                            class="px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors">
-                        Ações Rápidas (Fundo)
-                    </button>
-
-                    <!-- Overlay -->
-                    <div x-show="bottomDrawerOpen" 
-                         x-transition:enter="transition-opacity ease-linear duration-300"
-                         x-transition:enter-start="opacity-0"
-                         x-transition:enter-end="opacity-100"
-                         x-transition:leave="transition-opacity ease-linear duration-300"
-                         x-transition:leave-start="opacity-100"
-                         x-transition:leave-end="opacity-0"
-                         @click="bottomDrawerOpen = false"
-                         class="fixed inset-0 bg-black bg-opacity-50 z-40">
-                    </div>
-
-                    <!-- Drawer -->
-                    <div x-show="bottomDrawerOpen" 
-                         x-transition:enter="transition ease-in-out duration-300 transform"
-                         x-transition:enter-start="translate-y-full"
-                         x-transition:enter-end="translate-y-0"
-                         x-transition:leave="transition ease-in-out duration-300 transform"
-                         x-transition:leave-start="translate-y-0"
-                         x-transition:leave-end="translate-y-full"
-                         class="fixed bottom-0 left-0 right-0 h-80 bg-white dark:bg-gray-800 shadow-xl z-50 overflow-y-auto rounded-t-xl">
-                        
-                        <!-- Handle -->
-                        <div class="flex justify-center pt-4 pb-2">
-                            <div class="w-12 h-1 bg-gray-300 dark:bg-gray-600 rounded-full"></div>
-                        </div>
-                        
-                        <!-- Content -->
-                        <div class="px-6 pb-6">
-                            <div class="flex items-center justify-between mb-6">
-                                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Ações Rápidas</h3>
-                                <button @click="bottomDrawerOpen = false" 
-                                        class="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                                    {% icon "cross-1" size="5" %}
-                                </button>
-                            </div>
-                            
-                            <div class="grid grid-cols-3 gap-4">
-                                <button class="flex flex-col items-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
-                                    {% icon "camera" size="6" class="text-blue-500 mb-2" %}
-                                    <span class="text-sm font-medium text-gray-900 dark:text-gray-100">Foto</span>
-                                </button>
-                                
-                                <button class="flex flex-col items-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
-                                    {% icon "file" size="6" class="text-green-500 mb-2" %}
-                                    <span class="text-sm font-medium text-gray-900 dark:text-gray-100">Arquivo</span>
-                                </button>
-                                
-                                <button class="flex flex-col items-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
-                                    {% icon "link-1" size="6" class="text-purple-500 mb-2" %}
-                                    <span class="text-sm font-medium text-gray-900 dark:text-gray-100">Link</span>
-                                </button>
-                                
-                                <button class="flex flex-col items-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
-                                    {% icon "calendar" size="6" class="text-orange-500 mb-2" %}
-                                    <span class="text-sm font-medium text-gray-900 dark:text-gray-100">Evento</span>
-                                </button>
-                                
-                                <button class="flex flex-col items-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
-                                    {% icon "person" size="6" class="text-red-500 mb-2" %}
-                                    <span class="text-sm font-medium text-gray-900 dark:text-gray-100">Contato</span>
-                                </button>
-                                
-                                <button class="flex flex-col items-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
-                                    {% icon "gear" size="6" class="text-gray-500 mb-2" %}
-                                    <span class="text-sm font-medium text-gray-900 dark:text-gray-100">Mais</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+            </button>
+            <code x-ref="code">{% verbatim %}{% include "components/drawer.html" with trigger_text="Detalhes" footer="footer_content" %}{% endverbatim %}</code>
         </div>
-    </section>
-
-    <!-- Diferentes Tamanhos -->
-    <section class="space-y-4">
-        <h2 class="text-2xl font-semibold">Diferentes Tamanhos</h2>
-        <div class="border rounded-lg p-6">
-            <div class="space-y-4">
-                <div class="text-sm text-gray-600 dark:text-gray-400">
-                    Drawers com diferentes larguras para várias necessidades
-                </div>
-                <div class="flex justify-center space-x-4" x-data="{ 
-                    smallDrawer: false, 
-                    mediumDrawer: false, 
-                    largeDrawer: false,
-                    fullDrawer: false 
-                }">
-                    <button @click="smallDrawer = true" 
-                            class="px-3 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors text-sm">
-                        Pequeno (240px)
-                    </button>
-                    <button @click="mediumDrawer = true" 
-                            class="px-3 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors text-sm">
-                        Médio (320px)
-                    </button>
-                    <button @click="largeDrawer = true" 
-                            class="px-3 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors text-sm">
-                        Grande (480px)
-                    </button>
-                    <button @click="fullDrawer = true" 
-                            class="px-3 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors text-sm">
-                        Tela Cheia
-                    </button>
-
-                    <!-- Small Drawer -->
-                    <template x-if="smallDrawer">
-                        <div>
-                            <div x-show="smallDrawer" 
-                                 @click="smallDrawer = false"
-                                 x-transition:enter="transition-opacity duration-300"
-                                 class="fixed inset-0 bg-black bg-opacity-50 z-40">
-                            </div>
-                            <div x-show="smallDrawer" 
-                                 x-transition:enter="transition duration-300 transform"
-                                 x-transition:enter-start="-translate-x-full"
-                                 x-transition:enter-end="translate-x-0"
-                                 class="fixed left-0 top-0 h-full w-60 bg-white dark:bg-gray-800 shadow-xl z-50">
-                                <div class="p-4">
-                                    <div class="flex items-center justify-between mb-4">
-                                        <h3 class="font-semibold text-gray-900 dark:text-gray-100">Pequeno</h3>
-                                        <button @click="smallDrawer = false" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
-                                            {% icon "cross-1" size="4" %}
-                                        </button>
-                                    </div>
-                                    <p class="text-sm text-gray-600 dark:text-gray-400">Drawer compacto para navegação simples.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </template>
-
-                    <!-- Medium Drawer -->
-                    <template x-if="mediumDrawer">
-                        <div>
-                            <div x-show="mediumDrawer" 
-                                 @click="mediumDrawer = false"
-                                 x-transition:enter="transition-opacity duration-300"
-                                 class="fixed inset-0 bg-black bg-opacity-50 z-40">
-                            </div>
-                            <div x-show="mediumDrawer" 
-                                 x-transition:enter="transition duration-300 transform"
-                                 x-transition:enter-start="-translate-x-full"
-                                 x-transition:enter-end="translate-x-0"
-                                 class="fixed left-0 top-0 h-full w-80 bg-white dark:bg-gray-800 shadow-xl z-50">
-                                <div class="p-6">
-                                    <div class="flex items-center justify-between mb-4">
-                                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Médio</h3>
-                                        <button @click="mediumDrawer = false" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
-                                            {% icon "cross-1" size="5" %}
-                                        </button>
-                                    </div>
-                                    <p class="text-gray-600 dark:text-gray-400">Drawer padrão para a maioria dos casos de uso.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </template>
-
-                    <!-- Large Drawer -->
-                    <template x-if="largeDrawer">
-                        <div>
-                            <div x-show="largeDrawer" 
-                                 @click="largeDrawer = false"
-                                 x-transition:enter="transition-opacity duration-300"
-                                 class="fixed inset-0 bg-black bg-opacity-50 z-40">
-                            </div>
-                            <div x-show="largeDrawer" 
-                                 x-transition:enter="transition duration-300 transform"
-                                 x-transition:enter-start="-translate-x-full"
-                                 x-transition:enter-end="translate-x-0"
-                                 class="fixed left-0 top-0 h-full w-96 bg-white dark:bg-gray-800 shadow-xl z-50">
-                                <div class="p-6">
-                                    <div class="flex items-center justify-between mb-4">
-                                        <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Grande</h3>
-                                        <button @click="largeDrawer = false" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
-                                            {% icon "cross-1" size="5" %}
-                                        </button>
-                                    </div>
-                                    <p class="text-gray-600 dark:text-gray-400">Drawer amplo para conteúdo detalhado e formulários.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </template>
-
-                    <!-- Full Drawer -->
-                    <template x-if="fullDrawer">
-                        <div>
-                            <div x-show="fullDrawer" 
-                                 @click="fullDrawer = false"
-                                 x-transition:enter="transition-opacity duration-300"
-                                 class="fixed inset-0 bg-black bg-opacity-50 z-40">
-                            </div>
-                            <div x-show="fullDrawer" 
-                                 x-transition:enter="transition duration-300 transform"
-                                 x-transition:enter-start="-translate-x-full"
-                                 x-transition:enter-end="translate-x-0"
-                                 class="fixed left-0 top-0 h-full w-full bg-white dark:bg-gray-800 shadow-xl z-50">
-                                <div class="p-6">
-                                    <div class="flex items-center justify-between mb-4">
-                                        <h3 class="text-2xl font-semibold text-gray-900 dark:text-gray-100">Tela Cheia</h3>
-                                        <button @click="fullDrawer = false" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
-                                            {% icon "cross-1" size="6" %}
-                                        </button>
-                                    </div>
-                                    <p class="text-gray-600 dark:text-gray-400">Drawer que ocupa toda a largura da tela para máximo espaço.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </template>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Drawer com Backdrop Blur -->
-    <section class="space-y-4">
-        <h2 class="text-2xl font-semibold">Com Backdrop Blur</h2>
-        <div class="border rounded-lg p-6">
-            <div class="space-y-4">
-                <div class="text-sm text-gray-600 dark:text-gray-400">
-                    Drawer com efeito de desfoque no fundo para melhor foco
-                </div>
-                <div class="flex justify-center" x-data="{ blurDrawerOpen: false }">
-                    <button @click="blurDrawerOpen = true" 
-                            class="px-4 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition-colors">
-                        Drawer com Blur
-                    </button>
-
-                    <!-- Overlay with Blur -->
-                    <div x-show="blurDrawerOpen" 
-                         x-transition:enter="transition-all ease-linear duration-300"
-                         x-transition:enter-start="opacity-0"
-                         x-transition:enter-end="opacity-100"
-                         x-transition:leave="transition-all ease-linear duration-300"
-                         x-transition:leave-start="opacity-100"
-                         x-transition:leave-end="opacity-0"
-                         @click="blurDrawerOpen = false"
-                         class="fixed inset-0 bg-black/30 backdrop-blur-sm z-40">
-                    </div>
-
-                    <!-- Drawer -->
-                    <div x-show="blurDrawerOpen" 
-                         x-transition:enter="transition ease-in-out duration-300 transform"
-                         x-transition:enter-start="-translate-x-full"
-                         x-transition:enter-end="translate-x-0"
-                         x-transition:leave="transition ease-in-out duration-300 transform"
-                         x-transition:leave-start="translate-x-0"
-                         x-transition:leave-end="-translate-x-full"
-                         class="fixed left-0 top-0 h-full w-80 bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl shadow-xl z-50 border-r border-gray-200/50 dark:border-gray-700/50">
-                        
-                        <div class="p-6">
-                            <div class="flex items-center justify-between mb-6">
-                                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Drawer com Blur</h3>
-                                <button @click="blurDrawerOpen = false" 
-                                        class="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 rounded-lg hover:bg-gray-100/50 dark:hover:bg-gray-700/50 transition-colors">
-                                    {% icon "cross-1" size="5" %}
-                                </button>
-                            </div>
-                            
-                            <div class="space-y-4">
-                                <p class="text-gray-700 dark:text-gray-300">
-                                    Este drawer usa efeito de desfoque tanto no overlay quanto no próprio painel,
-                                    criando um visual moderno e elegante.
-                                </p>
-                                
-                                <div class="space-y-2">
-                                    <div class="p-3 bg-white/50 dark:bg-gray-700/50 rounded-lg backdrop-blur-sm">
-                                        <h4 class="font-medium text-gray-900 dark:text-gray-100">Efeito Glassmorphism</h4>
-                                        <p class="text-sm text-gray-600 dark:text-gray-400">Interface translúcida com desfoque</p>
-                                    </div>
-                                    
-                                    <div class="p-3 bg-white/50 dark:bg-gray-700/50 rounded-lg backdrop-blur-sm">
-                                        <h4 class="font-medium text-gray-900 dark:text-gray-100">Visual Moderno</h4>
-                                        <p class="text-sm text-gray-600 dark:text-gray-400">Aparência sofisticada e atual</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    </div>
 
     <!-- Parâmetros -->
-    <section class="space-y-4">
+    <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Parâmetros</h2>
-        <div class="border rounded-lg overflow-hidden">
-            <table class="w-full">
-                <thead class="bg-gray-50 dark:bg-gray-800">
-                    <tr>
-                        {% for header in drawer_params.headers %}
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                            {{ header }}
-                        </th>
-                        {% endfor %}
-                    </tr>
-                </thead>
-                <tbody class="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
-                    {% for row in drawer_params.data %}
-                    <tr>
-                        {% for cell in row %}
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
-                            {{ cell|safe }}
-                        </td>
-                        {% endfor %}
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </section>
-</div>
-{% endblock %} 
+        {% include "components/table.html" with headers=drawer_params.headers data=drawer_params.data caption="Parâmetros disponíveis para o componente Drawer" %}
+    </div>
+</div> 

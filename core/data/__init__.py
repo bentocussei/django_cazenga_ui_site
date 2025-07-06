@@ -41,6 +41,24 @@ from .toggle_group_data import *
 from .sonner_data import *
 from .form_data import *
 
+# Novos componentes corrigidos
+from .carousel_data import CAROUSEL_DATA
+from .drawer_data import DRAWER_DATA  
+from .dropdown_data import DROPDOWN_DATA
+from .chart_data import CHART_DATA
+from .context_menu_data import CONTEXT_MENU_DATA
+from .dropdown_menu_data import DROPDOWN_MENU_DATA
+from .hover_card_data import HOVER_CARD_DATA
+from .layout_data import LAYOUT_DATA
+from .input_otp_data import INPUT_OTP_DATA
+from .modal_data import MODAL_DATA
+from .menubar_data import MENUBAR_DATA
+from .sheet_data import SHEET_DATA
+from .sidebar_data import SIDEBAR_DATA
+from .navigation_menu_data import NAVIGATION_MENU_DATA
+from .resizable_data import RESIZABLE_DATA
+from .scroll_area_data import SCROLL_AREA_DATA
+
 # Mapeamento para facilitar o acesso
 COMPONENT_DATA = {
     'button': {
@@ -205,6 +223,63 @@ COMPONENT_DATA = {
         'field_types': form_field_types,
         'params': form_params,
     },
+    # Novos componentes corrigidos com dados
+    'carousel': {
+        'basic': CAROUSEL_DATA['basic'],
+        'autoplay': CAROUSEL_DATA['autoplay'],
+        'simple': CAROUSEL_DATA['simple'],
+        'params': CAROUSEL_DATA['params'],
+    },
+    'drawer': {
+        'basic': DRAWER_DATA['basic'],
+        'right': DRAWER_DATA['right'],
+        'footer': DRAWER_DATA['footer'],
+        'params': DRAWER_DATA['params'],
+    },
+    'dropdown': {
+        'states': DROPDOWN_DATA['states'],
+        'colors': DROPDOWN_DATA['colors'],
+        'basic': DROPDOWN_DATA['basic'],
+        'countries': DROPDOWN_DATA['countries'],
+        'sizes': DROPDOWN_DATA['sizes'],
+        'params': DROPDOWN_DATA['params'],
+    },
+    'chart': {
+        'bar': CHART_DATA['bar'],
+        'pie': CHART_DATA['pie'],
+        'line': CHART_DATA['line'],
+        'metrics': CHART_DATA['metrics'],
+        'params': CHART_DATA['params'],
+    },
+    'context-menu': {
+        'basic': CONTEXT_MENU_DATA['basic'],
+        'submenu': CONTEXT_MENU_DATA['submenu'],
+        'files': CONTEXT_MENU_DATA['files'],
+        'params': CONTEXT_MENU_DATA['params'],
+    },
+    'dropdown-menu': {
+        'basic': DROPDOWN_MENU_DATA['basic'],
+        'user': DROPDOWN_MENU_DATA['user'],
+        'submenu': DROPDOWN_MENU_DATA['submenu'],
+        'notifications': DROPDOWN_MENU_DATA['notifications'],
+        'params': DROPDOWN_MENU_DATA['params'],
+    },
+    'hover-card': {
+        'basic': HOVER_CARD_DATA['basic'],
+        'user': HOVER_CARD_DATA['user'],
+        'product': HOVER_CARD_DATA['product'],
+        'location': HOVER_CARD_DATA['location'],
+        'params': HOVER_CARD_DATA['params'],
+    },
+    'layout': LAYOUT_DATA,
+    'input-otp': INPUT_OTP_DATA,
+    'modal': MODAL_DATA,
+    'menubar': MENUBAR_DATA,
+    'sheet': SHEET_DATA,
+    'sidebar': SIDEBAR_DATA,
+    'navigation-menu': NAVIGATION_MENU_DATA,
+    'resizable': RESIZABLE_DATA,
+    'scroll-area': SCROLL_AREA_DATA,
 }
 
 # Facilitar importação direta
@@ -233,5 +308,28 @@ __all__ = [
     'SPINNER_DATA', 'SPINNER_EXAMPLES', 'SPINNER_PARAMS',
     'TOGGLE_DATA', 'TOGGLE_EXAMPLES', 'TOGGLE_PARAMS',
     'TOOLTIP_DATA', 'TOOLTIP_EXAMPLES', 'TOOLTIP_PARAMS',
+    'CAROUSEL_DATA', 'DRAWER_DATA', 'DROPDOWN_DATA', 'CHART_DATA',
+    'CONTEXT_MENU_DATA', 'DROPDOWN_MENU_DATA', 'HOVER_CARD_DATA',
+    'LAYOUT_DATA', 'INPUT_OTP_DATA', 'MODAL_DATA',
     'COMPONENT_DATA',
-] 
+]
+
+# Função para obter dados de um componente específico
+def get_component_data(component_name):
+    """Retorna os dados do componente especificado"""
+    return COMPONENT_DATA.get(component_name, {})
+
+# Função para obter parâmetros de um componente
+def get_component_params(component_name):
+    """Retorna os parâmetros do componente especificado"""
+    data = get_component_data(component_name)
+    return data.get('params', {})
+
+# Função para obter dados de uma variação específica
+def get_component_variant(component_name, variant_name):
+    """Retorna os dados de uma variação específica do componente"""
+    data = get_component_data(component_name)
+    return data.get(variant_name, {})
+
+# Lista de todos os componentes disponíveis
+AVAILABLE_COMPONENTS = list(COMPONENT_DATA.keys()) 

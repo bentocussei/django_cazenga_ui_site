@@ -11,7 +11,7 @@
         <div class="flex items-center justify-between">
             <div>
                 <h1 class="text-3xl font-bold">Card</h1>
-                <p class="text-muted-foreground mt-1">Componente de container flexível e extensível</p>
+                <p class="text-muted-foreground mt-1">Exibe um card com header, conteúdo e footer.</p>
             </div>
             <a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
                 Voltar
@@ -22,33 +22,38 @@
     <!-- Instalação -->
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Instalação</h2>
-        <div class="relative">
-            <pre class="bg-muted p-4 rounded-radius-md overflow-x-auto text-sm"><code>{% verbatim %}{% include 'components/card.html' with title="Título do Card" description="Descrição do card" %}{% endverbatim %}</code></pre>
-            <button 
-                class="absolute top-2 right-2 p-2 bg-background rounded-radius-md shadow-sm hover:bg-accent border border-border"
-                x-data 
-                @click="navigator.clipboard.writeText('{% verbatim %}{% include \'components/card.html\' with title=\'Título do Card\' description=\'Descrição do card\' %}{% endverbatim %}')"
-                title="Copiar código"
-            >
-                {% svg_icon "copy" "size-4" %}
+        <div class="bg-muted rounded-lg p-4 relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
+            <code class="text-sm" x-ref="code">{% verbatim %}{% include 'components/card.html' with title="Título do Card" description="Descrição do card" %}{% endverbatim %}</code>
         </div>
     </div>
 
     <!-- Exemplo Básico -->
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Exemplo Básico</h2>
-        <div class="border border-border rounded-radius-lg p-6">
+        <div class="border rounded-lg p-6">
             <div class="max-w-sm mx-auto">
                 {% include "components/card.html" with title="Card Básico" description="Este é um exemplo básico de card" content="Cards são usados para agrupar e exibir conteúdo de forma organizada e estruturada." %}
             </div>
+        </div>
+        <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+            </button>
+            <code x-ref="code">{% verbatim %}{% include "components/card.html" with title="Card Básico" description="Este é um exemplo básico de card" content="Cards são usados para agrupar e exibir conteúdo de forma organizada e estruturada." %}{% endverbatim %}</code>
         </div>
     </div>
 
     <!-- Variações -->
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Variações</h2>
-        <div class="border border-border rounded-radius-lg p-6">
+        <div class="border rounded-lg p-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Card com Footer -->
                 {% include "components/card.html" with title="Card com Footer" description="Card incluindo área de footer" content="Este card possui uma área de footer para ações ou informações adicionais." footer='<button class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-radius-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] bg-primary text-primary-foreground shadow-xs hover:bg-primary/90 h-9 px-4 py-2">Ação</button><button class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-radius-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2 ml-3">Cancelar</button>' %}

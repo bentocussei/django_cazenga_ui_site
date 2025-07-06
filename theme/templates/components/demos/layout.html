@@ -1,185 +1,108 @@
-{% block page_title %}Layout{% endblock %}
-{% block page_description %}Layouts flexíveis para dashboards admin{% endblock %}
+<!-- Template independente do Layout para consistência SPA/Reload -->
+{% load icon_tags %}
 
-{% block component_content %}
-<div class="space-y-8">
+<div class="space-y-6">
+    <!-- Cabeçalho -->
+    <div class="border-b border-border pb-4">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-3xl font-bold">Layout</h1>
+                <p class="text-muted-foreground mt-1">Estruturas de layout responsivas para sua aplicação</p>
+            </div>
+            <a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+                Voltar
+            </a>
+        </div>
+    </div>
+
     <!-- Instalação -->
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Instalação</h2>
         <div class="bg-muted rounded-lg p-4 relative" x-data="{ copied: false }">
             <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
-                    class="absolute top-2 right-2 p-2 rounded-radius-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
-                <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
-                <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
+                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
             <code class="text-sm" x-ref="code">{% verbatim %}{% include "components/layout.html" with layout_type="sidebar-left" %}{% endverbatim %}</code>
         </div>
     </div>
 
-    <!-- Tipos de Layout -->
-    <div class="space-y-6">
-        <h2 class="text-2xl font-semibold">Tipos de Layout</h2>
-
-        <!-- Sidebar Left -->
-        <div class="space-y-4">
-            <h3 class="text-lg font-medium">1. Sidebar à Esquerda (Padrão)</h3>
-            <div class="border rounded-lg p-4 bg-card">
-                <div class="h-96 overflow-hidden rounded-lg border">
-                    {% include "components/layout.html" with layout_type="sidebar-left" main_content="<div class='bg-muted/50 p-4 rounded-lg'><h3 class='font-medium mb-2'>Área Principal</h3><p class='text-sm text-muted-foreground'>Conteúdo do dashboard com sidebar à esquerda</p></div>" %}
-                </div>
-            </div>
-            <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
-                <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
-                        class="absolute top-2 right-2 p-2 rounded-radius-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
-                    <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
-                    <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
-                </button>
-                <code x-ref="code">{% verbatim %}{% include "components/layout.html" with layout_type="sidebar-left" %}{% endverbatim %}</code>
+    <!-- Layout com Sidebar Esquerda -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Layout com Sidebar Esquerda</h2>
+        <div class="border rounded-lg p-2">
+            <div class="h-64 overflow-hidden">
+                {% include "components/layout.html" with layout_type=layout_sidebar_left.layout_type sidebar_content=layout_sidebar_left.sidebar_content header_content=layout_sidebar_left.header_content main_content=layout_sidebar_left.main_content %}
             </div>
         </div>
-
-        <!-- Sidebar Right -->
-        <div class="space-y-4">
-            <h3 class="text-lg font-medium">2. Sidebar à Direita</h3>
-            <div class="border rounded-lg p-4 bg-card">
-                <div class="h-96 overflow-hidden rounded-lg border">
-                    {% include "components/layout.html" with layout_type="sidebar-right" main_content="<div class='bg-muted/50 p-4 rounded-lg'><h3 class='font-medium mb-2'>Área Principal</h3><p class='text-sm text-muted-foreground'>Conteúdo do dashboard com sidebar à direita</p></div>" %}
-                </div>
-            </div>
-            <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
-                <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
-                        class="absolute top-2 right-2 p-2 rounded-radius-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
-                    <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
-                    <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
-                </button>
-                <code x-ref="code">{% verbatim %}{% include "components/layout.html" with layout_type="sidebar-right" %}{% endverbatim %}</code>
-            </div>
-        </div>
-
-        <!-- Header Only -->
-        <div class="space-y-4">
-            <h3 class="text-lg font-medium">3. Somente Header</h3>
-            <div class="border rounded-lg p-4 bg-card">
-                <div class="h-96 overflow-hidden rounded-lg border">
-                    {% include "components/layout.html" with layout_type="header-only" main_content="<div class='bg-muted/50 p-4 rounded-lg'><h3 class='font-medium mb-2'>Área Principal</h3><p class='text-sm text-muted-foreground'>Layout simples com apenas header</p></div>" %}
-                </div>
-            </div>
-            <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
-                <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
-                        class="absolute top-2 right-2 p-2 rounded-radius-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
-                    <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
-                    <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
-                </button>
-                <code x-ref="code">{% verbatim %}{% include "components/layout.html" with layout_type="header-only" %}{% endverbatim %}</code>
-            </div>
-        </div>
-
-        <!-- Sidebar Only -->
-        <div class="space-y-4">
-            <h3 class="text-lg font-medium">4. Somente Sidebar</h3>
-            <div class="border rounded-lg p-4 bg-card">
-                <div class="h-96 overflow-hidden rounded-lg border">
-                    {% include "components/layout.html" with layout_type="sidebar-only" main_content="<div class='bg-muted/50 p-4 rounded-lg'><h3 class='font-medium mb-2'>Área Principal</h3><p class='text-sm text-muted-foreground'>Layout com apenas sidebar</p></div>" %}
-                </div>
-            </div>
-            <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
-                <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
-                        class="absolute top-2 right-2 p-2 rounded-radius-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
-                    <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
-                    <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
-                </button>
-                <code x-ref="code">{% verbatim %}{% include "components/layout.html" with layout_type="sidebar-only" %}{% endverbatim %}</code>
-            </div>
+        <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+            </button>
+            <code x-ref="code">{% verbatim %}{% include "components/layout.html" with layout_type="sidebar-left" %}{% endverbatim %}</code>
         </div>
     </div>
 
-    <!-- Personalização -->
+    <!-- Layout com Sidebar Direita -->
     <div class="space-y-4">
-        <h2 class="text-2xl font-semibold">Personalização</h2>
-        
-        <!-- Sidebar Personalizada -->
-        <div class="space-y-3">
-            <h3 class="text-lg font-medium">Sidebar Personalizada</h3>
-            <div class="border rounded-lg p-4 bg-card">
-                <div class="h-96 overflow-hidden rounded-lg border">
-                    {% include "components/layout.html" with layout_type="sidebar-left" sidebar_content="<div class='space-y-4'><div class='text-center p-4 bg-muted rounded-lg'><h3 class='font-medium'>Minha Sidebar</h3><p class='text-sm text-muted-foreground'>Conteúdo personalizado</p></div><nav class='space-y-2'><a href='#' class='block px-3 py-2 rounded-md hover:bg-accent transition-colors'>Custom Link 1</a><a href='#' class='block px-3 py-2 rounded-md hover:bg-accent transition-colors'>Custom Link 2</a></nav></div>" %}
-                </div>
-            </div>
-            <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
-                <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
-                        class="absolute top-2 right-2 p-2 rounded-radius-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
-                    <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
-                    <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
-                </button>
-                <code x-ref="code">{% verbatim %}{% include "components/layout.html" with layout_type="sidebar-left" sidebar_content="<div class='space-y-4'>... conteúdo personalizado ...</div>" %}{% endverbatim %}</code>
+        <h2 class="text-2xl font-semibold">Layout com Sidebar Direita</h2>
+        <div class="border rounded-lg p-2">
+            <div class="h-64 overflow-hidden">
+                {% include "components/layout.html" with layout_type=layout_sidebar_right.layout_type sidebar_content=layout_sidebar_right.sidebar_content main_content=layout_sidebar_right.main_content %}
             </div>
         </div>
-
-        <!-- Header Personalizado -->
-        <div class="space-y-3">
-            <h3 class="text-lg font-medium">Header Personalizado</h3>
-            <div class="border rounded-lg p-4 bg-card">
-                <div class="h-96 overflow-hidden rounded-lg border">
-                    {% include "components/layout.html" with layout_type="sidebar-left" header_content="<div class='flex items-center justify-between w-full'><div class='flex items-center gap-4'><h1 class='text-xl font-bold text-primary'>Meu Dashboard</h1><span class='px-2 py-1 bg-primary text-primary-foreground rounded text-xs'>v2.0</span></div><div class='flex items-center gap-2'><button class='p-2 rounded-md hover:bg-accent'>🔔</button><button class='p-2 rounded-md hover:bg-accent'>⚙️</button></div></div>" %}
-                </div>
-            </div>
-            <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
-                <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
-                        class="absolute top-2 right-2 p-2 rounded-radius-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
-                    <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
-                    <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
-                </button>
-                <code x-ref="code">{% verbatim %}{% include "components/layout.html" with layout_type="sidebar-left" header_content="<div class='flex items-center justify-between'>... header personalizado ...</div>" %}{% endverbatim %}</code>
-            </div>
+        <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+            </button>
+            <code x-ref="code">{% verbatim %}{% include "components/layout.html" with layout_type="sidebar-right" %}{% endverbatim %}</code>
         </div>
     </div>
 
-    <!-- Características -->
+    <!-- Layout apenas com Header -->
     <div class="space-y-4">
-        <h2 class="text-2xl font-semibold">Características</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div class="bg-card p-4 rounded-lg border">
-                <h3 class="font-medium text-green-600 mb-2">✅ Responsivo</h3>
-                <p class="text-sm text-muted-foreground">Adapta-se automaticamente a diferentes tamanhos de tela</p>
+        <h2 class="text-2xl font-semibold">Layout apenas com Header</h2>
+        <div class="border rounded-lg p-2">
+            <div class="h-64 overflow-hidden">
+                {% include "components/layout.html" with layout_type=layout_header_only.layout_type header_content=layout_header_only.header_content main_content=layout_header_only.main_content %}
             </div>
-            <div class="bg-card p-4 rounded-lg border">
-                <h3 class="font-medium text-green-600 mb-2">✅ Sidebar Retrátil</h3>
-                <p class="text-sm text-muted-foreground">Sidebar pode ser recolhida em desktop e overlay em mobile</p>
+        </div>
+        <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+            </button>
+            <code x-ref="code">{% verbatim %}{% include "components/layout.html" with layout_type="header-only" %}{% endverbatim %}</code>
+        </div>
+    </div>
+
+    <!-- Layout Full -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Layout Full</h2>
+        <div class="border rounded-lg p-2">
+            <div class="h-64 overflow-hidden">
+                {% include "components/layout.html" with layout_type=layout_full.layout_type main_content=layout_full.main_content %}
             </div>
-            <div class="bg-card p-4 rounded-lg border">
-                <h3 class="font-medium text-green-600 mb-2">✅ Alpine.js</h3>
-                <p class="text-sm text-muted-foreground">Interatividade com Alpine.js para controle de estado</p>
-            </div>
-            <div class="bg-card p-4 rounded-lg border">
-                <h3 class="font-medium text-green-600 mb-2">✅ Personalizável</h3>
-                <p class="text-sm text-muted-foreground">Aceita conteúdo personalizado em todas as seções</p>
-            </div>
+        </div>
+        <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+            </button>
+            <code x-ref="code">{% verbatim %}{% include "components/layout.html" with layout_type="full" %}{% endverbatim %}</code>
         </div>
     </div>
 
     <!-- Parâmetros -->
     <div class="space-y-4">
-        <h2 class="text-2xl font-semibold">Parâmetros Disponíveis</h2>
-        <div class="overflow-x-auto">
-            <table class="w-full border-collapse">
-                <thead>
-                    <tr class="border-b">
-                        {% for header in layout_params.headers %}
-                            <th class="text-left p-2 font-medium">{{ header|safe }}</th>
-                        {% endfor %}
-                    </tr>
-                </thead>
-                <tbody class="text-sm">
-                    {% for row in layout_params.data %}
-                        <tr class="border-b">
-                            {% for cell in row %}
-                                <td class="p-2">{{ cell|safe }}</td>
-                            {% endfor %}
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+        <h2 class="text-2xl font-semibold">Parâmetros</h2>
+        {% include "components/table.html" with headers=layout_params.headers data=layout_params.data caption="Parâmetros disponíveis para o componente Layout" %}
     </div>
-</div>
-{% endblock %} 
+</div> 

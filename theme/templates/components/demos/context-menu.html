@@ -1,644 +1,101 @@
-
+<!-- Template independente do Context Menu para consistência SPA/Reload -->
 {% load icon_tags %}
 
-{% block page_title %}Context Menu{% endblock %}
-{% block page_description %}Menu de contexto ativado por clique direito para ações contextuais{% endblock %}
-
-{% block component_content %}
-<div class="max-w-4xl mx-auto space-y-8">
-    <!-- Instalação -->
-    <section class="space-y-4">
-        <h2 class="text-2xl font-semibold">Instalação</h2>
-        <div class="relative">
-            <pre class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto"><code>{% templatetag openblock %} include "components/context-menu.html" with items=context_menu_items trigger="right-click" {% templatetag closeblock %}</code></pre>
-            <button 
-                class="absolute top-2 right-2 p-2 bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
-                x-data="{ copied: false }"
-                @click="navigator.clipboard.writeText($el.previousElementSibling.textContent); copied = true; setTimeout(() => copied = false, 2000)"
-            >
-                <span x-show="!copied">{% icon "copy" size="4" %}</span>
-                <span x-show="copied" class="text-green-600">{% icon "check" size="4" %}</span>
-            </button>
+<div class="space-y-6">
+    <!-- Cabeçalho -->
+    <div class="border-b border-border pb-4">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-3xl font-bold">Context Menu</h1>
+                <p class="text-muted-foreground mt-1">Menu contextual ativado por clique direito ou toque longo</p>
+            </div>
+            <a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+                Voltar
+            </a>
         </div>
-    </section>
+    </div>
+
+    <!-- Instalação -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Instalação</h2>
+        <div class="bg-muted rounded-lg p-4 relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+            </button>
+            <code class="text-sm" x-ref="code">{% verbatim %}{% include "components/context-menu.html" with items=menu_items %}{% endverbatim %}</code>
+        </div>
+    </div>
 
     <!-- Context Menu Básico -->
-    <section class="space-y-4">
+    <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Context Menu Básico</h2>
         <div class="border rounded-lg p-6">
-            <div class="space-y-4">
-                <div class="text-sm text-gray-600 dark:text-gray-400">
-                    Clique com o botão direito na área abaixo para ver o menu de contexto
-                </div>
-                <div class="relative">
-                    <div 
-                        x-data="{ 
-                            contextMenuOpen: false, 
-                            contextMenuX: 0, 
-                            contextMenuY: 0,
-                            showContextMenu(event) {
-                                event.preventDefault();
-                                this.contextMenuX = event.clientX;
-                                this.contextMenuY = event.clientY;
-                                this.contextMenuOpen = true;
-                            },
-                            hideContextMenu() {
-                                this.contextMenuOpen = false;
-                            }
-                        }"
-                        @contextmenu="showContextMenu($event)"
-                        @click="hideContextMenu()"
-                        class="bg-gray-50 dark:bg-gray-700 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
-                    >
-                        <div class="text-4xl mb-4">📄</div>
-                        <p class="text-gray-600 dark:text-gray-400">Clique com o botão direito aqui</p>
-                        <p class="text-sm text-gray-500 dark:text-gray-500 mt-2">Área de exemplo para demonstração</p>
-                        
-                        <!-- Context Menu -->
-                        <div 
-                            x-show="contextMenuOpen"
-                            x-transition:enter="transition ease-out duration-100"
-                            x-transition:enter-start="opacity-0 scale-95"
-                            x-transition:enter-end="opacity-100 scale-100"
-                            x-transition:leave="transition ease-in duration-75"
-                            x-transition:leave-start="opacity-100 scale-100"
-                            x-transition:leave-end="opacity-0 scale-95"
-                            :style="{ left: contextMenuX + 'px', top: contextMenuY + 'px' }"
-                            class="fixed bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 py-2 z-50 min-w-48"
-                            @click.outside="hideContextMenu()"
-                        >
-                            {% for item in context_menu_data.basic_items %}
-                                {% if item.type == 'separator' %}
-                                <div class="h-px bg-gray-200 dark:bg-gray-700 my-1"></div>
-                                {% else %}
-                                <button 
-                                    @click="hideContextMenu()"
-                                    class="flex items-center justify-between w-full px-3 py-2 text-sm {% if item.variant == 'danger' %}text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20{% else %}text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700{% endif %} transition-colors"
-                                >
-                                    <div class="flex items-center space-x-3">
-                                        {% icon item.icon size="4" %}
-                                        <span>{{ item.text }}</span>
-                                    </div>
-                                    {% if item.shortcut %}
-                                    <span class="text-xs text-gray-500 dark:text-gray-400 ml-4">{{ item.shortcut }}</span>
-                                    {% endif %}
-                                </button>
-                                {% endif %}
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div>
+            <div class="text-center">
+                {% include "components/context-menu.html" with items=context_menu_basic.items trigger_text="Clique com o botão direito aqui" %}
             </div>
         </div>
-        <div class="relative">
-            <pre class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto text-sm"><code>&lt;div x-data="{ 
-    contextMenuOpen: false, 
-    contextMenuX: 0, 
-    contextMenuY: 0,
-    showContextMenu(event) {
-        event.preventDefault();
-        this.contextMenuX = event.clientX;
-        this.contextMenuY = event.clientY;
-        this.contextMenuOpen = true;
-    }
-}"
-@contextmenu="showContextMenu($event)"&gt;
-    &lt;!-- Content --&gt;
-    
-    &lt;!-- Context Menu --&gt;
-    &lt;div x-show="contextMenuOpen" 
-         :style="{ left: contextMenuX + 'px', top: contextMenuY + 'px' }"
-         class="fixed bg-white rounded-lg shadow-xl border z-50"&gt;
-        &lt;!-- Menu items --&gt;
-    &lt;/div&gt;</code></pre>
-            <button 
-                class="absolute top-2 right-2 p-2 bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
-                x-data="{ copied: false }"
-                @click="navigator.clipboard.writeText($el.previousElementSibling.textContent); copied = true; setTimeout(() => copied = false, 2000)"
-            >
-                <span x-show="!copied">{% icon "copy" size="4" %}</span>
-                <span x-show="copied" class="text-green-600">{% icon "check" size="4" %}</span>
+        <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
+            <code x-ref="code">{% verbatim %}{% include "components/context-menu.html" with items=basic_menu_items %}{% endverbatim %}</code>
         </div>
-    </section>
+    </div>
 
-    <!-- Context Menu para Arquivos -->
-    <section class="space-y-4">
-        <h2 class="text-2xl font-semibold">Context Menu para Arquivos</h2>
+    <!-- Context Menu com Submenus -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Context Menu com Submenus</h2>
         <div class="border rounded-lg p-6">
-            <div class="space-y-4">
-                <div class="text-sm text-gray-600 dark:text-gray-400">
-                    Simulação de gerenciador de arquivos com menu de contexto
-                </div>
-                <div class="grid grid-cols-3 gap-4">
-                    {% for i in "123" %}
-                    <div 
-                        x-data="{ 
-                            contextMenuOpen: false, 
-                            contextMenuX: 0, 
-                            contextMenuY: 0,
-                            showContextMenu(event) {
-                                event.preventDefault();
-                                this.contextMenuX = event.clientX;
-                                this.contextMenuY = event.clientY;
-                                this.contextMenuOpen = true;
-                            },
-                            hideContextMenu() {
-                                this.contextMenuOpen = false;
-                            }
-                        }"
-                        @contextmenu="showContextMenu($event)"
-                        @click="hideContextMenu()"
-                        class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-                    >
-                        <div class="text-center">
-                            <div class="text-3xl mb-2">📁</div>
-                            <div class="text-sm font-medium text-gray-900 dark:text-gray-100">Pasta {{ i }}</div>
-                            <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">5 itens</div>
-                        </div>
-                        
-                        <!-- Context Menu -->
-                        <div 
-                            x-show="contextMenuOpen"
-                            x-transition:enter="transition ease-out duration-100"
-                            x-transition:enter-start="opacity-0 scale-95"
-                            x-transition:enter-end="opacity-100 scale-100"
-                            x-transition:leave="transition ease-in duration-75"
-                            x-transition:leave-start="opacity-100 scale-100"
-                            x-transition:leave-end="opacity-0 scale-95"
-                            :style="{ left: contextMenuX + 'px', top: contextMenuY + 'px' }"
-                            class="fixed bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 py-2 z-50 min-w-48"
-                            @click.outside="hideContextMenu()"
-                        >
-                            {% for item in context_menu_data.file_items %}
-                                {% if item.type == 'separator' %}
-                                <div class="h-px bg-gray-200 dark:bg-gray-700 my-1"></div>
-                                {% else %}
-                                <button 
-                                    @click="hideContextMenu()"
-                                    class="flex items-center justify-between w-full px-3 py-2 text-sm {% if item.variant == 'danger' %}text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20{% else %}text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700{% endif %} transition-colors"
-                                >
-                                    <div class="flex items-center space-x-3">
-                                        {% icon item.icon size="4" %}
-                                        <span>{{ item.text }}</span>
-                                    </div>
-                                    {% if item.shortcut %}
-                                    <span class="text-xs text-gray-500 dark:text-gray-400 ml-4">{{ item.shortcut }}</span>
-                                    {% endif %}
-                                </button>
-                                {% endif %}
-                            {% endfor %}
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
+            <div class="text-center">
+                {% include "components/context-menu.html" with items=context_menu_submenu.items trigger_text="Área com submenu - Clique direito" %}
             </div>
         </div>
-    </section>
+        <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+            </button>
+            <code x-ref="code">{% verbatim %}{% include "components/context-menu.html" with items=submenu_items %}{% endverbatim %}</code>
+        </div>
+    </div>
 
-    <!-- Context Menu para Texto -->
-    <section class="space-y-4">
-        <h2 class="text-2xl font-semibold">Context Menu para Texto</h2>
+    <!-- Context Menu em Lista -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Context Menu em Lista</h2>
         <div class="border rounded-lg p-6">
-            <div class="space-y-4">
-                <div class="text-sm text-gray-600 dark:text-gray-400">
-                    Editor de texto com menu de contexto para formatação
-                </div>
-                <div class="relative">
-                    <div 
-                        x-data="{ 
-                            contextMenuOpen: false, 
-                            contextMenuX: 0, 
-                            contextMenuY: 0,
-                            showContextMenu(event) {
-                                event.preventDefault();
-                                this.contextMenuX = event.clientX;
-                                this.contextMenuY = event.clientY;
-                                this.contextMenuOpen = true;
-                            },
-                            hideContextMenu() {
-                                this.contextMenuOpen = false;
-                            }
-                        }"
-                        @contextmenu="showContextMenu($event)"
-                        @click="hideContextMenu()"
-                        class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 min-h-32 cursor-text"
-                    >
-                        <div class="text-gray-900 dark:text-gray-100 leading-relaxed">
-                            <p class="mb-4">
-                                <strong>Selecione</strong> este texto e <em>clique com o botão direito</em> para ver as opções de formatação disponíveis.
-                            </p>
-                            <p>
-                                Você pode usar o menu de contexto para aplicar <u>formatação</u>, inserir links, imagens e outras funcionalidades de edição.
-                            </p>
-                        </div>
-                        
-                        <!-- Context Menu -->
-                        <div 
-                            x-show="contextMenuOpen"
-                            x-transition:enter="transition ease-out duration-100"
-                            x-transition:enter-start="opacity-0 scale-95"
-                            x-transition:enter-end="opacity-100 scale-100"
-                            x-transition:leave="transition ease-in duration-75"
-                            x-transition:leave-start="opacity-100 scale-100"
-                            x-transition:leave-end="opacity-0 scale-95"
-                            :style="{ left: contextMenuX + 'px', top: contextMenuY + 'px' }"
-                            class="fixed bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 py-2 z-50 min-w-48"
-                            @click.outside="hideContextMenu()"
-                        >
-                            {% for item in context_menu_data.text_items %}
-                                {% if item.type == 'separator' %}
-                                <div class="h-px bg-gray-200 dark:bg-gray-700 my-1"></div>
-                                {% else %}
-                                <button 
-                                    @click="hideContextMenu()"
-                                    class="flex items-center justify-between w-full px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-                                >
-                                    <div class="flex items-center space-x-3">
-                                        {% icon item.icon size="4" %}
-                                        <span>{{ item.text }}</span>
-                                    </div>
-                                    {% if item.shortcut %}
-                                    <span class="text-xs text-gray-500 dark:text-gray-400 ml-4">{{ item.shortcut }}</span>
-                                    {% endif %}
-                                </button>
-                                {% endif %}
-                            {% endfor %}
-                        </div>
+            <div class="space-y-2">
+                <h3 class="font-medium">Arquivos Recentes</h3>
+                <div class="divide-y">
+                    <div class="py-2">
+                        {% include "components/context-menu.html" with items=context_menu_files.items trigger_text="documento.pdf - Clique direito" inline=true %}
+                    </div>
+                    <div class="py-2">
+                        {% include "components/context-menu.html" with items=context_menu_files.items trigger_text="imagem.jpg - Clique direito" inline=true %}
+                    </div>
+                    <div class="py-2">
+                        {% include "components/context-menu.html" with items=context_menu_files.items trigger_text="script.py - Clique direito" inline=true %}
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-
-    <!-- Context Menu para Tabela -->
-    <section class="space-y-4">
-        <h2 class="text-2xl font-semibold">Context Menu para Tabela</h2>
-        <div class="border rounded-lg p-6">
-            <div class="space-y-4">
-                <div class="text-sm text-gray-600 dark:text-gray-400">
-                    Tabela com menu de contexto para operações de linha e coluna
-                </div>
-                <div class="overflow-x-auto">
-                    <table class="w-full border-collapse border border-gray-200 dark:border-gray-700">
-                        <thead>
-                            <tr class="bg-gray-50 dark:bg-gray-800">
-                                <th class="border border-gray-200 dark:border-gray-700 px-4 py-2 text-left text-sm font-medium text-gray-900 dark:text-gray-100">Nome</th>
-                                <th class="border border-gray-200 dark:border-gray-700 px-4 py-2 text-left text-sm font-medium text-gray-900 dark:text-gray-100">E-mail</th>
-                                <th class="border border-gray-200 dark:border-gray-700 px-4 py-2 text-left text-sm font-medium text-gray-900 dark:text-gray-100">Cargo</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for row in "123" %}
-                            <tr 
-                                x-data="{ 
-                                    contextMenuOpen: false, 
-                                    contextMenuX: 0, 
-                                    contextMenuY: 0,
-                                    showContextMenu(event) {
-                                        event.preventDefault();
-                                        this.contextMenuX = event.clientX;
-                                        this.contextMenuY = event.clientY;
-                                        this.contextMenuOpen = true;
-                                    },
-                                    hideContextMenu() {
-                                        this.contextMenuOpen = false;
-                                    }
-                                }"
-                                @contextmenu="showContextMenu($event)"
-                                @click="hideContextMenu()"
-                                class="hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer"
-                            >
-                                <td class="border border-gray-200 dark:border-gray-700 px-4 py-2 text-sm text-gray-900 dark:text-gray-100">
-                                    {% if row == "1" %}João Silva{% elif row == "2" %}Maria Santos{% else %}Pedro Costa{% endif %}
-                                </td>
-                                <td class="border border-gray-200 dark:border-gray-700 px-4 py-2 text-sm text-gray-900 dark:text-gray-100">
-                                    {% if row == "1" %}joao@email.com{% elif row == "2" %}maria@email.com{% else %}pedro@email.com{% endif %}
-                                </td>
-                                <td class="border border-gray-200 dark:border-gray-700 px-4 py-2 text-sm text-gray-900 dark:text-gray-100">
-                                    {% if row == "1" %}Developer{% elif row == "2" %}Designer{% else %}Manager{% endif %}
-                                </td>
-                                
-                                <!-- Context Menu -->
-                                <div 
-                                    x-show="contextMenuOpen"
-                                    x-transition:enter="transition ease-out duration-100"
-                                    x-transition:enter-start="opacity-0 scale-95"
-                                    x-transition:enter-end="opacity-100 scale-100"
-                                    x-transition:leave="transition ease-in duration-75"
-                                    x-transition:leave-start="opacity-100 scale-100"
-                                    x-transition:leave-end="opacity-0 scale-95"
-                                    :style="{ left: contextMenuX + 'px', top: contextMenuY + 'px' }"
-                                    class="fixed bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 py-2 z-50 min-w-48"
-                                    @click.outside="hideContextMenu()"
-                                >
-                                    {% for item in context_menu_data.table_items %}
-                                        {% if item.type == 'separator' %}
-                                        <div class="h-px bg-gray-200 dark:bg-gray-700 my-1"></div>
-                                        {% else %}
-                                        <button 
-                                            @click="hideContextMenu()"
-                                            class="flex items-center justify-between w-full px-3 py-2 text-sm {% if item.variant == 'danger' %}text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20{% else %}text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700{% endif %} transition-colors"
-                                        >
-                                            <div class="flex items-center space-x-3">
-                                                {% icon item.icon size="4" %}
-                                                <span>{{ item.text }}</span>
-                                            </div>
-                                        </button>
-                                        {% endif %}
-                                    {% endfor %}
-                                </div>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+        <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+            </button>
+            <code x-ref="code">{% verbatim %}{% include "components/context-menu.html" with items=file_menu_items inline=true %}{% endverbatim %}</code>
         </div>
-    </section>
-
-    <!-- Context Menu com Submenu -->
-    <section class="space-y-4">
-        <h2 class="text-2xl font-semibold">Context Menu com Submenu</h2>
-        <div class="border rounded-lg p-6">
-            <div class="space-y-4">
-                <div class="text-sm text-gray-600 dark:text-gray-400">
-                    Menu de contexto com itens agrupados em submenus
-                </div>
-                <div class="relative">
-                    <div 
-                        x-data="{ 
-                            contextMenuOpen: false, 
-                            contextMenuX: 0, 
-                            contextMenuY: 0,
-                            submenuOpen: null,
-                            showContextMenu(event) {
-                                event.preventDefault();
-                                this.contextMenuX = event.clientX;
-                                this.contextMenuY = event.clientY;
-                                this.contextMenuOpen = true;
-                            },
-                            hideContextMenu() {
-                                this.contextMenuOpen = false;
-                                this.submenuOpen = null;
-                            },
-                            toggleSubmenu(submenu) {
-                                this.submenuOpen = this.submenuOpen === submenu ? null : submenu;
-                            }
-                        }"
-                        @contextmenu="showContextMenu($event)"
-                        @click="hideContextMenu()"
-                        class="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center cursor-pointer hover:from-blue-100 hover:to-purple-100 dark:hover:from-blue-800/20 dark:hover:to-purple-800/20 transition-all"
-                    >
-                        <div class="text-4xl mb-4">🎨</div>
-                        <p class="text-gray-600 dark:text-gray-400">Clique com o botão direito para ver o menu avançado</p>
-                        <p class="text-sm text-gray-500 dark:text-gray-500 mt-2">Inclui submenus organizados por categoria</p>
-                        
-                        <!-- Context Menu -->
-                        <div 
-                            x-show="contextMenuOpen"
-                            x-transition:enter="transition ease-out duration-100"
-                            x-transition:enter-start="opacity-0 scale-95"
-                            x-transition:enter-end="opacity-100 scale-100"
-                            x-transition:leave="transition ease-in duration-75"
-                            x-transition:leave-start="opacity-100 scale-100"
-                            x-transition:leave-end="opacity-0 scale-95"
-                            :style="{ left: contextMenuX + 'px', top: contextMenuY + 'px' }"
-                            class="fixed bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 py-2 z-50 min-w-48"
-                            @click.outside="hideContextMenu()"
-                        >
-                            <!-- Novo -->
-                            <div class="relative" @mouseenter="toggleSubmenu('new')" @mouseleave="toggleSubmenu(null)">
-                                <button class="flex items-center justify-between w-full px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                                    <div class="flex items-center space-x-3">
-                                        {% icon "plus" size="4" %}
-                                        <span>Novo</span>
-                                    </div>
-                                    {% icon "chevron-right" size="4" %}
-                                </button>
-                                
-                                <!-- Submenu -->
-                                <div 
-                                    x-show="submenuOpen === 'new'"
-                                    x-transition:enter="transition ease-out duration-100"
-                                    x-transition:enter-start="opacity-0 translate-x-2"
-                                    x-transition:enter-end="opacity-100 translate-x-0"
-                                    class="absolute left-full top-0 ml-1 bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 py-2 min-w-40"
-                                >
-                                    <button class="flex items-center space-x-3 w-full px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                                        {% icon "file" size="4" %}
-                                        <span>Arquivo</span>
-                                    </button>
-                                    <button class="flex items-center space-x-3 w-full px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                                        {% icon "folder" size="4" %}
-                                        <span>Pasta</span>
-                                    </button>
-                                    <button class="flex items-center space-x-3 w-full px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                                        {% icon "image" size="4" %}
-                                        <span>Imagem</span>
-                                    </button>
-                                </div>
-                            </div>
-                            
-                            <div class="h-px bg-gray-200 dark:bg-gray-700 my-1"></div>
-                            
-                            <!-- Editar -->
-                            <div class="relative" @mouseenter="toggleSubmenu('edit')" @mouseleave="toggleSubmenu(null)">
-                                <button class="flex items-center justify-between w-full px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                                    <div class="flex items-center space-x-3">
-                                        {% icon "pencil-1" size="4" %}
-                                        <span>Editar</span>
-                                    </div>
-                                    {% icon "chevron-right" size="4" %}
-                                </button>
-                                
-                                <!-- Submenu -->
-                                <div 
-                                    x-show="submenuOpen === 'edit'"
-                                    x-transition:enter="transition ease-out duration-100"
-                                    x-transition:enter-start="opacity-0 translate-x-2"
-                                    x-transition:enter-end="opacity-100 translate-x-0"
-                                    class="absolute left-full top-0 ml-1 bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 py-2 min-w-40"
-                                >
-                                    <button class="flex items-center space-x-3 w-full px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                                        {% icon "copy" size="4" %}
-                                        <span>Copiar</span>
-                                    </button>
-                                    <button class="flex items-center space-x-3 w-full px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                                        {% icon "scissors" size="4" %}
-                                        <span>Recortar</span>
-                                    </button>
-                                    <button class="flex items-center space-x-3 w-full px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                                        {% icon "clipboard" size="4" %}
-                                        <span>Colar</span>
-                                    </button>
-                                </div>
-                            </div>
-                            
-                            <div class="h-px bg-gray-200 dark:bg-gray-700 my-1"></div>
-                            
-                            <!-- Ferramentas -->
-                            <button class="flex items-center space-x-3 w-full px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                                {% icon "gear" size="4" %}
-                                <span>Ferramentas</span>
-                            </button>
-                            
-                            <button class="flex items-center space-x-3 w-full px-3 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
-                                {% icon "trash" size="4" %}
-                                <span>Excluir</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Context Menu com Trigger Personalizado -->
-    <section class="space-y-4">
-        <h2 class="text-2xl font-semibold">Context Menu com Trigger Personalizado</h2>
-        <div class="border rounded-lg p-6">
-            <div class="space-y-4">
-                <div class="text-sm text-gray-600 dark:text-gray-400">
-                    Menu de contexto ativado por clique esquerdo ou tecla específica
-                </div>
-                <div class="flex flex-wrap gap-4">
-                    <!-- Trigger por clique -->
-                    <div class="relative">
-                        <button 
-                            x-data="{ 
-                                contextMenuOpen: false, 
-                                contextMenuX: 0, 
-                                contextMenuY: 0,
-                                showContextMenu(event) {
-                                    const rect = event.target.getBoundingClientRect();
-                                    this.contextMenuX = rect.left;
-                                    this.contextMenuY = rect.bottom + 4;
-                                    this.contextMenuOpen = true;
-                                },
-                                hideContextMenu() {
-                                    this.contextMenuOpen = false;
-                                }
-                            }"
-                            @click="showContextMenu($event)"
-                            class="flex items-center space-x-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
-                        >
-                            <span>Clique para Menu</span>
-                            {% icon "chevron-down" size="4" %}
-                            
-                            <!-- Context Menu -->
-                            <div 
-                                x-show="contextMenuOpen"
-                                x-transition:enter="transition ease-out duration-100"
-                                x-transition:enter-start="opacity-0 scale-95"
-                                x-transition:enter-end="opacity-100 scale-100"
-                                x-transition:leave="transition ease-in duration-75"
-                                x-transition:leave-start="opacity-100 scale-100"
-                                x-transition:leave-end="opacity-0 scale-95"
-                                :style="{ left: contextMenuX + 'px', top: contextMenuY + 'px' }"
-                                class="fixed bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 py-2 z-50 min-w-48"
-                                @click.outside="hideContextMenu()"
-                            >
-                                <button @click="hideContextMenu()" class="flex items-center space-x-3 w-full px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                                    {% icon "download" size="4" %}
-                                    <span>Baixar</span>
-                                </button>
-                                <button @click="hideContextMenu()" class="flex items-center space-x-3 w-full px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                                    {% icon "share-1" size="4" %}
-                                    <span>Compartilhar</span>
-                                </button>
-                                <button @click="hideContextMenu()" class="flex items-center space-x-3 w-full px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                                    {% icon "bookmark" size="4" %}
-                                    <span>Favoritar</span>
-                                </button>
-                            </div>
-                        </button>
-                    </div>
-                    
-                    <!-- Trigger por tecla -->
-                    <div class="relative">
-                        <div 
-                            x-data="{ 
-                                contextMenuOpen: false, 
-                                contextMenuX: 0, 
-                                contextMenuY: 0,
-                                showContextMenu(event) {
-                                    const rect = event.target.getBoundingClientRect();
-                                    this.contextMenuX = rect.left;
-                                    this.contextMenuY = rect.bottom + 4;
-                                    this.contextMenuOpen = true;
-                                },
-                                hideContextMenu() {
-                                    this.contextMenuOpen = false;
-                                }
-                            }"
-                            @keydown.space.prevent="showContextMenu($event)"
-                            @keydown.enter.prevent="showContextMenu($event)"
-                            tabindex="0"
-                            class="px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-                        >
-                            <span>Pressione Space ou Enter</span>
-                            
-                            <!-- Context Menu -->
-                            <div 
-                                x-show="contextMenuOpen"
-                                x-transition:enter="transition ease-out duration-100"
-                                x-transition:enter-start="opacity-0 scale-95"
-                                x-transition:enter-end="opacity-100 scale-100"
-                                x-transition:leave="transition ease-in duration-75"
-                                x-transition:leave-start="opacity-100 scale-100"
-                                x-transition:leave-end="opacity-0 scale-95"
-                                :style="{ left: contextMenuX + 'px', top: contextMenuY + 'px' }"
-                                class="fixed bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 py-2 z-50 min-w-48"
-                                @click.outside="hideContextMenu()"
-                            >
-                                <button @click="hideContextMenu()" class="flex items-center space-x-3 w-full px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                                    {% icon "info-circled" size="4" %}
-                                    <span>Informações</span>
-                                </button>
-                                <button @click="hideContextMenu()" class="flex items-center space-x-3 w-full px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                                    {% icon "gear" size="4" %}
-                                    <span>Configurações</span>
-                                </button>
-                                <button @click="hideContextMenu()" class="flex items-center space-x-3 w-full px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                                    {% icon "question-mark" size="4" %}
-                                    <span>Ajuda</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    </div>
 
     <!-- Parâmetros -->
-    <section class="space-y-4">
+    <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Parâmetros</h2>
-        <div class="border rounded-lg overflow-hidden">
-            <table class="w-full">
-                <thead class="bg-gray-50 dark:bg-gray-800">
-                    <tr>
-                        {% for header in context_menu_params.headers %}
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                            {{ header }}
-                        </th>
-                        {% endfor %}
-                    </tr>
-                </thead>
-                <tbody class="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
-                    {% for row in context_menu_params.data %}
-                    <tr>
-                        {% for cell in row %}
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
-                            {{ cell|safe }}
-                        </td>
-                        {% endfor %}
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </section>
-</div>
-{% endblock %} 
+        {% include "components/table.html" with headers=context_menu_params.headers data=context_menu_params.data caption="Parâmetros disponíveis para o componente Context Menu" %}
+    </div>
+</div> 
