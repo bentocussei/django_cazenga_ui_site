@@ -60,8 +60,8 @@ COMPONENTS_LIST = [
     {'name': 'Tooltip', 'slug': 'tooltip'},
 ]
 
-# Dados de fallback (para componentes ainda não migrados)
-BUTTON_PARAMS_FALLBACK = {
+# Dados das tabelas de parâmetros
+BUTTON_PARAMS = {
     'headers': ['Parâmetro', 'Tipo', 'Padrão', 'Descrição'],
     'data': [
         ['<code>text</code>', 'string', '-', 'Texto do botão'],
@@ -74,7 +74,7 @@ BUTTON_PARAMS_FALLBACK = {
     ]
 }
 
-CARD_PARAMS_FALLBACK = {
+CARD_PARAMS = {
     'headers': ['Parâmetro', 'Tipo', 'Padrão', 'Descrição'],
     'data': [
         ['<code>title</code>', 'string', '-', 'Título do card'],
@@ -85,7 +85,7 @@ CARD_PARAMS_FALLBACK = {
     ]
 }
 
-INPUT_PARAMS_FALLBACK = {
+INPUT_PARAMS = {
     'headers': ['Parâmetro', 'Tipo', 'Padrão', 'Descrição'],
     'data': [
         ['<code>name</code>', 'string', '-', 'Nome do campo (obrigatório para formulários)'],
@@ -344,219 +344,6 @@ def demo(request):
     
     return spa_response(request, "demo.html", context)
 
-def component_detail(request, component_name):
-    # Encontrar o componente
-    component = None
-    for comp in COMPONENTS_LIST:
-        if comp['slug'] == component_name:
-            component = comp
-            break
-    
-    if not component:
-        raise Http404("Componente não encontrado")
-    
-    # Preparar contexto base
-    context = {
-        'page_title': f'{component["name"]} - Componente UI',
-        'component': component,
-        'components_list': COMPONENTS_LIST,
-        'current_component': component_name,
-    }
-    
-    # Usar o mapeamento da nova estrutura modular
-    if component_name in COMPONENT_DATA:
-        component_data_context = COMPONENT_DATA[component_name]
-        
-        # Mapear dados específicos para cada componente
-        if component_name == 'button':
-            context['button_params'] = component_data_context.get('params')
-        elif component_name == 'alert':
-            context['alert_examples'] = component_data_context.get('examples')
-            context['alert_params'] = component_data_context.get('params')
-        elif component_name == 'input':
-            context['input_params'] = component_data_context.get('params')
-        elif component_name == 'table':
-            context['table_basic_data'] = component_data_context.get('basic_data')
-            context['table_responsive_data'] = component_data_context.get('responsive_data')
-            context['table_params'] = component_data_context.get('params')
-        elif component_name == 'card':
-            context['card_params'] = component_data_context.get('params')
-        elif component_name == 'accordion':
-            context['accordion_items'] = component_data_context.get('items')
-            # Dados do accordion_data para diferentes seções
-            accordion_data = component_data_context.get('data', {})
-            context['accordion_basic_items'] = accordion_data.get('basic_items', [])
-            context['accordion_advanced_items'] = accordion_data.get('advanced_items', [])
-            context['accordion_params'] = component_data_context.get('params')
-        elif component_name == 'aspect-ratio':
-            context['aspect_ratio_data'] = component_data_context.get('data')
-            context['aspect_ratio_sample_images'] = component_data_context.get('sample_images')
-            context['aspect_ratio_sample_videos'] = component_data_context.get('sample_videos')
-            context['aspect_ratio_params'] = component_data_context.get('params')
-        elif component_name == 'avatar':
-            context['avatar_examples'] = component_data_context.get('examples')
-            context['avatar_params'] = component_data_context.get('params')
-        elif component_name == 'badge':
-            context['badge_examples'] = component_data_context.get('examples')
-            context['badge_params'] = component_data_context.get('params')
-        elif component_name == 'breadcrumb':
-            context['breadcrumb_items'] = component_data_context.get('items')
-            context['breadcrumb_data'] = component_data_context.get('data')
-            context['breadcrumb_with_icons'] = component_data_context.get('with_icons')
-            context['breadcrumb_params'] = component_data_context.get('params')
-        elif component_name == 'calendar':
-            context['calendar_events'] = component_data_context.get('events')
-            context['calendar_multiple_dates'] = component_data_context.get('multiple_dates')
-            context['calendar_min_date'] = component_data_context.get('min_date')
-            context['calendar_max_date'] = component_data_context.get('max_date')
-            context['calendar_highlight_dates'] = component_data_context.get('highlight_dates')
-            context['calendar_params'] = component_data_context.get('params')
-        elif component_name == 'checkbox':
-            context['checkbox_params'] = component_data_context.get('params')
-        elif component_name == 'progress':
-            context['progress_params'] = component_data_context.get('params')
-        elif component_name == 'radio-group':
-            context['radio_group_options'] = component_data_context.get('options')
-            context['radio_group_data'] = component_data_context.get('data')
-            context['radio_group_params'] = component_data_context.get('params')
-        elif component_name == 'switch':
-            context['switch_params'] = component_data_context.get('params')
-        elif component_name == 'tabs':
-            context['tabs_data'] = component_data_context.get('data')
-            context['tabs_params'] = component_data_context.get('params')
-        elif component_name == 'collapsible':
-            collapsible_data = component_data_context.get('data', {})
-            context['collapsible_basic_content'] = collapsible_data.get('basic_content')
-            context['collapsible_advanced_content'] = collapsible_data.get('advanced_content')
-            context['collapsible_params'] = component_data_context.get('params')
-        elif component_name == 'alert-dialog':
-            context['alert_dialog_params'] = component_data_context.get('params')
-        elif component_name == 'dialog':
-            context['dialog_params'] = component_data_context.get('params')
-    else:
-        # Fallback para componentes ainda não migrados
-        print(f"⚠️ Componente {component_name} não encontrado no COMPONENT_DATA, usando fallback")
-        if component_name == 'button':
-            context['button_params'] = BUTTON_PARAMS_FALLBACK
-        elif component_name == 'card':
-            context['card_params'] = CARD_PARAMS_FALLBACK
-        elif component_name == 'input':
-            context['input_params'] = INPUT_PARAMS_FALLBACK
-        elif component_name == 'layout':
-            context['layout_params'] = LAYOUT_PARAMS
-    
-    # Construir conteúdo da sidebar
-    sidebar_content = '<nav class="space-y-1">'
-    for comp in COMPONENTS_LIST:
-        icon_mapping = {
-            'accordion': 'chevron-down', 'alert': 'bell', 'alert-dialog': 'exclamation-triangle',
-            'aspect-ratio': 'aspect-ratio', 'avatar': 'avatar', 'badge': 'badge',
-            'breadcrumb': 'slash', 'button': 'button', 'calendar': 'calendar', 
-            'card': 'card-stack', 'carousel': 'dots-horizontal', 'chart': 'bar-chart',
-            'checkbox': 'checkbox', 'collapsible': 'chevron-up', 'command': 'magnifying-glass',
-            'context-menu': 'dots-vertical', 'dialog': 'chat-bubble', 'drawer': 'hamburger-menu',
-            'dropdown': 'caret-down', 'dropdown-menu': 'dropdown-menu', 'form': 'clipboard',
-            'hover-card': 'card-stack', 'input': 'input', 'input-otp': 'lock-closed',
-            'label': 'pilcrow', 'layout': 'layout', 'menubar': 'hamburger-menu',
-            'modal': 'external-link', 'navigation-menu': 'hamburger-menu', 'pagination': 'dots-horizontal',
-            'popover': 'chat-bubble', 'progress': 'timer', 'radio-group': 'radiobutton',
-            'resizable': 'size', 'scroll-area': 'double-arrow-up', 'select': 'caret-sort',
-            'separator': 'dash', 'sheet': 'hamburger-menu', 'sidebar': 'layout',
-            'skeleton': 'transparency-grid', 'slider': 'slider', 'sonner': 'bell',
-            'spinner': 'reload', 'switch': 'switch', 'table': 'table',
-            'tabs': 'dots-horizontal', 'textarea': 'text-align-top', 'toggle': 'switch',
-            'toggle-group': 'mix', 'tooltip': 'question-mark-circled'
-        }
-        icon_name = icon_mapping.get(comp['slug'], 'dot-filled')
-        active_class = 'bg-accent text-accent-foreground' if comp['slug'] == component_name else 'hover:bg-accent'
-        
-        sidebar_content += f'''
-        <a href="/components/{comp['slug']}/" data-spa-link class="flex items-center gap-3 rounded-radius-md px-3 py-2 text-sm font-medium transition-colors {active_class}">
-            <img src="/static/radix-icons/{icon_name}.svg" class="size-4" alt="{comp['name']}">
-            <span x-show="!sidebarCollapsed || isMobile">{comp['name']}</span>
-        </a>
-        '''
-    sidebar_content += '</nav>'
-    
-    # Construir conteúdo do header
-    header_content = '''
-    <div class="flex items-center gap-4">
-        <a href="/" data-spa-link class="text-xl font-bold">Django Cazenga-UI</a>
-        <nav class="hidden md:flex space-x-4">
-            <a href="/" data-spa-link class="text-sm font-medium hover:text-primary transition-colors">Início</a>
-            <a href="/components/" data-spa-link class="text-sm font-medium text-primary">Componentes</a>
-            <a href="/demo/" data-spa-link class="text-sm font-medium hover:text-primary transition-colors">Demo</a>
-            <a href="/icons/" data-spa-link class="text-sm font-medium hover:text-primary transition-colors">Ícones</a>
-        </nav>
-    </div>
-    <div class="flex items-center gap-4">
-        <button @click="darkMode = !darkMode" class="size-8 rounded-radius-md hover:bg-accent transition-colors flex items-center justify-center">
-            <span x-show="!darkMode"><img src="/static/radix-icons/moon.svg" class="size-4" alt="Modo escuro"></span>
-            <span x-show="darkMode"><img src="/static/radix-icons/sun.svg" class="size-4" alt="Modo claro"></span>
-        </button>
-    </div>
-    '''
-    
-    # Tentar renderizar template específico
-    from django.template.loader import get_template
-    from django.template import TemplateDoesNotExist
-    
-    try:
-        template = get_template(f"components/demos/{component_name}.html")
-        template_exists = True
-        print(f"📄 Template encontrado: components/demos/{component_name}.html")
-    except TemplateDoesNotExist:
-        template_exists = False
-        print(f"⚠️ Template não encontrado para {component_name}, usando fallback")
-    
-    # Construir o main_content
-    if template_exists:
-        main_content = render_to_string(f"components/demos/{component_name}.html", context, request=request)
-    else:
-        main_content = f'''
-        <div class="space-y-6">
-            <div class="border-b border-border pb-4">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <h1 class="text-3xl font-bold">{component['name']}</h1>
-                        <p class="text-muted-foreground mt-1">Demonstração do componente {component['name']}</p>
-                    </div>
-                    <a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
-                        Voltar
-                    </a>
-                </div>
-            </div>
-            <div class="text-center py-12">
-                <div class="text-6xl mb-4">🚧</div>
-                <h3 class="text-xl font-semibold mb-2">Em Desenvolvimento</h3>
-                <p class="text-muted-foreground">A demonstração do componente {component['name']} ainda está em desenvolvimento.</p>
-            </div>
-        </div>
-        '''
-    
-    # Verificar se é requisição SPA
-    if is_spa_request(request):
-        print(f"🚀 SPA Request para componente: {component_name}")
-        
-        response_data = {
-            'content': main_content,
-            'title': f'{component["name"]} - Componente UI',
-            'path': request.path,
-            'success': True
-        }
-        
-        print(f"✅ SPA Response enviada para {component_name}")
-        return JsonResponse(response_data)
-    
-    # Para requisições normais
-    context.update({
-        'sidebar_content': sidebar_content,
-        'header_content': header_content,
-        'main_content': main_content,
-    })
-    
-    return render(request, "components_base.html", context)
-
 def components_list(request):
     # Verificar se é requisição SPA
     if is_spa_request(request):
@@ -678,6 +465,198 @@ def components_list(request):
     
     return render(request, "components_base.html", context)
 
+def component_detail(request, component_name):
+    # Encontrar o componente
+    component = None
+    for comp in COMPONENTS_LIST:
+        if comp['slug'] == component_name:
+            component = comp
+            break
+    
+    if not component:
+        raise Http404("Componente não encontrado")
+    
+    # Preparar contexto base
+    context = {
+        'page_title': f'{component["name"]} - Componente UI',
+        'component': component,
+        'components_list': COMPONENTS_LIST,
+        'current_component': component_name,
+    }
+    
+    # Usar o mapeamento da nova estrutura modular
+    if component_name in COMPONENT_DATA:
+        component_data_context = COMPONENT_DATA[component_name]
+        
+        # Mapear dados específicos para cada componente
+        if component_name == 'button':
+            context['button_params'] = component_data_context.get('params')
+        elif component_name == 'alert':
+            context['alert_examples'] = component_data_context.get('examples')
+            context['alert_params'] = component_data_context.get('params')
+        elif component_name == 'input':
+            context['input_params'] = component_data_context.get('params')
+        elif component_name == 'table':
+            context['table_basic_data'] = component_data_context.get('basic_data')
+            context['table_responsive_data'] = component_data_context.get('responsive_data')
+            context['table_params'] = component_data_context.get('params')
+        elif component_name == 'card':
+            context['card_params'] = component_data_context.get('params')
+        elif component_name == 'accordion':
+            context['accordion_items'] = component_data_context.get('items')
+            context['accordion_params'] = component_data_context.get('params')
+        elif component_name == 'aspect-ratio':
+            context['aspect_ratio_data'] = component_data_context.get('data')
+            context['aspect_ratio_sample_images'] = component_data_context.get('sample_images')
+            context['aspect_ratio_sample_videos'] = component_data_context.get('sample_videos')
+            context['aspect_ratio_params'] = component_data_context.get('params')
+        elif component_name == 'avatar':
+            context['avatar_examples'] = component_data_context.get('examples')
+            context['avatar_params'] = component_data_context.get('params')
+        elif component_name == 'badge':
+            context['badge_examples'] = component_data_context.get('examples')
+            context['badge_params'] = component_data_context.get('params')
+        elif component_name == 'breadcrumb':
+            context['breadcrumb_items'] = component_data_context.get('items')
+            context['breadcrumb_data'] = component_data_context.get('data')
+            context['breadcrumb_with_icons'] = component_data_context.get('with_icons')
+            context['breadcrumb_params'] = component_data_context.get('params')
+        elif component_name == 'calendar':
+            context['calendar_events'] = component_data_context.get('events')
+            context['calendar_multiple_dates'] = component_data_context.get('multiple_dates')
+            context['calendar_min_date'] = component_data_context.get('min_date')
+            context['calendar_max_date'] = component_data_context.get('max_date')
+            context['calendar_highlight_dates'] = component_data_context.get('highlight_dates')
+            context['calendar_params'] = component_data_context.get('params')
+        elif component_name == 'checkbox':
+            context['checkbox_params'] = component_data_context.get('params')
+        elif component_name == 'progress':
+            context['progress_params'] = component_data_context.get('params')
+        elif component_name == 'radio-group':
+            context['radio_group_options'] = component_data_context.get('options')
+            context['radio_group_data'] = component_data_context.get('data')
+            context['radio_group_params'] = component_data_context.get('params')
+        elif component_name == 'switch':
+            context['switch_params'] = component_data_context.get('params')
+        elif component_name == 'tabs':
+            context['tabs_data'] = component_data_context.get('data')
+            context['tabs_params'] = component_data_context.get('params')
+
+    # Construir conteúdo da sidebar para ambos os casos
+    sidebar_content = '<nav class="space-y-1">'
+    for comp in COMPONENTS_LIST:
+        icon_mapping = {
+            'accordion': 'chevron-down', 'alert': 'bell', 'alert-dialog': 'exclamation-triangle',
+            'aspect-ratio': 'aspect-ratio', 'avatar': 'avatar', 'badge': 'badge',
+            'breadcrumb': 'slash', 'button': 'button', 'calendar': 'calendar', 
+            'card': 'card-stack', 'carousel': 'dots-horizontal', 'chart': 'bar-chart',
+            'checkbox': 'checkbox', 'collapsible': 'chevron-up', 'command': 'magnifying-glass',
+            'context-menu': 'dots-vertical', 'dialog': 'chat-bubble', 'drawer': 'hamburger-menu',
+            'dropdown': 'caret-down', 'dropdown-menu': 'dropdown-menu', 'form': 'clipboard',
+            'hover-card': 'card-stack', 'input': 'input', 'input-otp': 'lock-closed',
+            'label': 'pilcrow', 'layout': 'layout', 'menubar': 'hamburger-menu',
+            'modal': 'external-link', 'navigation-menu': 'hamburger-menu', 'pagination': 'dots-horizontal',
+            'popover': 'chat-bubble', 'progress': 'timer', 'radio-group': 'radiobutton',
+            'resizable': 'size', 'scroll-area': 'double-arrow-up', 'select': 'caret-sort',
+            'separator': 'dash', 'sheet': 'hamburger-menu', 'sidebar': 'layout',
+            'skeleton': 'transparency-grid', 'slider': 'slider', 'sonner': 'bell',
+            'spinner': 'reload', 'switch': 'switch', 'table': 'table',
+            'tabs': 'dots-horizontal', 'textarea': 'text-align-top', 'toggle': 'switch',
+            'toggle-group': 'mix', 'tooltip': 'question-mark-circled'
+        }
+        icon_name = icon_mapping.get(comp['slug'], 'dot-filled')
+        active_class = 'bg-accent text-accent-foreground' if comp['slug'] == component_name else 'hover:bg-accent'
+        
+        sidebar_content += f'''
+        <a href="/components/{comp['slug']}/" data-spa-link class="flex items-center gap-3 rounded-radius-md px-3 py-2 text-sm font-medium transition-colors {active_class}">
+            <img src="/static/radix-icons/{icon_name}.svg" class="size-4" alt="{comp['name']}">
+            <span x-show="!sidebarCollapsed || isMobile">{comp['name']}</span>
+        </a>
+        '''
+    sidebar_content += '</nav>'
+    
+    # Construir conteúdo do header
+    header_content = '''
+    <div class="flex items-center gap-4">
+        <a href="/" data-spa-link class="text-xl font-bold">Django Cazenga-UI</a>
+        <nav class="hidden md:flex space-x-4">
+            <a href="/" data-spa-link class="text-sm font-medium hover:text-primary transition-colors">Início</a>
+            <a href="/components/" data-spa-link class="text-sm font-medium text-primary">Componentes</a>
+            <a href="/demo/" data-spa-link class="text-sm font-medium hover:text-primary transition-colors">Demo</a>
+            <a href="/icons/" data-spa-link class="text-sm font-medium hover:text-primary transition-colors">Ícones</a>
+        </nav>
+    </div>
+    <div class="flex items-center gap-4">
+        <button @click="darkMode = !darkMode" class="size-8 rounded-radius-md hover:bg-accent transition-colors flex items-center justify-center">
+            <span x-show="!darkMode"><img src="/static/radix-icons/moon.svg" class="size-4" alt="Modo escuro"></span>
+            <span x-show="darkMode"><img src="/static/radix-icons/sun.svg" class="size-4" alt="Modo claro"></span>
+        </button>
+    </div>
+    '''
+    
+    # Tentar renderizar template específico ou usar fallback
+    from django.template.loader import get_template
+    from django.template import TemplateDoesNotExist
+    
+    try:
+        # Tentar carregar o template específico
+        template = get_template(f"components/demos/{component_name}.html")
+        template_exists = True
+        print(f"📄 Template encontrado: components/demos/{component_name}.html")
+    except TemplateDoesNotExist:
+        template_exists = False
+        print(f"⚠️ Template não encontrado para {component_name}, usando fallback")
+    
+    # Para AMBOS os casos (SPA e reload), construir o mesmo main_content
+    if template_exists:
+        # Renderizar o template específico diretamente
+        main_content = render_to_string(f"components/demos/{component_name}.html", context, request=request)
+    else:
+        # Template não existe, usar fallback
+        main_content = f'''
+        <div class="space-y-6">
+            <div class="border-b border-border pb-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h1 class="text-3xl font-bold">{component['name']}</h1>
+                        <p class="text-muted-foreground mt-1">Demonstração do componente {component['name']}</p>
+                    </div>
+                    <a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+                        Voltar
+                    </a>
+                </div>
+            </div>
+            <div class="text-center py-12">
+                <div class="text-6xl mb-4">🚧</div>
+                <h3 class="text-xl font-semibold mb-2">Em Desenvolvimento</h3>
+                <p class="text-muted-foreground">A demonstração do componente {component['name']} ainda está em desenvolvimento.</p>
+            </div>
+        </div>
+        '''
+    
+    # Verificar se é requisição SPA
+    if is_spa_request(request):
+        print(f"🚀 SPA Request para componente: {component_name}")
+        
+        response_data = {
+            'content': main_content,
+            'title': f'{component["name"]} - Componente UI',
+            'path': request.path,
+            'success': True
+        }
+        
+        print(f"✅ SPA Response enviada para {component_name}")
+        return JsonResponse(response_data)
+    
+    # Para requisições normais, usar o mesmo conteúdo
+    context.update({
+        'sidebar_content': sidebar_content,
+        'header_content': header_content,
+        'main_content': main_content,
+    })
+    
+    return render(request, "components_base.html", context)
+
 def icons_page(request):
     import os
     from django.conf import settings
@@ -731,4 +710,4 @@ def icons_page(request):
         'total_icons': len(icons)
     }
     
-    return spa_response(request, "icons.html", context) 
+    return spa_response(request, "icons.html", context)

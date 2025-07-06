@@ -1,358 +1,156 @@
-{% extends "components_base.html" %}
 {% load icon_tags %}
 
-{% block page_title %}Aspect Ratio{% endblock %}
-{% block page_description %}Componente para manter proporções consistentes de imagens, vídeos e containers{% endblock %}
+<div class="space-y-6">
+    <!-- Cabeçalho -->
+    <div class="border-b border-border pb-4">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-3xl font-bold">Aspect Ratio</h1>
+                <p class="text-muted-foreground mt-1">Componente para manter proporção de largura/altura consistente</p>
+            </div>
+            <a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+                Voltar
+            </a>
+        </div>
+    </div>
 
-{% block component_content %}
-<div class="max-w-4xl mx-auto space-y-8">
     <!-- Instalação -->
-    <section class="space-y-4">
+    <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Instalação</h2>
         <div class="relative">
-            <pre class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto"><code>{% templatetag openblock %} include "components/aspect-ratio.html" with ratio="16:9" content="..." {% templatetag closeblock %}</code></pre>
+            <pre class="bg-muted p-4 rounded-radius-md overflow-x-auto text-sm"><code>{% verbatim %}{% include 'components/aspect-ratio.html' with ratio="16:9" %}{% endverbatim %}</code></pre>
             <button 
-                class="absolute top-2 right-2 p-2 bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
-                x-data="{ copied: false }"
-                @click="navigator.clipboard.writeText($el.previousElementSibling.textContent); copied = true; setTimeout(() => copied = false, 2000)"
+                class="absolute top-2 right-2 p-2 bg-background rounded-radius-md shadow-sm hover:bg-accent border border-border"
+                x-data 
+                @click="navigator.clipboard.writeText('{% verbatim %}{% include \'components/aspect-ratio.html\' with ratio=\'16:9\' content=\'<img src=\\\'...\\' alt=\\\'...\\'>\'  %}{% endverbatim %}')"
+                title="Copiar código"
             >
-                <span x-show="!copied">{% icon "copy" size="4" %}</span>
-                <span x-show="copied" class="text-green-600">{% icon "check" size="4" %}</span>
+                {% svg_icon "copy" "size-4" %}
             </button>
         </div>
-    </section>
+    </div>
+
+    <!-- Exemplo Básico -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Exemplo Básico</h2>
+        <div class="border border-border rounded-radius-lg p-6">
+            {% include "components/aspect-ratio.html" with ratio="16:9" content='<div class="w-full h-full bg-gradient-to-br from-blue-400 to-purple-600 rounded flex items-center justify-center text-white font-medium text-lg">Exemplo Básico 16:9</div>' %}
+        </div>
+    </div>
 
     <!-- Proporções Comuns -->
-    <section class="space-y-4">
+    <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Proporções Comuns</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {% for ratio_info in aspect_ratio_data.common_ratios %}
-            <div class="space-y-3">
-                <div class="flex items-center justify-between">
-                    <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100">{{ ratio_info.ratio }}</h3>
-                    <span class="text-sm text-gray-500 dark:text-gray-400">{{ ratio_info.percentage }}</span>
+        <div class="border border-border rounded-radius-lg p-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="space-y-2">
+                    <h3 class="font-medium">16:9 (Widescreen)</h3>
+                    {% include "components/aspect-ratio.html" with ratio="16:9" content='<div class="w-full h-full bg-gradient-to-br from-blue-400 to-blue-600 rounded flex items-center justify-center text-white font-medium">16:9</div>' %}
                 </div>
-                <div class="relative bg-gray-200 dark:bg-gray-700 rounded-lg overflow-hidden" 
-                     style="padding-bottom: {{ ratio_info.percentage }};">
-                    <div class="absolute inset-0 flex items-center justify-center">
-                        <div class="text-center">
-                            <div class="text-2xl font-bold text-gray-600 dark:text-gray-300">{{ ratio_info.ratio }}</div>
-                            <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">{{ ratio_info.description }}</div>
-                        </div>
-                    </div>
+                <div class="space-y-2">
+                    <h3 class="font-medium">4:3 (Tradicional)</h3>
+                    {% include "components/aspect-ratio.html" with ratio="4:3" content='<div class="w-full h-full bg-gradient-to-br from-green-400 to-green-600 rounded flex items-center justify-center text-white font-medium">4:3</div>' %}
                 </div>
-                <div class="text-xs text-gray-600 dark:text-gray-400">
-                    <strong>Uso:</strong> {{ ratio_info.usage }}
+                <div class="space-y-2">
+                    <h3 class="font-medium">1:1 (Quadrado)</h3>
+                    {% include "components/aspect-ratio.html" with ratio="1:1" content='<div class="w-full h-full bg-gradient-to-br from-purple-400 to-purple-600 rounded flex items-center justify-center text-white font-medium">1:1</div>' %}
                 </div>
-            </div>
-            {% endfor %}
-        </div>
-    </section>
-
-    <!-- Imagens com Aspect Ratio -->
-    <section class="space-y-4">
-        <h2 class="text-2xl font-semibold">Imagens com Aspect Ratio</h2>
-        <div class="space-y-6">
-            <!-- 16:9 Widescreen -->
-            <div class="space-y-3">
-                <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100">16:9 - Widescreen</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {% for image in aspect_ratio_data.sample_images|slice:":2" %}
-                    <div class="relative bg-gray-200 dark:bg-gray-700 rounded-lg overflow-hidden" 
-                         style="padding-bottom: 56.25%;">
-                        <img src="{{ image }}" 
-                             alt="Imagem exemplo" 
-                             class="absolute inset-0 w-full h-full object-cover">
-                    </div>
-                    {% endfor %}
-                </div>
-            </div>
-
-            <!-- 4:3 Traditional -->
-            <div class="space-y-3">
-                <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100">4:3 - Tradicional</h3>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    {% for image in aspect_ratio_data.sample_images|slice:":3" %}
-                    <div class="relative bg-gray-200 dark:bg-gray-700 rounded-lg overflow-hidden" 
-                         style="padding-bottom: 75%;">
-                        <img src="{{ image }}" 
-                             alt="Imagem exemplo" 
-                             class="absolute inset-0 w-full h-full object-cover">
-                    </div>
-                    {% endfor %}
-                </div>
-            </div>
-
-            <!-- 1:1 Square -->
-            <div class="space-y-3">
-                <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100">1:1 - Quadrado</h3>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    {% for image in aspect_ratio_data.sample_images %}
-                    <div class="relative bg-gray-200 dark:bg-gray-700 rounded-lg overflow-hidden" 
-                         style="padding-bottom: 100%;">
-                        <img src="{{ image }}" 
-                             alt="Imagem exemplo" 
-                             class="absolute inset-0 w-full h-full object-cover">
-                    </div>
-                    {% endfor %}
+                <div class="space-y-2">
+                    <h3 class="font-medium">9:16 (Vertical)</h3>
+                    {% include "components/aspect-ratio.html" with ratio="9:16" content='<div class="w-full h-full bg-gradient-to-br from-orange-400 to-orange-600 rounded flex items-center justify-center text-white font-medium">9:16</div>' %}
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- Object Fit Options -->
-    <section class="space-y-4">
-        <h2 class="text-2xl font-semibold">Opções de Object Fit</h2>
-        <div class="space-y-6">
-            {% for fit_option in "cover,contain,fill,scale-down" %}
-            <div class="space-y-3">
-                <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-                    object-fit: {{ fit_option }}
-                    {% if fit_option == "cover" %}
-                    <span class="text-sm font-normal text-gray-500 dark:text-gray-400">(padrão - preenche mantendo proporção)</span>
-                    {% elif fit_option == "contain" %}
-                    <span class="text-sm font-normal text-gray-500 dark:text-gray-400">(cabe inteiro no container)</span>
-                    {% elif fit_option == "fill" %}
-                    <span class="text-sm font-normal text-gray-500 dark:text-gray-400">(estica para preencher)</span>
-                    {% elif fit_option == "scale-down" %}
-                    <span class="text-sm font-normal text-gray-500 dark:text-gray-400">(menor entre contain e none)</span>
-                    {% endif %}
-                </h3>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    {% for image in aspect_ratio_data.sample_images|slice:":3" %}
-                    <div class="relative bg-gray-200 dark:bg-gray-700 rounded-lg overflow-hidden" 
-                         style="padding-bottom: 75%;">
-                        <img src="{{ image }}" 
-                             alt="Imagem exemplo" 
-                             class="absolute inset-0 w-full h-full object-{{ fit_option }}">
-                    </div>
-                    {% endfor %}
+    <!-- Com Imagens -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Com Imagens</h2>
+        <div class="border border-border rounded-radius-lg p-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="space-y-2">
+                    <h3 class="font-medium">Imagem 1</h3>
+                    {% include "components/aspect-ratio.html" with ratio="3:2" content='<div class="w-full h-full bg-gradient-to-br from-pink-400 to-rose-600 rounded flex items-center justify-center text-white font-medium"><div class="text-center"><div class="text-2xl mb-2">🏔️</div><div>Paisagem</div></div></div>' %}
                 </div>
-            </div>
-            {% endfor %}
-        </div>
-    </section>
-
-    <!-- Vídeos Responsivos -->
-    <section class="space-y-4">
-        <h2 class="text-2xl font-semibold">Vídeos Responsivos</h2>
-        <div class="space-y-6">
-            <!-- 16:9 Video -->
-            <div class="space-y-3">
-                <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100">Vídeo 16:9</h3>
-                <div class="relative bg-gray-900 rounded-lg overflow-hidden" 
-                     style="padding-bottom: 56.25%;">
-                    <div class="absolute inset-0 flex items-center justify-center">
-                        <div class="text-center text-white">
-                            <div class="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mb-4 mx-auto">
-                                {% icon "play" size="8" %}
-                            </div>
-                            <div class="text-lg font-medium">Vídeo Player</div>
-                            <div class="text-sm opacity-75 mt-1">Clique para reproduzir</div>
-                        </div>
-                    </div>
+                <div class="space-y-2">
+                    <h3 class="font-medium">Imagem 2</h3>
+                    {% include "components/aspect-ratio.html" with ratio="3:2" content='<div class="w-full h-full bg-gradient-to-br from-teal-400 to-cyan-600 rounded flex items-center justify-center text-white font-medium"><div class="text-center"><div class="text-2xl mb-2">🌊</div><div>Oceano</div></div></div>' %}
                 </div>
-            </div>
-
-            <!-- Video Thumbnails -->
-            <div class="space-y-3">
-                <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100">Miniaturas de Vídeo</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {% for video in aspect_ratio_data.sample_videos %}
-                    <div class="relative bg-gray-200 dark:bg-gray-700 rounded-lg overflow-hidden cursor-pointer group" 
-                         style="padding-bottom: 56.25%;">
-                        <img src="{{ video.thumbnail }}" 
-                             alt="{{ video.title }}" 
-                             class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-200">
-                        <div class="absolute inset-0 bg-black bg-opacity-30 group-hover:bg-opacity-20 transition-opacity duration-200"></div>
-                        <div class="absolute inset-0 flex items-center justify-center">
-                            <div class="w-16 h-16 bg-white bg-opacity-90 rounded-full flex items-center justify-center text-gray-800 group-hover:bg-opacity-100 transition-all duration-200">
-                                {% icon "play" size="8" %}
-                            </div>
-                        </div>
-                        <div class="absolute bottom-0 left-0 right-0 p-4">
-                            <div class="text-white font-medium">{{ video.title }}</div>
-                        </div>
-                    </div>
-                    {% endfor %}
+                <div class="space-y-2">
+                    <h3 class="font-medium">Imagem 3</h3>
+                    {% include "components/aspect-ratio.html" with ratio="3:2" content='<div class="w-full h-full bg-gradient-to-br from-yellow-400 to-orange-600 rounded flex items-center justify-center text-white font-medium"><div class="text-center"><div class="text-2xl mb-2">🌅</div><div>Pôr do Sol</div></div></div>' %}
+                </div>
+                <div class="space-y-2">
+                    <h3 class="font-medium">Imagem 4</h3>
+                    {% include "components/aspect-ratio.html" with ratio="3:2" content='<div class="w-full h-full bg-gradient-to-br from-indigo-400 to-purple-600 rounded flex items-center justify-center text-white font-medium"><div class="text-center"><div class="text-2xl mb-2">🌲</div><div>Floresta</div></div></div>' %}
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- Aspect Ratio Dinâmico -->
-    <section class="space-y-4">
-        <h2 class="text-2xl font-semibold">Aspect Ratio Dinâmico</h2>
-        <div class="border rounded-lg p-6">
-            <div class="space-y-4" x-data="{ 
-                selectedRatio: '16:9',
-                ratios: {
-                    '16:9': '56.25%',
-                    '4:3': '75%',
-                    '1:1': '100%',
-                    '3:2': '66.67%',
-                    '21:9': '42.86%',
-                    '9:16': '177.78%'
-                }
-            }">
-                <div class="flex flex-wrap gap-2">
-                    <span class="text-sm font-medium text-gray-700 dark:text-gray-300 mr-3">Selecione uma proporção:</span>
-                    {% for ratio_info in aspect_ratio_data.common_ratios %}
-                    <button 
-                        @click="selectedRatio = '{{ ratio_info.ratio }}'"
-                        :class="selectedRatio === '{{ ratio_info.ratio }}' ? 'bg-blue-500 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'"
-                        class="px-3 py-1 text-sm rounded-lg transition-colors"
-                    >
-                        {{ ratio_info.ratio }}
-                    </button>
-                    {% endfor %}
+    <!-- Vídeos -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Para Vídeos</h2>
+        <div class="border border-border rounded-radius-lg p-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="space-y-2">
+                    <h3 class="font-medium">Apresentação do Produto</h3>
+                    {% include "components/aspect-ratio.html" with ratio="16:9" content='<div class="w-full h-full bg-gradient-to-br from-gray-800 to-gray-900 rounded flex items-center justify-center text-white"><div class="text-center"><div class="text-4xl mb-3">▶️</div><div class="font-medium">Apresentação do Produto</div><div class="text-sm opacity-75 mt-1">5:32</div></div></div>' %}
+                </div>
+                <div class="space-y-2">
+                    <h3 class="font-medium">Tutorial de Uso</h3>
+                    {% include "components/aspect-ratio.html" with ratio="16:9" content='<div class="w-full h-full bg-gradient-to-br from-blue-800 to-blue-900 rounded flex items-center justify-center text-white"><div class="text-center"><div class="text-4xl mb-3">▶️</div><div class="font-medium">Tutorial de Uso</div><div class="text-sm opacity-75 mt-1">12:45</div></div></div>' %}
+                </div>
+                <div class="space-y-2">
+                    <h3 class="font-medium">Depoimentos</h3>
+                    {% include "components/aspect-ratio.html" with ratio="16:9" content='<div class="w-full h-full bg-gradient-to-br from-green-800 to-green-900 rounded flex items-center justify-center text-white"><div class="text-center"><div class="text-4xl mb-3">▶️</div><div class="font-medium">Depoimentos</div><div class="text-sm opacity-75 mt-1">8:21</div></div></div>' %}
+                </div>
+                <div class="space-y-2">
+                    <h3 class="font-medium">Demo Interativa</h3>
+                    {% include "components/aspect-ratio.html" with ratio="16:9" content='<div class="w-full h-full bg-gradient-to-br from-purple-800 to-purple-900 rounded flex items-center justify-center text-white"><div class="text-center"><div class="text-4xl mb-3">▶️</div><div class="font-medium">Demo Interativa</div><div class="text-sm opacity-75 mt-1">15:30</div></div></div>' %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Responsivo -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Layout Responsivo</h2>
+        <div class="border border-border rounded-radius-lg p-6">
+            <div class="space-y-4">
+                <p class="text-sm text-muted-foreground">Teste redimensionando a janela para ver como o aspect ratio se mantém:</p>
+                
+                <div class="space-y-3">
+                    <h3 class="font-medium">21:9 Ultrawide</h3>
+                    {% include "components/aspect-ratio.html" with ratio="21:9" content='<div class="w-full h-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded flex items-center justify-center text-white font-medium text-lg">🖥️ 21:9 Ultrawide Monitor</div>' %}
                 </div>
                 
-                <div class="max-w-md mx-auto">
-                    <div class="relative bg-gray-200 dark:bg-gray-700 rounded-lg overflow-hidden" 
-                         :style="'padding-bottom: ' + ratios[selectedRatio]">
-                        <div class="absolute inset-0 flex items-center justify-center">
-                            <div class="text-center">
-                                <div class="text-2xl font-bold text-gray-600 dark:text-gray-300" x-text="selectedRatio"></div>
-                                <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">Proporção selecionada</div>
-                            </div>
-                        </div>
+                <div class="space-y-3">
+                    <h3 class="font-medium">3:2 Fotografia</h3>
+                    {% include "components/aspect-ratio.html" with ratio="3:2" content='<div class="w-full h-full bg-gradient-to-br from-amber-400 to-orange-600 rounded flex items-center justify-center text-white font-medium text-lg">📸 3:2 Fotografia Clássica</div>' %}
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="space-y-2">
+                        <h4 class="text-sm font-medium">Mobile Stories</h4>
+                        {% include "components/aspect-ratio.html" with ratio="9:16" content='<div class="w-full h-full bg-gradient-to-b from-pink-500 to-purple-600 rounded flex items-center justify-center text-white font-medium text-sm">📱 9:16</div>' %}
+                    </div>
+                    <div class="space-y-2">
+                        <h4 class="text-sm font-medium">Instagram Post</h4>
+                        {% include "components/aspect-ratio.html" with ratio="1:1" content='<div class="w-full h-full bg-gradient-to-br from-indigo-500 to-purple-600 rounded flex items-center justify-center text-white font-medium text-sm">📷 1:1</div>' %}
+                    </div>
+                    <div class="space-y-2">
+                        <h4 class="text-sm font-medium">YouTube Video</h4>
+                        {% include "components/aspect-ratio.html" with ratio="16:9" content='<div class="w-full h-full bg-gradient-to-br from-red-500 to-pink-600 rounded flex items-center justify-center text-white font-medium text-sm">🎥 16:9</div>' %}
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-
-    <!-- Casos de Uso Práticos -->
-    <section class="space-y-4">
-        <h2 class="text-2xl font-semibold">Casos de Uso Práticos</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <!-- Card de Produto -->
-            <div class="space-y-3">
-                <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100">Card de Produto</h3>
-                <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden shadow-sm">
-                    <div class="relative bg-gray-200 dark:bg-gray-700" style="padding-bottom: 75%;">
-                        <img src="{{ aspect_ratio_data.sample_images.0 }}" 
-                             alt="Produto" 
-                             class="absolute inset-0 w-full h-full object-cover">
-                    </div>
-                    <div class="p-4">
-                        <h4 class="font-medium text-gray-900 dark:text-gray-100">Nome do Produto</h4>
-                        <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Descrição breve do produto</p>
-                        <div class="flex items-center justify-between mt-3">
-                            <span class="text-lg font-semibold text-gray-900 dark:text-gray-100">R$ 99,99</span>
-                            <button class="px-3 py-1 bg-blue-500 text-white text-sm rounded hover:bg-blue-600 transition-colors">
-                                Comprar
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Card de Blog -->
-            <div class="space-y-3">
-                <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100">Card de Blog</h3>
-                <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden shadow-sm">
-                    <div class="relative bg-gray-200 dark:bg-gray-700" style="padding-bottom: 56.25%;">
-                        <img src="{{ aspect_ratio_data.sample_images.1 }}" 
-                             alt="Artigo" 
-                             class="absolute inset-0 w-full h-full object-cover">
-                    </div>
-                    <div class="p-4">
-                        <div class="flex items-center space-x-2 text-xs text-gray-500 dark:text-gray-400 mb-2">
-                            <span>15 Nov 2024</span>
-                            <span>•</span>
-                            <span>5 min de leitura</span>
-                        </div>
-                        <h4 class="font-medium text-gray-900 dark:text-gray-100">Título do Artigo</h4>
-                        <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
-                        <div class="flex items-center mt-3">
-                            <div class="relative w-6 h-6 bg-gray-300 rounded-full overflow-hidden">
-                                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face" 
-                                     alt="Autor" 
-                                     class="w-full h-full object-cover">
-                            </div>
-                            <span class="text-sm text-gray-600 dark:text-gray-400 ml-2">João Silva</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Implementação CSS -->
-    <section class="space-y-4">
-        <h2 class="text-2xl font-semibold">Implementação CSS</h2>
-        <div class="space-y-4">
-            <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-                <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-3">Técnica Padding-Bottom</h3>
-                <div class="relative">
-                    <pre class="bg-gray-100 dark:bg-gray-700 p-4 rounded text-sm overflow-x-auto"><code>.aspect-ratio-16-9 {
-  position: relative;
-  width: 100%;
-  padding-bottom: 56.25%; /* 9/16 = 0.5625 = 56.25% */
-}
-
-.aspect-ratio-content {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}</code></pre>
-                </div>
-            </div>
-
-            <div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-                <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-3">CSS Modern (aspect-ratio)</h3>
-                <div class="relative">
-                    <pre class="bg-gray-100 dark:bg-gray-700 p-4 rounded text-sm overflow-x-auto"><code>.aspect-ratio-modern {
-  aspect-ratio: 16 / 9;
-  width: 100%;
-  overflow: hidden;
-}
-
-.aspect-ratio-modern img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}</code></pre>
-                </div>
-                <div class="mt-2 text-sm text-amber-600 dark:text-amber-400">
-                    ⚠️ Suporte limitado em navegadores mais antigos
-                </div>
-            </div>
-        </div>
-    </section>
+    </div>
 
     <!-- Parâmetros -->
-    <section class="space-y-4">
+    <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Parâmetros</h2>
-        <div class="border rounded-lg overflow-hidden">
-            <table class="w-full">
-                <thead class="bg-gray-50 dark:bg-gray-800">
-                    <tr>
-                        {% for header in aspect_ratio_params.headers %}
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                            {{ header }}
-                        </th>
-                        {% endfor %}
-                    </tr>
-                </thead>
-                <tbody class="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
-                    {% for row in aspect_ratio_params.data %}
-                    <tr>
-                        {% for cell in row %}
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
-                            {{ cell|safe }}
-                        </td>
-                        {% endfor %}
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </section>
-</div>
-{% endblock %} 
+        {% include "components/table.html" with headers=aspect_ratio_params.headers data=aspect_ratio_params.data caption="Parâmetros disponíveis para o componente Aspect Ratio" %}
+    </div>
+</div> 

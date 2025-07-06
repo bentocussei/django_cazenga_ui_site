@@ -28,7 +28,7 @@ urlpatterns = [
     path("", index, name="index"),
     path("demo/", demo, name="demo"),
     path("components/", components_list, name="components_list"),
-    path("components/<slug:component_slug>/", component_detail, name="component_detail"),
+    path("components/<slug:component_name>/", component_detail, name="component_detail"),
     path("icons/", icons_page, name="icons_page"),
     path("spa-test/", spa_test, name="spa_test"),
     path('admin/', admin.site.urls),

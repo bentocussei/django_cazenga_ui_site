@@ -18,11 +18,15 @@
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Instalação</h2>
         <div class="relative">
-            <pre class="bg-muted p-4 rounded-radius-md overflow-x-auto text-sm"><code>{% verbatim %}{% include 'components/alert-dialog.html' with title="Confirmar ação" description="Tem certeza que deseja continuar?" %}{% endverbatim %}</code></pre>
+            <pre class="bg-muted p-4 rounded-radius-md overflow-x-auto text-sm"><code>{% verbatim %}{% include 'components/alert-dialog.html' with 
+    trigger='<button class="btn">Deletar</button>'
+    title="Confirmar ação" 
+    description="Tem certeza que deseja continuar?"
+    action_text="Confirmar"
+    action_onclick="minhaFuncao()" %}{% endverbatim %}</code></pre>
             <button 
                 class="absolute top-2 right-2 p-2 bg-background rounded-radius-md shadow-sm hover:bg-accent border border-border"
-                x-data 
-                @click="navigator.clipboard.writeText('{% verbatim %}{% include \'components/alert-dialog.html\' with title=\'Confirmar ação\' description=\'Tem certeza que deseja continuar?\' %}{% endverbatim %}')"
+                onclick="navigator.clipboard.writeText(`{% verbatim %}{% include 'components/alert-dialog.html' with trigger='<button class=&quot;btn&quot;>Deletar</button>' title='Confirmar ação' description='Tem certeza que deseja continuar?' action_text='Confirmar' action_onclick='minhaFuncao()' %}{% endverbatim %}`)"
                 title="Copiar código"
             >
                 {% svg_icon "copy" "size-4" %}
@@ -34,13 +38,9 @@
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Exemplo Básico</h2>
         <div class="border border-border rounded-radius-lg p-6">
-            <div x-data="{ showDialog: false }">
-                <button @click="showDialog = true" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-radius-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] bg-primary text-primary-foreground shadow-xs hover:bg-primary/90 h-9 px-4 py-2">
-                    Mostrar Alert Dialog
-                </button>
-                
-                {% include "components/alert-dialog.html" with title="Confirmar exclusão" description="Tem certeza que deseja excluir este item? Esta ação não pode ser desfeita." x_show="showDialog" %}
-            </div>
+            
+            
+            {% include "components/alert-dialog.html" with trigger='<button class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-radius-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] bg-primary text-primary-foreground shadow-xs hover:bg-primary/90 h-9 px-4 py-2">Mostrar Alert Dialog</button>' title="Confirmar exclusão" description="Tem certeza que deseja excluir este item? Esta ação não pode ser desfeita." action_text="Sim, excluir" action_onclick="console.log('Alert Dialog - Ação executada: Item excluído');" %}
         </div>
     </div>
 
@@ -48,13 +48,7 @@
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Alert Dialog Destrutivo</h2>
         <div class="border border-border rounded-radius-lg p-6">
-            <div x-data="{ showDialog: false }">
-                <button @click="showDialog = true" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-radius-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] bg-red-600 text-white shadow-xs hover:bg-red-700 h-9 px-4 py-2">
-                    Excluir Conta
-                </button>
-                
-                {% include "components/alert-dialog.html" with title="Excluir conta permanentemente" description="Esta ação não pode ser desfeita. Todos os seus dados serão removidos permanentemente de nossos servidores." variant="destructive" x_show="showDialog" %}
-            </div>
+            {% include "components/alert-dialog.html" with trigger='<button class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-radius-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] bg-red-600 text-white shadow-xs hover:bg-red-700 h-9 px-4 py-2">Excluir Conta</button>' title="Excluir conta permanentemente" description="Esta ação não pode ser desfeita. Todos os seus dados serão removidos permanentemente de nossos servidores." action_text="Sim, excluir permanentemente" action_variant="destructive" action_onclick="console.log('Alert Dialog - Conta excluída permanentemente');" %}
         </div>
     </div>
 
@@ -62,13 +56,7 @@
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Conteúdo Customizado</h2>
         <div class="border border-border rounded-radius-lg p-6">
-            <div x-data="{ showDialog: false }">
-                <button @click="showDialog = true" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-radius-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] bg-blue-600 text-white shadow-xs hover:bg-blue-700 h-9 px-4 py-2">
-                    Atualizar Sistema
-                </button>
-                
-                {% include "components/alert-dialog.html" with title="Atualização do sistema" description="Uma nova versão está disponível. A atualização incluirá as seguintes melhorias:" content='<ul class="mt-3 space-y-2 text-sm"><li class="flex items-start gap-2"><span class="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2"></span>Interface renovada com melhor usabilidade</li><li class="flex items-start gap-2"><span class="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2"></span>Correções de bugs e melhorias de performance</li><li class="flex items-start gap-2"><span class="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2"></span>Novos recursos de segurança</li></ul>' x_show="showDialog" %}
-            </div>
+            {% include "components/alert-dialog.html" with trigger='<button class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-radius-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] bg-blue-600 text-white shadow-xs hover:bg-blue-700 h-9 px-4 py-2">Atualizar Sistema</button>' title="Atualização do sistema" description="Uma nova versão está disponível. A atualização incluirá as seguintes melhorias:" action_text="Atualizar agora" action_variant="default" action_onclick="console.log('Alert Dialog - Sistema será atualizado');" %}
         </div>
     </div>
 

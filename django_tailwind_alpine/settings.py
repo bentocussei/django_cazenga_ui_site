@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'core',
     'theme',
     'django_browser_reload',
+    'mathfilters',
 ]
 
 TAILWIND_APP_NAME = 'theme'

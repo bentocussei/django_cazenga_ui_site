@@ -1,6 +1,6 @@
 <!--
 Componente: Alert Dialog
-Uso: include "components/alert-dialog.html" with trigger="Deletar" title="Confirmar exclusão"
+Uso: include "components/alert-dialog.html" with trigger="<button>Deletar</button>" title="Confirmar exclusão"
 
 Parâmetros:
 - trigger: Conteúdo HTML do trigger (obrigatório)
@@ -9,11 +9,8 @@ Parâmetros:
 - action_text: Texto do botão de ação (padrão: "Confirmar")
 - cancel_text: Texto do botão cancelar (padrão: "Cancelar")
 - action_variant: Variante do botão de ação (padrão: destructive)
-- cancel_variant: Variante do botão cancelar (padrão: outline)
 - action_onclick: Função JavaScript para o botão de ação (opcional)
-- cancel_onclick: Função JavaScript para o botão cancelar (opcional)
 - size: sm, md, lg (padrão: md)
-- icon: Ícone SVG para o dialog (opcional)
 - class: Classes CSS adicionais (opcional)
 
 Exemplo:
@@ -22,9 +19,9 @@ include "components/alert-dialog.html" with
     title="Confirmar exclusão"
     description="Esta ação não pode ser desfeita. O item será permanentemente removido."
     action_text="Sim, deletar"
-    action_onclick="alert('Item deletado!')"
+    action_onclick="console.log('Item deletado!')"
 -->
-{% with action_text=action_text|default:"Confirmar" cancel_text=cancel_text|default:"Cancelar" action_variant=action_variant|default:"destructive" cancel_variant=cancel_variant|default:"outline" size=size|default:"md" %}
+{% with action_text=action_text|default:"Confirmar" cancel_text=cancel_text|default:"Cancelar" action_variant=action_variant|default:"destructive" size=size|default:"md" %}
 <div 
     x-data="{ open: false }"
     @keydown.escape.window="open = false"
@@ -62,30 +59,14 @@ include "components/alert-dialog.html" with
                 {% else %}sm:max-w-md{% endif %}"
             role="alertdialog"
             aria-modal="true"
-            :aria-labelledby="$id('alert-title')"
-            :aria-describedby="$id('alert-desc')"
         >
             <!-- Header -->
             <div class="flex flex-col gap-2 text-center sm:text-left mb-4">
-                {% if icon %}
-                    <div class="mx-auto sm:mx-0 flex size-12 items-center justify-center rounded-full bg-destructive/10 mb-2">
-                        <div class="[&_svg]:size-6 [&_svg]:text-destructive">
-                            {{ icon|safe }}
-                        </div>
-                    </div>
-                {% endif %}
-                
-                <h2 
-                    :id="$id('alert-title')"
-                    class="text-lg font-semibold"
-                >
+                <h2 class="text-lg font-semibold">
                     {{ title }}
                 </h2>
                 
-                <p 
-                    :id="$id('alert-desc')"
-                    class="text-sm text-muted-foreground"
-                >
+                <p class="text-sm text-muted-foreground">
                     {{ description }}
                 </p>
             </div>
@@ -94,31 +75,20 @@ include "components/alert-dialog.html" with
             <div class="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
                 <!-- Cancel Button -->
                 <button
-                    @click="open = false; {% if cancel_onclick %}{{ cancel_onclick }}{% endif %}"
+                    @click="open = false"
                     type="button"
-                    class="inline-flex items-center justify-center gap-2 rounded-md px-4 py-2 text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50
-                        {% if cancel_variant == 'default' %}bg-primary text-primary-foreground hover:bg-primary/90
-                        {% elif cancel_variant == 'destructive' %}bg-destructive text-destructive-foreground hover:bg-destructive/90
-                        {% elif cancel_variant == 'outline' %}border border-input bg-background hover:bg-accent hover:text-accent-foreground
-                        {% elif cancel_variant == 'secondary' %}bg-secondary text-secondary-foreground hover:bg-secondary/80
-                        {% elif cancel_variant == 'ghost' %}hover:bg-accent hover:text-accent-foreground
-                        {% elif cancel_variant == 'link' %}text-primary underline-offset-4 hover:underline
-                        {% else %}border border-input bg-background hover:bg-accent hover:text-accent-foreground{% endif %}"
+                    class="inline-flex items-center justify-center gap-2 rounded-md px-4 py-2 text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground"
                 >
                     {{ cancel_text }}
                 </button>
                 
                 <!-- Action Button -->
                 <button
-                    @click="open = false; {% if action_onclick %}{{ action_onclick }}{% endif %}"
+                    @click="open = false; {% if action_onclick %}{{ action_onclick|safe }}{% endif %}"
                     type="button"
                     class="inline-flex items-center justify-center gap-2 rounded-md px-4 py-2 text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50
                         {% if action_variant == 'default' %}bg-primary text-primary-foreground hover:bg-primary/90
                         {% elif action_variant == 'destructive' %}bg-destructive text-destructive-foreground hover:bg-destructive/90
-                        {% elif action_variant == 'outline' %}border border-input bg-background hover:bg-accent hover:text-accent-foreground
-                        {% elif action_variant == 'secondary' %}bg-secondary text-secondary-foreground hover:bg-secondary/80
-                        {% elif action_variant == 'ghost' %}hover:bg-accent hover:text-accent-foreground
-                        {% elif action_variant == 'link' %}text-primary underline-offset-4 hover:underline
                         {% else %}bg-destructive text-destructive-foreground hover:bg-destructive/90{% endif %}"
                 >
                     {{ action_text }}

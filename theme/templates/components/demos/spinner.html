@@ -1,339 +1,180 @@
-{% extends "components_base.html" %}
 {% load icon_tags %}
 
-{% block page_title %}Spinner{% endblock %}
-{% block page_description %}Indicador de carregamento animado para operações assíncronas{% endblock %}
+<div class="space-y-6">
+    <!-- Cabeçalho -->
+    <div class="border-b border-border pb-4">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-3xl font-bold">Spinner</h1>
+                <p class="text-muted-foreground mt-1">Indicador visual de carregamento para operações assíncronas</p>
+            </div>
+            <a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+                Voltar
+            </a>
+        </div>
+    </div>
 
-{% block component_content %}
-<div class="max-w-4xl mx-auto space-y-8">
     <!-- Instalação -->
-    <section class="space-y-4">
+    <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Instalação</h2>
         <div class="relative">
-            <pre class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto"><code>{% templatetag openblock %} include "components/spinner.html" with size="md" color="primary" {% templatetag closeblock %}</code></pre>
+            <pre class="bg-muted p-4 rounded-radius-md overflow-x-auto text-sm"><code>{% verbatim %}{% include 'components/spinner.html' with size="md" %}{% endverbatim %}</code></pre>
             <button 
-                class="absolute top-2 right-2 p-2 bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
-                x-data="{ copied: false }"
-                @click="navigator.clipboard.writeText($el.previousElementSibling.textContent); copied = true; setTimeout(() => copied = false, 2000)"
+                class="absolute top-2 right-2 p-2 bg-background rounded-radius-md shadow-sm hover:bg-accent border border-border"
+                x-data 
+                @click="navigator.clipboard.writeText('{% verbatim %}{% include \'components/spinner.html\' with size=\'md\' %}{% endverbatim %}')"
+                title="Copiar código"
             >
-                <span x-show="!copied">{% icon "copy" size="4" %}</span>
-                <span x-show="copied" class="text-green-600">{% icon "check" size="4" %}</span>
+                {% svg_icon "copy" "size-4" %}
             </button>
         </div>
-    </section>
+    </div>
 
-    <!-- Spinners Básicos -->
-    <section class="space-y-4">
-        <h2 class="text-2xl font-semibold">Spinners Básicos</h2>
-        <div class="border rounded-lg p-6">
-            <div class="flex items-center justify-center space-x-8">
-                <!-- Spinner Básico -->
-                <div class="text-center">
-                    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 dark:border-gray-100"></div>
-                    <p class="text-sm mt-2 text-gray-600 dark:text-gray-400">Básico</p>
-                </div>
-
-                <!-- Spinner com Borda -->
-                <div class="text-center">
-                    <div class="animate-spin rounded-full h-8 w-8 border-2 border-gray-300 dark:border-gray-600 border-t-blue-500"></div>
-                    <p class="text-sm mt-2 text-gray-600 dark:text-gray-400">Com Borda</p>
-                </div>
-
-                <!-- Spinner Pontilhado -->
-                <div class="text-center">
-                    <div class="animate-spin rounded-full h-8 w-8 border-2 border-dotted border-gray-300 dark:border-gray-600 border-t-green-500"></div>
-                    <p class="text-sm mt-2 text-gray-600 dark:text-gray-400">Pontilhado</p>
-                </div>
-
-                <!-- Spinner Pulsante -->
-                <div class="text-center">
-                    <div class="animate-pulse rounded-full h-8 w-8 bg-red-500"></div>
-                    <p class="text-sm mt-2 text-gray-600 dark:text-gray-400">Pulsante</p>
-                </div>
+    <!-- Exemplo Básico -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Exemplo Básico</h2>
+        <div class="border border-border rounded-radius-lg p-6">
+            <div class="flex justify-center">
+                {% include "components/spinner.html" %}
             </div>
         </div>
-        <div class="relative">
-            <pre class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto text-sm"><code>&lt;!-- Spinner Básico --&gt;
-&lt;div class="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 dark:border-gray-100"&gt;&lt;/div&gt;
-
-&lt;!-- Spinner com Borda --&gt;
-&lt;div class="animate-spin rounded-full h-8 w-8 border-2 border-gray-300 dark:border-gray-600 border-t-blue-500"&gt;&lt;/div&gt;
-
-&lt;!-- Spinner Pontilhado --&gt;
-&lt;div class="animate-spin rounded-full h-8 w-8 border-2 border-dotted border-gray-300 dark:border-gray-600 border-t-green-500"&gt;&lt;/div&gt;
-
-&lt;!-- Spinner Pulsante --&gt;
-&lt;div class="animate-pulse rounded-full h-8 w-8 bg-red-500"&gt;&lt;/div&gt;</code></pre>
-            <button 
-                class="absolute top-2 right-2 p-2 bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
-                x-data="{ copied: false }"
-                @click="navigator.clipboard.writeText($el.previousElementSibling.textContent); copied = true; setTimeout(() => copied = false, 2000)"
-            >
-                <span x-show="!copied">{% icon "copy" size="4" %}</span>
-                <span x-show="copied" class="text-green-600">{% icon "check" size="4" %}</span>
-            </button>
-        </div>
-    </section>
+    </div>
 
     <!-- Tamanhos -->
-    <section class="space-y-4">
+    <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Tamanhos</h2>
-        <div class="border rounded-lg p-6">
-            <div class="flex items-center justify-center space-x-8">
-                <div class="text-center">
-                    <div class="animate-spin rounded-full h-4 w-4 border-2 border-gray-300 dark:border-gray-600 border-t-blue-500"></div>
-                    <p class="text-sm mt-2 text-gray-600 dark:text-gray-400">Pequeno</p>
+        <div class="border border-border rounded-radius-lg p-6">
+            <div class="flex items-center justify-center gap-8">
+                <div class="text-center space-y-2">
+                    <p class="text-sm font-medium">Small</p>
+                    {% include "components/spinner.html" with size="sm" %}
                 </div>
-
-                <div class="text-center">
-                    <div class="animate-spin rounded-full h-6 w-6 border-2 border-gray-300 dark:border-gray-600 border-t-blue-500"></div>
-                    <p class="text-sm mt-2 text-gray-600 dark:text-gray-400">Médio</p>
+                <div class="text-center space-y-2">
+                    <p class="text-sm font-medium">Medium</p>
+                    {% include "components/spinner.html" with size="md" %}
                 </div>
-
-                <div class="text-center">
-                    <div class="animate-spin rounded-full h-8 w-8 border-2 border-gray-300 dark:border-gray-600 border-t-blue-500"></div>
-                    <p class="text-sm mt-2 text-gray-600 dark:text-gray-400">Grande</p>
+                <div class="text-center space-y-2">
+                    <p class="text-sm font-medium">Large</p>
+                    {% include "components/spinner.html" with size="lg" %}
                 </div>
-
-                <div class="text-center">
-                    <div class="animate-spin rounded-full h-12 w-12 border-2 border-gray-300 dark:border-gray-600 border-t-blue-500"></div>
-                    <p class="text-sm mt-2 text-gray-600 dark:text-gray-400">Extra Grande</p>
+                <div class="text-center space-y-2">
+                    <p class="text-sm font-medium">Extra Large</p>
+                    {% include "components/spinner.html" with size="xl" %}
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 
     <!-- Cores -->
-    <section class="space-y-4">
+    <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Cores</h2>
-        <div class="border rounded-lg p-6">
-            <div class="flex items-center justify-center space-x-8">
-                <div class="text-center">
-                    <div class="animate-spin rounded-full h-8 w-8 border-2 border-gray-300 dark:border-gray-600 border-t-blue-500"></div>
-                    <p class="text-sm mt-2 text-gray-600 dark:text-gray-400">Azul</p>
+        <div class="border border-border rounded-radius-lg p-6">
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-6">
+                <div class="text-center space-y-2">
+                    <p class="text-sm font-medium">Primary</p>
+                    {% include "components/spinner.html" with color="primary" %}
                 </div>
-
-                <div class="text-center">
-                    <div class="animate-spin rounded-full h-8 w-8 border-2 border-gray-300 dark:border-gray-600 border-t-green-500"></div>
-                    <p class="text-sm mt-2 text-gray-600 dark:text-gray-400">Verde</p>
+                <div class="text-center space-y-2">
+                    <p class="text-sm font-medium">Secondary</p>
+                    {% include "components/spinner.html" with color="secondary" %}
                 </div>
-
-                <div class="text-center">
-                    <div class="animate-spin rounded-full h-8 w-8 border-2 border-gray-300 dark:border-gray-600 border-t-yellow-500"></div>
-                    <p class="text-sm mt-2 text-gray-600 dark:text-gray-400">Amarelo</p>
+                <div class="text-center space-y-2">
+                    <p class="text-sm font-medium">Success</p>
+                    {% include "components/spinner.html" with color="success" %}
                 </div>
-
-                <div class="text-center">
-                    <div class="animate-spin rounded-full h-8 w-8 border-2 border-gray-300 dark:border-gray-600 border-t-red-500"></div>
-                    <p class="text-sm mt-2 text-gray-600 dark:text-gray-400">Vermelho</p>
+                <div class="text-center space-y-2">
+                    <p class="text-sm font-medium">Warning</p>
+                    {% include "components/spinner.html" with color="warning" %}
                 </div>
-
-                <div class="text-center">
-                    <div class="animate-spin rounded-full h-8 w-8 border-2 border-gray-300 dark:border-gray-600 border-t-purple-500"></div>
-                    <p class="text-sm mt-2 text-gray-600 dark:text-gray-400">Roxo</p>
+                <div class="text-center space-y-2">
+                    <p class="text-sm font-medium">Danger</p>
+                    {% include "components/spinner.html" with color="danger" %}
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- Spinners com Texto -->
-    <section class="space-y-4">
+    <!-- Com Texto -->
+    <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Com Texto</h2>
-        <div class="border rounded-lg p-6">
+        <div class="border border-border rounded-radius-lg p-6">
             <div class="space-y-6">
-                <div class="flex items-center justify-center space-x-3">
-                    <div class="animate-spin rounded-full h-5 w-5 border-2 border-gray-300 dark:border-gray-600 border-t-blue-500"></div>
-                    <span class="text-sm text-gray-600 dark:text-gray-400">Carregando...</span>
+                <div class="text-center">
+                    {% include "components/spinner.html" with text="Carregando..." %}
                 </div>
-
-                <div class="flex items-center justify-center space-x-3">
-                    <div class="animate-spin rounded-full h-5 w-5 border-2 border-gray-300 dark:border-gray-600 border-t-green-500"></div>
-                    <span class="text-sm text-gray-600 dark:text-gray-400">Salvando dados...</span>
+                <div class="text-center">
+                    {% include "components/spinner.html" with text="Processando dados..." color="success" %}
                 </div>
-
-                <div class="flex items-center justify-center space-x-3">
-                    <div class="animate-spin rounded-full h-5 w-5 border-2 border-gray-300 dark:border-gray-600 border-t-yellow-500"></div>
-                    <span class="text-sm text-gray-600 dark:text-gray-400">Processando...</span>
-                </div>
-
-                <div class="flex items-center justify-center space-x-3">
-                    <div class="animate-spin rounded-full h-5 w-5 border-2 border-gray-300 dark:border-gray-600 border-t-red-500"></div>
-                    <span class="text-sm text-gray-600 dark:text-gray-400">Enviando...</span>
+                <div class="text-center">
+                    {% include "components/spinner.html" with text="Aguarde um momento..." size="lg" %}
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- Spinner em Botões -->
-    <section class="space-y-4">
-        <h2 class="text-2xl font-semibold">Em Botões</h2>
-        <div class="border rounded-lg p-6">
-            <div class="flex items-center justify-center space-x-4" x-data="{ 
-                loading1: false, 
-                loading2: false, 
-                loading3: false 
-            }">
-                <!-- Botão Normal -->
-                <button 
-                    @click="loading1 = true; setTimeout(() => loading1 = false, 3000)"
-                    class="flex items-center space-x-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors"
-                    :disabled="loading1"
-                >
-                    <div x-show="loading1" class="animate-spin rounded-full h-4 w-4 border-2 border-white/30 border-t-white"></div>
-                    <span x-text="loading1 ? 'Carregando...' : 'Salvar'"></span>
-                </button>
-
-                <!-- Botão Secundário -->
-                <button 
-                    @click="loading2 = true; setTimeout(() => loading2 = false, 3000)"
-                    class="flex items-center space-x-2 px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-colors"
-                    :disabled="loading2"
-                >
-                    <div x-show="loading2" class="animate-spin rounded-full h-4 w-4 border-2 border-white/30 border-t-white"></div>
-                    <span x-text="loading2 ? 'Enviando...' : 'Enviar'"></span>
-                </button>
-
-                <!-- Botão Outline -->
-                <button 
-                    @click="loading3 = true; setTimeout(() => loading3 = false, 3000)"
-                    class="flex items-center space-x-2 px-4 py-2 border-2 border-green-500 text-green-500 hover:bg-green-50 dark:hover:bg-green-900/20 rounded-lg transition-colors"
-                    :disabled="loading3"
-                >
-                    <div x-show="loading3" class="animate-spin rounded-full h-4 w-4 border-2 border-green-500/30 border-t-green-500"></div>
-                    <span x-text="loading3 ? 'Processando...' : 'Processar'"></span>
-                </button>
+    <!-- Centralizado -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Centralizado</h2>
+        <div class="border border-border rounded-radius-lg p-6">
+            <div class="h-32 relative">
+                {% include "components/spinner.html" with centered=True text="Carregando conteúdo..." %}
             </div>
         </div>
-        <div class="relative">
-            <pre class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto text-sm"><code>&lt;button 
-  @click="loading = true; setTimeout(() => loading = false, 3000)"
-  class="flex items-center space-x-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg"
-  :disabled="loading"
-&gt;
-  &lt;div x-show="loading" class="animate-spin rounded-full h-4 w-4 border-2 border-white/30 border-t-white"&gt;&lt;/div&gt;
-  &lt;span x-text="loading ? 'Carregando...' : 'Salvar'"&gt;&lt;/span&gt;
-&lt;/button&gt;</code></pre>
-            <button 
-                class="absolute top-2 right-2 p-2 bg-gray-200 dark:bg-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
-                x-data="{ copied: false }"
-                @click="navigator.clipboard.writeText($el.previousElementSibling.textContent); copied = true; setTimeout(() => copied = false, 2000)"
-            >
-                <span x-show="!copied">{% icon "copy" size="4" %}</span>
-                <span x-show="copied" class="text-green-600">{% icon "check" size="4" %}</span>
-            </button>
-        </div>
-    </section>
+    </div>
 
-    <!-- Overlay de Carregamento -->
-    <section class="space-y-4">
-        <h2 class="text-2xl font-semibold">Overlay de Carregamento</h2>
-        <div class="border rounded-lg p-6">
-            <div class="relative" x-data="{ showOverlay: false }">
-                <div class="p-6 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                    <h3 class="font-medium mb-4">Conteúdo da Página</h3>
-                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                        Este é um exemplo de conteúdo que pode ser coberto por um overlay de carregamento.
-                    </p>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="p-3 bg-white dark:bg-gray-700 rounded border">
-                            <h4 class="font-medium text-sm">Card 1</h4>
-                            <p class="text-xs text-gray-500 mt-1">Conteúdo do primeiro card</p>
-                        </div>
-                        <div class="p-3 bg-white dark:bg-gray-700 rounded border">
-                            <h4 class="font-medium text-sm">Card 2</h4>
-                            <p class="text-xs text-gray-500 mt-1">Conteúdo do segundo card</p>
+    <!-- Como Overlay -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Como Overlay</h2>
+        <div class="border border-border rounded-radius-lg p-6">
+            <div x-data="{ loading: false }" class="space-y-4">
+                <button @click="loading = true; setTimeout(() => loading = false, 3000)" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-radius-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] bg-primary text-primary-foreground shadow-xs hover:bg-primary/90 h-9 px-4 py-2">
+                    Simular Carregamento
+                </button>
+                
+                <div class="relative">
+                    <div class="p-6 bg-muted rounded-lg">
+                        <h3 class="text-lg font-medium mb-2">Conteúdo da Página</h3>
+                        <p class="text-sm text-muted-foreground">Este é o conteúdo que será sobreposto pelo spinner durante o carregamento.</p>
+                        <div class="grid grid-cols-3 gap-4 mt-4">
+                            <div class="h-20 bg-background rounded"></div>
+                            <div class="h-20 bg-background rounded"></div>
+                            <div class="h-20 bg-background rounded"></div>
                         </div>
                     </div>
-                    <button 
-                        @click="showOverlay = true; setTimeout(() => showOverlay = false, 4000)"
-                        class="mt-4 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors"
-                    >
-                        Mostrar Overlay
+                    
+                    <div x-show="loading" x-transition.opacity class="absolute inset-0">
+                        {% include "components/spinner.html" with overlay=True text="Carregando dados..." %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Em Botões -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Em Botões</h2>
+        <div class="border border-border rounded-radius-lg p-6">
+            <div x-data="{ submitting: false }" class="space-y-4">
+                <div class="flex gap-4">
+                    <button @click="submitting = true; setTimeout(() => submitting = false, 2000)" 
+                            :disabled="submitting"
+                            class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-radius-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] bg-primary text-primary-foreground shadow-xs hover:bg-primary/90 h-9 px-4 py-2">
+                        <span x-show="submitting">{% include "components/spinner.html" with size="sm" %}</span>
+                        <span x-text="submitting ? 'Salvando...' : 'Salvar'"></span>
+                    </button>
+                    
+                    <button class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-radius-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] bg-green-600 text-white shadow-xs hover:bg-green-700 h-9 px-4 py-2">
+                        {% include "components/spinner.html" with size="sm" %}
+                        Processando...
                     </button>
                 </div>
-
-                <!-- Overlay -->
-                <div x-show="showOverlay" 
-                     x-transition:enter="transition ease-out duration-300"
-                     x-transition:enter-start="opacity-0"
-                     x-transition:enter-end="opacity-100"
-                     x-transition:leave="transition ease-in duration-300"
-                     x-transition:leave-start="opacity-100"
-                     x-transition:leave-end="opacity-0"
-                     class="absolute inset-0 bg-white/80 dark:bg-gray-900/80 flex items-center justify-center rounded-lg"
-                >
-                    <div class="text-center">
-                        <div class="animate-spin rounded-full h-12 w-12 border-2 border-gray-300 dark:border-gray-600 border-t-blue-500 mx-auto mb-4"></div>
-                        <p class="text-sm text-gray-600 dark:text-gray-400">Carregando dados...</p>
-                    </div>
-                </div>
             </div>
         </div>
-    </section>
-
-    <!-- Spinner Customizado -->
-    <section class="space-y-4">
-        <h2 class="text-2xl font-semibold">Spinner Customizado</h2>
-        <div class="border rounded-lg p-6">
-            <div class="flex items-center justify-center space-x-8">
-                <!-- Spinner de Pontos -->
-                <div class="text-center">
-                    <div class="flex space-x-1">
-                        <div class="h-2 w-2 bg-blue-500 rounded-full animate-bounce"></div>
-                        <div class="h-2 w-2 bg-blue-500 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
-                        <div class="h-2 w-2 bg-blue-500 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
-                    </div>
-                    <p class="text-sm mt-2 text-gray-600 dark:text-gray-400">Pontos</p>
-                </div>
-
-                <!-- Spinner de Barras -->
-                <div class="text-center">
-                    <div class="flex space-x-1 items-end">
-                        <div class="h-4 w-1 bg-green-500 animate-pulse"></div>
-                        <div class="h-6 w-1 bg-green-500 animate-pulse" style="animation-delay: 0.1s"></div>
-                        <div class="h-8 w-1 bg-green-500 animate-pulse" style="animation-delay: 0.2s"></div>
-                        <div class="h-6 w-1 bg-green-500 animate-pulse" style="animation-delay: 0.3s"></div>
-                        <div class="h-4 w-1 bg-green-500 animate-pulse" style="animation-delay: 0.4s"></div>
-                    </div>
-                    <p class="text-sm mt-2 text-gray-600 dark:text-gray-400">Barras</p>
-                </div>
-
-                <!-- Spinner de Onda -->
-                <div class="text-center">
-                    <div class="flex space-x-1 items-center">
-                        <div class="h-2 w-2 bg-purple-500 rounded-full animate-ping"></div>
-                        <div class="h-2 w-2 bg-purple-500 rounded-full animate-ping" style="animation-delay: 0.2s"></div>
-                        <div class="h-2 w-2 bg-purple-500 rounded-full animate-ping" style="animation-delay: 0.4s"></div>
-                    </div>
-                    <p class="text-sm mt-2 text-gray-600 dark:text-gray-400">Onda</p>
-                </div>
-            </div>
-        </div>
-    </section>
+    </div>
 
     <!-- Parâmetros -->
-    <section class="space-y-4">
+    <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Parâmetros</h2>
-        <div class="overflow-x-auto">
-            <table class="w-full border-collapse border border-gray-200 dark:border-gray-700">
-                <thead>
-                    <tr class="bg-gray-50 dark:bg-gray-800">
-                        {% for header in spinner_params.headers %}
-                        <th class="border border-gray-200 dark:border-gray-700 px-4 py-2 text-left font-medium">{{ header }}</th>
-                        {% endfor %}
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for row in spinner_params.data %}
-                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-800">
-                        {% for cell in row %}
-                        <td class="border border-gray-200 dark:border-gray-700 px-4 py-2">{{ cell|safe }}</td>
-                        {% endfor %}
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </section>
-</div>
-{% endblock %} 
+        {% include "components/table.html" with headers=spinner_params.headers data=spinner_params.data caption="Parâmetros disponíveis para o componente Spinner" %}
+    </div>
+</div> 
