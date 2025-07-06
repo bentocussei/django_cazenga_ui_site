@@ -14,6 +14,9 @@
     <!-- SPA Inteligente -->
     <script src="{% static 'js/spa-intelligent.js' %}"></script>
     
+    <!-- Sidebar Highlight -->
+    <script src="{% static 'js/sidebar-highlight.js' %}"></script>
+    
     <!-- Alpine.js -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     
@@ -40,6 +43,66 @@
     <!-- Se não há main_content, está sendo usado pelos templates dos componentes -->
     {% include "components/layout.html" with layout_type="sidebar-left" sidebar_collapsible=True sidebar_content=sidebar_content header_content=header_content main_content=component_main_content spa_enabled=True %}
 {% endif %}
+
+<!-- Script para corrigir highlight da sidebar automaticamente -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('🎯 Aplicando highlight da sidebar...');
+    
+    function updateSidebarHighlight() {
+        const currentPath = window.location.pathname;
+        console.log('📍 Caminho atual:', currentPath);
+        
+        // Selecionar todos os links da sidebar
+        const sidebarLinks = document.querySelectorAll('[data-spa-sidebar] a[data-spa-link]');
+        
+        sidebarLinks.forEach(link => {
+            const linkPath = new URL(link.href).pathname;
+            
+            // Remover classes ativas
+            link.classList.remove('bg-accent', 'text-accent-foreground');
+            link.classList.add('hover:bg-accent');
+            
+            // Aplicar classe ativa se for o caminho atual
+            if (linkPath === currentPath) {
+                link.classList.add('bg-accent', 'text-accent-foreground');
+                link.classList.remove('hover:bg-accent');
+                console.log('✅ Highlight aplicado para:', linkPath);
+            }
+        });
+    }
+    
+    // Aplicar highlight inicial
+    updateSidebarHighlight();
+    
+    // Aplicar highlight após navegação SPA
+    window.addEventListener('spa:navigated', (e) => {
+        console.log('🔄 SPA navegou para:', e.detail.path);
+        setTimeout(updateSidebarHighlight, 100); // Pequeno delay para garantir que o DOM atualizou
+    });
+    
+    // Aplicar highlight após navegação do browser (botão voltar)
+    window.addEventListener('popstate', () => {
+        console.log('↩️ Navegação do browser detectada');
+        setTimeout(updateSidebarHighlight, 100);
+    });
+});
+
+// Disparar evento customizado após navegação SPA
+if (window.Alpine && window.Alpine.store && window.Alpine.store('spaIntelligent')) {
+    const originalNavigate = window.Alpine.store('spaIntelligent').navigateSPA;
+    if (originalNavigate) {
+        window.Alpine.store('spaIntelligent').navigateSPA = async function(path, title) {
+            const result = await originalNavigate.call(this, path, title);
+            // Disparar evento após navegação SPA
+            window.dispatchEvent(new CustomEvent('spa:navigated', {
+                detail: { path: path, title: title }
+            }));
+            return result;
+        };
+    }
+}
+</script>
 
 <!-- Conteúdo para os templates dos componentes quando não há main_content -->
 {% if not main_content %}

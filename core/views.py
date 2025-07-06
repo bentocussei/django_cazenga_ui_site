@@ -475,59 +475,25 @@ def component_detail(request, component_slug):
     if not component:
         raise Http404("Componente não encontrado")
     
-    # Verificar se é requisição SPA
-    if is_spa_request(request):
-        print(f"🚀 SPA Request para componente: {component_slug}")
-        
-        # Para SPA, retornar apenas o conteúdo principal do componente
-        main_content = f'''
-        <div class="space-y-6">
-            <div class="border-b border-border pb-4">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <h1 class="text-3xl font-bold">{component['name']}</h1>
-                        <p class="text-muted-foreground mt-1">Demonstração do componente {component['name']}</p>
-                    </div>
-                    <a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
-                        Voltar
-                    </a>
-                </div>
-            </div>
-            
-            <div class="space-y-8">
-                <section>
-                    <h2 class="text-xl font-semibold mb-4">Demonstração</h2>
-                    <div class="p-6 border border-border rounded-radius-lg bg-card">
-                        <p class="text-center text-muted-foreground">
-                            Demonstração do componente <strong>{component['name']}</strong> será implementada em breve.
-                        </p>
-                    </div>
-                </section>
-                
-                <section>
-                    <h2 class="text-xl font-semibold mb-4">Uso</h2>
-                    <div class="p-4 bg-muted rounded-radius-md">
-                        <code class="text-sm">
-                            {{% include "components/{component_slug}.html" with ... %}}
-                        </code>
-                    </div>
-                </section>
-            </div>
-        </div>
-        '''
-        
-        response_data = {
-            'content': main_content,
-            'title': f'{component["name"]} - Componente UI',
-            'path': request.path,
-            'success': True
-        }
-        
-        print(f"✅ SPA Response enviada para {component_slug}")
-        return JsonResponse(response_data)
+    # Preparar contexto base (usado tanto para SPA quanto para requisições normais)
+    context = {
+        'page_title': f'{component["name"]} - Componente UI',
+        'component': component,
+        'components_list': COMPONENTS_LIST,
+        'current_component': component_slug,
+    }
     
-    # Se não for SPA, continuar com o fluxo normal
-    # Construir conteúdo da sidebar
+    # Preparar dados específicos do componente (ex: button params)
+    if component_slug == 'button':
+        context['button_params'] = BUTTON_PARAMS
+    elif component_slug == 'card':
+        context['card_params'] = CARD_PARAMS
+    elif component_slug == 'input':
+        context['input_params'] = INPUT_PARAMS
+    elif component_slug == 'layout':
+        context['layout_params'] = LAYOUT_PARAMS
+    
+    # Construir conteúdo da sidebar para ambos os casos
     sidebar_content = '<nav class="space-y-1">'
     for comp in COMPONENTS_LIST:
         icon_mapping = {
@@ -579,25 +545,24 @@ def component_detail(request, component_slug):
     </div>
     '''
     
-    # Preparar contexto base para requisição normal
-    context = {
-        'page_title': f'{component["name"]} - Componente UI',
-        'component': component,
-        'components_list': COMPONENTS_LIST,
-        'current_component': component_slug,
-        'sidebar_content': sidebar_content,
-        'header_content': header_content,
-    }
-    
-    # Renderizar template específico do componente ou usar fallback
+    # Tentar renderizar template específico ou usar fallback
     from django.template.loader import get_template
     from django.template import TemplateDoesNotExist
     
     try:
         # Tentar carregar o template específico
         template = get_template(f"components/demos/{component_slug}.html")
-        return render(request, f"components/demos/{component_slug}.html", context)
+        template_exists = True
+        print(f"📄 Template encontrado: components/demos/{component_slug}.html")
     except TemplateDoesNotExist:
+        template_exists = False
+        print(f"⚠️ Template não encontrado para {component_slug}, usando fallback")
+    
+    # Para AMBOS os casos (SPA e reload), construir o mesmo main_content
+    if template_exists:
+        # Renderizar o template específico diretamente
+        main_content = render_to_string(f"components/demos/{component_slug}.html", context, request=request)
+    else:
         # Template não existe, usar fallback
         main_content = f'''
         <div class="space-y-6">
@@ -619,10 +584,29 @@ def component_detail(request, component_slug):
             </div>
         </div>
         '''
+    
+    # Verificar se é requisição SPA
+    if is_spa_request(request):
+        print(f"🚀 SPA Request para componente: {component_slug}")
         
-        context['main_content'] = main_content
-        context['component_not_found'] = True
-        return render(request, "components_base.html", context)
+        response_data = {
+            'content': main_content,
+            'title': f'{component["name"]} - Componente UI',
+            'path': request.path,
+            'success': True
+        }
+        
+        print(f"✅ SPA Response enviada para {component_slug}")
+        return JsonResponse(response_data)
+    
+    # Para requisições normais, usar o mesmo conteúdo
+    context.update({
+        'sidebar_content': sidebar_content,
+        'header_content': header_content,
+        'main_content': main_content,
+    })
+    
+    return render(request, "components_base.html", context)
 
 def icons_page(request):
     import os
