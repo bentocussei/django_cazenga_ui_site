@@ -14,226 +14,223 @@
         </div>
     </div>
 
-    <div class="max-w-4xl mx-auto space-y-8">
-        
-        <!-- Instalação -->
-        <div class="space-y-4">
-            <h2 class="text-2xl font-semibold">Instalação</h2>
-            <div class="bg-muted rounded-lg p-4 relative" x-data="{ copied: false }">
-                <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
-                        class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+    <!-- Instalação -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Instalação</h2>
+        <div class="bg-muted rounded-lg p-4 relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
-                </button>
-                <code class="text-sm" x-ref="code">{% verbatim %}{% include "components/button.html" with text="Clique aqui" variant="default" %}{% endverbatim %}</code>
-            </div>
+            </button>
+            <code class="text-sm" x-ref="code">{% verbatim %}{% include "components/button.html" with text="Clique aqui" variant="default" %}{% endverbatim %}</code>
         </div>
-
-        <!-- Variantes -->
-        <div class="space-y-4">
-            <h2 class="text-2xl font-semibold">Variantes</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                
-                <!-- Default -->
-                <div class="space-y-3">
-                    <h3 class="text-lg font-medium">Default</h3>
-                    <div class="border rounded-lg p-4">
-                        {% include "components/button.html" with text="Button" variant="default" %}
-                    </div>
-                    <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
-                        <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
-                                class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
-                            <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
-                            <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
-                        </button>
-                        <code x-ref="code">{% verbatim %}{% include "components/button.html" with text="Button" variant="default" %}{% endverbatim %}</code>
-                    </div>
-                </div>
-
-                <!-- Secondary -->
-                <div class="space-y-3">
-                    <h3 class="text-lg font-medium">Secondary</h3>
-                    <div class="border rounded-lg p-4">
-                        {% include "components/button.html" with text="Secondary" variant="secondary" %}
-                    </div>
-                    <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
-                        <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
-                                class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
-                            <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
-                            <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
-                        </button>
-                        <code x-ref="code">{% verbatim %}{% include "components/button.html" with text="Secondary" variant="secondary" %}{% endverbatim %}</code>
-                    </div>
-                </div>
-
-                <!-- Destructive -->
-                <div class="space-y-3">
-                    <h3 class="text-lg font-medium">Destructive</h3>
-                    <div class="border rounded-lg p-4">
-                        {% include "components/button.html" with text="Destructive" variant="destructive" %}
-                    </div>
-                    <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
-                        <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
-                                class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
-                            <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
-                            <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
-                        </button>
-                        <code x-ref="code">{% verbatim %}{% include "components/button.html" with text="Destructive" variant="destructive" %}{% endverbatim %}</code>
-                    </div>
-                </div>
-
-                <!-- Outline -->
-                <div class="space-y-3">
-                    <h3 class="text-lg font-medium">Outline</h3>
-                    <div class="border rounded-lg p-4">
-                        {% include "components/button.html" with text="Outline" variant="outline" %}
-                    </div>
-                    <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
-                        <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
-                                class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
-                            <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
-                            <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
-                        </button>
-                        <code x-ref="code">{% verbatim %}{% include "components/button.html" with text="Outline" variant="outline" %}{% endverbatim %}</code>
-                    </div>
-                </div>
-
-                <!-- Ghost -->
-                <div class="space-y-3">
-                    <h3 class="text-lg font-medium">Ghost</h3>
-                    <div class="border rounded-lg p-4">
-                        {% include "components/button.html" with text="Ghost" variant="ghost" %}
-                    </div>
-                    <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
-                        <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
-                                class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
-                            <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
-                            <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
-                        </button>
-                        <code x-ref="code">{% verbatim %}{% include "components/button.html" with text="Ghost" variant="ghost" %}{% endverbatim %}</code>
-                    </div>
-                </div>
-
-                <!-- Link -->
-                <div class="space-y-3">
-                    <h3 class="text-lg font-medium">Link</h3>
-                    <div class="border rounded-lg p-4">
-                        {% include "components/button.html" with text="Link" variant="link" %}
-                    </div>
-                    <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
-                        <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
-                                class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
-                            <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
-                            <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
-                        </button>
-                        <code x-ref="code">{% verbatim %}{% include "components/button.html" with text="Link" variant="link" %}{% endverbatim %}</code>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-        <!-- Tamanhos -->
-        <div class="space-y-4">
-            <h2 class="text-2xl font-semibold">Tamanhos</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                
-                <!-- Small -->
-                <div class="space-y-3">
-                    <h3 class="text-lg font-medium">Small</h3>
-                    <div class="border rounded-lg p-4">
-                        {% include "components/button.html" with text="Small" size="sm" %}
-                    </div>
-                    <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
-                        <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
-                                class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
-                            <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
-                            <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
-                        </button>
-                        <code x-ref="code">{% verbatim %}{% include "components/button.html" with text="Small" size="sm" %}{% endverbatim %}</code>
-                    </div>
-                </div>
-
-                <!-- Medium (default) -->
-                <div class="space-y-3">
-                    <h3 class="text-lg font-medium">Medium</h3>
-                    <div class="border rounded-lg p-4">
-                        {% include "components/button.html" with text="Medium" size="md" %}
-                    </div>
-                    <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
-                        <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
-                                class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
-                            <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
-                            <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
-                        </button>
-                        <code x-ref="code">{% verbatim %}{% include "components/button.html" with text="Medium" size="md" %}{% endverbatim %}</code>
-                    </div>
-                </div>
-
-                <!-- Large -->
-                <div class="space-y-3">
-                    <h3 class="text-lg font-medium">Large</h3>
-                    <div class="border rounded-lg p-4">
-                        {% include "components/button.html" with text="Large" size="lg" %}
-                    </div>
-                    <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
-                        <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
-                                class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
-                            <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
-                            <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
-                        </button>
-                        <code x-ref="code">{% verbatim %}{% include "components/button.html" with text="Large" size="lg" %}{% endverbatim %}</code>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-        <!-- Estados -->
-        <div class="space-y-4">
-            <h2 class="text-2xl font-semibold">Estados</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                
-                <!-- Disabled -->
-                <div class="space-y-3">
-                    <h3 class="text-lg font-medium">Disabled</h3>
-                    <div class="border rounded-lg p-4">
-                        {% include "components/button.html" with text="Disabled" disabled=True %}
-                    </div>
-                    <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
-                        <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
-                                class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
-                            <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
-                            <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
-                        </button>
-                        <code x-ref="code">{% verbatim %}{% include "components/button.html" with text="Disabled" disabled=True %}{% endverbatim %}</code>
-                    </div>
-                </div>
-
-                <!-- Com Alpine.js -->
-                <div class="space-y-3">
-                    <h3 class="text-lg font-medium">Com Alpine.js</h3>
-                    <div class="border rounded-lg p-4">
-                        {% include "components/button.html" with text="Clique-me" x_click="alert('Botão clicado!')" %}
-                    </div>
-                    <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
-                        <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
-                                class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
-                            <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
-                            <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
-                        </button>
-                        <code x-ref="code">{% verbatim %}{% include "components/button.html" with text="Clique-me" x_click="alert('Botão clicado!')" %}{% endverbatim %}</code>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-        <!-- Parâmetros -->
-        <div class="space-y-4">
-            <h2 class="text-2xl font-semibold">Parâmetros</h2>
-            {% include "components/table.html" with headers=button_params.headers data=button_params.data caption="Parâmetros disponíveis para o componente Button" %}
-        </div>
-
     </div>
+
+    <!-- Variantes -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Variantes</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            <!-- Default -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Default</h3>
+                <div class="border rounded-lg p-4">
+                    {% include "components/button.html" with text="Button" variant="default" %}
+                </div>
+                <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+                    <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                            class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                            <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                            <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+                    </button>
+                    <code x-ref="code">{% verbatim %}{% include "components/button.html" with text="Button" variant="default" %}{% endverbatim %}</code>
+                </div>
+            </div>
+
+            <!-- Secondary -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Secondary</h3>
+                <div class="border rounded-lg p-4">
+                    {% include "components/button.html" with text="Secondary" variant="secondary" %}
+                </div>
+                <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+                    <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                            class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                            <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                            <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+                    </button>
+                    <code x-ref="code">{% verbatim %}{% include "components/button.html" with text="Secondary" variant="secondary" %}{% endverbatim %}</code>
+                </div>
+            </div>
+
+            <!-- Destructive -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Destructive</h3>
+                <div class="border rounded-lg p-4">
+                    {% include "components/button.html" with text="Destructive" variant="destructive" %}
+                </div>
+                <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+                    <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                            class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                            <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                            <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+                    </button>
+                    <code x-ref="code">{% verbatim %}{% include "components/button.html" with text="Destructive" variant="destructive" %}{% endverbatim %}</code>
+                </div>
+            </div>
+
+            <!-- Outline -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Outline</h3>
+                <div class="border rounded-lg p-4">
+                    {% include "components/button.html" with text="Outline" variant="outline" %}
+                </div>
+                <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+                    <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                            class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                            <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                            <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+                    </button>
+                    <code x-ref="code">{% verbatim %}{% include "components/button.html" with text="Outline" variant="outline" %}{% endverbatim %}</code>
+                </div>
+            </div>
+
+            <!-- Ghost -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Ghost</h3>
+                <div class="border rounded-lg p-4">
+                    {% include "components/button.html" with text="Ghost" variant="ghost" %}
+                </div>
+                <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+                    <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                            class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                            <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                            <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+                    </button>
+                    <code x-ref="code">{% verbatim %}{% include "components/button.html" with text="Ghost" variant="ghost" %}{% endverbatim %}</code>
+                </div>
+            </div>
+
+            <!-- Link -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Link</h3>
+                <div class="border rounded-lg p-4">
+                    {% include "components/button.html" with text="Link" variant="link" %}
+                </div>
+                <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+                    <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                            class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                            <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                            <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+                    </button>
+                    <code x-ref="code">{% verbatim %}{% include "components/button.html" with text="Link" variant="link" %}{% endverbatim %}</code>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Tamanhos -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Tamanhos</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <!-- Small -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Small</h3>
+                <div class="border rounded-lg p-4">
+                    {% include "components/button.html" with text="Small" size="sm" %}
+                </div>
+                <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+                    <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                            class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                            <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                            <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+                    </button>
+                    <code x-ref="code">{% verbatim %}{% include "components/button.html" with text="Small" size="sm" %}{% endverbatim %}</code>
+                </div>
+            </div>
+
+            <!-- Medium (default) -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Medium</h3>
+                <div class="border rounded-lg p-4">
+                    {% include "components/button.html" with text="Medium" size="md" %}
+                </div>
+                <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+                    <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                            class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                            <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                            <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+                    </button>
+                    <code x-ref="code">{% verbatim %}{% include "components/button.html" with text="Medium" size="md" %}{% endverbatim %}</code>
+                </div>
+            </div>
+
+            <!-- Large -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Large</h3>
+                <div class="border rounded-lg p-4">
+                    {% include "components/button.html" with text="Large" size="lg" %}
+                </div>
+                <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+                    <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                            class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                            <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                            <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+                    </button>
+                    <code x-ref="code">{% verbatim %}{% include "components/button.html" with text="Large" size="lg" %}{% endverbatim %}</code>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Estados -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Estados</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            <!-- Disabled -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Disabled</h3>
+                <div class="border rounded-lg p-4">
+                    {% include "components/button.html" with text="Disabled" disabled=True %}
+                </div>
+                <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+                    <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                            class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                            <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                            <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+                    </button>
+                    <code x-ref="code">{% verbatim %}{% include "components/button.html" with text="Disabled" disabled=True %}{% endverbatim %}</code>
+                </div>
+            </div>
+
+            <!-- Com Alpine.js -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Com Alpine.js</h3>
+                <div class="border rounded-lg p-4">
+                    {% include "components/button.html" with text="Clique-me" x_click="alert('Botão clicado!')" %}
+                </div>
+                <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+                    <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                            class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                            <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                            <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+                    </button>
+                    <code x-ref="code">{% verbatim %}{% include "components/button.html" with text="Clique-me" x_click="alert('Botão clicado!')" %}{% endverbatim %}</code>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Parâmetros -->
+    <div class="space-y-4">
+        <h2 class="text-2xl font-semibold">Parâmetros</h2>
+        {% include "components/table.html" with headers=button_params.headers data=button_params.data caption="Parâmetros disponíveis para o componente Button" %}
+    </div>
+
 </div> 
