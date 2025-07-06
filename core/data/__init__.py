@@ -22,6 +22,7 @@ from .tabs_data import TABS_DATA, TABS_PARAMS
 from .collapsible_data import COLLAPSIBLE_DATA, COLLAPSIBLE_PARAMS
 from .alert_dialog_data import ALERT_DIALOG_DATA
 from .dialog_data import DIALOG_DATA, DIALOG_PARAMS
+from .textarea_data import TEXTAREA_DATA, TEXTAREA_PARAMS
 
 # Novas importações dos componentes criados
 from .label_data import LABEL_DATA, LABEL_EXAMPLES, LABEL_PARAMS
@@ -148,6 +149,7 @@ COMPONENT_DATA = {
         'data': TOOLTIP_DATA,
         'params': TOOLTIP_PARAMS,
     },
+    'textarea': TEXTAREA_DATA,
 }
 
 # Facilitar importação direta

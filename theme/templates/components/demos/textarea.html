@@ -1,17 +1,12 @@
-{% extends "components_base.html" %}
+{% load icon_tags %}
 
-{% block title %}Textarea{% endblock %}
-{% block page_title %}Textarea{% endblock %}
-{% block page_description %}Campo de texto multilinha para entrada de texto longo com suporte a redimensionamento e validação.{% endblock %}
-
-{% block component_content %}
 <div class="space-y-6">
     <!-- Cabeçalho -->
     <div class="border-b border-border pb-4">
         <div class="flex items-center justify-between">
             <div>
                 <h1 class="text-3xl font-bold">Textarea</h1>
-                <p class="text-muted-foreground mt-1">Componente para entrada de texto multilinha</p>
+                <p class="text-muted-foreground mt-1">Campo de texto multilinha para entrada de texto longo com suporte a redimensionamento</p>
             </div>
             <a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
                 Voltar
@@ -22,16 +17,13 @@
     <!-- Instalação -->
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Instalação</h2>
-        <div class="relative">
-            <pre class="bg-muted p-4 rounded-radius-md overflow-x-auto text-sm"><code>{% verbatim %}{% include 'components/textarea.html' with name="mensagem" placeholder="Digite sua mensagem..." %}{% endverbatim %}</code></pre>
-            <button 
-                class="absolute top-2 right-2 p-2 bg-background rounded-radius-md shadow-sm hover:bg-accent border border-border"
-                x-data 
-                @click="navigator.clipboard.writeText('{% verbatim %}{% include \'components/textarea.html\' with name=\'mensagem\' placeholder=\'Digite sua mensagem...\' %}{% endverbatim %}')"
-                title="Copiar código"
-            >
-                {% svg_icon "copy" "size-4" %}
+        <div class="bg-muted rounded-lg p-4 relative" x-data="{ copied: false }">
+            <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                    <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                    <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
+            <code class="text-sm" x-ref="code">{% verbatim %}{% include "components/textarea.html" with name="mensagem" placeholder="Digite sua mensagem..." %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -39,173 +31,213 @@
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Exemplo Básico</h2>
         <div class="border border-border rounded-radius-lg p-6">
-            <div class="space-y-2">
-                <label for="basic-textarea" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                    Mensagem
-                </label>
-                <textarea 
-                    id="basic-textarea"
-                    name="message"
-                    class="flex min-h-[80px] w-full rounded-radius-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                    placeholder="Digite sua mensagem aqui..."
-                ></textarea>
-            </div>
+            {% include "components/textarea.html" with name="basic" placeholder="Digite sua mensagem aqui..." %}
         </div>
     </div>
 
     <!-- Tamanhos -->
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Tamanhos</h2>
-        <div class="border border-border rounded-radius-lg p-6">
-            <div class="space-y-4">
-                <!-- Pequeno -->
-                <div class="space-y-2">
-                    <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                        Pequeno (2 linhas)
-                    </label>
-                    <textarea 
-                        class="flex min-h-[60px] w-full rounded-radius-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                        rows="2"
-                        placeholder="Texto pequeno..."
-                    ></textarea>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <!-- Pequeno -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Pequeno</h3>
+                <div class="border rounded-lg p-4">
+                    {% include "components/textarea.html" with name="small" placeholder="Texto pequeno..." rows=2 %}
                 </div>
-
-                <!-- Médio -->
-                <div class="space-y-2">
-                    <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                        Médio (4 linhas)
-                    </label>
-                    <textarea 
-                        class="flex min-h-[100px] w-full rounded-radius-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                        rows="4"
-                        placeholder="Texto médio..."
-                    ></textarea>
-                </div>
-
-                <!-- Grande -->
-                <div class="space-y-2">
-                    <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                        Grande (6 linhas)
-                    </label>
-                    <textarea 
-                        class="flex min-h-[150px] w-full rounded-radius-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                        rows="6"
-                        placeholder="Texto grande..."
-                    ></textarea>
+                <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+                    <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                            class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                            <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                            <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+                    </button>
+                    <code x-ref="code">{% verbatim %}{% include "components/textarea.html" with placeholder="Pequeno..." rows=2 %}{% endverbatim %}</code>
                 </div>
             </div>
+
+            <!-- Médio -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Médio</h3>
+                <div class="border rounded-lg p-4">
+                    {% include "components/textarea.html" with name="medium" placeholder="Texto médio..." rows=4 %}
+                </div>
+                <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+                    <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                            class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                            <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                            <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+                    </button>
+                    <code x-ref="code">{% verbatim %}{% include "components/textarea.html" with placeholder="Médio..." rows=4 %}{% endverbatim %}</code>
+                </div>
+            </div>
+
+            <!-- Grande -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Grande</h3>
+                <div class="border rounded-lg p-4">
+                    {% include "components/textarea.html" with name="large" placeholder="Texto grande..." rows=6 %}
+                </div>
+                <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+                    <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                            class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                            <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                            <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+                    </button>
+                    <code x-ref="code">{% verbatim %}{% include "components/textarea.html" with placeholder="Grande..." rows=6 %}{% endverbatim %}</code>
+                </div>
+            </div>
+
         </div>
     </div>
 
     <!-- Estados -->
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Estados</h2>
-        <div class="border border-border rounded-radius-lg p-6">
-            <div class="space-y-4">
-                <!-- Normal -->
-                <div class="space-y-2">
-                    <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                        Normal
-                    </label>
-                    <textarea 
-                        class="flex min-h-[80px] w-full rounded-radius-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                        placeholder="Estado normal"
-                    ></textarea>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            <!-- Normal -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Normal</h3>
+                <div class="border rounded-lg p-4">
+                    {% include "components/textarea.html" with name="normal" placeholder="Estado normal" %}
                 </div>
-
-                <!-- Desabilitado -->
-                <div class="space-y-2">
-                    <label class="text-sm font-medium leading-none opacity-50">
-                        Desabilitado
-                    </label>
-                    <textarea 
-                        class="flex min-h-[80px] w-full rounded-radius-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                        placeholder="Campo desabilitado"
-                        disabled
-                    ></textarea>
-                </div>
-
-                <!-- Somente Leitura -->
-                <div class="space-y-2">
-                    <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                        Somente Leitura
-                    </label>
-                    <textarea 
-                        class="flex min-h-[80px] w-full rounded-radius-md border border-input bg-muted px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                        readonly
-                    >Este campo é somente leitura e não pode ser editado.</textarea>
-                </div>
-
-                <!-- Com Erro -->
-                <div class="space-y-2">
-                    <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                        Com Erro
-                    </label>
-                    <textarea 
-                        class="flex min-h-[80px] w-full rounded-radius-md border border-destructive bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-destructive focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                        placeholder="Campo com erro"
-                    ></textarea>
-                    <p class="text-sm text-destructive">Este campo contém um erro</p>
+                <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+                    <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                            class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                            <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                            <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+                    </button>
+                    <code x-ref="code">{% verbatim %}{% include "components/textarea.html" with placeholder="Normal" %}{% endverbatim %}</code>
                 </div>
             </div>
+
+            <!-- Desabilitado -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Desabilitado</h3>
+                <div class="border rounded-lg p-4">
+                    {% include "components/textarea.html" with name="disabled" placeholder="Campo desabilitado" disabled=True %}
+                </div>
+                <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+                    <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                            class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                            <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                            <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+                    </button>
+                    <code x-ref="code">{% verbatim %}{% include "components/textarea.html" with placeholder="Desabilitado" disabled=True %}{% endverbatim %}</code>
+                </div>
+            </div>
+
+            <!-- Somente Leitura -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Somente Leitura</h3>
+                <div class="border rounded-lg p-4">
+                    {% include "components/textarea.html" with name="readonly" value="Este campo é somente leitura e não pode ser editado." readonly=True %}
+                </div>
+                <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+                    <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                            class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                            <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                            <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+                    </button>
+                    <code x-ref="code">{% verbatim %}{% include "components/textarea.html" with value="Somente leitura" readonly=True %}{% endverbatim %}</code>
+                </div>
+            </div>
+
+            <!-- Obrigatório -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Obrigatório</h3>
+                <div class="border rounded-lg p-4">
+                    {% include "components/textarea.html" with name="required" placeholder="Campo obrigatório *" required=True %}
+                </div>
+                <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+                    <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                            class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                            <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                            <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+                    </button>
+                    <code x-ref="code">{% verbatim %}{% include "components/textarea.html" with placeholder="Obrigatório *" required=True %}{% endverbatim %}</code>
+                </div>
+            </div>
+
         </div>
     </div>
 
-    <!-- Controle de Redimensionamento -->
+    <!-- Redimensionamento -->
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Controle de Redimensionamento</h2>
-        <div class="border border-border rounded-radius-lg p-6">
-            <div class="space-y-4">
-                <!-- Sem redimensionamento -->
-                <div class="space-y-2">
-                    <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                        Sem redimensionamento
-                    </label>
-                    <textarea 
-                        class="flex min-h-[80px] w-full rounded-radius-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 resize-none"
-                        placeholder="Não pode ser redimensionado"
-                    ></textarea>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            <!-- Sem redimensionamento -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Sem redimensionamento</h3>
+                <div class="border rounded-lg p-4">
+                    {% include "components/textarea.html" with name="no_resize" placeholder="Não pode ser redimensionado" resize="none" %}
                 </div>
-
-                <!-- Redimensionamento vertical -->
-                <div class="space-y-2">
-                    <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                        Redimensionamento vertical
-                    </label>
-                    <textarea 
-                        class="flex min-h-[80px] w-full rounded-radius-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 resize-y"
-                        placeholder="Pode ser redimensionado verticalmente"
-                    ></textarea>
-                </div>
-
-                <!-- Redimensionamento horizontal -->
-                <div class="space-y-2">
-                    <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                        Redimensionamento horizontal
-                    </label>
-                    <textarea 
-                        class="flex min-h-[80px] w-full rounded-radius-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 resize-x"
-                        placeholder="Pode ser redimensionado horizontalmente"
-                    ></textarea>
-                </div>
-
-                <!-- Redimensionamento livre -->
-                <div class="space-y-2">
-                    <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                        Redimensionamento livre
-                    </label>
-                    <textarea 
-                        class="flex min-h-[80px] w-full rounded-radius-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                        placeholder="Pode ser redimensionado livremente"
-                    ></textarea>
+                <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+                    <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                            class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                            <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                            <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+                    </button>
+                    <code x-ref="code">{% verbatim %}{% include "components/textarea.html" with resize="none" %}{% endverbatim %}</code>
                 </div>
             </div>
+
+            <!-- Redimensionamento vertical -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Vertical</h3>
+                <div class="border rounded-lg p-4">
+                    {% include "components/textarea.html" with name="vertical_resize" placeholder="Pode ser redimensionado verticalmente" resize="vertical" %}
+                </div>
+                <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+                    <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                            class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                            <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                            <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+                    </button>
+                    <code x-ref="code">{% verbatim %}{% include "components/textarea.html" with resize="vertical" %}{% endverbatim %}</code>
+                </div>
+            </div>
+
+            <!-- Redimensionamento horizontal -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Horizontal</h3>
+                <div class="border rounded-lg p-4">
+                    {% include "components/textarea.html" with name="horizontal_resize" placeholder="Pode ser redimensionado horizontalmente" resize="horizontal" %}
+                </div>
+                <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+                    <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                            class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                            <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                            <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+                    </button>
+                    <code x-ref="code">{% verbatim %}{% include "components/textarea.html" with resize="horizontal" %}{% endverbatim %}</code>
+                </div>
+            </div>
+
+            <!-- Redimensionamento livre -->
+            <div class="space-y-3">
+                <h3 class="text-lg font-medium">Livre</h3>
+                <div class="border rounded-lg p-4">
+                    {% include "components/textarea.html" with name="both_resize" placeholder="Pode ser redimensionado livremente" resize="both" %}
+                </div>
+                <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
+                    <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
+                            class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
+                            <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
+                            <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
+                    </button>
+                    <code x-ref="code">{% verbatim %}{% include "components/textarea.html" with resize="both" %}{% endverbatim %}</code>
+                </div>
+            </div>
+
         </div>
     </div>
 
-    <!-- Textarea com Contador -->
+    <!-- Exemplo com Alpine.js -->
     <div class="space-y-4">
-        <h2 class="text-2xl font-semibold">Textarea com Contador</h2>
+        <h2 class="text-2xl font-semibold">Com Alpine.js e Contador</h2>
         <div class="border border-border rounded-radius-lg p-6">
             <div x-data="{ 
                 message: '',
@@ -217,15 +249,10 @@
                     return (this.message.length / this.maxLength) * 100;
                 }
             }" class="space-y-2">
-                <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                <label class="text-sm font-medium">
                     Mensagem (máximo 200 caracteres)
                 </label>
-                <textarea 
-                    x-model="message"
-                    :maxlength="maxLength"
-                    class="flex min-h-[100px] w-full rounded-radius-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                    placeholder="Digite sua mensagem..."
-                ></textarea>
+                {% include "components/textarea.html" with x_model="message" maxlength=200 placeholder="Digite sua mensagem..." %}
                 <div class="flex justify-between items-center text-sm">
                     <span 
                         class="text-muted-foreground"
@@ -251,30 +278,6 @@
     <!-- Parâmetros -->
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Parâmetros</h2>
-        <div class="overflow-x-auto">
-            <table class="w-full caption-bottom text-sm border-collapse">
-                <thead>
-                    <tr class="border-b border-border">
-                        {% for header in textarea_params.headers %}
-                        <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground">
-                            {{ header }}
-                        </th>
-                        {% endfor %}
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for row in textarea_params.data %}
-                    <tr class="border-b border-border">
-                        {% for cell in row %}
-                        <td class="p-4 align-middle">
-                            {{ cell|safe }}
-                        </td>
-                        {% endfor %}
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+        {% include "components/table.html" with headers=textarea_params.headers data=textarea_params.data caption="Parâmetros disponíveis para o componente Textarea" %}
     </div>
-</div>
-{% endblock %} 
+</div> 

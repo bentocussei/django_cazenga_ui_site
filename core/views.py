@@ -457,6 +457,8 @@ def component_detail(request, component_name):
             context['tooltip_placements'] = component_data_context.get('data', {}).get('placements', [])
             context['tooltip_contexts'] = component_data_context.get('data', {}).get('contexts', [])
             context['tooltip_params'] = component_data_context.get('params')
+        elif component_name == 'textarea':
+            context['textarea_params'] = component_data_context.get('params')
     else:
         # Fallback para componentes ainda não migrados
         print(f"⚠️ Componente {component_name} não encontrado no COMPONENT_DATA, usando fallback")
