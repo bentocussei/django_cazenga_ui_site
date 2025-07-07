@@ -8,7 +8,7 @@
                 <h1 class="text-3xl font-bold">Input</h1>
                 <p class="text-muted-foreground mt-1">Componente de entrada de dados versátil e acessível</p>
             </div>
-            <a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+            <a href="/components/ui/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
                 Voltar
             </a>
         </div>
@@ -18,11 +18,11 @@
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Instalação</h2>
         <div class="relative">
-            <pre class="bg-muted p-4 rounded-radius-md overflow-x-auto text-sm"><code>{% verbatim %}{% include 'components/input.html' with type="text" name="campo" placeholder="Digite algo..." %}{% endverbatim %}</code></pre>
+            <pre class="bg-muted p-4 rounded-radius-md overflow-x-auto text-sm"><code>{% verbatim %}{% include 'components/ui/input.html' with type="text" name="campo" placeholder="Digite algo..." %}{% endverbatim %}</code></pre>
             <button 
                 class="absolute top-2 right-2 p-2 bg-background rounded-radius-md shadow-sm hover:bg-accent border border-border"
                 x-data 
-                @click="navigator.clipboard.writeText('{% verbatim %}{% include \'components/input.html\' with type=\"text\" name=\"campo\" placeholder=\"Digite algo...\" %}{% endverbatim %}')"
+                @click="navigator.clipboard.writeText('{% verbatim %}{% include \'components/ui/input.html\' with type=\"text\" name=\"campo\" placeholder=\"Digite algo...\" %}{% endverbatim %}')"
                 title="Copiar código"
             >
                 {% svg_icon "copy" "size-4" %}
@@ -35,7 +35,7 @@
         <h2 class="text-2xl font-semibold">Exemplo Básico</h2>
         <div class="border border-border rounded-radius-lg p-6">
             <div class="max-w-sm">
-                {% include "components/input.html" with placeholder="Digite seu nome..." name="nome" %}
+                {% include "components/ui/input.html" with placeholder="Digite seu nome..." name="nome" %}
             </div>
         </div>
     </div>
@@ -48,37 +48,37 @@
                 <!-- Text -->
                 <div class="space-y-2">
                     <h3 class="text-sm font-medium">Text</h3>
-                    {% include "components/input.html" with type="text" placeholder="Digite texto..." name="text_input" %}
+                    {% include "components/ui/input.html" with type="text" placeholder="Digite texto..." name="text_input" %}
                 </div>
 
                 <!-- Email -->
                 <div class="space-y-2">
                     <h3 class="text-sm font-medium">Email</h3>
-                    {% include "components/input.html" with type="email" placeholder="usuario@exemplo.com" name="email_input" %}
+                    {% include "components/ui/input.html" with type="email" placeholder="usuario@exemplo.com" name="email_input" %}
                 </div>
 
                 <!-- Password -->
                 <div class="space-y-2">
                     <h3 class="text-sm font-medium">Password</h3>
-                    {% include "components/input.html" with type="password" placeholder="••••••••" name="password_input" %}
+                    {% include "components/ui/input.html" with type="password" placeholder="••••••••" name="password_input" %}
                 </div>
 
                 <!-- Number -->
                 <div class="space-y-2">
                     <h3 class="text-sm font-medium">Number</h3>
-                    {% include "components/input.html" with type="number" placeholder="123" name="number_input" %}
+                    {% include "components/ui/input.html" with type="number" placeholder="123" name="number_input" %}
                 </div>
 
                 <!-- Tel -->
                 <div class="space-y-2">
                     <h3 class="text-sm font-medium">Tel</h3>
-                    {% include "components/input.html" with type="tel" placeholder="(11) 99999-9999" name="tel_input" %}
+                    {% include "components/ui/input.html" with type="tel" placeholder="(11) 99999-9999" name="tel_input" %}
                 </div>
 
                 <!-- URL -->
                 <div class="space-y-2">
                     <h3 class="text-sm font-medium">URL</h3>
-                    {% include "components/input.html" with type="url" placeholder="https://exemplo.com" name="url_input" %}
+                    {% include "components/ui/input.html" with type="url" placeholder="https://exemplo.com" name="url_input" %}
                 </div>
             </div>
         </div>
@@ -92,25 +92,25 @@
                 <!-- Normal -->
                 <div class="space-y-2">
                     <h3 class="text-sm font-medium">Normal</h3>
-                    {% include "components/input.html" with placeholder="Estado normal" name="normal_input" %}
+                    {% include "components/ui/input.html" with placeholder="Estado normal" name="normal_input" %}
                 </div>
 
                 <!-- Disabled -->
                 <div class="space-y-2">
                     <h3 class="text-sm font-medium">Disabled</h3>
-                    {% include "components/input.html" with placeholder="Campo desabilitado" name="disabled_input" disabled=True %}
+                    {% include "components/ui/input.html" with placeholder="Campo desabilitado" name="disabled_input" disabled=True %}
                 </div>
 
                 <!-- ReadOnly -->
                 <div class="space-y-2">
                     <h3 class="text-sm font-medium">Read Only</h3>
-                    {% include "components/input.html" with value="Somente leitura" name="readonly_input" readonly=True %}
+                    {% include "components/ui/input.html" with value="Somente leitura" name="readonly_input" readonly=True %}
                 </div>
 
                 <!-- Required -->
                 <div class="space-y-2">
                     <h3 class="text-sm font-medium">Required</h3>
-                    {% include "components/input.html" with placeholder="Campo obrigatório" name="required_input" required=True %}
+                    {% include "components/ui/input.html" with placeholder="Campo obrigatório" name="required_input" required=True %}
                 </div>
             </div>
         </div>
@@ -124,13 +124,13 @@
                 <!-- Ícone à esquerda -->
                 <div class="space-y-2">
                     <h3 class="text-sm font-medium">Ícone à Esquerda (Busca)</h3>
-                    {% include "components/input.html" with placeholder="Buscar..." name="search_input" icon_left='<svg class="size-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 15 15"><path d="M10 6.5C10 8.433 8.433 10 6.5 10C4.567 10 3 8.433 3 6.5C3 4.567 4.567 3 6.5 3C8.433 3 10 4.567 10 6.5ZM9.30884 10.0159C8.53901 10.6318 7.56251 11 6.5 11C4.01472 11 2 8.98528 2 6.5C2 4.01472 4.01472 2 6.5 2C8.98528 2 11 4.01472 11 6.5C11 7.56251 10.6318 8.53901 10.0159 9.30884L12.8536 12.1464C13.0488 12.3417 13.0488 12.6583 12.8536 12.8536C12.6583 13.0488 12.3417 13.0488 12.1464 12.8536L9.30884 10.0159Z" fill="currentColor"/></svg>' %}
+                    {% include "components/ui/input.html" with placeholder="Buscar..." name="search_input" icon_left='<svg class="size-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 15 15"><path d="M10 6.5C10 8.433 8.433 10 6.5 10C4.567 10 3 8.433 3 6.5C3 4.567 4.567 3 6.5 3C8.433 3 10 4.567 10 6.5ZM9.30884 10.0159C8.53901 10.6318 7.56251 11 6.5 11C4.01472 11 2 8.98528 2 6.5C2 4.01472 4.01472 2 6.5 2C8.98528 2 11 4.01472 11 6.5C11 7.56251 10.6318 8.53901 10.0159 9.30884L12.8536 12.1464C13.0488 12.3417 13.0488 12.6583 12.8536 12.8536C12.6583 13.0488 12.3417 13.0488 12.1464 12.8536L9.30884 10.0159Z" fill="currentColor"/></svg>' %}
                 </div>
 
                 <!-- Ícone à esquerda (Email) -->
                 <div class="space-y-2">
                     <h3 class="text-sm font-medium">Ícone à Esquerda (Email)</h3>
-                    {% include "components/input.html" with type="email" placeholder="usuario@exemplo.com" name="email_icon_input" icon_left='<svg class="size-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 15 15"><path d="M1 2C0.447715 2 0 2.44772 0 3V12C0 12.5523 0.447715 13 1 13H14C14.5523 13 15 12.5523 15 12V3C15 2.44772 14.5523 2 14 2H1ZM1 3L14 3V3.92494C13.9174 3.92486 13.8338 3.94751 13.7589 3.99505L7.5 7.96703L1.24112 3.99505C1.16621 3.94751 1.0826 3.92486 1 3.92494V3ZM1 4.90797V12H14V4.90797L7.74112 8.87995C7.59394 8.97335 7.40606 8.97335 7.25888 8.87995L1 4.90797Z" fill="currentColor"/></svg>' %}
+                    {% include "components/ui/input.html" with type="email" placeholder="usuario@exemplo.com" name="email_icon_input" icon_left='<svg class="size-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 15 15"><path d="M1 2C0.447715 2 0 2.44772 0 3V12C0 12.5523 0.447715 13 1 13H14C14.5523 13 15 12.5523 15 12V3C15 2.44772 14.5523 2 14 2H1ZM1 3L14 3V3.92494C13.9174 3.92486 13.8338 3.94751 13.7589 3.99505L7.5 7.96703L1.24112 3.99505C1.16621 3.94751 1.0826 3.92486 1 3.92494V3ZM1 4.90797V12H14V4.90797L7.74112 8.87995C7.59394 8.97335 7.40606 8.97335 7.25888 8.87995L1 4.90797Z" fill="currentColor"/></svg>' %}
                 </div>
             </div>
         </div>
@@ -151,14 +151,14 @@
                     <div class="space-y-2">
                         <h3 class="text-sm font-medium">Password com Toggle</h3>
                         <div class="relative">
-                            {% include "components/input.html" with placeholder="Digite sua senha" name="toggle_password" x_model="showPassword ? 'text' : 'password'" icon_right='<button type="button" @click="showPassword = !showPassword" class="cursor-pointer hover:text-foreground"><svg x-show="!showPassword" class="size-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 15 15"><path d="M7.5 11C4.80285 11 2.52952 9.62184 1.09622 7.50001C2.52952 5.37816 4.80285 4 7.5 4C10.1971 4 12.4705 5.37816 13.9038 7.50001C12.4705 9.62183 10.1971 11 7.5 11ZM7.5 3C4.30786 3 1.65639 4.70638 0.0760002 7.23501C-0.0253338 7.39715 -0.0253334 7.60288 0.0760014 7.76501C1.65639 10.2936 4.30786 12 7.5 12C10.6921 12 13.3436 10.2936 14.924 7.76501C15.0253 7.60288 15.0253 7.39715 14.924 7.23501C14.0971 5.91190 12.9769 4.81389 11.6394 4.06771L13.3536 2.35355C13.5488 2.15829 13.5488 1.84171 13.3536 1.64645C13.1583 1.45118 12.8417 1.45118 12.6464 1.64645L10.6828 3.61012C9.70652 3.21671 8.63759 3 7.5 3C4.30786 3 1.65639 4.70638 0.0760002 7.23501C-0.0253338 7.39715 -0.0253334 7.60288 0.0760014 7.76501C0.902945 9.08812 2.02314 10.1861 3.36061 10.9323L1.64645 12.6464C1.45118 12.8417 1.45118 13.1583 1.64645 13.3536C1.84171 13.5488 2.15829 13.5488 2.35355 13.3536L4.31723 11.3899C5.29348 11.7833 6.36241 12 7.5 12C10.6921 12 13.3436 10.2936 14.924 7.76501C15.0253 7.60288 15.0253 7.39715 14.924 7.23501C14.0971 5.91190 12.9769 4.81389 11.6394 4.06771L13.3536 2.35355ZM9.90428 4.38861C9.15332 4.1361 8.34759 4 7.5 4C4.80285 4 2.52952 5.37816 1.09622 7.50001C1.87284 8.6497 2.95803 9.58751 4.25722 10.2072L5.42017 9.04428C5.15635 8.57945 5 8.05587 5 7.5C5 6.11929 6.11929 5 7.5 5C8.05587 5 8.57945 5.15635 9.04428 5.42017L10.2072 4.25722C10.0497 4.16968 9.88918 4.08519 9.72566 4.00399L9.90428 4.38861ZM8.14142 6.85858L6.85858 8.14142C6.95621 8.24379 7.07621 8.32766 7.21213 8.38552C7.34805 8.44338 7.49622 8.47389 7.64645 8.47389C7.79668 8.47389 7.94485 8.44338 8.08077 8.38552C8.21669 8.32766 8.33669 8.24379 8.43432 8.14142C8.53195 8.04379 8.61582 7.92379 8.67368 7.78787C8.73154 7.65195 8.76205 7.50378 8.76205 7.35355C8.76205 7.20332 8.73154 7.05515 8.67368 6.91923C8.61582 6.78331 8.53195 6.66331 8.43432 6.56568L8.14142 6.85858Z" fill="currentColor"/></svg><svg x-show="showPassword" class="size-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 15 15" style="display: none;"><path d="M13.3536 2.35355C13.5488 2.15829 13.5488 1.84171 13.3536 1.64645C13.1583 1.45118 12.8417 1.45118 12.6464 1.64645L10.6828 3.61012C9.70652 3.21671 8.63759 3 7.5 3C4.30786 3 1.65639 4.70638 0.0760002 7.23501C-0.0253338 7.39715 -0.0253334 7.60288 0.0760014 7.76501C0.902945 9.08812 2.02314 10.1861 3.36061 10.9323L1.64645 12.6464C1.45118 12.8417 1.45118 13.1583 1.64645 13.3536C1.84171 13.5488 2.15829 13.5488 2.35355 13.3536L4.31723 11.3899C5.29348 11.7833 6.36241 12 7.5 12C10.6921 12 13.3436 10.2936 14.924 7.76501C15.0253 7.60288 15.0253 7.39715 14.924 7.23501C14.0971 5.91190 12.9769 4.81389 11.6394 4.06771L13.3536 2.35355ZM9.90428 4.38861C9.15332 4.1361 8.34759 4 7.5 4C4.80285 4 2.52952 5.37816 1.09622 7.50001C1.87284 8.6497 2.95803 9.58751 4.25722 10.2072L5.42017 9.04428C5.15635 8.57945 5 8.05587 5 7.5C5 6.11929 6.11929 5 7.5 5C8.05587 5 8.57945 5.15635 9.04428 5.42017L10.2072 4.25722C10.0497 4.16968 9.88918 4.08519 9.72566 4.00399L9.90428 4.38861ZM8.14142 6.85858L6.85858 8.14142C6.95621 8.24379 7.07621 8.32766 7.21213 8.38552C7.34805 8.44338 7.49622 8.47389 7.64645 8.47389C7.79668 8.47389 7.94485 8.44338 8.08077 8.38552C8.21669 8.32766 8.33669 8.24379 8.43432 8.14142C8.53195 8.04379 8.61582 7.92379 8.67368 7.78787C8.73154 7.65195 8.76205 7.50378 8.76205 7.35355C8.76205 7.20332 8.73154 7.05515 8.67368 6.91923C8.61582 6.78331 8.53195 6.66331 8.43432 6.56568L8.14142 6.85858Z" fill="currentColor"/></svg></button>' %}
+                            {% include "components/ui/input.html" with placeholder="Digite sua senha" name="toggle_password" x_model="showPassword ? 'text' : 'password'" icon_right='<button type="button" @click="showPassword = !showPassword" class="cursor-pointer hover:text-foreground"><svg x-show="!showPassword" class="size-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 15 15"><path d="M7.5 11C4.80285 11 2.52952 9.62184 1.09622 7.50001C2.52952 5.37816 4.80285 4 7.5 4C10.1971 4 12.4705 5.37816 13.9038 7.50001C12.4705 9.62183 10.1971 11 7.5 11ZM7.5 3C4.30786 3 1.65639 4.70638 0.0760002 7.23501C-0.0253338 7.39715 -0.0253334 7.60288 0.0760014 7.76501C1.65639 10.2936 4.30786 12 7.5 12C10.6921 12 13.3436 10.2936 14.924 7.76501C15.0253 7.60288 15.0253 7.39715 14.924 7.23501C14.0971 5.91190 12.9769 4.81389 11.6394 4.06771L13.3536 2.35355C13.5488 2.15829 13.5488 1.84171 13.3536 1.64645C13.1583 1.45118 12.8417 1.45118 12.6464 1.64645L10.6828 3.61012C9.70652 3.21671 8.63759 3 7.5 3C4.30786 3 1.65639 4.70638 0.0760002 7.23501C-0.0253338 7.39715 -0.0253334 7.60288 0.0760014 7.76501C0.902945 9.08812 2.02314 10.1861 3.36061 10.9323L1.64645 12.6464C1.45118 12.8417 1.45118 13.1583 1.64645 13.3536C1.84171 13.5488 2.15829 13.5488 2.35355 13.3536L4.31723 11.3899C5.29348 11.7833 6.36241 12 7.5 12C10.6921 12 13.3436 10.2936 14.924 7.76501C15.0253 7.60288 15.0253 7.39715 14.924 7.23501C14.0971 5.91190 12.9769 4.81389 11.6394 4.06771L13.3536 2.35355ZM9.90428 4.38861C9.15332 4.1361 8.34759 4 7.5 4C4.80285 4 2.52952 5.37816 1.09622 7.50001C1.87284 8.6497 2.95803 9.58751 4.25722 10.2072L5.42017 9.04428C5.15635 8.57945 5 8.05587 5 7.5C5 6.11929 6.11929 5 7.5 5C8.05587 5 8.57945 5.15635 9.04428 5.42017L10.2072 4.25722C10.0497 4.16968 9.88918 4.08519 9.72566 4.00399L9.90428 4.38861ZM8.14142 6.85858L6.85858 8.14142C6.95621 8.24379 7.07621 8.32766 7.21213 8.38552C7.34805 8.44338 7.49622 8.47389 7.64645 8.47389C7.79668 8.47389 7.94485 8.44338 8.08077 8.38552C8.21669 8.32766 8.33669 8.24379 8.43432 8.14142C8.53195 8.04379 8.61582 7.92379 8.67368 7.78787C8.73154 7.65195 8.76205 7.50378 8.76205 7.35355C8.76205 7.20332 8.73154 7.05515 8.67368 6.91923C8.61582 6.78331 8.53195 6.66331 8.43432 6.56568L8.14142 6.85858Z" fill="currentColor"/></svg><svg x-show="showPassword" class="size-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 15 15" style="display: none;"><path d="M13.3536 2.35355C13.5488 2.15829 13.5488 1.84171 13.3536 1.64645C13.1583 1.45118 12.8417 1.45118 12.6464 1.64645L10.6828 3.61012C9.70652 3.21671 8.63759 3 7.5 3C4.30786 3 1.65639 4.70638 0.0760002 7.23501C-0.0253338 7.39715 -0.0253334 7.60288 0.0760014 7.76501C0.902945 9.08812 2.02314 10.1861 3.36061 10.9323L1.64645 12.6464C1.45118 12.8417 1.45118 13.1583 1.64645 13.3536C1.84171 13.5488 2.15829 13.5488 2.35355 13.3536L4.31723 11.3899C5.29348 11.7833 6.36241 12 7.5 12C10.6921 12 13.3436 10.2936 14.924 7.76501C15.0253 7.60288 15.0253 7.39715 14.924 7.23501C14.0971 5.91190 12.9769 4.81389 11.6394 4.06771L13.3536 2.35355ZM9.90428 4.38861C9.15332 4.1361 8.34759 4 7.5 4C4.80285 4 2.52952 5.37816 1.09622 7.50001C1.87284 8.6497 2.95803 9.58751 4.25722 10.2072L5.42017 9.04428C5.15635 8.57945 5 8.05587 5 7.5C5 6.11929 6.11929 5 7.5 5C8.05587 5 8.57945 5.15635 9.04428 5.42017L10.2072 4.25722C10.0497 4.16968 9.88918 4.08519 9.72566 4.00399L9.90428 4.38861ZM8.14142 6.85858L6.85858 8.14142C6.95621 8.24379 7.07621 8.32766 7.21213 8.38552C7.34805 8.44338 7.49622 8.47389 7.64645 8.47389C7.79668 8.47389 7.94485 8.44338 8.08077 8.38552C8.21669 8.32766 8.33669 8.24379 8.43432 8.14142C8.53195 8.04379 8.61582 7.92379 8.67368 7.78787C8.73154 7.65195 8.76205 7.50378 8.76205 7.35355C8.76205 7.20332 8.73154 7.05515 8.67368 6.91923C8.61582 6.78331 8.53195 6.66331 8.43432 6.56568L8.14142 6.85858Z" fill="currentColor"/></svg></button>' %}
                         </div>
                     </div>
 
                     <!-- Input com contador de caracteres -->
                     <div class="space-y-2">
                         <h3 class="text-sm font-medium">Input com Contador</h3>
-                        {% include "components/input.html" with placeholder="Digite sua mensagem..." name="counter_input" x_model="inputValue" %}
+                        {% include "components/ui/input.html" with placeholder="Digite sua mensagem..." name="counter_input" x_model="inputValue" %}
                         <div class="text-xs text-muted-foreground text-right">
                             <span x-text="inputValue.length"></span> / <span x-text="maxLength"></span> caracteres
                         </div>
@@ -171,6 +171,6 @@
     <!-- Parâmetros -->
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Parâmetros</h2>
-        {% include "components/table.html" with headers=input_params.headers data=input_params.data caption="Parâmetros disponíveis para o componente Input" %}
+        {% include "components/ui/table.html" with headers=input_params.headers data=input_params.data caption="Parâmetros disponíveis para o componente Input" %}
     </div>
 </div> 

@@ -8,7 +8,7 @@
                 <h1 class="text-3xl font-bold">Textarea</h1>
                 <p class="text-muted-foreground mt-1">Campo de texto multilinha para entrada de texto longo com suporte a redimensionamento</p>
             </div>
-            <a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+            <a href="/components/ui/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
                 Voltar
             </a>
         </div>
@@ -23,7 +23,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code class="text-sm" x-ref="code">{% verbatim %}{% include "components/textarea.html" with name="mensagem" placeholder="Digite sua mensagem..." %}{% endverbatim %}</code>
+            <code class="text-sm" x-ref="code">{% verbatim %}{% include "components/ui/textarea.html" with name="mensagem" placeholder="Digite sua mensagem..." %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -31,7 +31,7 @@
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Exemplo Básico</h2>
         <div class="border border-border rounded-radius-lg p-6">
-            {% include "components/textarea.html" with name="basic" placeholder="Digite sua mensagem aqui..." %}
+            {% include "components/ui/textarea.html" with name="basic" placeholder="Digite sua mensagem aqui..." %}
         </div>
     </div>
 
@@ -44,7 +44,7 @@
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Pequeno</h3>
                 <div class="border rounded-lg p-4">
-                    {% include "components/textarea.html" with name="small" placeholder="Texto pequeno..." rows=2 %}
+                    {% include "components/ui/textarea.html" with name="small" placeholder="Texto pequeno..." rows=2 %}
                 </div>
                 <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
                     <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
@@ -52,7 +52,7 @@
                             <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                             <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
                     </button>
-                    <code x-ref="code">{% verbatim %}{% include "components/textarea.html" with placeholder="Pequeno..." rows=2 %}{% endverbatim %}</code>
+                    <code x-ref="code">{% verbatim %}{% include "components/ui/textarea.html" with placeholder="Pequeno..." rows=2 %}{% endverbatim %}</code>
                 </div>
             </div>
 
@@ -60,7 +60,7 @@
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Médio</h3>
                 <div class="border rounded-lg p-4">
-                    {% include "components/textarea.html" with name="medium" placeholder="Texto médio..." rows=4 %}
+                    {% include "components/ui/textarea.html" with name="medium" placeholder="Texto médio..." rows=4 %}
                 </div>
                 <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
                     <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
@@ -68,7 +68,7 @@
                             <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                             <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
                     </button>
-                    <code x-ref="code">{% verbatim %}{% include "components/textarea.html" with placeholder="Médio..." rows=4 %}{% endverbatim %}</code>
+                    <code x-ref="code">{% verbatim %}{% include "components/ui/textarea.html" with placeholder="Médio..." rows=4 %}{% endverbatim %}</code>
                 </div>
             </div>
 
@@ -76,7 +76,7 @@
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Grande</h3>
                 <div class="border rounded-lg p-4">
-                    {% include "components/textarea.html" with name="large" placeholder="Texto grande..." rows=6 %}
+                    {% include "components/ui/textarea.html" with name="large" placeholder="Texto grande..." rows=6 %}
                 </div>
                 <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
                     <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
@@ -84,7 +84,7 @@
                             <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                             <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
                     </button>
-                    <code x-ref="code">{% verbatim %}{% include "components/textarea.html" with placeholder="Grande..." rows=6 %}{% endverbatim %}</code>
+                    <code x-ref="code">{% verbatim %}{% include "components/ui/textarea.html" with placeholder="Grande..." rows=6 %}{% endverbatim %}</code>
                 </div>
             </div>
 
@@ -100,7 +100,7 @@
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Normal</h3>
                 <div class="border rounded-lg p-4">
-                    {% include "components/textarea.html" with name="normal" placeholder="Estado normal" %}
+                    {% include "components/ui/textarea.html" with name="normal" placeholder="Estado normal" %}
                 </div>
                 <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
                     <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
@@ -108,7 +108,7 @@
                             <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                             <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
                     </button>
-                    <code x-ref="code">{% verbatim %}{% include "components/textarea.html" with placeholder="Normal" %}{% endverbatim %}</code>
+                    <code x-ref="code">{% verbatim %}{% include "components/ui/textarea.html" with placeholder="Normal" %}{% endverbatim %}</code>
                 </div>
             </div>
 
@@ -116,7 +116,7 @@
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Desabilitado</h3>
                 <div class="border rounded-lg p-4">
-                    {% include "components/textarea.html" with name="disabled" placeholder="Campo desabilitado" disabled=True %}
+                    {% include "components/ui/textarea.html" with name="disabled" placeholder="Campo desabilitado" disabled=True %}
                 </div>
                 <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
                     <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
@@ -124,7 +124,7 @@
                             <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                             <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
                     </button>
-                    <code x-ref="code">{% verbatim %}{% include "components/textarea.html" with placeholder="Desabilitado" disabled=True %}{% endverbatim %}</code>
+                    <code x-ref="code">{% verbatim %}{% include "components/ui/textarea.html" with placeholder="Desabilitado" disabled=True %}{% endverbatim %}</code>
                 </div>
             </div>
 
@@ -132,7 +132,7 @@
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Somente Leitura</h3>
                 <div class="border rounded-lg p-4">
-                    {% include "components/textarea.html" with name="readonly" value="Este campo é somente leitura e não pode ser editado." readonly=True %}
+                    {% include "components/ui/textarea.html" with name="readonly" value="Este campo é somente leitura e não pode ser editado." readonly=True %}
                 </div>
                 <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
                     <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
@@ -140,7 +140,7 @@
                             <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                             <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
                     </button>
-                    <code x-ref="code">{% verbatim %}{% include "components/textarea.html" with value="Somente leitura" readonly=True %}{% endverbatim %}</code>
+                    <code x-ref="code">{% verbatim %}{% include "components/ui/textarea.html" with value="Somente leitura" readonly=True %}{% endverbatim %}</code>
                 </div>
             </div>
 
@@ -148,7 +148,7 @@
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Obrigatório</h3>
                 <div class="border rounded-lg p-4">
-                    {% include "components/textarea.html" with name="required" placeholder="Campo obrigatório *" required=True %}
+                    {% include "components/ui/textarea.html" with name="required" placeholder="Campo obrigatório *" required=True %}
                 </div>
                 <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
                     <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
@@ -156,7 +156,7 @@
                             <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                             <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
                     </button>
-                    <code x-ref="code">{% verbatim %}{% include "components/textarea.html" with placeholder="Obrigatório *" required=True %}{% endverbatim %}</code>
+                    <code x-ref="code">{% verbatim %}{% include "components/ui/textarea.html" with placeholder="Obrigatório *" required=True %}{% endverbatim %}</code>
                 </div>
             </div>
 
@@ -172,7 +172,7 @@
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Sem redimensionamento</h3>
                 <div class="border rounded-lg p-4">
-                    {% include "components/textarea.html" with name="no_resize" placeholder="Não pode ser redimensionado" resize="none" %}
+                    {% include "components/ui/textarea.html" with name="no_resize" placeholder="Não pode ser redimensionado" resize="none" %}
                 </div>
                 <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
                     <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
@@ -180,7 +180,7 @@
                             <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                             <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
                     </button>
-                    <code x-ref="code">{% verbatim %}{% include "components/textarea.html" with resize="none" %}{% endverbatim %}</code>
+                    <code x-ref="code">{% verbatim %}{% include "components/ui/textarea.html" with resize="none" %}{% endverbatim %}</code>
                 </div>
             </div>
 
@@ -188,7 +188,7 @@
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Vertical</h3>
                 <div class="border rounded-lg p-4">
-                    {% include "components/textarea.html" with name="vertical_resize" placeholder="Pode ser redimensionado verticalmente" resize="vertical" %}
+                    {% include "components/ui/textarea.html" with name="vertical_resize" placeholder="Pode ser redimensionado verticalmente" resize="vertical" %}
                 </div>
                 <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
                     <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
@@ -196,7 +196,7 @@
                             <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                             <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
                     </button>
-                    <code x-ref="code">{% verbatim %}{% include "components/textarea.html" with resize="vertical" %}{% endverbatim %}</code>
+                    <code x-ref="code">{% verbatim %}{% include "components/ui/textarea.html" with resize="vertical" %}{% endverbatim %}</code>
                 </div>
             </div>
 
@@ -204,7 +204,7 @@
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Horizontal</h3>
                 <div class="border rounded-lg p-4">
-                    {% include "components/textarea.html" with name="horizontal_resize" placeholder="Pode ser redimensionado horizontalmente" resize="horizontal" %}
+                    {% include "components/ui/textarea.html" with name="horizontal_resize" placeholder="Pode ser redimensionado horizontalmente" resize="horizontal" %}
                 </div>
                 <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
                     <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
@@ -212,7 +212,7 @@
                             <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                             <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
                     </button>
-                    <code x-ref="code">{% verbatim %}{% include "components/textarea.html" with resize="horizontal" %}{% endverbatim %}</code>
+                    <code x-ref="code">{% verbatim %}{% include "components/ui/textarea.html" with resize="horizontal" %}{% endverbatim %}</code>
                 </div>
             </div>
 
@@ -220,7 +220,7 @@
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Livre</h3>
                 <div class="border rounded-lg p-4">
-                    {% include "components/textarea.html" with name="both_resize" placeholder="Pode ser redimensionado livremente" resize="both" %}
+                    {% include "components/ui/textarea.html" with name="both_resize" placeholder="Pode ser redimensionado livremente" resize="both" %}
                 </div>
                 <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
                     <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
@@ -228,7 +228,7 @@
                             <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                             <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
                     </button>
-                    <code x-ref="code">{% verbatim %}{% include "components/textarea.html" with resize="both" %}{% endverbatim %}</code>
+                    <code x-ref="code">{% verbatim %}{% include "components/ui/textarea.html" with resize="both" %}{% endverbatim %}</code>
                 </div>
             </div>
 
@@ -252,7 +252,7 @@
                 <label class="text-sm font-medium">
                     Mensagem (máximo 200 caracteres)
                 </label>
-                {% include "components/textarea.html" with x_model="message" maxlength=200 placeholder="Digite sua mensagem..." %}
+                {% include "components/ui/textarea.html" with x_model="message" maxlength=200 placeholder="Digite sua mensagem..." %}
                 <div class="flex justify-between items-center text-sm">
                     <span 
                         class="text-muted-foreground"
@@ -278,6 +278,6 @@
     <!-- Parâmetros -->
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Parâmetros</h2>
-        {% include "components/table.html" with headers=textarea_params.headers data=textarea_params.data caption="Parâmetros disponíveis para o componente Textarea" %}
+        {% include "components/ui/table.html" with headers=textarea_params.headers data=textarea_params.data caption="Parâmetros disponíveis para o componente Textarea" %}
     </div>
 </div> 

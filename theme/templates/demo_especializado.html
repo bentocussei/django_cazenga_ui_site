@@ -13,31 +13,31 @@
             <!-- Single Selection -->
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Seleção Única</h3>
-                {% include "components/calendar.html" with mode="single" name="single_date" selected_date="2024-03-15" %}
+                {% include "components/ui/calendar.html" with mode="single" name="single_date" selected_date="2024-03-15" %}
             </div>
             
             <!-- Multiple Selection -->
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Seleção Múltipla</h3>
-                {% include "components/calendar.html" with mode="multiple" name="multiple_dates" selected_dates="2024-03-10,2024-03-15,2024-03-20" %}
+                {% include "components/ui/calendar.html" with mode="multiple" name="multiple_dates" selected_dates="2024-03-10,2024-03-15,2024-03-20" %}
             </div>
             
             <!-- Range Selection -->
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Seleção de Período</h3>
-                {% include "components/calendar.html" with mode="range" name="date_range" range_start="2024-03-10" range_end="2024-03-20" %}
+                {% include "components/ui/calendar.html" with mode="range" name="date_range" range_start="2024-03-10" range_end="2024-03-20" %}
             </div>
             
             <!-- With Week Numbers -->
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Com Números das Semanas</h3>
-                {% include "components/calendar.html" with mode="single" name="week_calendar" show_week_numbers=True first_day_of_week=1 %}
+                {% include "components/ui/calendar.html" with mode="single" name="week_calendar" show_week_numbers=True first_day_of_week=1 %}
             </div>
             
             <!-- With Restrictions -->
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Com Restrições</h3>
-                {% include "components/calendar.html" with mode="single" name="restricted_calendar" min_date="2024-03-01" max_date="2024-03-31" disabled_dates="2024-03-10,2024-03-15,2024-03-25" %}
+                {% include "components/ui/calendar.html" with mode="single" name="restricted_calendar" min_date="2024-03-01" max_date="2024-03-31" disabled_dates="2024-03-10,2024-03-15,2024-03-25" %}
             </div>
         </div>
     </section>
@@ -50,19 +50,19 @@
             <!-- Carousel Básico -->
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Carousel Básico</h3>
-                {% include "components/carousel.html" with images="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop,https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=400&fit=crop,https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=800&h=400&fit=crop" %}
+                {% include "components/ui/carousel.html" with images="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop,https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=400&fit=crop,https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=800&h=400&fit=crop" %}
             </div>
             
             <!-- Carousel com Títulos -->
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Carousel com Títulos e Descrições</h3>
-                {% include "components/carousel.html" with images="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop,https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=400&fit=crop,https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=800&h=400&fit=crop" titles="Montanhas Majestosas,Floresta Verdejante,Lago Sereno" descriptions="Paisagens montanhosas de tirar o fôlego,Florestas exuberantes e vida selvagem,Águas cristalinas e tranquilidade" %}
+                {% include "components/ui/carousel.html" with images="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop,https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=400&fit=crop,https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=800&h=400&fit=crop" titles="Montanhas Majestosas,Floresta Verdejante,Lago Sereno" descriptions="Paisagens montanhosas de tirar o fôlego,Florestas exuberantes e vida selvagem,Águas cristalinas e tranquilidade" %}
             </div>
             
             <!-- Carousel Auto Play -->
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Carousel com Auto Play</h3>
-                {% include "components/carousel.html" with images="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop,https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=400&fit=crop,https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=800&h=400&fit=crop" auto_play=True auto_play_interval=3000 titles="Slide 1,Slide 2,Slide 3" %}
+                {% include "components/ui/carousel.html" with images="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop,https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=400&fit=crop,https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=800&h=400&fit=crop" auto_play=True auto_play_interval=3000 titles="Slide 1,Slide 2,Slide 3" %}
             </div>
         </div>
     </section>
@@ -75,25 +75,25 @@
             <!-- Line Chart -->
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Gráfico de Linha</h3>
-                {% include "components/chart.html" with chart_type="line" title="Vendas Mensais" chart_data='{"labels": ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun"], "datasets": [{"label": "Vendas 2024", "data": [12, 19, 3, 5, 2, 3]}, {"label": "Vendas 2023", "data": [8, 11, 6, 7, 4, 6]}]}' %}
+                {% include "components/ui/chart.html" with chart_type="line" title="Vendas Mensais" chart_data='{"labels": ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun"], "datasets": [{"label": "Vendas 2024", "data": [12, 19, 3, 5, 2, 3]}, {"label": "Vendas 2023", "data": [8, 11, 6, 7, 4, 6]}]}' %}
             </div>
             
             <!-- Bar Chart -->
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Gráfico de Barras</h3>
-                {% include "components/chart.html" with chart_type="bar" title="Produtos Mais Vendidos" chart_data='{"labels": ["Produto A", "Produto B", "Produto C", "Produto D"], "datasets": [{"label": "Vendas", "data": [65, 59, 80, 81]}]}' %}
+                {% include "components/ui/chart.html" with chart_type="bar" title="Produtos Mais Vendidos" chart_data='{"labels": ["Produto A", "Produto B", "Produto C", "Produto D"], "datasets": [{"label": "Vendas", "data": [65, 59, 80, 81]}]}' %}
             </div>
             
             <!-- Pie Chart -->
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Gráfico de Pizza</h3>
-                {% include "components/chart.html" with chart_type="pie" title="Distribuição de Usuários" chart_data='{"labels": ["Desktop", "Mobile", "Tablet"], "datasets": [{"data": [55, 35, 10]}]}' %}
+                {% include "components/ui/chart.html" with chart_type="pie" title="Distribuição de Usuários" chart_data='{"labels": ["Desktop", "Mobile", "Tablet"], "datasets": [{"data": [55, 35, 10]}]}' %}
             </div>
             
             <!-- Doughnut Chart -->
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Gráfico de Rosca</h3>
-                {% include "components/chart.html" with chart_type="doughnut" title="Status dos Projetos" chart_data='{"labels": ["Concluídos", "Em Andamento", "Pausados", "Cancelados"], "datasets": [{"data": [45, 30, 15, 10]}]}' %}
+                {% include "components/ui/chart.html" with chart_type="doughnut" title="Status dos Projetos" chart_data='{"labels": ["Concluídos", "Em Andamento", "Pausados", "Cancelados"], "datasets": [{"data": [45, 30, 15, 10]}]}' %}
             </div>
         </div>
         
@@ -113,25 +113,25 @@
             <!-- OTP Básico -->
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">OTP Básico (6 dígitos)</h3>
-                {% include "components/input-otp.html" with length=6 name="otp_basic" type="number" %}
+                {% include "components/ui/input-otp.html" with length=6 name="otp_basic" type="number" %}
             </div>
             
             <!-- OTP com Separador -->
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">OTP com Separador</h3>
-                {% include "components/input-otp.html" with length=6 name="otp_separated" type="number" separator_at=3 separator="-" %}
+                {% include "components/ui/input-otp.html" with length=6 name="otp_separated" type="number" separator_at=3 separator="-" %}
             </div>
             
             <!-- OTP de 4 dígitos -->
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">OTP de 4 dígitos</h3>
-                {% include "components/input-otp.html" with length=4 name="otp_short" type="number" %}
+                {% include "components/ui/input-otp.html" with length=4 name="otp_short" type="number" %}
             </div>
             
             <!-- OTP Alfanumérico -->
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">OTP Alfanumérico</h3>
-                {% include "components/input-otp.html" with length=8 name="otp_alpha" type="text" separator_at=4 separator=" " %}
+                {% include "components/ui/input-otp.html" with length=8 name="otp_alpha" type="text" separator_at=4 separator=" " %}
             </div>
         </div>
     </section>
@@ -145,9 +145,9 @@
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Skeleton Básico</h3>
                 <div class="space-y-2">
-                    {% include "components/skeleton.html" with width="100%" height="20px" %}
-                    {% include "components/skeleton.html" with width="80%" height="20px" %}
-                    {% include "components/skeleton.html" with width="60%" height="20px" %}
+                    {% include "components/ui/skeleton.html" with width="100%" height="20px" %}
+                    {% include "components/ui/skeleton.html" with width="80%" height="20px" %}
+                    {% include "components/ui/skeleton.html" with width="60%" height="20px" %}
                 </div>
             </div>
             
@@ -155,10 +155,10 @@
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Skeleton Circular</h3>
                 <div class="flex items-center gap-3">
-                    {% include "components/skeleton.html" with variant="circular" width="50px" %}
+                    {% include "components/ui/skeleton.html" with variant="circular" width="50px" %}
                     <div class="flex-1 space-y-2">
-                        {% include "components/skeleton.html" with variant="text" width="100%" %}
-                        {% include "components/skeleton.html" with variant="text" width="70%" %}
+                        {% include "components/ui/skeleton.html" with variant="text" width="100%" %}
+                        {% include "components/ui/skeleton.html" with variant="text" width="70%" %}
                     </div>
                 </div>
             </div>
@@ -167,10 +167,10 @@
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Skeleton de Card</h3>
                 <div class="space-y-3">
-                    {% include "components/skeleton.html" with variant="rectangular" width="100%" height="150px" %}
-                    {% include "components/skeleton.html" with variant="text" width="100%" %}
-                    {% include "components/skeleton.html" with variant="text" width="80%" %}
-                    {% include "components/skeleton.html" with variant="text" width="60%" %}
+                    {% include "components/ui/skeleton.html" with variant="rectangular" width="100%" height="150px" %}
+                    {% include "components/ui/skeleton.html" with variant="text" width="100%" %}
+                    {% include "components/ui/skeleton.html" with variant="text" width="80%" %}
+                    {% include "components/ui/skeleton.html" with variant="text" width="60%" %}
                 </div>
             </div>
             
@@ -178,16 +178,16 @@
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Skeleton com Animação Wave</h3>
                 <div class="space-y-2">
-                    {% include "components/skeleton.html" with width="100%" height="20px" animation="wave" %}
-                    {% include "components/skeleton.html" with width="85%" height="20px" animation="wave" %}
-                    {% include "components/skeleton.html" with width="70%" height="20px" animation="wave" %}
+                    {% include "components/ui/skeleton.html" with width="100%" height="20px" animation="wave" %}
+                    {% include "components/ui/skeleton.html" with width="85%" height="20px" animation="wave" %}
+                    {% include "components/ui/skeleton.html" with width="70%" height="20px" animation="wave" %}
                 </div>
             </div>
             
             <!-- Múltiplos Skeletons -->
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Múltiplos Skeletons</h3>
-                {% include "components/skeleton.html" with width="100%" height="15px" count=5 %}
+                {% include "components/ui/skeleton.html" with width="100%" height="15px" count=5 %}
             </div>
         </div>
     </section>
@@ -201,7 +201,7 @@
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Spinner Padrão</h3>
                 <div class="flex justify-center items-center h-20 bg-muted rounded-lg">
-                    {% include "components/spinner.html" with size="default" %}
+                    {% include "components/ui/spinner.html" with size="default" %}
                 </div>
             </div>
             
@@ -209,7 +209,7 @@
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Spinner Dots</h3>
                 <div class="flex justify-center items-center h-20 bg-muted rounded-lg">
-                    {% include "components/spinner.html" with variant="dots" size="lg" %}
+                    {% include "components/ui/spinner.html" with variant="dots" size="lg" %}
                 </div>
             </div>
             
@@ -217,7 +217,7 @@
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Spinner Bars</h3>
                 <div class="flex justify-center items-center h-20 bg-muted rounded-lg">
-                    {% include "components/spinner.html" with variant="bars" size="lg" color="secondary" %}
+                    {% include "components/ui/spinner.html" with variant="bars" size="lg" color="secondary" %}
                 </div>
             </div>
             
@@ -225,7 +225,7 @@
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Spinner Ring</h3>
                 <div class="flex justify-center items-center h-20 bg-muted rounded-lg">
-                    {% include "components/spinner.html" with variant="ring" size="lg" color="primary" %}
+                    {% include "components/ui/spinner.html" with variant="ring" size="lg" color="primary" %}
                 </div>
             </div>
             
@@ -233,10 +233,10 @@
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Tamanhos</h3>
                 <div class="flex justify-center items-center gap-4 h-20 bg-muted rounded-lg">
-                    {% include "components/spinner.html" with size="sm" %}
-                    {% include "components/spinner.html" with size="default" %}
-                    {% include "components/spinner.html" with size="lg" %}
-                    {% include "components/spinner.html" with size="xl" %}
+                    {% include "components/ui/spinner.html" with size="sm" %}
+                    {% include "components/ui/spinner.html" with size="default" %}
+                    {% include "components/ui/spinner.html" with size="lg" %}
+                    {% include "components/ui/spinner.html" with size="xl" %}
                 </div>
             </div>
             
@@ -244,9 +244,9 @@
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Velocidades</h3>
                 <div class="flex justify-center items-center gap-4 h-20 bg-muted rounded-lg">
-                    {% include "components/spinner.html" with speed="slow" label="Lento" %}
-                    {% include "components/spinner.html" with speed="normal" label="Normal" %}
-                    {% include "components/spinner.html" with speed="fast" label="Rápido" %}
+                    {% include "components/ui/spinner.html" with speed="slow" label="Lento" %}
+                    {% include "components/ui/spinner.html" with speed="normal" label="Normal" %}
+                    {% include "components/ui/spinner.html" with speed="fast" label="Rápido" %}
                 </div>
             </div>
         </div>
@@ -293,6 +293,6 @@
 </div>
 
 <!-- Incluir o componente Sonner para demonstração -->
-{% include "components/sonner.html" with position="bottom-right" %}
+{% include "components/ui/sonner.html" with position="bottom-right" %}
 
 {% endblock %} 

@@ -9,7 +9,7 @@
                 <h1 class="text-3xl font-bold">Sheet</h1>
                 <p class="text-muted-foreground mt-1">Painel deslizante para conteúdo secundário</p>
             </div>
-            <a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+            <a href="/components/ui/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
                 Voltar
             </a>
         </div>
@@ -24,7 +24,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code class="text-sm" x-ref="code">{% verbatim %}{% include "components/sheet.html" with trigger_text="Abrir Sheet" title="Título" %}{% endverbatim %}</code>
+            <code class="text-sm" x-ref="code">{% verbatim %}{% include "components/ui/sheet.html" with trigger_text="Abrir Sheet" title="Título" %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -33,7 +33,7 @@
         <h2 class="text-2xl font-semibold">Sheet Básico</h2>
         <div class="border rounded-lg p-6">
             <div class="text-center">
-                {% include "components/sheet.html" with trigger_text=sheet_basic.trigger_text title=sheet_basic.title description=sheet_basic.description side=sheet_basic.side content=sheet_basic.content footer=sheet_basic.footer %}
+                {% include "components/ui/sheet.html" with trigger_text=sheet_basic.trigger_text title=sheet_basic.title description=sheet_basic.description side=sheet_basic.side content=sheet_basic.content footer=sheet_basic.footer %}
             </div>
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
@@ -42,7 +42,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/sheet.html" with trigger_text="Configurações" side="right" %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/sheet.html" with trigger_text="Configurações" side="right" %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -51,7 +51,7 @@
         <h2 class="text-2xl font-semibold">Sheet com Formulário</h2>
         <div class="border rounded-lg p-6">
             <div class="text-center">
-                {% include "components/sheet.html" with trigger_text=sheet_form.trigger_text title=sheet_form.title description=sheet_form.description side=sheet_form.side size=sheet_form.size content=sheet_form.content footer=sheet_form.footer %}
+                {% include "components/ui/sheet.html" with trigger_text=sheet_form.trigger_text title=sheet_form.title description=sheet_form.description side=sheet_form.side size=sheet_form.size content=sheet_form.content footer=sheet_form.footer %}
             </div>
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
@@ -60,7 +60,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/sheet.html" with trigger_text="Adicionar" side="left" size="lg" %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/sheet.html" with trigger_text="Adicionar" side="left" size="lg" %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -69,7 +69,7 @@
         <h2 class="text-2xl font-semibold">Sheet de Detalhes</h2>
         <div class="border rounded-lg p-6">
             <div class="text-center">
-                {% include "components/sheet.html" with trigger_text=sheet_details.trigger_text title=sheet_details.title side=sheet_details.side content=sheet_details.content footer=sheet_details.footer %}
+                {% include "components/ui/sheet.html" with trigger_text=sheet_details.trigger_text title=sheet_details.title side=sheet_details.side content=sheet_details.content footer=sheet_details.footer %}
             </div>
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
@@ -78,7 +78,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/sheet.html" with trigger_text="Ver Detalhes" side="bottom" %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/sheet.html" with trigger_text="Ver Detalhes" side="bottom" %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -87,7 +87,7 @@
         <h2 class="text-2xl font-semibold">Sheet de Filtros</h2>
         <div class="border rounded-lg p-6">
             <div class="text-center">
-                {% include "components/sheet.html" with trigger_text=sheet_filters.trigger_text title=sheet_filters.title side=sheet_filters.side content=sheet_filters.content footer=sheet_filters.footer %}
+                {% include "components/ui/sheet.html" with trigger_text=sheet_filters.trigger_text title=sheet_filters.title side=sheet_filters.side content=sheet_filters.content footer=sheet_filters.footer %}
             </div>
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
@@ -96,13 +96,13 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/sheet.html" with trigger_text="Filtros" side="top" %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/sheet.html" with trigger_text="Filtros" side="top" %}{% endverbatim %}</code>
         </div>
     </div>
 
     <!-- Parâmetros -->
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Parâmetros</h2>
-        {% include "components/table.html" with headers=sheet_params.headers data=sheet_params.data caption="Parâmetros disponíveis para o componente Sheet" %}
+        {% include "components/ui/table.html" with headers=sheet_params.headers data=sheet_params.data caption="Parâmetros disponíveis para o componente Sheet" %}
     </div>
 </div> 

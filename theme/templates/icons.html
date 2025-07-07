@@ -12,18 +12,18 @@
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Sistema de Ícones Dinâmico</h2>
         <div class="bg-muted rounded-lg p-6 space-y-4">
-            <p class="text-sm">Os ícones são carregados dinamicamente da pasta <code class="bg-background px-2 py-1 rounded">static/radix-icons/</code></p>
-            <p class="text-sm">✨ <strong>Novidade:</strong> Agora você pode usar qualquer ícone SVG da pasta radix-icons automaticamente!</p>
+            <p class="text-sm">Os ícones são carregados dinamicamente da pasta <code class="bg-background px-2 py-1 rounded">static/icons/</code></p>
+            <p class="text-sm">✨ <strong>Novidade:</strong> Agora você pode usar qualquer ícone SVG da pasta icons automaticamente!</p>
             
             <div class="space-y-3">
                 <h3 class="font-medium">Método 1: Componente Icon (Recomendado)</h3>
                 <div class="bg-background rounded p-3 text-sm relative" x-data="{ copied: false }">
                     <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
                             class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
-                        <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
-                        <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
+                        <span x-show="!copied">{% include "components/ui/icon.html" with name="copy" size="size-4" %}</span>
+                        <span x-show="copied" class="text-green-600">{% include "components/ui/icon.html" with name="check" size="size-4" %}</span>
                     </button>
-                    <code x-ref="code">{% verbatim %}{% include "components/icon.html" with name="heart" size="size-6" css_class="text-destructive" %}{% endverbatim %}</code>
+                    <code x-ref="code">{% verbatim %}{% include "components/ui/icon.html" with name="heart" size="size-6" css_class="text-destructive" %}{% endverbatim %}</code>
                 </div>
             </div>
             
@@ -32,11 +32,11 @@
                 <div class="bg-background rounded p-3 text-sm relative" x-data="{ copied: false }">
                     <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
                             class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
-                        <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
-                        <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
+                        <span x-show="!copied">{% include "components/ui/icon.html" with name="copy" size="size-4" %}</span>
+                        <span x-show="copied" class="text-green-600">{% include "components/ui/icon.html" with name="check" size="size-4" %}</span>
                     </button>
                     <pre><code x-ref="code">{% verbatim %}{% load static %}
-&lt;img src="{% static 'radix-icons/heart.svg' %}" class="size-6" alt="Heart"&gt;{% endverbatim %}</code></pre>
+&lt;img src="{% static 'icons/heart.svg' %}" class="size-6" alt="Heart"&gt;{% endverbatim %}</code></pre>
                 </div>
             </div>
             
@@ -45,10 +45,10 @@
                 <div class="bg-background rounded p-3 text-sm relative" x-data="{ copied: false }">
                     <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
                             class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
-                        <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
-                        <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
+                        <span x-show="!copied">{% include "components/ui/icon.html" with name="copy" size="size-4" %}</span>
+                        <span x-show="copied" class="text-green-600">{% include "components/ui/icon.html" with name="check" size="size-4" %}</span>
                     </button>
-                    <pre><code x-ref="code">{% verbatim %}&lt;img src="{% static 'radix-icons/heart.svg' %}" class="size-6 text-destructive" alt="Heart"&gt;{% endverbatim %}</code></pre>
+                    <pre><code x-ref="code">{% verbatim %}&lt;img src="{% static 'icons/heart.svg' %}" class="size-6 text-destructive" alt="Heart"&gt;{% endverbatim %}</code></pre>
                 </div>
             </div>
         </div>
@@ -67,7 +67,7 @@
         }" class="space-y-6">
             <!-- Campo de busca -->
             <div class="max-w-md">
-                {% include "components/input.html" with name="search" placeholder="Buscar ícones..." x_model="search" %}
+                {% include "components/ui/input.html" with name="search" placeholder="Buscar ícones..." x_model="search" %}
             </div>
             
             <!-- Grid de ícones -->
@@ -131,25 +131,25 @@
                 <div class="border rounded-lg p-4 space-y-3">
                     <div class="flex gap-2">
                         <button class="btn btn-primary flex items-center gap-2">
-                            {% include "components/icon.html" with name="heart" size="size-4" css_class="text-destructive" %}
+                            {% include "components/ui/icon.html" with name="heart" size="size-4" css_class="text-destructive" %}
                             Favoritar
                         </button>
                         <button class="btn btn-outline flex items-center gap-2">
-                            {% include "components/icon.html" with name="copy" size="size-4" %}
+                            {% include "components/ui/icon.html" with name="copy" size="size-4" %}
                             Copiar
                         </button>
                         <button class="btn btn-destructive flex items-center gap-2">
-                            {% include "components/icon.html" with name="archive" size="size-4" %}
+                            {% include "components/ui/icon.html" with name="archive" size="size-4" %}
                             Arquivar
                         </button>
                     </div>
                     <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
                         <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
                                 class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
-                            <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
-                            <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
+                            <span x-show="!copied">{% include "components/ui/icon.html" with name="copy" size="size-4" %}</span>
+                            <span x-show="copied" class="text-green-600">{% include "components/ui/icon.html" with name="check" size="size-4" %}</span>
                         </button>
-                        <code x-ref="code">{% verbatim %}{% include "components/icon.html" with name="heart" size="size-4" css_class="text-destructive" %}{% endverbatim %}</code>
+                        <code x-ref="code">{% verbatim %}{% include "components/ui/icon.html" with name="heart" size="size-4" css_class="text-destructive" %}{% endverbatim %}</code>
                     </div>
                 </div>
             </div>
@@ -159,7 +159,7 @@
                 <h3 class="text-lg font-medium">Cards com Ícones</h3>
                 <div class="border rounded-lg p-4">
                     <div class="flex items-center gap-3 p-3 bg-muted rounded">
-                        {% include "components/icon.html" with name="rocket" size="size-8" css_class="text-primary" %}
+                        {% include "components/ui/icon.html" with name="rocket" size="size-8" css_class="text-primary" %}
                         <div>
                             <h4 class="font-medium">Projeto Lançado</h4>
                             <p class="text-sm text-muted-foreground">Seu projeto está online</p>
@@ -179,19 +179,19 @@
             
             <div class="flex flex-wrap gap-4 items-center">
                 <div class="flex items-center gap-2">
-                    <img src="{% static 'radix-icons/heart.svg' %}" class="size-6 text-destructive" alt="Heart">
+                    <img src="{% static 'icons/heart.svg' %}" class="size-6 text-destructive" alt="Heart">
                     <code class="text-xs">text-destructive</code>
                 </div>
                 <div class="flex items-center gap-2">
-                    <img src="{% static 'radix-icons/star.svg' %}" class="size-6 text-primary" alt="Star">
+                    <img src="{% static 'icons/star.svg' %}" class="size-6 text-primary" alt="Star">
                     <code class="text-xs">text-primary</code>
                 </div>
                 <div class="flex items-center gap-2">
-                    <img src="{% static 'radix-icons/rocket.svg' %}" class="size-6 text-primary" alt="Rocket">
+                    <img src="{% static 'icons/rocket.svg' %}" class="size-6 text-primary" alt="Rocket">
                     <code class="text-xs">text-primary</code>
                 </div>
                 <div class="flex items-center gap-2">
-                    <img src="{% static 'radix-icons/lightning-bolt.svg' %}" class="size-6 text-muted-foreground" alt="Lightning">
+                    <img src="{% static 'icons/lightning-bolt.svg' %}" class="size-6 text-muted-foreground" alt="Lightning">
                     <code class="text-xs">text-muted-foreground</code>
                 </div>
             </div>
@@ -205,7 +205,7 @@
             
             <div class="border rounded-lg p-4">
                 <div class="flex items-center gap-3 mb-3">
-                    <img src="{% static 'radix-icons/lightning-bolt.svg' %}" class="size-6 text-primary" alt="Lightning">
+                    <img src="{% static 'icons/lightning-bolt.svg' %}" class="size-6 text-primary" alt="Lightning">
                     <h3 class="font-medium">Automático</h3>
                 </div>
                 <p class="text-sm text-muted-foreground">Adicione qualquer arquivo SVG na pasta e ele estará disponível automaticamente</p>
@@ -213,7 +213,7 @@
             
             <div class="border rounded-lg p-4">
                 <div class="flex items-center gap-3 mb-3">
-                    <img src="{% static 'radix-icons/magic-wand.svg' %}" class="size-6 text-primary" alt="Magic Wand">
+                    <img src="{% static 'icons/magic-wand.svg' %}" class="size-6 text-primary" alt="Magic Wand">
                     <h3 class="font-medium">Flexível</h3>
                 </div>
                 <p class="text-sm text-muted-foreground">Controle total sobre tamanho, cor e classes CSS dos ícones</p>
@@ -221,7 +221,7 @@
             
             <div class="border rounded-lg p-4">
                 <div class="flex items-center gap-3 mb-3">
-                    <img src="{% static 'radix-icons/hand.svg' %}" class="size-6 text-primary" alt="Hand">
+                    <img src="{% static 'icons/hand.svg' %}" class="size-6 text-primary" alt="Hand">
                     <h3 class="font-medium">Fácil de Usar</h3>
                 </div>
                 <p class="text-sm text-muted-foreground">Sintaxe simples e intuitiva para incluir ícones em qualquer template</p>
@@ -236,7 +236,7 @@
         <div class="bg-muted rounded-lg p-6 space-y-4">
             <div class="space-y-3">
                 <h3 class="font-medium">1. Adicione o arquivo SVG</h3>
-                <p class="text-sm">Coloque o arquivo SVG na pasta <code class="bg-background px-2 py-1 rounded">theme/static/radix-icons/</code></p>
+                <p class="text-sm">Coloque o arquivo SVG na pasta <code class="bg-background px-2 py-1 rounded">theme/static/icons/</code></p>
             </div>
             
             <div class="space-y-3">
@@ -245,10 +245,10 @@
                 <div class="bg-background rounded p-3 text-sm relative" x-data="{ copied: false }">
                     <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
                             class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
-                        <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
-                        <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
+                        <span x-show="!copied">{% include "components/ui/icon.html" with name="copy" size="size-4" %}</span>
+                        <span x-show="copied" class="text-green-600">{% include "components/ui/icon.html" with name="check" size="size-4" %}</span>
                     </button>
-                    <code x-ref="code">{% verbatim %}{% include "components/icon.html" with name="meu-novo-icone" %}{% endverbatim %}</code>
+                    <code x-ref="code">{% verbatim %}{% include "components/ui/icon.html" with name="meu-novo-icone" %}{% endverbatim %}</code>
                 </div>
             </div>
             
@@ -258,10 +258,10 @@
                 <div class="bg-background rounded p-3 text-sm relative" x-data="{ copied: false }">
                     <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
                             class="absolute top-2 right-2 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
-                        <span x-show="!copied">{% include "components/icon.html" with name="copy" size="size-4" %}</span>
-                        <span x-show="copied" class="text-green-600">{% include "components/icon.html" with name="check" size="size-4" %}</span>
+                        <span x-show="!copied">{% include "components/ui/icon.html" with name="copy" size="size-4" %}</span>
+                        <span x-show="copied" class="text-green-600">{% include "components/ui/icon.html" with name="check" size="size-4" %}</span>
                     </button>
-                    <code x-ref="code">{% verbatim %}{% include "components/icon.html" with name="meu-icone" css_class="text-primary" %}{% endverbatim %}</code>
+                    <code x-ref="code">{% verbatim %}{% include "components/ui/icon.html" with name="meu-icone" css_class="text-primary" %}{% endverbatim %}</code>
                 </div>
             </div>
         </div>

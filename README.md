@@ -1,16 +1,26 @@
-# Django + Tailwind CSS + Alpine.js Component Library
+# Django Cazenga UI - Website de Demonstração
 
-Uma biblioteca de componentes inspirada no shadcn/ui, construída com Django Templates, Tailwind CSS v4 e Alpine.js.
+Website de demonstração da **[Django Cazenga UI](https://github.com/seu-usuario/django-cazenga-ui)** - uma biblioteca de componentes inspirada no shadcn/ui, construída com Django Templates, Tailwind CSS v4 e Alpine.js.
 
-## 🚀 Características
+> 📚 **Este é um projeto de demonstração**. Para usar a biblioteca em seus projetos, visite: **[django-cazenga-ui](https://github.com/seu-usuario/django-cazenga-ui)**
 
-- **23 Componentes** shadcn/ui convertidos para Django
-- **Design System** completo com cores, tipografia e espaçamentos
-- **Alpine.js** para interatividade reativa
-- **Tailwind CSS v4** com hot reload
-- **Acessibilidade** com ARIA labels e navegação por teclado
-- **Temas** dark/light automático
+## 🚀 Características da Biblioteca
+
+- **53 Componentes** inspirados no shadcn/ui para Django
+- **6 Temas de cores** (azul, laranja, verde, roxo, vermelho, amarelo)
+- **333 Ícones SVG** do Radix Icons
+- **Sistema SPA** completo com Alpine.js
+- **Django-tailwind** integração opcional
+- **CLI poderoso** para gestão de componentes
+- **Acessibilidade** com ARIA labels completos
 - **Responsivo** mobile-first
+
+## 🎯 Este Projeto de Demonstração
+
+- **Interface visual** para explorar componentes
+- **Exemplos práticos** de uso
+- **Playground interativo** 
+- **Documentação visual** dos componentes
 
 ## 📦 Componentes Disponíveis
 
@@ -45,8 +55,20 @@ Uma biblioteca de componentes inspirada no shadcn/ui, construída com Django Tem
 
 ## 🛠️ Instalação
 
+### 📦 Para usar a biblioteca em seus projetos:
+
 ```bash
-# Clone o repositório
+# Instale a biblioteca Django Cazenga UI
+pip install django-cazenga-ui[tailwind]
+
+# Siga a documentação oficial:
+# https://github.com/seu-usuario/django-cazenga-ui
+```
+
+### 🖥️ Para executar este projeto de demonstração localmente:
+
+```bash
+# Clone este repositório (projeto demo)
 git clone <url-do-repo>
 cd django-tailwind-alpine
 
@@ -68,41 +90,49 @@ python manage.py runserver
 python manage.py tailwind dev
 ```
 
-## 📚 Uso dos Componentes
+### 🌐 Acesse a demonstração:
+- **Desenvolvimento**: `http://localhost:8000`
+- **Online**: [Site da demonstração](https://seu-site-demo.com)
+
+## 📚 Exemplos de Componentes (neste projeto demo)
+
+> 💡 **Para usar em seus projetos**, instale a biblioteca `django-cazenga-ui` e siga a [documentação oficial](https://github.com/seu-usuario/django-cazenga-ui).
+
+### Exemplos de uso neste projeto de demonstração:
 
 ### Button
 ```django
 <!-- Básico -->
-{% include "components/button.html" with text="Clique aqui" %}
+{% include "components/ui/button.html" with text="Clique aqui" %}
 
 <!-- Com variantes -->
-{% include "components/button.html" with text="Deletar" variant="destructive" %}
-{% include "components/button.html" with text="Cancelar" variant="outline" %}
+{% include "components/ui/button.html" with text="Deletar" variant="destructive" %}
+{% include "components/ui/button.html" with text="Cancelar" variant="outline" %}
 
 <!-- Com ícones -->
-{% include "components/button.html" with text="Download" icon='<svg>...</svg>' %}
+{% include "components/ui/button.html" with text="Download" icon='<svg>...</svg>' %}
 
 <!-- Como link -->
-{% include "components/button.html" with text="Google" href="https://google.com" target="_blank" %}
+{% include "components/ui/button.html" with text="Google" href="https://google.com" target="_blank" %}
 ```
 
 ### Select
 ```django
 <!-- Select básico -->
-{% include "components/select.html" with name="country" options=countries placeholder="Selecione um país" %}
+{% include "components/ui/select.html" with name="country" options=countries placeholder="Selecione um país" %}
 
 <!-- Com busca -->
-{% include "components/select.html" with name="city" options=cities searchable=True %}
+{% include "components/ui/select.html" with name="city" options=cities searchable=True %}
 
 <!-- Exemplo de options -->
 {% with countries='[{"value":"br","label":"Brasil"},{"value":"us","label":"EUA"}]' %}
-    {% include "components/select.html" with name="country" options=countries %}
+    {% include "components/ui/select.html" with name="country" options=countries %}
 {% endwith %}
 ```
 
 ### Form
 ```django
-{% include "components/form.html" with fields=form_fields action="/submit" %}
+{% include "components/ui/form.html" with fields=form_fields action="/submit" %}
 
 <!-- Exemplo de form_fields -->
 {% with form_fields='[
@@ -111,22 +141,22 @@ python manage.py tailwind dev
     {"type":"select","name":"country","options":[{"value":"br","label":"Brasil"}]},
     {"type":"textarea","name":"message","label":"Mensagem","rows":4}
 ]' %}
-    {% include "components/form.html" with fields=form_fields %}
+    {% include "components/ui/form.html" with fields=form_fields %}
 {% endwith %}
 ```
 
 ### Table
 ```django
 <!-- Tabela básica -->
-{% include "components/table.html" with headers='["Nome","Email"]' data='[["João","joao@email.com"]]' %}
+{% include "components/ui/table.html" with headers='["Nome","Email"]' data='[["João","joao@email.com"]]' %}
 
 <!-- Com recursos avançados -->
-{% include "components/table.html" with headers=headers data=data sortable=True selectable=True striped=True %}
+{% include "components/ui/table.html" with headers=headers data=data sortable=True selectable=True striped=True %}
 ```
 
 ### Dialog
 ```django
-{% include "components/dialog.html" with 
+{% include "components/ui/dialog.html" with 
     trigger='<button class="btn btn-primary">Abrir</button>'
     title="Confirmar"
     description="Tem certeza?"
@@ -136,36 +166,36 @@ python manage.py tailwind dev
 
 ### Accordion
 ```django
-{% include "components/accordion.html" with items=accordion_items type="single" %}
+{% include "components/ui/accordion.html" with items=accordion_items type="single" %}
 
 <!-- Exemplo de accordion_items -->
 {% with accordion_items='[
     {"title":"Pergunta 1","content":"Resposta 1","open":true},
     {"title":"Pergunta 2","content":"Resposta 2"}
 ]' %}
-    {% include "components/accordion.html" with items=accordion_items %}
+    {% include "components/ui/accordion.html" with items=accordion_items %}
 {% endwith %}
 ```
 
 ### Pagination
 ```django
 <!-- Com links -->
-{% include "components/pagination.html" with current_page=5 total_pages=20 base_url="/produtos" %}
+{% include "components/ui/pagination.html" with current_page=5 total_pages=20 base_url="/produtos" %}
 
 <!-- Com JavaScript -->
-{% include "components/pagination.html" with current_page=3 total_pages=10 on_page_change="(page) => changePage(page)" %}
+{% include "components/ui/pagination.html" with current_page=3 total_pages=10 on_page_change="(page) => changePage(page)" %}
 ```
 
 ### Radio Group
 ```django
-{% include "components/radio-group.html" with name="payment" options=payment_options value="card" %}
+{% include "components/ui/radio-group.html" with name="payment" options=payment_options value="card" %}
 
 <!-- Exemplo de payment_options -->
 {% with payment_options='[
     {"value":"card","label":"Cartão","description":"Pagar com cartão"},
     {"value":"pix","label":"PIX","description":"Instantâneo"}
 ]' %}
-    {% include "components/radio-group.html" with name="payment" options=payment_options %}
+    {% include "components/ui/radio-group.html" with name="payment" options=payment_options %}
 {% endwith %}
 ```
 
@@ -210,7 +240,7 @@ Todos os componentes são responsivos por padrão:
 <!-- Grid responsivo -->
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
     {% for item in items %}
-        {% include "components/card.html" with title=item.title content=item.content %}
+        {% include "components/ui/card.html" with title=item.title content=item.content %}
     {% endfor %}
 </div>
 ```
@@ -223,34 +253,86 @@ Todos os componentes são responsivos por padrão:
 - **Screen readers** suportados
 - **Focus management** em modais e dropdowns
 
+## 🚀 Como usar a biblioteca Django Cazenga UI
+
+### Instalação rápida:
+
+```bash
+# 1. Instalar
+pip install django-cazenga-ui[tailwind]
+
+# 2. Auto-configurar
+cazenga-setup --auto-configure
+
+# 3. Inicializar (processo interativo)
+python manage.py cazenga init --with-tailwind --theme roxo
+
+# 4. Adicionar componentes
+python manage.py ui add button
+python manage.py ui add card
+python manage.py ui icons --install
+```
+
+### Documentação completa:
+- **README oficial**: [django-cazenga-ui](https://github.com/seu-usuario/django-cazenga-ui)
+- **Tutorial completo**: [TUTORIAL.md](https://github.com/seu-usuario/django-cazenga-ui/blob/main/TUTORIAL.md)
+
 ## 🧪 Exemplos e Demo
 
-Visite `/demo/` para ver todos os componentes em ação com exemplos interativos.
+**Neste projeto de demonstração**:
+- Visite `/demo/` para ver todos os componentes em ação
+- Explore exemplos interativos  
+- Teste diferentes variações e temas
+- Veja código-fonte dos componentes
 
-## 📁 Estrutura do Projeto
+## 📁 Estrutura deste Projeto Demo
 
 ```
-django-tailwind-alpine/
-├── core/                    # App Django principal
-├── theme/                   # App Tailwind
+django-tailwind-alpine/          # 🌐 Projeto de demonstração
+├── core/                        # App Django principal
+├── theme/                       # App Tailwind (criada pelo django-tailwind)
 │   ├── templates/
-│   │   ├── components/      # 23 componentes
-│   │   ├── base.html        # Template base
-│   │   └── demo.html        # Página de demonstração
+│   │   ├── components/ui/       # Componentes copiados da biblioteca
+│   │   ├── base.html           # Template base
+│   │   └── demo.html           # Página de demonstração
 │   └── static_src/
 │       └── src/
-│           ├── styles.css   # Estilos principais
-│           └── components.css # Classes de componentes
-└── django_tailwind_alpine/  # Configurações Django
+│           ├── styles.css      # Tema aplicado
+│           └── components.css  # Classes da biblioteca
+└── django_tailwind_alpine/     # Configurações Django
+
+django-cazenga-ui/               # 📦 Biblioteca (repositório separado)
+├── cazenga_ui/                  # Código da biblioteca
+│   ├── management/commands/     # Comandos CLI (cazenga, ui)
+│   ├── templates_source/        # 53 componentes fonte
+│   ├── static_source/           # Temas, CSS, JavaScript
+│   └── templatetags/            # Tags (ícones)
+├── README.md                    # Documentação da biblioteca
+└── TUTORIAL.md                  # Tutorial completo
 ```
+
+### 🔗 Relação entre os projetos:
+
+- **django-cazenga-ui** = Biblioteca pip com 53 componentes
+- **django-tailwind-alpine** = Website demo que usa a biblioteca
 
 ## 🤝 Contribuindo
 
-1. Fork o projeto
-2. Crie uma branch para sua feature
+### Para a biblioteca Django Cazenga UI:
+- Contribua no repositório principal: **[django-cazenga-ui](https://github.com/seu-usuario/django-cazenga-ui)**
+
+### Para este projeto de demonstração:
+1. Fork este projeto
+2. Crie uma branch para melhorias da demonstração
 3. Commit suas mudanças
 4. Push para a branch
 5. Abra um Pull Request
+
+### Tipos de contribuição:
+- 🐛 **Bug fixes** na demonstração  
+- ✨ **Novos exemplos** de uso
+- 📖 **Melhorias na documentação**
+- 🎨 **Interface** e experiência do usuário
 
 ## 📄 Licença
 
@@ -258,7 +340,25 @@ MIT License - veja o arquivo LICENSE para detalhes.
 
 ## 🙏 Agradecimentos
 
-- [shadcn/ui](https://ui.shadcn.com/) - Design system original
+- **[Django Cazenga UI](https://github.com/seu-usuario/django-cazenga-ui)** - Biblioteca de componentes demonstrada
+- [shadcn/ui](https://ui.shadcn.com/) - Design system original inspirador
 - [Tailwind CSS](https://tailwindcss.com/) - Framework CSS
-- [Alpine.js](https://alpinejs.dev/) - Framework JavaScript
-- [Django](https://djangoproject.com/) - Framework web Python 
+- [Alpine.js](https://alpinejs.dev/) - Framework JavaScript reativo
+- [Django](https://djangoproject.com/) - Framework web Python
+- [Radix Icons](https://www.radix-ui.com/icons) - Conjunto de 333 ícones SVG
+
+---
+
+## 🔗 Links Úteis
+
+### 📦 Biblioteca Django Cazenga UI:
+- **[Repositório](https://github.com/seu-usuario/django-cazenga-ui)** - Código fonte da biblioteca
+- **[PyPI](https://pypi.org/project/django-cazenga-ui/)** - Instalação via pip
+- **[Tutorial](https://github.com/seu-usuario/django-cazenga-ui/blob/main/TUTORIAL.md)** - Documentação completa
+- **[Changelog](https://github.com/seu-usuario/django-cazenga-ui/blob/main/CHANGELOG.md)** - Histórico de versões
+
+### 🌐 Este Projeto Demo:
+- **[Site Demo](https://seu-site-demo.com)** - Demonstração online
+- **[Repositório](https://github.com/seu-usuario/django-tailwind-alpine)** - Código do website
+
+**Django Cazenga UI** - Componentes shadcn/ui para Django. Controle total, desenvolvimento rápido. 🚀 

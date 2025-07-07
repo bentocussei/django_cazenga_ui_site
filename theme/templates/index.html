@@ -8,7 +8,7 @@
     <p class="text-xl text-muted-foreground mb-8">Django + Tailwind CSS + Alpine.js</p>
     
     <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        {% include "components/button.html" with text="Ver Componentes" variant="default" size="lg" x_click="window.location.href='/components/'" %}
+        {% include "components/ui/button.html" with text="Ver Componentes" variant="default" size="lg" x_click="window.location.href='/components/ui/'" %}
     </div>
 </div>
 
@@ -35,10 +35,10 @@
 <div class="bg-muted rounded-lg p-8 text-center">
     <h2 class="text-2xl font-bold mb-4">Tecnologias Utilizadas</h2>
     <div class="flex flex-wrap justify-center gap-4">
-        {% include "components/badge.html" with text="Django" variant="primary" %}
-        {% include "components/badge.html" with text="Tailwind CSS" variant="secondary" %}
-        {% include "components/badge.html" with text="Alpine.js" variant="outline" %}
-        {% include "components/badge.html" with text="OKLCH Colors" variant="outline" %}
+        {% include "components/ui/badge.html" with text="Django" variant="primary" %}
+        {% include "components/ui/badge.html" with text="Tailwind CSS" variant="secondary" %}
+        {% include "components/ui/badge.html" with text="Alpine.js" variant="outline" %}
+        {% include "components/ui/badge.html" with text="OKLCH Colors" variant="outline" %}
     </div>
 </div>
 {% endblock %} 

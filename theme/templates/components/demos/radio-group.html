@@ -8,7 +8,7 @@
                 <h1 class="text-3xl font-bold">Radio Group</h1>
                 <p class="text-muted-foreground mt-1">Componente para seleção única entre múltiplas opções</p>
             </div>
-            <a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+            <a href="/components/ui/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
                 Voltar
             </a>
         </div>
@@ -18,11 +18,11 @@
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Instalação</h2>
         <div class="relative">
-            <pre class="bg-muted p-4 rounded-radius-md overflow-x-auto text-sm"><code>{% verbatim %}{% include 'components/radio-group.html' with name="opcoes" options=radio_options %}{% endverbatim %}</code></pre>
+            <pre class="bg-muted p-4 rounded-radius-md overflow-x-auto text-sm"><code>{% verbatim %}{% include 'components/ui/radio-group.html' with name="opcoes" options=radio_options %}{% endverbatim %}</code></pre>
             <button 
                 class="absolute top-2 right-2 p-2 bg-background rounded-radius-md shadow-sm hover:bg-accent border border-border"
                 x-data 
-                @click="navigator.clipboard.writeText('{% verbatim %}{% include \'components/radio-group.html\' with name=\'opcoes\' options=radio_options %}{% endverbatim %}')"
+                @click="navigator.clipboard.writeText('{% verbatim %}{% include \'components/ui/radio-group.html\' with name=\'opcoes\' options=radio_options %}{% endverbatim %}')"
                 title="Copiar código"
             >
                 {% svg_icon "copy" "size-4" %}
@@ -34,7 +34,7 @@
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Exemplo Básico</h2>
         <div class="border border-border rounded-radius-lg p-6">
-            {% include "components/radio-group.html" with name="basic" options=radio_group_options.basic %}
+            {% include "components/ui/radio-group.html" with name="basic" options=radio_group_options.basic %}
         </div>
     </div>
 
@@ -42,7 +42,7 @@
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Com Descrições</h2>
         <div class="border border-border rounded-radius-lg p-6">
-            {% include "components/radio-group.html" with name="payment" options=radio_group_options.payment value="card" %}
+            {% include "components/ui/radio-group.html" with name="payment" options=radio_group_options.payment value="card" %}
         </div>
     </div>
 
@@ -50,7 +50,7 @@
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Orientação Horizontal</h2>
         <div class="border border-border rounded-radius-lg p-6">
-            {% include "components/radio-group.html" with name="size" options=radio_group_options.size orientation="horizontal" %}
+            {% include "components/ui/radio-group.html" with name="size" options=radio_group_options.size orientation="horizontal" %}
         </div>
     </div>
 
@@ -58,7 +58,7 @@
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Com Opções Desabilitadas</h2>
         <div class="border border-border rounded-radius-lg p-6">
-            {% include "components/radio-group.html" with name="availability" options=radio_group_options.disabled value="available" %}
+            {% include "components/ui/radio-group.html" with name="availability" options=radio_group_options.disabled value="available" %}
         </div>
     </div>
 
@@ -67,7 +67,7 @@
         <h2 class="text-2xl font-semibold">Com Alpine.js</h2>
         <div class="border border-border rounded-radius-lg p-6">
             <div x-data="{ selectedPlan: 'basic' }" class="space-y-4">
-                {% include "components/radio-group.html" with name="plan_alpine" options=radio_group_options.plan x_model="selectedPlan" %}
+                {% include "components/ui/radio-group.html" with name="plan_alpine" options=radio_group_options.plan x_model="selectedPlan" %}
                 
                 <div class="mt-4 p-4 bg-muted rounded-lg">
                     <p class="text-sm">
@@ -95,7 +95,7 @@
                 <form @submit.prevent="validate()">
                     <div class="space-y-3">
                         <label class="text-sm font-medium">Selecione uma opção *</label>
-                        {% include "components/radio-group.html" with name="validation" options=radio_group_options.basic x_model="selectedOption" %}
+                        {% include "components/ui/radio-group.html" with name="validation" options=radio_group_options.basic x_model="selectedOption" %}
                         
                         <div x-show="showError" class="text-sm text-red-600">
                             Este campo é obrigatório.
@@ -113,6 +113,6 @@
     <!-- Parâmetros -->
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Parâmetros</h2>
-        {% include "components/table.html" with headers=radio_group_params.headers data=radio_group_params.data caption="Parâmetros disponíveis para o componente Radio Group" %}
+        {% include "components/ui/table.html" with headers=radio_group_params.headers data=radio_group_params.data caption="Parâmetros disponíveis para o componente Radio Group" %}
     </div>
 </div> 

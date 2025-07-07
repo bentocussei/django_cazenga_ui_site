@@ -38,10 +38,10 @@
 
 {% if main_content %}
     <!-- Se há main_content, está sendo usado pela view principal -->
-    {% include "components/layout.html" with layout_type="sidebar-left" sidebar_collapsible=True sidebar_content=sidebar_content header_content=header_content main_content=main_content spa_enabled=True %}
+    {% include "components/layout/layout.html" with layout_type="sidebar-left" sidebar_collapsible=True sidebar_content=sidebar_content header_content=header_content main_content=main_content spa_enabled=True %}
 {% else %}
     <!-- Se não há main_content, está sendo usado pelos templates dos componentes -->
-    {% include "components/layout.html" with layout_type="sidebar-left" sidebar_collapsible=True sidebar_content=sidebar_content header_content=header_content main_content=component_main_content spa_enabled=True %}
+    {% include "components/layout/layout.html" with layout_type="sidebar-left" sidebar_collapsible=True sidebar_content=sidebar_content header_content=header_content main_content=component_main_content spa_enabled=True %}
 {% endif %}
 
 <!-- REMOVER A LÓGICA QUE INJETA TÍTULOS AUTOMÁTICOS -->

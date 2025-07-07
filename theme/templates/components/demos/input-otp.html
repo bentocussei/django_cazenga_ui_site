@@ -9,7 +9,7 @@
                 <h1 class="text-3xl font-bold">Input OTP</h1>
                 <p class="text-muted-foreground mt-1">Campo de entrada para códigos de autenticação</p>
             </div>
-            <a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+            <a href="/components/ui/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
                 Voltar
             </a>
         </div>
@@ -24,7 +24,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code class="text-sm" x-ref="code">{% verbatim %}{% include "components/input-otp.html" with length=6 %}{% endverbatim %}</code>
+            <code class="text-sm" x-ref="code">{% verbatim %}{% include "components/ui/input-otp.html" with length=6 %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -33,7 +33,7 @@
         <h2 class="text-2xl font-semibold">Input OTP Básico</h2>
         <div class="border rounded-lg p-6">
             <div class="max-w-md mx-auto">
-                {% include "components/input-otp.html" with length=input_otp_basic.length placeholder=input_otp_basic.placeholder label=input_otp_basic.label description=input_otp_basic.description auto_focus=input_otp_basic.auto_focus %}
+                {% include "components/ui/input-otp.html" with length=input_otp_basic.length placeholder=input_otp_basic.placeholder label=input_otp_basic.label description=input_otp_basic.description auto_focus=input_otp_basic.auto_focus %}
             </div>
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
@@ -42,7 +42,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/input-otp.html" with length=6 label="Código de Verificação" %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/input-otp.html" with length=6 label="Código de Verificação" %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -51,7 +51,7 @@
         <h2 class="text-2xl font-semibold">PIN de Segurança</h2>
         <div class="border rounded-lg p-6">
             <div class="max-w-md mx-auto">
-                {% include "components/input-otp.html" with length=input_otp_pin.length type=input_otp_pin.type placeholder=input_otp_pin.placeholder label=input_otp_pin.label description=input_otp_pin.description auto_focus=input_otp_pin.auto_focus numeric_only=input_otp_pin.numeric_only %}
+                {% include "components/ui/input-otp.html" with length=input_otp_pin.length type=input_otp_pin.type placeholder=input_otp_pin.placeholder label=input_otp_pin.label description=input_otp_pin.description auto_focus=input_otp_pin.auto_focus numeric_only=input_otp_pin.numeric_only %}
             </div>
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
@@ -60,7 +60,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/input-otp.html" with length=4 type="password" label="PIN de Segurança" %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/input-otp.html" with length=4 type="password" label="PIN de Segurança" %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -69,7 +69,7 @@
         <h2 class="text-2xl font-semibold">Código de Autenticação</h2>
         <div class="border rounded-lg p-6">
             <div class="max-w-md mx-auto">
-                {% include "components/input-otp.html" with length=input_otp_long.length placeholder=input_otp_long.placeholder label=input_otp_long.label description=input_otp_long.description auto_focus=input_otp_long.auto_focus separator=input_otp_long.separator %}
+                {% include "components/ui/input-otp.html" with length=input_otp_long.length placeholder=input_otp_long.placeholder label=input_otp_long.label description=input_otp_long.description auto_focus=input_otp_long.auto_focus separator=input_otp_long.separator %}
             </div>
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
@@ -78,7 +78,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/input-otp.html" with length=8 label="Código de Autenticação" %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/input-otp.html" with length=8 label="Código de Autenticação" %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -87,7 +87,7 @@
         <h2 class="text-2xl font-semibold">OTP com Validação</h2>
         <div class="border rounded-lg p-6">
             <div class="max-w-md mx-auto">
-                {% include "components/input-otp.html" with length=input_otp_validation.length placeholder=input_otp_validation.placeholder label=input_otp_validation.label description=input_otp_validation.description auto_focus=input_otp_validation.auto_focus validation=input_otp_validation.validation error_message=input_otp_validation.error_message success_message=input_otp_validation.success_message %}
+                {% include "components/ui/input-otp.html" with length=input_otp_validation.length placeholder=input_otp_validation.placeholder label=input_otp_validation.label description=input_otp_validation.description auto_focus=input_otp_validation.auto_focus validation=input_otp_validation.validation error_message=input_otp_validation.error_message success_message=input_otp_validation.success_message %}
             </div>
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
@@ -96,7 +96,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/input-otp.html" with length=6 validation=true %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/input-otp.html" with length=6 validation=true %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -107,15 +107,15 @@
             <div class="space-y-6">
                 <div class="text-center">
                     <h4 class="font-medium mb-2">Pequeno</h4>
-                    {% include "components/input-otp.html" with length=input_otp_sizes.small.length size=input_otp_sizes.small.size label=input_otp_sizes.small.label class=input_otp_sizes.small.class %}
+                    {% include "components/ui/input-otp.html" with length=input_otp_sizes.small.length size=input_otp_sizes.small.size label=input_otp_sizes.small.label class=input_otp_sizes.small.class %}
                 </div>
                 <div class="text-center">
                     <h4 class="font-medium mb-2">Médio</h4>
-                    {% include "components/input-otp.html" with length=input_otp_sizes.medium.length size=input_otp_sizes.medium.size label=input_otp_sizes.medium.label class=input_otp_sizes.medium.class %}
+                    {% include "components/ui/input-otp.html" with length=input_otp_sizes.medium.length size=input_otp_sizes.medium.size label=input_otp_sizes.medium.label class=input_otp_sizes.medium.class %}
                 </div>
                 <div class="text-center">
                     <h4 class="font-medium mb-2">Grande</h4>
-                    {% include "components/input-otp.html" with length=input_otp_sizes.large.length size=input_otp_sizes.large.size label=input_otp_sizes.large.label class=input_otp_sizes.large.class %}
+                    {% include "components/ui/input-otp.html" with length=input_otp_sizes.large.length size=input_otp_sizes.large.size label=input_otp_sizes.large.label class=input_otp_sizes.large.class %}
                 </div>
             </div>
         </div>
@@ -125,7 +125,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/input-otp.html" with length=4 size="sm" %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/input-otp.html" with length=4 size="sm" %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -136,19 +136,19 @@
             <div class="space-y-6">
                 <div class="text-center">
                     <h4 class="font-medium mb-2">Normal</h4>
-                    {% include "components/input-otp.html" with length=input_otp_states.normal.length label=input_otp_states.normal.label placeholder=input_otp_states.normal.placeholder %}
+                    {% include "components/ui/input-otp.html" with length=input_otp_states.normal.length label=input_otp_states.normal.label placeholder=input_otp_states.normal.placeholder %}
                 </div>
                 <div class="text-center">
                     <h4 class="font-medium mb-2">Erro</h4>
-                    {% include "components/input-otp.html" with length=input_otp_states.error.length label=input_otp_states.error.label placeholder=input_otp_states.error.placeholder error=input_otp_states.error.error error_message=input_otp_states.error.error_message %}
+                    {% include "components/ui/input-otp.html" with length=input_otp_states.error.length label=input_otp_states.error.label placeholder=input_otp_states.error.placeholder error=input_otp_states.error.error error_message=input_otp_states.error.error_message %}
                 </div>
                 <div class="text-center">
                     <h4 class="font-medium mb-2">Sucesso</h4>
-                    {% include "components/input-otp.html" with length=input_otp_states.success.length label=input_otp_states.success.label placeholder=input_otp_states.success.placeholder success=input_otp_states.success.success success_message=input_otp_states.success.success_message %}
+                    {% include "components/ui/input-otp.html" with length=input_otp_states.success.length label=input_otp_states.success.label placeholder=input_otp_states.success.placeholder success=input_otp_states.success.success success_message=input_otp_states.success.success_message %}
                 </div>
                 <div class="text-center">
                     <h4 class="font-medium mb-2">Desabilitado</h4>
-                    {% include "components/input-otp.html" with length=input_otp_states.disabled.length label=input_otp_states.disabled.label placeholder=input_otp_states.disabled.placeholder disabled=input_otp_states.disabled.disabled %}
+                    {% include "components/ui/input-otp.html" with length=input_otp_states.disabled.length label=input_otp_states.disabled.label placeholder=input_otp_states.disabled.placeholder disabled=input_otp_states.disabled.disabled %}
                 </div>
             </div>
         </div>
@@ -158,13 +158,13 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/input-otp.html" with length=4 error=true %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/input-otp.html" with length=4 error=true %}{% endverbatim %}</code>
         </div>
     </div>
 
     <!-- Parâmetros -->
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Parâmetros</h2>
-        {% include "components/table.html" with headers=input_otp_params.headers data=input_otp_params.data caption="Parâmetros disponíveis para o componente Input OTP" %}
+        {% include "components/ui/table.html" with headers=input_otp_params.headers data=input_otp_params.data caption="Parâmetros disponíveis para o componente Input OTP" %}
     </div>
 </div> 

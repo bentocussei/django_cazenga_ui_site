@@ -13,7 +13,7 @@
                 <h1 class="text-3xl font-bold">Card</h1>
                 <p class="text-muted-foreground mt-1">Exibe um card com header, conteúdo e footer.</p>
             </div>
-            <a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+            <a href="/components/ui/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
                 Voltar
             </a>
         </div>
@@ -28,7 +28,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code class="text-sm" x-ref="code">{% verbatim %}{% include 'components/card.html' with title="Título do Card" description="Descrição do card" %}{% endverbatim %}</code>
+            <code class="text-sm" x-ref="code">{% verbatim %}{% include 'components/ui/card.html' with title="Título do Card" description="Descrição do card" %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -37,7 +37,7 @@
         <h2 class="text-2xl font-semibold">Exemplo Básico</h2>
         <div class="border rounded-lg p-6">
             <div class="max-w-sm mx-auto">
-                {% include "components/card.html" with title="Card Básico" description="Este é um exemplo básico de card" content="Cards são usados para agrupar e exibir conteúdo de forma organizada e estruturada." %}
+                {% include "components/ui/card.html" with title="Card Básico" description="Este é um exemplo básico de card" content="Cards são usados para agrupar e exibir conteúdo de forma organizada e estruturada." %}
             </div>
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
@@ -46,7 +46,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/card.html" with title="Card Básico" description="Este é um exemplo básico de card" content="Cards são usados para agrupar e exibir conteúdo de forma organizada e estruturada." %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/card.html" with title="Card Básico" description="Este é um exemplo básico de card" content="Cards são usados para agrupar e exibir conteúdo de forma organizada e estruturada." %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -56,16 +56,16 @@
         <div class="border rounded-lg p-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Card com Footer -->
-                {% include "components/card.html" with title="Card com Footer" description="Card incluindo área de footer" content="Este card possui uma área de footer para ações ou informações adicionais." footer='<button class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-radius-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] bg-primary text-primary-foreground shadow-xs hover:bg-primary/90 h-9 px-4 py-2">Ação</button><button class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-radius-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2 ml-3">Cancelar</button>' %}
+                {% include "components/ui/card.html" with title="Card com Footer" description="Card incluindo área de footer" content="Este card possui uma área de footer para ações ou informações adicionais." footer='<button class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-radius-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] bg-primary text-primary-foreground shadow-xs hover:bg-primary/90 h-9 px-4 py-2">Ação</button><button class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-radius-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2 ml-3">Cancelar</button>' %}
 
                 <!-- Card com Imagem -->
-                {% include "components/card.html" with title="Card com Imagem" description="Card incluindo imagem" content='<img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=200&fit=crop" alt="Imagem do card" class="w-full h-48 object-cover rounded-radius-lg mb-4"><p class="text-sm text-muted-foreground">Cards podem incluir imagens para tornar o conteúdo mais atrativo.</p>' %}
+                {% include "components/ui/card.html" with title="Card com Imagem" description="Card incluindo imagem" content='<img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=200&fit=crop" alt="Imagem do card" class="w-full h-48 object-cover rounded-radius-lg mb-4"><p class="text-sm text-muted-foreground">Cards podem incluir imagens para tornar o conteúdo mais atrativo.</p>' %}
 
                 <!-- Card com Ícone -->
-                {% include "components/card.html" with title='<div class="flex items-center space-x-2"><svg class="size-5 text-red-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 15 15"><path d="M1.35248 4.90532C1.35248 2.94498 2.936 1.35248 4.89346 1.35248C6.25769 1.35248 6.86058 1.92336 7.50002 2.93545C8.13946 1.92336 8.74235 1.35248 10.1066 1.35248C12.064 1.35248 13.6476 2.94498 13.6476 4.90532C13.6476 6.74041 12.6013 8.50508 11.4008 9.96927C10.2636 11.3562 8.92194 12.5508 8.00601 13.3664C7.94645 13.4194 7.8767 13.4194 7.81714 13.3664C6.90121 12.5508 5.55954 11.3562 4.42226 9.96927C3.22175 8.50508 2.17548 6.74041 2.17548 4.90532H1.35248Z" fill="currentColor"/></svg><span>Card com Ícone</span></div>' description="Card incluindo ícone no título" content="Ícones podem ser usados para destacar o conteúdo do card." %}
+                {% include "components/ui/card.html" with title='<div class="flex items-center space-x-2"><svg class="size-5 text-red-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 15 15"><path d="M1.35248 4.90532C1.35248 2.94498 2.936 1.35248 4.89346 1.35248C6.25769 1.35248 6.86058 1.92336 7.50002 2.93545C8.13946 1.92336 8.74235 1.35248 10.1066 1.35248C12.064 1.35248 13.6476 2.94498 13.6476 4.90532C13.6476 6.74041 12.6013 8.50508 11.4008 9.96927C10.2636 11.3562 8.92194 12.5508 8.00601 13.3664C7.94645 13.4194 7.8767 13.4194 7.81714 13.3664C6.90121 12.5508 5.55954 11.3562 4.42226 9.96927C3.22175 8.50508 2.17548 6.74041 2.17548 4.90532H1.35248Z" fill="currentColor"/></svg><span>Card com Ícone</span></div>' description="Card incluindo ícone no título" content="Ícones podem ser usados para destacar o conteúdo do card." %}
 
                 <!-- Card Interativo -->
-                {% include "components/card.html" with title="Card Interativo" description="Card com hover e clique" content="Este card responde a interações do usuário com efeitos visuais." class="hover:shadow-md transition-shadow cursor-pointer" %}
+                {% include "components/ui/card.html" with title="Card Interativo" description="Card com hover e clique" content="Este card responde a interações do usuário com efeitos visuais." class="hover:shadow-md transition-shadow cursor-pointer" %}
             </div>
         </div>
     </div>
@@ -73,7 +73,7 @@
     <!-- Parâmetros -->
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Parâmetros</h2>
-        {% include "components/table.html" with headers=card_params.headers data=card_params.data caption="Parâmetros disponíveis para o componente Card" %}
+        {% include "components/ui/table.html" with headers=card_params.headers data=card_params.data caption="Parâmetros disponíveis para o componente Card" %}
     </div>
 </div>
 {% endblock %} 

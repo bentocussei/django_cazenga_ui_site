@@ -8,7 +8,7 @@
                 <h1 class="text-3xl font-bold">Switch</h1>
                 <p class="text-muted-foreground mt-1">Alternador que permite ativar ou desativar uma opção com feedback visual claro</p>
             </div>
-            <a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+            <a href="/components/ui/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
                 Voltar
             </a>
         </div>
@@ -23,7 +23,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code class="text-sm" x-ref="code">{% verbatim %}{% include "components/switch.html" with name="notificacoes" label="Ativar notificações" %}{% endverbatim %}</code>
+            <code class="text-sm" x-ref="code">{% verbatim %}{% include "components/ui/switch.html" with name="notificacoes" label="Ativar notificações" %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -32,9 +32,9 @@
         <h2 class="text-2xl font-semibold">Exemplo Básico</h2>
         <div class="border border-border rounded-radius-lg p-6">
             <div class="space-y-4">
-                {% include "components/switch.html" with name="notifications" label="Ativar notificações" %}
-                {% include "components/switch.html" with name="dark_mode" label="Modo escuro" checked=True %}
-                {% include "components/switch.html" with name="auto_save" label="Salvamento automático" %}
+                {% include "components/ui/switch.html" with name="notifications" label="Ativar notificações" %}
+                {% include "components/ui/switch.html" with name="dark_mode" label="Modo escuro" checked=True %}
+                {% include "components/ui/switch.html" with name="auto_save" label="Salvamento automático" %}
             </div>
         </div>
     </div>
@@ -48,8 +48,8 @@
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Small</h3>
                 <div class="border rounded-lg p-4 space-y-2">
-                    {% include "components/switch.html" with name="small1" label="Switch pequeno" size="sm" %}
-                    {% include "components/switch.html" with name="small2" label="Ativado pequeno" size="sm" checked=True %}
+                    {% include "components/ui/switch.html" with name="small1" label="Switch pequeno" size="sm" %}
+                    {% include "components/ui/switch.html" with name="small2" label="Ativado pequeno" size="sm" checked=True %}
                 </div>
                 <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
                     <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
@@ -57,7 +57,7 @@
                             <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                             <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
                     </button>
-                    <code x-ref="code">{% verbatim %}{% include "components/switch.html" with label="Small" size="sm" %}{% endverbatim %}</code>
+                    <code x-ref="code">{% verbatim %}{% include "components/ui/switch.html" with label="Small" size="sm" %}{% endverbatim %}</code>
                 </div>
             </div>
 
@@ -65,8 +65,8 @@
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Default</h3>
                 <div class="border rounded-lg p-4 space-y-2">
-                    {% include "components/switch.html" with name="default1" label="Switch padrão" %}
-                    {% include "components/switch.html" with name="default2" label="Ativado padrão" checked=True %}
+                    {% include "components/ui/switch.html" with name="default1" label="Switch padrão" %}
+                    {% include "components/ui/switch.html" with name="default2" label="Ativado padrão" checked=True %}
                 </div>
                 <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
                     <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
@@ -74,7 +74,7 @@
                             <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                             <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
                     </button>
-                    <code x-ref="code">{% verbatim %}{% include "components/switch.html" with label="Default" %}{% endverbatim %}</code>
+                    <code x-ref="code">{% verbatim %}{% include "components/ui/switch.html" with label="Default" %}{% endverbatim %}</code>
                 </div>
             </div>
 
@@ -82,8 +82,8 @@
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Large</h3>
                 <div class="border rounded-lg p-4 space-y-2">
-                    {% include "components/switch.html" with name="large1" label="Switch grande" size="lg" %}
-                    {% include "components/switch.html" with name="large2" label="Ativado grande" size="lg" checked=True %}
+                    {% include "components/ui/switch.html" with name="large1" label="Switch grande" size="lg" %}
+                    {% include "components/ui/switch.html" with name="large2" label="Ativado grande" size="lg" checked=True %}
                 </div>
                 <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
                     <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
@@ -91,7 +91,7 @@
                             <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                             <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
                     </button>
-                    <code x-ref="code">{% verbatim %}{% include "components/switch.html" with label="Large" size="lg" %}{% endverbatim %}</code>
+                    <code x-ref="code">{% verbatim %}{% include "components/ui/switch.html" with label="Large" size="lg" %}{% endverbatim %}</code>
                 </div>
             </div>
 
@@ -107,8 +107,8 @@
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Normal</h3>
                 <div class="border rounded-lg p-4 space-y-2">
-                    {% include "components/switch.html" with name="normal_off" label="Switch desativado" %}
-                    {% include "components/switch.html" with name="normal_on" label="Switch ativado" checked=True %}
+                    {% include "components/ui/switch.html" with name="normal_off" label="Switch desativado" %}
+                    {% include "components/ui/switch.html" with name="normal_on" label="Switch ativado" checked=True %}
                 </div>
                 <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
                     <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
@@ -116,7 +116,7 @@
                             <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                             <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
                     </button>
-                    <code x-ref="code">{% verbatim %}{% include "components/switch.html" with label="Normal" %}{% endverbatim %}</code>
+                    <code x-ref="code">{% verbatim %}{% include "components/ui/switch.html" with label="Normal" %}{% endverbatim %}</code>
                 </div>
             </div>
 
@@ -124,8 +124,8 @@
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Desabilitado</h3>
                 <div class="border rounded-lg p-4 space-y-2">
-                    {% include "components/switch.html" with name="disabled_off" label="Desabilitado (off)" disabled=True %}
-                    {% include "components/switch.html" with name="disabled_on" label="Desabilitado (on)" checked=True disabled=True %}
+                    {% include "components/ui/switch.html" with name="disabled_off" label="Desabilitado (off)" disabled=True %}
+                    {% include "components/ui/switch.html" with name="disabled_on" label="Desabilitado (on)" checked=True disabled=True %}
                 </div>
                 <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
                     <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
@@ -133,7 +133,7 @@
                             <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                             <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
                     </button>
-                    <code x-ref="code">{% verbatim %}{% include "components/switch.html" with label="Desabilitado" disabled=True %}{% endverbatim %}</code>
+                    <code x-ref="code">{% verbatim %}{% include "components/ui/switch.html" with label="Desabilitado" disabled=True %}{% endverbatim %}</code>
                 </div>
             </div>
 
@@ -160,7 +160,7 @@
                             <div class="font-medium">Notificações Push</div>
                             <div class="text-sm text-muted-foreground">Receba alertas em tempo real</div>
                         </div>
-                        {% include "components/switch.html" with x_model="settings.notifications" %}
+                        {% include "components/ui/switch.html" with x_model="settings.notifications" %}
                     </div>
                     
                     <div class="flex items-center justify-between">
@@ -168,7 +168,7 @@
                             <div class="font-medium">Modo Escuro</div>
                             <div class="text-sm text-muted-foreground">Interface com tema escuro</div>
                         </div>
-                        {% include "components/switch.html" with x_model="settings.darkMode" %}
+                        {% include "components/ui/switch.html" with x_model="settings.darkMode" %}
                     </div>
                     
                     <div class="flex items-center justify-between">
@@ -176,7 +176,7 @@
                             <div class="font-medium">Salvamento Automático</div>
                             <div class="text-sm text-muted-foreground">Salva alterações automaticamente</div>
                         </div>
-                        {% include "components/switch.html" with x_model="settings.autoSave" %}
+                        {% include "components/ui/switch.html" with x_model="settings.autoSave" %}
                     </div>
                     
                     <div class="flex items-center justify-between">
@@ -184,7 +184,7 @@
                             <div class="font-medium">Mostrar Status Online</div>
                             <div class="text-sm text-muted-foreground">Outros usuários podem ver quando você está online</div>
                         </div>
-                        {% include "components/switch.html" with x_model="settings.showOnline" %}
+                        {% include "components/ui/switch.html" with x_model="settings.showOnline" %}
                     </div>
                     
                     <div class="pt-4 border-t border-border">
@@ -200,6 +200,6 @@
     <!-- Parâmetros -->
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Parâmetros</h2>
-        {% include "components/table.html" with headers=switch_params.headers data=switch_params.data caption="Parâmetros disponíveis para o componente Switch" %}
+        {% include "components/ui/table.html" with headers=switch_params.headers data=switch_params.data caption="Parâmetros disponíveis para o componente Switch" %}
     </div>
 </div> 

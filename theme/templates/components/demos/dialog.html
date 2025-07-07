@@ -8,7 +8,7 @@
                 <h1 class="text-3xl font-bold">Dialog</h1>
                 <p class="text-muted-foreground mt-1">Janela modal que interrompe o fluxo do usuário</p>
             </div>
-            <a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+            <a href="/components/ui/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
                 Voltar
             </a>
         </div>
@@ -18,7 +18,7 @@
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Instalação</h2>
         <div class="relative">
-            <pre class="bg-muted p-4 rounded-radius-md overflow-x-auto text-sm"><code>{% verbatim %}{% include 'components/dialog.html' with 
+            <pre class="bg-muted p-4 rounded-radius-md overflow-x-auto text-sm"><code>{% verbatim %}{% include 'components/ui/dialog.html' with 
     trigger='<button class="btn">Abrir</button>'
     title="Título" 
     content="Conteúdo do dialog" %}{% endverbatim %}</code></pre>
@@ -38,7 +38,7 @@
         <div class="border border-border rounded-radius-lg p-6">
             <div class="flex justify-center">
                 {% with trigger_btn='<button class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-10 px-4 py-2">Abrir Dialog</button>' %}
-                {% include "components/dialog.html" with trigger=trigger_btn title="Confirmar ação" description="Tem certeza que deseja continuar?" content='<p class="text-center py-4">Este é o conteúdo do dialog básico.</p>' %}
+                {% include "components/ui/dialog.html" with trigger=trigger_btn title="Confirmar ação" description="Tem certeza que deseja continuar?" content='<p class="text-center py-4">Este é o conteúdo do dialog básico.</p>' %}
                 {% endwith %}
             </div>
         </div>
@@ -49,13 +49,13 @@
         <h2 class="text-2xl font-semibold">Tipos de Dialog</h2>
         <div class="border border-border rounded-radius-lg p-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {% include "components/dialog.html" with trigger='<button class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-blue-600 text-white shadow hover:bg-blue-700 h-10 px-4 py-2 w-full">Dialog Informativo</button>' title="Informação" content='<div class="text-center py-4"><div class="text-4xl mb-3">ℹ️</div><p>Esta é uma mensagem informativa.</p></div>' %}
+                {% include "components/ui/dialog.html" with trigger='<button class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-blue-600 text-white shadow hover:bg-blue-700 h-10 px-4 py-2 w-full">Dialog Informativo</button>' title="Informação" content='<div class="text-center py-4"><div class="text-4xl mb-3">ℹ️</div><p>Esta é uma mensagem informativa.</p></div>' %}
 
-                {% include "components/dialog.html" with trigger='<button class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-green-600 text-white shadow hover:bg-green-700 h-10 px-4 py-2 w-full">Dialog de Sucesso</button>' title="Sucesso" content='<div class="text-center py-4"><div class="text-4xl mb-3">✅</div><p>Ação realizada com sucesso!</p></div>' %}
+                {% include "components/ui/dialog.html" with trigger='<button class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-green-600 text-white shadow hover:bg-green-700 h-10 px-4 py-2 w-full">Dialog de Sucesso</button>' title="Sucesso" content='<div class="text-center py-4"><div class="text-4xl mb-3">✅</div><p>Ação realizada com sucesso!</p></div>' %}
 
-                {% include "components/dialog.html" with trigger='<button class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-yellow-600 text-white shadow hover:bg-yellow-700 h-10 px-4 py-2 w-full">Dialog de Aviso</button>' title="Atenção" content='<div class="text-center py-4"><div class="text-4xl mb-3">⚠️</div><p>Esta ação pode ter consequências.</p></div>' %}
+                {% include "components/ui/dialog.html" with trigger='<button class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-yellow-600 text-white shadow hover:bg-yellow-700 h-10 px-4 py-2 w-full">Dialog de Aviso</button>' title="Atenção" content='<div class="text-center py-4"><div class="text-4xl mb-3">⚠️</div><p>Esta ação pode ter consequências.</p></div>' %}
 
-                {% include "components/dialog.html" with trigger='<button class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-red-600 text-white shadow hover:bg-red-700 h-10 px-4 py-2 w-full">Dialog de Erro</button>' title="Erro" content='<div class="text-center py-4"><div class="text-4xl mb-3">❌</div><p>Ocorreu um erro durante a operação.</p></div>' %}
+                {% include "components/ui/dialog.html" with trigger='<button class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-red-600 text-white shadow hover:bg-red-700 h-10 px-4 py-2 w-full">Dialog de Erro</button>' title="Erro" content='<div class="text-center py-4"><div class="text-4xl mb-3">❌</div><p>Ocorreu um erro durante a operação.</p></div>' %}
             </div>
         </div>
     </div>
@@ -65,7 +65,7 @@
         <h2 class="text-2xl font-semibold">Dialog com Formulário</h2>
         <div class="border border-border rounded-radius-lg p-6">
             <div class="flex justify-center">
-                {% include "components/dialog.html" with trigger='<button class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">Abrir Formulário</button>' title="Novo Usuário" content='<form class="space-y-4"><div><label class="block text-sm font-medium mb-1">Nome</label><input type="text" class="w-full p-2 border border-input rounded-md bg-background" placeholder="Digite o nome"></div><div><label class="block text-sm font-medium mb-1">E-mail</label><input type="email" class="w-full p-2 border border-input rounded-md bg-background" placeholder="Digite o e-mail"></div></form>' %}
+                {% include "components/ui/dialog.html" with trigger='<button class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">Abrir Formulário</button>' title="Novo Usuário" content='<form class="space-y-4"><div><label class="block text-sm font-medium mb-1">Nome</label><input type="text" class="w-full p-2 border border-input rounded-md bg-background" placeholder="Digite o nome"></div><div><label class="block text-sm font-medium mb-1">E-mail</label><input type="email" class="w-full p-2 border border-input rounded-md bg-background" placeholder="Digite o e-mail"></div></form>' %}
             </div>
         </div>
     </div>
@@ -75,11 +75,11 @@
         <h2 class="text-2xl font-semibold">Tamanhos</h2>
         <div class="border border-border rounded-radius-lg p-6">
             <div class="flex justify-center gap-4 flex-wrap">
-                {% include "components/dialog.html" with trigger='<button class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">Pequeno</button>' title="Dialog Pequeno" content='<p class="text-center py-4">Conteúdo pequeno.</p>' size="sm" %}
+                {% include "components/ui/dialog.html" with trigger='<button class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">Pequeno</button>' title="Dialog Pequeno" content='<p class="text-center py-4">Conteúdo pequeno.</p>' size="sm" %}
 
-                {% include "components/dialog.html" with trigger='<button class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">Médio</button>' title="Dialog Médio" content='<p class="text-center py-4">Conteúdo médio para demonstrar o tamanho padrão do dialog.</p>' size="md" %}
+                {% include "components/ui/dialog.html" with trigger='<button class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">Médio</button>' title="Dialog Médio" content='<p class="text-center py-4">Conteúdo médio para demonstrar o tamanho padrão do dialog.</p>' size="md" %}
 
-                {% include "components/dialog.html" with trigger='<button class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">Grande</button>' title="Dialog Grande" content='<p class="text-center py-4">Conteúdo grande para demonstrar um dialog mais amplo que pode acomodar mais informações e conteúdo.</p>' size="lg" %}
+                {% include "components/ui/dialog.html" with trigger='<button class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">Grande</button>' title="Dialog Grande" content='<p class="text-center py-4">Conteúdo grande para demonstrar um dialog mais amplo que pode acomodar mais informações e conteúdo.</p>' size="lg" %}
             </div>
         </div>
     </div>
@@ -89,7 +89,7 @@
         <h2 class="text-2xl font-semibold">Dialog Customizado</h2>
         <div class="border border-border rounded-radius-lg p-6">
             <div class="flex justify-center">
-                {% include "components/dialog.html" with trigger='<button class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-purple-600 text-white shadow hover:bg-purple-700 h-10 px-4 py-2">Dialog Customizado</button>' title="Configurações Avançadas" content='<div class="space-y-4"><div class="flex items-center justify-between p-3 bg-muted rounded"><span>Notificações</span><input type="checkbox" class="rounded"></div><div class="flex items-center justify-between p-3 bg-muted rounded"><span>Modo Escuro</span><input type="checkbox" class="rounded"></div></div>' %}
+                {% include "components/ui/dialog.html" with trigger='<button class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-purple-600 text-white shadow hover:bg-purple-700 h-10 px-4 py-2">Dialog Customizado</button>' title="Configurações Avançadas" content='<div class="space-y-4"><div class="flex items-center justify-between p-3 bg-muted rounded"><span>Notificações</span><input type="checkbox" class="rounded"></div><div class="flex items-center justify-between p-3 bg-muted rounded"><span>Modo Escuro</span><input type="checkbox" class="rounded"></div></div>' %}
             </div>
         </div>
     </div>
@@ -97,6 +97,6 @@
     <!-- Parâmetros -->
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Parâmetros</h2>
-        {% include "components/table.html" with headers=dialog_params.headers data=dialog_params.data caption="Parâmetros disponíveis para o componente Dialog" %}
+        {% include "components/ui/table.html" with headers=dialog_params.headers data=dialog_params.data caption="Parâmetros disponíveis para o componente Dialog" %}
     </div>
 </div> 

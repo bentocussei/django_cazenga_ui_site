@@ -9,7 +9,7 @@
                 <h1 class="text-3xl font-bold">Context Menu</h1>
                 <p class="text-muted-foreground mt-1">Menu contextual ativado por clique direito ou toque longo</p>
             </div>
-            <a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+            <a href="/components/ui/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
                 Voltar
             </a>
         </div>
@@ -24,7 +24,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code class="text-sm" x-ref="code">{% verbatim %}{% include "components/context-menu.html" with items=menu_items %}{% endverbatim %}</code>
+            <code class="text-sm" x-ref="code">{% verbatim %}{% include "components/ui/context-menu.html" with items=menu_items %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -33,7 +33,7 @@
         <h2 class="text-2xl font-semibold">Context Menu Básico</h2>
         <div class="border rounded-lg p-6">
             <div class="text-center">
-                {% include "components/context-menu.html" with items=context_menu_basic.items trigger_text="Clique com o botão direito aqui" %}
+                {% include "components/ui/context-menu.html" with items=context_menu_basic.items trigger_text="Clique com o botão direito aqui" %}
             </div>
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
@@ -42,7 +42,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/context-menu.html" with items=basic_menu_items %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/context-menu.html" with items=basic_menu_items %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -51,7 +51,7 @@
         <h2 class="text-2xl font-semibold">Context Menu com Submenus</h2>
         <div class="border rounded-lg p-6">
             <div class="text-center">
-                {% include "components/context-menu.html" with items=context_menu_submenu.items trigger_text="Área com submenu - Clique direito" %}
+                {% include "components/ui/context-menu.html" with items=context_menu_submenu.items trigger_text="Área com submenu - Clique direito" %}
             </div>
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
@@ -60,7 +60,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/context-menu.html" with items=submenu_items %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/context-menu.html" with items=submenu_items %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -72,13 +72,13 @@
                 <h3 class="font-medium">Arquivos Recentes</h3>
                 <div class="divide-y">
                     <div class="py-2">
-                        {% include "components/context-menu.html" with items=context_menu_files.items trigger_text="documento.pdf - Clique direito" inline=true %}
+                        {% include "components/ui/context-menu.html" with items=context_menu_files.items trigger_text="documento.pdf - Clique direito" inline=true %}
                     </div>
                     <div class="py-2">
-                        {% include "components/context-menu.html" with items=context_menu_files.items trigger_text="imagem.jpg - Clique direito" inline=true %}
+                        {% include "components/ui/context-menu.html" with items=context_menu_files.items trigger_text="imagem.jpg - Clique direito" inline=true %}
                     </div>
                     <div class="py-2">
-                        {% include "components/context-menu.html" with items=context_menu_files.items trigger_text="script.py - Clique direito" inline=true %}
+                        {% include "components/ui/context-menu.html" with items=context_menu_files.items trigger_text="script.py - Clique direito" inline=true %}
                     </div>
                 </div>
             </div>
@@ -89,13 +89,13 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/context-menu.html" with items=file_menu_items inline=true %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/context-menu.html" with items=file_menu_items inline=true %}{% endverbatim %}</code>
         </div>
     </div>
 
     <!-- Parâmetros -->
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Parâmetros</h2>
-        {% include "components/table.html" with headers=context_menu_params.headers data=context_menu_params.data caption="Parâmetros disponíveis para o componente Context Menu" %}
+        {% include "components/ui/table.html" with headers=context_menu_params.headers data=context_menu_params.data caption="Parâmetros disponíveis para o componente Context Menu" %}
     </div>
 </div> 

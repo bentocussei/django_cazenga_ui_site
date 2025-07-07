@@ -8,7 +8,7 @@
                 <h1 class="text-3xl font-bold">Checkbox</h1>
                 <p class="text-muted-foreground mt-1">Permite seleção múltipla de itens em uma lista de opções</p>
             </div>
-            <a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+            <a href="/components/ui/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
                 Voltar
             </a>
         </div>
@@ -23,7 +23,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code class="text-sm" x-ref="code">{% verbatim %}{% include "components/checkbox.html" with name="aceito" label="Aceito os termos" %}{% endverbatim %}</code>
+            <code class="text-sm" x-ref="code">{% verbatim %}{% include "components/ui/checkbox.html" with name="aceito" label="Aceito os termos" %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -32,9 +32,9 @@
         <h2 class="text-2xl font-semibold">Exemplo Básico</h2>
         <div class="border border-border rounded-radius-lg p-6">
             <div class="space-y-3">
-                {% include "components/checkbox.html" with name="basico1" label="Aceito os termos de uso" %}
-                {% include "components/checkbox.html" with name="basico2" label="Desejo receber newsletter" checked=True %}
-                {% include "components/checkbox.html" with name="basico3" label="Aceito receber promoções" %}
+                {% include "components/ui/checkbox.html" with name="basico1" label="Aceito os termos de uso" %}
+                {% include "components/ui/checkbox.html" with name="basico2" label="Desejo receber newsletter" checked=True %}
+                {% include "components/ui/checkbox.html" with name="basico3" label="Aceito receber promoções" %}
             </div>
         </div>
     </div>
@@ -48,7 +48,7 @@
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Normal</h3>
                 <div class="border rounded-lg p-4">
-                    {% include "components/checkbox.html" with name="normal" label="Checkbox normal" %}
+                    {% include "components/ui/checkbox.html" with name="normal" label="Checkbox normal" %}
                 </div>
                 <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
                     <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
@@ -56,7 +56,7 @@
                             <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                             <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
                     </button>
-                    <code x-ref="code">{% verbatim %}{% include "components/checkbox.html" with name="normal" label="Normal" %}{% endverbatim %}</code>
+                    <code x-ref="code">{% verbatim %}{% include "components/ui/checkbox.html" with name="normal" label="Normal" %}{% endverbatim %}</code>
                 </div>
             </div>
 
@@ -64,7 +64,7 @@
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Marcado</h3>
                 <div class="border rounded-lg p-4">
-                    {% include "components/checkbox.html" with name="marcado" label="Checkbox marcado" checked=True %}
+                    {% include "components/ui/checkbox.html" with name="marcado" label="Checkbox marcado" checked=True %}
                 </div>
                 <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
                     <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
@@ -72,7 +72,7 @@
                             <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                             <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
                     </button>
-                    <code x-ref="code">{% verbatim %}{% include "components/checkbox.html" with name="marcado" label="Marcado" checked=True %}{% endverbatim %}</code>
+                    <code x-ref="code">{% verbatim %}{% include "components/ui/checkbox.html" with name="marcado" label="Marcado" checked=True %}{% endverbatim %}</code>
                 </div>
             </div>
 
@@ -80,8 +80,8 @@
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Desabilitado</h3>
                 <div class="border rounded-lg p-4 space-y-2">
-                    {% include "components/checkbox.html" with name="disabled1" label="Desabilitado desmarcado" disabled=True %}
-                    {% include "components/checkbox.html" with name="disabled2" label="Desabilitado marcado" checked=True disabled=True %}
+                    {% include "components/ui/checkbox.html" with name="disabled1" label="Desabilitado desmarcado" disabled=True %}
+                    {% include "components/ui/checkbox.html" with name="disabled2" label="Desabilitado marcado" checked=True disabled=True %}
                 </div>
                 <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
                     <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
@@ -89,7 +89,7 @@
                             <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                             <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
                     </button>
-                    <code x-ref="code">{% verbatim %}{% include "components/checkbox.html" with name="disabled" label="Desabilitado" disabled=True %}{% endverbatim %}</code>
+                    <code x-ref="code">{% verbatim %}{% include "components/ui/checkbox.html" with name="disabled" label="Desabilitado" disabled=True %}{% endverbatim %}</code>
                 </div>
             </div>
 
@@ -97,7 +97,7 @@
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Obrigatório</h3>
                 <div class="border rounded-lg p-4">
-                    {% include "components/checkbox.html" with name="required" label="Campo obrigatório *" required=True %}
+                    {% include "components/ui/checkbox.html" with name="required" label="Campo obrigatório *" required=True %}
                 </div>
                 <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
                     <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
@@ -105,7 +105,7 @@
                             <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                             <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
                     </button>
-                    <code x-ref="code">{% verbatim %}{% include "components/checkbox.html" with name="required" label="Obrigatório *" required=True %}{% endverbatim %}</code>
+                    <code x-ref="code">{% verbatim %}{% include "components/ui/checkbox.html" with name="required" label="Obrigatório *" required=True %}{% endverbatim %}</code>
                 </div>
             </div>
 
@@ -205,6 +205,6 @@
     <!-- Parâmetros -->
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Parâmetros</h2>
-        {% include "components/table.html" with headers=checkbox_params.headers data=checkbox_params.data caption="Parâmetros disponíveis para o componente Checkbox" %}
+        {% include "components/ui/table.html" with headers=checkbox_params.headers data=checkbox_params.data caption="Parâmetros disponíveis para o componente Checkbox" %}
     </div>
 </div> 

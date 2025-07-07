@@ -4,12 +4,12 @@ from django.core.management.base import BaseCommand
 from django.conf import settings
 
 class Command(BaseCommand):
-    help = 'Copia ícones SVG da pasta radix-icons para static/radix-icons'
+    help = 'Copia ícones SVG da pasta icons para static/icons'
 
     def handle(self, *args, **options):
         # Caminhos
-        source_dir = os.path.join(settings.BASE_DIR, 'theme', 'static_src', 'radix-icons')
-        dest_dir = os.path.join(settings.BASE_DIR, 'theme', 'static', 'radix-icons')
+        source_dir = os.path.join(settings.BASE_DIR, 'theme', 'static_src', 'icons')
+        dest_dir = os.path.join(settings.BASE_DIR, 'theme', 'static', 'icons')
         
         # Criar diretório de destino se não existir
         os.makedirs(dest_dir, exist_ok=True)

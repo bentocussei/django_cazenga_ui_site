@@ -8,7 +8,7 @@
                 <h1 class="text-3xl font-bold">Calendar</h1>
                 <p class="text-muted-foreground mt-1">Componente de calendário para seleção de datas</p>
             </div>
-            <a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+            <a href="/components/ui/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
                 Voltar
             </a>
         </div>
@@ -18,11 +18,11 @@
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Instalação</h2>
         <div class="relative">
-            <pre class="bg-muted p-4 rounded-radius-md overflow-x-auto text-sm"><code>{% verbatim %}{% include 'components/calendar.html' with selected_date="2025-01-15" %}{% endverbatim %}</code></pre>
+            <pre class="bg-muted p-4 rounded-radius-md overflow-x-auto text-sm"><code>{% verbatim %}{% include 'components/ui/calendar.html' with selected_date="2025-01-15" %}{% endverbatim %}</code></pre>
             <button 
                 class="absolute top-2 right-2 p-2 bg-background rounded-radius-md shadow-sm hover:bg-accent border border-border"
                 x-data 
-                @click="navigator.clipboard.writeText('{% verbatim %}{% include \'components/calendar.html\' with selected_date=\'2025-01-15\' %}{% endverbatim %}')"
+                @click="navigator.clipboard.writeText('{% verbatim %}{% include \'components/ui/calendar.html\' with selected_date=\'2025-01-15\' %}{% endverbatim %}')"
                 title="Copiar código"
             >
                 {% svg_icon "copy" "size-4" %}
@@ -35,7 +35,7 @@
         <h2 class="text-2xl font-semibold">Exemplo Básico</h2>
         <div class="border border-border rounded-radius-lg p-6">
             <div class="max-w-sm mx-auto">
-                {% include "components/calendar.html" %}
+                {% include "components/ui/calendar.html" %}
             </div>
         </div>
     </div>
@@ -45,7 +45,7 @@
         <h2 class="text-2xl font-semibold">Com Data Pré-selecionada</h2>
         <div class="border border-border rounded-radius-lg p-6">
             <div class="max-w-sm mx-auto">
-                {% include "components/calendar.html" with selected_date="2025-01-25" %}
+                {% include "components/ui/calendar.html" with selected_date="2025-01-25" %}
             </div>
         </div>
     </div>
@@ -55,7 +55,7 @@
         <h2 class="text-2xl font-semibold">Seleção Múltipla</h2>
         <div class="border border-border rounded-radius-lg p-6">
             <div class="max-w-sm mx-auto">
-                {% include "components/calendar.html" with mode="multiple" selected_dates=calendar_multiple_dates %}
+                {% include "components/ui/calendar.html" with mode="multiple" selected_dates=calendar_multiple_dates %}
             </div>
         </div>
     </div>
@@ -66,7 +66,7 @@
         <div class="border border-border rounded-radius-lg p-6">
             <div class="max-w-sm mx-auto">
                 <p class="text-sm text-muted-foreground mb-4 text-center">Apenas datas do mês atual são selecionáveis</p>
-                {% include "components/calendar.html" with min_date=calendar_min_date max_date=calendar_max_date %}
+                {% include "components/ui/calendar.html" with min_date=calendar_min_date max_date=calendar_max_date %}
             </div>
         </div>
     </div>
@@ -77,7 +77,7 @@
         <div class="border border-border rounded-radius-lg p-6">
             <div class="max-w-sm mx-auto">
                 <p class="text-sm text-muted-foreground mb-4 text-center">Feriados e eventos em destaque</p>
-                {% include "components/calendar.html" with highlight_dates=calendar_highlight_dates %}
+                {% include "components/ui/calendar.html" with highlight_dates=calendar_highlight_dates %}
             </div>
         </div>
     </div>
@@ -94,7 +94,7 @@
                     </button>
                     
                     <div x-show="showCalendar" x-transition class="mt-2">
-                        {% include "components/calendar.html" with x_model="selectedDate" %}
+                        {% include "components/ui/calendar.html" with x_model="selectedDate" %}
                     </div>
                 </div>
                 
@@ -110,6 +110,6 @@
     <!-- Parâmetros -->
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Parâmetros</h2>
-        {% include "components/table.html" with headers=calendar_params.headers data=calendar_params.data caption="Parâmetros disponíveis para o componente Calendar" %}
+        {% include "components/ui/table.html" with headers=calendar_params.headers data=calendar_params.data caption="Parâmetros disponíveis para o componente Calendar" %}
     </div>
 </div> 

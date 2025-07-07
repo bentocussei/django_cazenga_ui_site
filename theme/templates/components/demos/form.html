@@ -9,7 +9,7 @@
                 <h1 class="text-3xl font-bold">Form</h1>
                 <p class="text-muted-foreground mt-1">Formulários robustos com validação, diferentes tipos de campos e layouts responsivos</p>
             </div>
-            <a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+            <a href="/components/ui/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
                 Voltar
             </a>
         </div>
@@ -24,7 +24,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code class="text-sm" x-ref="code">{% verbatim %}{% include "components/form.html" with fields=form_fields %}{% endverbatim %}</code>
+            <code class="text-sm" x-ref="code">{% verbatim %}{% include "components/ui/form.html" with fields=form_fields %}{% endverbatim %}</code>
         </div>
     </div>
     
@@ -34,7 +34,7 @@
         <p class="text-muted-foreground text-sm">Formulário de contato com campos essenciais.</p>
         
         <div class="border border-border rounded-radius-lg p-6">
-            {% include "components/form.html" with fields=form_basic_contact.fields action=form_basic_contact.action method=form_basic_contact.method submit_button=form_basic_contact.submit_button cancel_button=form_basic_contact.cancel_button %}
+            {% include "components/ui/form.html" with fields=form_basic_contact.fields action=form_basic_contact.action method=form_basic_contact.method submit_button=form_basic_contact.submit_button cancel_button=form_basic_contact.cancel_button %}
         </div>
         
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
@@ -43,7 +43,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/form.html" with fields=form_fields action="/contato" method="POST" %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/form.html" with fields=form_fields action="/contato" method="POST" %}{% endverbatim %}</code>
         </div>
     </div>
     
@@ -53,7 +53,7 @@
         <p class="text-muted-foreground text-sm">Formulário para cadastro de novos usuários.</p>
         
         <div class="border border-border rounded-radius-lg p-6">
-            {% include "components/form.html" with fields=form_register.fields action=form_register.action method=form_register.method submit_button=form_register.submit_button %}
+            {% include "components/ui/form.html" with fields=form_register.fields action=form_register.action method=form_register.method submit_button=form_register.submit_button %}
         </div>
         
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
@@ -62,7 +62,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/form.html" with fields=register_fields action="/register" %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/form.html" with fields=register_fields action="/register" %}{% endverbatim %}</code>
         </div>
     </div>
     
@@ -72,7 +72,7 @@
         <p class="text-muted-foreground text-sm">Formulário para edição de perfil com upload de arquivo.</p>
         
         <div class="border border-border rounded-radius-lg p-6">
-            {% include "components/form.html" with fields=form_profile.fields action=form_profile.action method=form_profile.method enctype=form_profile.enctype submit_button=form_profile.submit_button cancel_button=form_profile.cancel_button %}
+            {% include "components/ui/form.html" with fields=form_profile.fields action=form_profile.action method=form_profile.method enctype=form_profile.enctype submit_button=form_profile.submit_button cancel_button=form_profile.cancel_button %}
         </div>
         
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
@@ -81,7 +81,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/form.html" with fields=profile_fields enctype="multipart/form-data" %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/form.html" with fields=profile_fields enctype="multipart/form-data" %}{% endverbatim %}</code>
         </div>
     </div>
     
@@ -91,7 +91,7 @@
         <p class="text-muted-foreground text-sm">Formulário com diferentes tipos de controles (switch, radio, select).</p>
         
         <div class="border border-border rounded-radius-lg p-6">
-            {% include "components/form.html" with fields=form_settings.fields action=form_settings.action method=form_settings.method submit_button=form_settings.submit_button %}
+            {% include "components/ui/form.html" with fields=form_settings.fields action=form_settings.action method=form_settings.method submit_button=form_settings.submit_button %}
         </div>
         
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
@@ -100,7 +100,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/form.html" with fields=settings_fields %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/form.html" with fields=settings_fields %}{% endverbatim %}</code>
         </div>
     </div>
     
@@ -110,7 +110,7 @@
         <p class="text-muted-foreground text-sm">Formulário com estados de erro e validação.</p>
         
         <div class="border border-border rounded-radius-lg p-6">
-            {% include "components/form.html" with fields=form_validation.fields action=form_validation.action method=form_validation.method x_data=form_validation.x_data submit_button=form_validation.submit_button %}
+            {% include "components/ui/form.html" with fields=form_validation.fields action=form_validation.action method=form_validation.method x_data=form_validation.x_data submit_button=form_validation.submit_button %}
         </div>
         
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
@@ -119,19 +119,19 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/form.html" with fields=validation_fields %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/form.html" with fields=validation_fields %}{% endverbatim %}</code>
         </div>
     </div>
     
     <!-- Tipos de Campos -->
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Tipos de Campos</h2>
-        {% include "components/table.html" with headers=form_field_types.headers data=form_field_types.data caption="Tipos de campos disponíveis para o componente Form" %}
+        {% include "components/ui/table.html" with headers=form_field_types.headers data=form_field_types.data caption="Tipos de campos disponíveis para o componente Form" %}
     </div>
     
     <!-- Parâmetros -->
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Parâmetros</h2>
-        {% include "components/table.html" with headers=form_params.headers data=form_params.data caption="Parâmetros disponíveis para o componente Form" %}
+        {% include "components/ui/table.html" with headers=form_params.headers data=form_params.data caption="Parâmetros disponíveis para o componente Form" %}
     </div>
 </div> 

@@ -183,7 +183,7 @@ def index(request):
             <p class="text-xl text-muted-foreground mb-8">Sistema de componentes usando Django, Tailwind CSS e Alpine.js</p>
             
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-11 px-8">
+                <a href="/components/ui/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-11 px-8">
                     Ver Componentes
                 </a>
                 <a href="/demo/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-11 px-8">
@@ -676,8 +676,8 @@ def component_detail(request, component_name):
         active_class = 'bg-accent text-accent-foreground' if comp['slug'] == component_name else 'hover:bg-accent'
         
         sidebar_content += f'''
-        <a href="/components/{comp['slug']}/" data-spa-link class="flex items-center gap-3 rounded-radius-md px-3 py-2 text-sm font-medium transition-colors {active_class}">
-            <img src="/static/radix-icons/{icon_name}.svg" class="size-4" alt="{comp['name']}">
+        <a href="/components/ui/{comp['slug']}/" data-spa-link class="flex items-center gap-3 rounded-radius-md px-3 py-2 text-sm font-medium transition-colors {active_class}">
+            <img src="/static/icons/{icon_name}.svg" class="size-4" alt="{comp['name']}">
             <span x-show="!sidebarCollapsed || isMobile">{comp['name']}</span>
         </a>
         '''
@@ -689,15 +689,14 @@ def component_detail(request, component_name):
         <a href="/" data-spa-link class="text-xl font-bold">Django Cazenga-UI</a>
         <nav class="hidden md:flex space-x-4">
             <a href="/" data-spa-link class="text-sm font-medium hover:text-primary transition-colors">Início</a>
-            <a href="/components/" data-spa-link class="text-sm font-medium text-primary">Componentes</a>
-            <a href="/demo/" data-spa-link class="text-sm font-medium hover:text-primary transition-colors">Demo</a>
+            <a href="/components/ui/" data-spa-link class="text-sm font-medium text-primary">Componentes</a>
             <a href="/icons/" data-spa-link class="text-sm font-medium hover:text-primary transition-colors">Ícones</a>
         </nav>
     </div>
     <div class="flex items-center gap-4">
         <button @click="darkMode = !darkMode" class="size-8 rounded-radius-md hover:bg-accent transition-colors flex items-center justify-center">
-            <span x-show="!darkMode"><img src="/static/radix-icons/moon.svg" class="size-4" alt="Modo escuro"></span>
-            <span x-show="darkMode"><img src="/static/radix-icons/sun.svg" class="size-4" alt="Modo claro"></span>
+            <span x-show="!darkMode"><img src="/static/icons/moon.svg" class="size-4" alt="Modo escuro"></span>
+            <span x-show="darkMode"><img src="/static/icons/sun.svg" class="size-4" alt="Modo claro"></span>
         </button>
     </div>
     '''
@@ -726,7 +725,7 @@ def component_detail(request, component_name):
                         <h1 class="text-3xl font-bold">{component['name']}</h1>
                         <p class="text-muted-foreground mt-1">Demonstração do componente {component['name']}</p>
                     </div>
-                    <a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+                    <a href="/components/ui/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
                         Voltar
                     </a>
                 </div>
@@ -825,8 +824,8 @@ def components_list(request):
         icon_name = icon_mapping.get(component['slug'], 'dot-filled')
         
         sidebar_content += f'''
-        <a href="/components/{component['slug']}/" data-spa-link class="flex items-center gap-3 rounded-radius-md px-3 py-2 text-sm font-medium hover:bg-accent transition-colors">
-            <img src="/static/radix-icons/{icon_name}.svg" class="size-4" alt="{component['name']}">
+        <a href="/components/ui/{component['slug']}/" data-spa-link class="flex items-center gap-3 rounded-radius-md px-3 py-2 text-sm font-medium hover:bg-accent transition-colors">
+            <img src="/static/icons/{icon_name}.svg" class="size-4" alt="{component['name']}">
             <span x-show="!sidebarCollapsed || isMobile">{component['name']}</span>
         </a>
         '''
@@ -838,15 +837,14 @@ def components_list(request):
         <a href="/" data-spa-link class="text-xl font-bold">Django Cazenga-UI</a>
         <nav class="hidden md:flex space-x-4">
             <a href="/" data-spa-link class="text-sm font-medium hover:text-primary transition-colors">Início</a>
-            <a href="/components/" data-spa-link class="text-sm font-medium text-primary">Componentes</a>
-            <a href="/demo/" data-spa-link class="text-sm font-medium hover:text-primary transition-colors">Demo</a>
+            <a href="/components/ui/" data-spa-link class="text-sm font-medium text-primary">Componentes</a>
             <a href="/icons/" data-spa-link class="text-sm font-medium hover:text-primary transition-colors">Ícones</a>
         </nav>
     </div>
     <div class="flex items-center gap-4">
         <button @click="darkMode = !darkMode" class="size-8 rounded-radius-md hover:bg-accent transition-colors flex items-center justify-center">
-            <span x-show="!darkMode"><img src="/static/radix-icons/moon.svg" class="size-4" alt="Modo escuro"></span>
-            <span x-show="darkMode"><img src="/static/radix-icons/sun.svg" class="size-4" alt="Modo claro"></span>
+            <span x-show="!darkMode"><img src="/static/icons/moon.svg" class="size-4" alt="Modo escuro"></span>
+            <span x-show="darkMode"><img src="/static/icons/sun.svg" class="size-4" alt="Modo claro"></span>
         </button>
     </div>
     '''
@@ -899,7 +897,7 @@ def icons_page(request):
         },
         {
             "title": "Componentes",
-            "href": "/components/",
+            "href": "/components/ui/",
         },
         {
             "title": "Ícones",
@@ -908,7 +906,7 @@ def icons_page(request):
     ]
     
     # Caminho para os ícones na pasta static
-    icons_path = os.path.join(settings.BASE_DIR, 'theme', 'static', 'radix-icons')
+    icons_path = os.path.join(settings.BASE_DIR, 'theme', 'static', 'icons')
     icons = []
     
     try:
@@ -921,7 +919,7 @@ def icons_page(request):
                     'name': icon_name,
                     'filename': filename,
                     'display_name': icon_name.replace('-', ' ').title(),
-                    'static_path': f'radix-icons/{filename}'
+                    'static_path': f'icons/{filename}'
                 })
     except FileNotFoundError:
         pass

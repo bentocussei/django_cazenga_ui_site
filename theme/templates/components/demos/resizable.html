@@ -9,7 +9,7 @@
                 <h1 class="text-3xl font-bold">Resizable</h1>
                 <p class="text-muted-foreground mt-1">Painéis redimensionáveis para layouts flexíveis</p>
             </div>
-            <a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+            <a href="/components/ui/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
                 Voltar
             </a>
         </div>
@@ -24,7 +24,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code class="text-sm" x-ref="code">{% verbatim %}{% include "components/resizable.html" with panels=panels sizes=sizes %}{% endverbatim %}</code>
+            <code class="text-sm" x-ref="code">{% verbatim %}{% include "components/ui/resizable.html" with panels=panels sizes=sizes %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -33,7 +33,7 @@
         <h2 class="text-2xl font-semibold">Resizable Horizontal</h2>
         <div class="border rounded-lg p-2">
             <div class="h-64">
-                {% include "components/resizable.html" with direction=resizable_horizontal.direction panels=resizable_horizontal.panels sizes=resizable_horizontal.sizes min_sizes=resizable_horizontal.min_sizes contents=resizable_horizontal.contents %}
+                {% include "components/ui/resizable.html" with direction=resizable_horizontal.direction panels=resizable_horizontal.panels sizes=resizable_horizontal.sizes min_sizes=resizable_horizontal.min_sizes contents=resizable_horizontal.contents %}
             </div>
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
@@ -42,7 +42,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/resizable.html" with direction="horizontal" panels=horizontal_panels %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/resizable.html" with direction="horizontal" panels=horizontal_panels %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -51,7 +51,7 @@
         <h2 class="text-2xl font-semibold">Resizable Vertical</h2>
         <div class="border rounded-lg p-2">
             <div class="h-64">
-                {% include "components/resizable.html" with direction=resizable_vertical.direction panels=resizable_vertical.panels sizes=resizable_vertical.sizes min_sizes=resizable_vertical.min_sizes contents=resizable_vertical.contents %}
+                {% include "components/ui/resizable.html" with direction=resizable_vertical.direction panels=resizable_vertical.panels sizes=resizable_vertical.sizes min_sizes=resizable_vertical.min_sizes contents=resizable_vertical.contents %}
             </div>
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
@@ -60,7 +60,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/resizable.html" with direction="vertical" panels=vertical_panels %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/resizable.html" with direction="vertical" panels=vertical_panels %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -69,7 +69,7 @@
         <h2 class="text-2xl font-semibold">Layout de Editor (3 Painéis)</h2>
         <div class="border rounded-lg p-2">
             <div class="h-80">
-                {% include "components/resizable.html" with direction=resizable_three_panels.direction panels=resizable_three_panels.panels sizes=resizable_three_panels.sizes min_sizes=resizable_three_panels.min_sizes contents=resizable_three_panels.contents %}
+                {% include "components/ui/resizable.html" with direction=resizable_three_panels.direction panels=resizable_three_panels.panels sizes=resizable_three_panels.sizes min_sizes=resizable_three_panels.min_sizes contents=resizable_three_panels.contents %}
             </div>
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
@@ -78,7 +78,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/resizable.html" with panels=three_panels sizes="20,60,20" %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/resizable.html" with panels=three_panels sizes="20,60,20" %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -87,7 +87,7 @@
         <h2 class="text-2xl font-semibold">Layout Aninhado</h2>
         <div class="border rounded-lg p-2">
             <div class="h-64">
-                {% include "components/resizable.html" with direction=resizable_nested.direction panels=resizable_nested.panels sizes=resizable_nested.sizes min_sizes=resizable_nested.min_sizes nested=resizable_nested.nested contents=resizable_nested.contents %}
+                {% include "components/ui/resizable.html" with direction=resizable_nested.direction panels=resizable_nested.panels sizes=resizable_nested.sizes min_sizes=resizable_nested.min_sizes nested=resizable_nested.nested contents=resizable_nested.contents %}
             </div>
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
@@ -96,7 +96,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/resizable.html" with nested=true panels=nested_panels %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/resizable.html" with nested=true panels=nested_panels %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -105,7 +105,7 @@
         <h2 class="text-2xl font-semibold">Layout Dinâmico (Lista/Detalhe)</h2>
         <div class="border rounded-lg p-2">
             <div class="h-80">
-                {% include "components/resizable.html" with direction=resizable_dynamic.direction panels=resizable_dynamic.panels sizes=resizable_dynamic.sizes min_sizes=resizable_dynamic.min_sizes contents=resizable_dynamic.contents %}
+                {% include "components/ui/resizable.html" with direction=resizable_dynamic.direction panels=resizable_dynamic.panels sizes=resizable_dynamic.sizes min_sizes=resizable_dynamic.min_sizes contents=resizable_dynamic.contents %}
             </div>
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
@@ -114,13 +114,13 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/resizable.html" with panels=dynamic_panels sizes="40,60" %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/resizable.html" with panels=dynamic_panels sizes="40,60" %}{% endverbatim %}</code>
         </div>
     </div>
 
     <!-- Parâmetros -->
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Parâmetros</h2>
-        {% include "components/table.html" with headers=resizable_params.headers data=resizable_params.data caption="Parâmetros disponíveis para o componente Resizable" %}
+        {% include "components/ui/table.html" with headers=resizable_params.headers data=resizable_params.data caption="Parâmetros disponíveis para o componente Resizable" %}
     </div>
 </div> 

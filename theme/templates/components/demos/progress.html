@@ -8,7 +8,7 @@
                 <h1 class="text-3xl font-bold">Progress</h1>
                 <p class="text-muted-foreground mt-1">Componente para exibir o progresso de uma tarefa ou processo</p>
             </div>
-            <a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+            <a href="/components/ui/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
                 Voltar
             </a>
         </div>
@@ -18,11 +18,11 @@
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Instalação</h2>
         <div class="relative">
-            <pre class="bg-muted p-4 rounded-radius-md overflow-x-auto text-sm"><code>{% verbatim %}{% include 'components/progress.html' with value=50 %}{% endverbatim %}</code></pre>
+            <pre class="bg-muted p-4 rounded-radius-md overflow-x-auto text-sm"><code>{% verbatim %}{% include 'components/ui/progress.html' with value=50 %}{% endverbatim %}</code></pre>
             <button 
                 class="absolute top-2 right-2 p-2 bg-background rounded-radius-md shadow-sm hover:bg-accent border border-border"
                 x-data 
-                @click="navigator.clipboard.writeText('{% verbatim %}{% include \'components/progress.html\' with value=50 %}{% endverbatim %}')"
+                @click="navigator.clipboard.writeText('{% verbatim %}{% include \'components/ui/progress.html\' with value=50 %}{% endverbatim %}')"
                 title="Copiar código"
             >
                 {% svg_icon "copy" "size-4" %}
@@ -34,7 +34,7 @@
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Exemplo Básico</h2>
         <div class="border border-border rounded-radius-lg p-6">
-            {% include "components/progress.html" with value=65 %}
+            {% include "components/ui/progress.html" with value=65 %}
         </div>
     </div>
 
@@ -43,9 +43,9 @@
         <h2 class="text-2xl font-semibold">Com Label</h2>
         <div class="border border-border rounded-radius-lg p-6">
             <div class="space-y-4">
-                {% include "components/progress.html" with value=75 label="Upload de arquivo" %}
-                {% include "components/progress.html" with value=45 label="Processamento" %}
-                {% include "components/progress.html" with value=90 label="Instalação" %}
+                {% include "components/ui/progress.html" with value=75 label="Upload de arquivo" %}
+                {% include "components/ui/progress.html" with value=45 label="Processamento" %}
+                {% include "components/ui/progress.html" with value=90 label="Instalação" %}
             </div>
         </div>
     </div>
@@ -55,9 +55,9 @@
         <h2 class="text-2xl font-semibold">Com Valor Exibido</h2>
         <div class="border border-border rounded-radius-lg p-6">
             <div class="space-y-4">
-                {% include "components/progress.html" with value=30 show_value=True %}
-                {% include "components/progress.html" with value=60 label="Carregando dados" show_value=True %}
-                {% include "components/progress.html" with value=100 label="Concluído" show_value=True %}
+                {% include "components/ui/progress.html" with value=30 show_value=True %}
+                {% include "components/ui/progress.html" with value=60 label="Carregando dados" show_value=True %}
+                {% include "components/ui/progress.html" with value=100 label="Concluído" show_value=True %}
             </div>
         </div>
     </div>
@@ -67,10 +67,10 @@
         <h2 class="text-2xl font-semibold">Variantes</h2>
         <div class="border border-border rounded-radius-lg p-6">
             <div class="space-y-4">
-                {% include "components/progress.html" with value=40 variant="default" label="Padrão" show_value=True %}
-                {% include "components/progress.html" with value=85 variant="success" label="Sucesso" show_value=True %}
-                {% include "components/progress.html" with value=25 variant="warning" label="Atenção" show_value=True %}
-                {% include "components/progress.html" with value=15 variant="danger" label="Erro" show_value=True %}
+                {% include "components/ui/progress.html" with value=40 variant="default" label="Padrão" show_value=True %}
+                {% include "components/ui/progress.html" with value=85 variant="success" label="Sucesso" show_value=True %}
+                {% include "components/ui/progress.html" with value=25 variant="warning" label="Atenção" show_value=True %}
+                {% include "components/ui/progress.html" with value=15 variant="danger" label="Erro" show_value=True %}
             </div>
         </div>
     </div>
@@ -80,9 +80,9 @@
         <h2 class="text-2xl font-semibold">Tamanhos</h2>
         <div class="border border-border rounded-radius-lg p-6">
             <div class="space-y-4">
-                {% include "components/progress.html" with value=50 size="sm" label="Pequeno" %}
-                {% include "components/progress.html" with value=50 size="md" label="Médio" %}
-                {% include "components/progress.html" with value=50 size="lg" label="Grande" %}
+                {% include "components/ui/progress.html" with value=50 size="sm" label="Pequeno" %}
+                {% include "components/ui/progress.html" with value=50 size="md" label="Médio" %}
+                {% include "components/ui/progress.html" with value=50 size="lg" label="Grande" %}
             </div>
         </div>
     </div>
@@ -92,8 +92,8 @@
         <h2 class="text-2xl font-semibold">Progress Animado</h2>
         <div class="border border-border rounded-radius-lg p-6">
             <div class="space-y-4">
-                {% include "components/progress.html" with value=70 striped=True animated=True label="Com listras animadas" show_value=True %}
-                {% include "components/progress.html" with value=45 striped=True label="Apenas com listras" show_value=True %}
+                {% include "components/ui/progress.html" with value=70 striped=True animated=True label="Com listras animadas" show_value=True %}
+                {% include "components/ui/progress.html" with value=45 striped=True label="Apenas com listras" show_value=True %}
             </div>
         </div>
     </div>
@@ -129,6 +129,6 @@
     <!-- Parâmetros -->
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Parâmetros</h2>
-        {% include "components/table.html" with headers=progress_params.headers data=progress_params.data caption="Parâmetros disponíveis para o componente Progress" %}
+        {% include "components/ui/table.html" with headers=progress_params.headers data=progress_params.data caption="Parâmetros disponíveis para o componente Progress" %}
     </div>
 </div> 

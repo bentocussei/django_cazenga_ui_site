@@ -5,7 +5,7 @@ Dados específicos para o componente Breadcrumb
 BREADCRUMB_ITEMS = [
     [
         {'label': 'Início', 'href': '/'},
-        {'label': 'Componentes', 'href': '/components/'},
+        {'label': 'Componentes', 'href': '/components/ui/'},
         {'label': 'Breadcrumb'},
     ],
     [

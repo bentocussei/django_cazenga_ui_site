@@ -8,7 +8,7 @@
                 <h1 class="text-3xl font-bold">Avatar</h1>
                 <p class="text-muted-foreground mt-1">Componente para exibir imagens de perfil com fallback</p>
             </div>
-            <a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+            <a href="/components/ui/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
                 Voltar
             </a>
         </div>
@@ -18,11 +18,11 @@
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Instalação</h2>
         <div class="relative">
-            <pre class="bg-muted p-4 rounded-radius-md overflow-x-auto text-sm"><code>{% verbatim %}{% include 'components/avatar.html' with src="imagem.jpg" alt="Nome do usuário" %}{% endverbatim %}</code></pre>
+            <pre class="bg-muted p-4 rounded-radius-md overflow-x-auto text-sm"><code>{% verbatim %}{% include 'components/ui/avatar.html' with src="imagem.jpg" alt="Nome do usuário" %}{% endverbatim %}</code></pre>
             <button 
                 class="absolute top-2 right-2 p-2 bg-background rounded-radius-md shadow-sm hover:bg-accent border border-border"
                 x-data 
-                @click="navigator.clipboard.writeText('{% verbatim %}{% include \'components/avatar.html\' with src=\"imagem.jpg\" alt=\"Nome do usuário\" %}{% endverbatim %}')"
+                @click="navigator.clipboard.writeText('{% verbatim %}{% include \'components/ui/avatar.html\' with src=\"imagem.jpg\" alt=\"Nome do usuário\" %}{% endverbatim %}')"
                 title="Copiar código"
             >
                 {% svg_icon "copy" "size-4" %}
@@ -35,9 +35,9 @@
         <h2 class="text-2xl font-semibold">Exemplo Básico</h2>
         <div class="border border-border rounded-radius-lg p-6">
             <div class="flex items-center gap-4">
-                {% include "components/avatar.html" with src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face" alt="João Silva" %}
-                {% include "components/avatar.html" with src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face" alt="Maria Oliveira" %}
-                {% include "components/avatar.html" with alt="Pedro Santos" fallback="PS" %}
+                {% include "components/ui/avatar.html" with src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face" alt="João Silva" %}
+                {% include "components/ui/avatar.html" with src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face" alt="Maria Oliveira" %}
+                {% include "components/ui/avatar.html" with alt="Pedro Santos" fallback="PS" %}
             </div>
         </div>
     </div>
@@ -47,10 +47,10 @@
         <h2 class="text-2xl font-semibold">Tamanhos</h2>
         <div class="border border-border rounded-radius-lg p-6">
             <div class="flex items-center gap-4">
-                {% include "components/avatar.html" with src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face" alt="Pequeno" size="sm" %}
-                {% include "components/avatar.html" with src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face" alt="Médio" size="md" %}
-                {% include "components/avatar.html" with src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face" alt="Grande" size="lg" %}
-                {% include "components/avatar.html" with src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face" alt="Extra Grande" size="xl" %}
+                {% include "components/ui/avatar.html" with src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face" alt="Pequeno" size="sm" %}
+                {% include "components/ui/avatar.html" with src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face" alt="Médio" size="md" %}
+                {% include "components/ui/avatar.html" with src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face" alt="Grande" size="lg" %}
+                {% include "components/ui/avatar.html" with src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face" alt="Extra Grande" size="xl" %}
             </div>
         </div>
     </div>
@@ -64,9 +64,9 @@
                 <div class="space-y-3">
                     <h3 class="text-lg font-medium">Com Iniciais</h3>
                     <div class="flex items-center gap-2">
-                        {% include "components/avatar.html" with alt="João Silva" fallback="JS" %}
-                        {% include "components/avatar.html" with alt="Maria Oliveira" fallback="MO" %}
-                        {% include "components/avatar.html" with alt="Pedro Santos" fallback="PS" %}
+                        {% include "components/ui/avatar.html" with alt="João Silva" fallback="JS" %}
+                        {% include "components/ui/avatar.html" with alt="Maria Oliveira" fallback="MO" %}
+                        {% include "components/ui/avatar.html" with alt="Pedro Santos" fallback="PS" %}
                     </div>
                 </div>
 
@@ -74,9 +74,9 @@
                 <div class="space-y-3">
                     <h3 class="text-lg font-medium">Com Ícone</h3>
                     <div class="flex items-center gap-2">
-                        {% include "components/avatar.html" with alt="Usuário" icon='<svg class="size-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 15 15"><path d="M7.5 0.875C5.49797 0.875 3.875 2.49797 3.875 4.5C3.875 6.50203 5.49797 8.125 7.5 8.125C9.50203 8.125 11.125 6.50203 11.125 4.5C11.125 2.49797 9.50203 0.875 7.5 0.875ZM4.825 4.5C4.825 3.02264 6.02264 1.825 7.5 1.825C8.97736 1.825 10.175 3.02264 10.175 4.5C10.175 5.97736 8.97736 7.175 7.5 7.175C6.02264 7.175 4.825 5.97736 4.825 4.5ZM1.5 14.125C1.5 12.2158 3.01578 10.7 4.925 10.7H10.075C11.9842 10.7 13.5 12.2158 13.5 14.125H14.45C14.45 11.7409 12.4591 9.75 10.075 9.75H4.925C2.54086 9.75 0.55 11.7409 0.55 14.125H1.5Z" fill="currentColor"/></svg>' %}
-                        {% include "components/avatar.html" with alt="Admin" icon='<svg class="size-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 15 15"><path d="M7.5 0.875C5.49797 0.875 3.875 2.49797 3.875 4.5C3.875 6.50203 5.49797 8.125 7.5 8.125C9.50203 8.125 11.125 6.50203 11.125 4.5C11.125 2.49797 9.50203 0.875 7.5 0.875ZM4.825 4.5C4.825 3.02264 6.02264 1.825 7.5 1.825C8.97736 1.825 10.175 3.02264 10.175 4.5C10.175 5.97736 8.97736 7.175 7.5 7.175C6.02264 7.175 4.825 5.97736 4.825 4.5ZM1.5 14.125C1.5 12.2158 3.01578 10.7 4.925 10.7H10.075C11.9842 10.7 13.5 12.2158 13.5 14.125H14.45C14.45 11.7409 12.4591 9.75 10.075 9.75H4.925C2.54086 9.75 0.55 11.7409 0.55 14.125H1.5Z" fill="currentColor"/></svg>' class="bg-blue-100 text-blue-600" %}
-                        {% include "components/avatar.html" with alt="VIP" icon='<svg class="size-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 15 15"><path d="M6.1584 1.11836C6.99734 0.279372 8.00266 0.279372 8.8416 1.11836L9.98424 2.261C10.1738 2.4506 10.4262 2.5654 10.6904 2.5816L12.2154 2.67936C13.4041 2.74316 14.2568 3.59586 14.3206 4.78456L14.4184 6.30964C14.4346 6.57378 14.5494 6.8262 14.739 7.01576L15.8816 8.1584C16.7206 8.99734 16.7206 10.0027 15.8816 10.8416L14.739 11.9842C14.5494 12.1738 14.4346 12.4262 14.4184 12.6904L14.3206 14.2154C14.2568 15.4041 13.4041 16.2568 12.2154 16.3206L10.6904 16.4184C10.4262 16.4346 10.1738 16.5494 9.98424 16.739L8.8416 15.8816C8.00266 16.7206 6.99734 16.7206 6.1584 15.8816L5.01576 14.739C4.8262 14.5494 4.57378 14.4346 4.30964 14.4184L2.78456 14.3206C1.59586 14.2568 0.743164 13.4041 0.679362 12.2154L0.581596 10.6904C0.565396 10.4262 0.450596 10.1738 0.261 9.98424L-0.881636 8.8416C-1.72059 8.00266 -1.72059 6.99734 -0.881636 6.1584L0.261 5.01576C0.4506 4.8262 0.5654 4.57378 0.5816 4.30964L0.679362 2.78456C0.743164 1.59586 1.59586 0.743164 2.78456 0.679362L4.30964 0.581596C4.57378 0.565396 4.8262 0.450596 5.01576 0.261L6.1584 -0.881636C6.99734 -1.72059 8.00266 -1.72059 8.8416 -0.881636ZM6.1584 3.1184L5.01576 4.261C4.8262 4.4506 4.57378 4.5654 4.30964 4.5816L2.78456 4.67936C2.59586 4.74316 2.74316 4.59586 2.67936 4.78456L4.5816 4.30964C4.5654 4.57378 4.4506 4.8262 4.261 5.01576L3.1184 6.1584C2.2794 6.99734 2.2794 8.00266 3.1184 8.8416L4.261 9.98424C4.4506 10.1738 4.5654 10.4262 4.5816 10.6904L4.67936 12.2154C4.74316 12.4041 4.59586 12.2568 4.78456 12.3206L6.30964 12.4184C6.57378 12.4346 6.8262 12.5494 7.01576 12.739L8.1584 11.8816C8.99734 12.7206 10.0027 12.7206 10.8416 11.8816L11.9842 10.739C12.1738 10.5494 12.4262 10.4346 12.6904 10.4184L14.2154 10.3206C14.4041 10.2568 14.2568 10.4041 14.3206 10.2154L12.4184 10.6904C12.4346 10.4262 12.5494 10.1738 12.739 9.98424L11.8816 8.8416C12.7206 8.00266 12.7206 6.99734 11.8816 6.1584L10.739 5.01576C10.5494 4.8262 10.4346 4.57378 10.4184 4.30964L10.3206 2.78456C10.2568 2.59586 10.4041 2.74316 10.2154 2.67936L8.69036 2.5816C8.42622 2.5654 8.1738 2.4506 7.98424 2.261L6.8416 1.1184C8.00266 0.279372 6.99734 0.279372 6.1584 1.1184Z" fill="currentColor"/></svg>' class="bg-yellow-100 text-yellow-600" %}
+                        {% include "components/ui/avatar.html" with alt="Usuário" icon='<svg class="size-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 15 15"><path d="M7.5 0.875C5.49797 0.875 3.875 2.49797 3.875 4.5C3.875 6.50203 5.49797 8.125 7.5 8.125C9.50203 8.125 11.125 6.50203 11.125 4.5C11.125 2.49797 9.50203 0.875 7.5 0.875ZM4.825 4.5C4.825 3.02264 6.02264 1.825 7.5 1.825C8.97736 1.825 10.175 3.02264 10.175 4.5C10.175 5.97736 8.97736 7.175 7.5 7.175C6.02264 7.175 4.825 5.97736 4.825 4.5ZM1.5 14.125C1.5 12.2158 3.01578 10.7 4.925 10.7H10.075C11.9842 10.7 13.5 12.2158 13.5 14.125H14.45C14.45 11.7409 12.4591 9.75 10.075 9.75H4.925C2.54086 9.75 0.55 11.7409 0.55 14.125H1.5Z" fill="currentColor"/></svg>' %}
+                        {% include "components/ui/avatar.html" with alt="Admin" icon='<svg class="size-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 15 15"><path d="M7.5 0.875C5.49797 0.875 3.875 2.49797 3.875 4.5C3.875 6.50203 5.49797 8.125 7.5 8.125C9.50203 8.125 11.125 6.50203 11.125 4.5C11.125 2.49797 9.50203 0.875 7.5 0.875ZM4.825 4.5C4.825 3.02264 6.02264 1.825 7.5 1.825C8.97736 1.825 10.175 3.02264 10.175 4.5C10.175 5.97736 8.97736 7.175 7.5 7.175C6.02264 7.175 4.825 5.97736 4.825 4.5ZM1.5 14.125C1.5 12.2158 3.01578 10.7 4.925 10.7H10.075C11.9842 10.7 13.5 12.2158 13.5 14.125H14.45C14.45 11.7409 12.4591 9.75 10.075 9.75H4.925C2.54086 9.75 0.55 11.7409 0.55 14.125H1.5Z" fill="currentColor"/></svg>' class="bg-blue-100 text-blue-600" %}
+                        {% include "components/ui/avatar.html" with alt="VIP" icon='<svg class="size-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 15 15"><path d="M6.1584 1.11836C6.99734 0.279372 8.00266 0.279372 8.8416 1.11836L9.98424 2.261C10.1738 2.4506 10.4262 2.5654 10.6904 2.5816L12.2154 2.67936C13.4041 2.74316 14.2568 3.59586 14.3206 4.78456L14.4184 6.30964C14.4346 6.57378 14.5494 6.8262 14.739 7.01576L15.8816 8.1584C16.7206 8.99734 16.7206 10.0027 15.8816 10.8416L14.739 11.9842C14.5494 12.1738 14.4346 12.4262 14.4184 12.6904L14.3206 14.2154C14.2568 15.4041 13.4041 16.2568 12.2154 16.3206L10.6904 16.4184C10.4262 16.4346 10.1738 16.5494 9.98424 16.739L8.8416 15.8816C8.00266 16.7206 6.99734 16.7206 6.1584 15.8816L5.01576 14.739C4.8262 14.5494 4.57378 14.4346 4.30964 14.4184L2.78456 14.3206C1.59586 14.2568 0.743164 13.4041 0.679362 12.2154L0.581596 10.6904C0.565396 10.4262 0.450596 10.1738 0.261 9.98424L-0.881636 8.8416C-1.72059 8.00266 -1.72059 6.99734 -0.881636 6.1584L0.261 5.01576C0.4506 4.8262 0.5654 4.57378 0.5816 4.30964L0.679362 2.78456C0.743164 1.59586 1.59586 0.743164 2.78456 0.679362L4.30964 0.581596C4.57378 0.565396 4.8262 0.450596 5.01576 0.261L6.1584 -0.881636C6.99734 -1.72059 8.00266 -1.72059 8.8416 -0.881636ZM6.1584 3.1184L5.01576 4.261C4.8262 4.4506 4.57378 4.5654 4.30964 4.5816L2.78456 4.67936C2.59586 4.74316 2.74316 4.59586 2.67936 4.78456L4.5816 4.30964C4.5654 4.57378 4.4506 4.8262 4.261 5.01576L3.1184 6.1584C2.2794 6.99734 2.2794 8.00266 3.1184 8.8416L4.261 9.98424C4.4506 10.1738 4.5654 10.4262 4.5816 10.6904L4.67936 12.2154C4.74316 12.4041 4.59586 12.2568 4.78456 12.3206L6.30964 12.4184C6.57378 12.4346 6.8262 12.5494 7.01576 12.739L8.1584 11.8816C8.99734 12.7206 10.0027 12.7206 10.8416 11.8816L11.9842 10.739C12.1738 10.5494 12.4262 10.4346 12.6904 10.4184L14.2154 10.3206C14.4041 10.2568 14.2568 10.4041 14.3206 10.2154L12.4184 10.6904C12.4346 10.4262 12.5494 10.1738 12.739 9.98424L11.8816 8.8416C12.7206 8.00266 12.7206 6.99734 11.8816 6.1584L10.739 5.01576C10.5494 4.8262 10.4346 4.57378 10.4184 4.30964L10.3206 2.78456C10.2568 2.59586 10.4041 2.74316 10.2154 2.67936L8.69036 2.5816C8.42622 2.5654 8.1738 2.4506 7.98424 2.261L6.8416 1.1184C8.00266 0.279372 6.99734 0.279372 6.1584 1.1184Z" fill="currentColor"/></svg>' class="bg-yellow-100 text-yellow-600" %}
                     </div>
                 </div>
 
@@ -84,9 +84,9 @@
                 <div class="space-y-3">
                     <h3 class="text-lg font-medium">Fallback Automático</h3>
                     <div class="flex items-center gap-2">
-                        {% include "components/avatar.html" with src="imagem_inexistente.jpg" alt="Usuário" fallback="U" %}
-                        {% include "components/avatar.html" with src="imagem_inexistente2.jpg" alt="Admin" fallback="A" %}
-                        {% include "components/avatar.html" with src="imagem_inexistente3.jpg" alt="Teste" fallback="T" %}
+                        {% include "components/ui/avatar.html" with src="imagem_inexistente.jpg" alt="Usuário" fallback="U" %}
+                        {% include "components/ui/avatar.html" with src="imagem_inexistente2.jpg" alt="Admin" fallback="A" %}
+                        {% include "components/ui/avatar.html" with src="imagem_inexistente3.jpg" alt="Teste" fallback="T" %}
                     </div>
                 </div>
             </div>
@@ -102,10 +102,10 @@
                 <div class="space-y-3">
                     <h3 class="text-lg font-medium">Grupo Sobreposto</h3>
                     <div class="flex -space-x-2">
-                        {% include "components/avatar.html" with src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face" alt="Usuário 1" class="border-2 border-background" %}
-                        {% include "components/avatar.html" with src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face" alt="Usuário 2" class="border-2 border-background" %}
-                        {% include "components/avatar.html" with fallback="AB" alt="Ana Beatriz" class="border-2 border-background" %}
-                        {% include "components/avatar.html" with fallback="+2" alt="Mais 2 usuários" class="border-2 border-background bg-muted text-muted-foreground" %}
+                        {% include "components/ui/avatar.html" with src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face" alt="Usuário 1" class="border-2 border-background" %}
+                        {% include "components/ui/avatar.html" with src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face" alt="Usuário 2" class="border-2 border-background" %}
+                        {% include "components/ui/avatar.html" with fallback="AB" alt="Ana Beatriz" class="border-2 border-background" %}
+                        {% include "components/ui/avatar.html" with fallback="+2" alt="Mais 2 usuários" class="border-2 border-background bg-muted text-muted-foreground" %}
                     </div>
                 </div>
 
@@ -114,21 +114,21 @@
                     <h3 class="text-lg font-medium">Lista de Usuários</h3>
                     <div class="space-y-3">
                         <div class="flex items-center gap-3">
-                            {% include "components/avatar.html" with src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face" alt="João Silva" %}
+                            {% include "components/ui/avatar.html" with src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face" alt="João Silva" %}
                             <div>
                                 <p class="font-medium">João Silva</p>
                                 <p class="text-sm text-muted-foreground">joao@exemplo.com</p>
                             </div>
                         </div>
                         <div class="flex items-center gap-3">
-                            {% include "components/avatar.html" with src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face" alt="Maria Oliveira" %}
+                            {% include "components/ui/avatar.html" with src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face" alt="Maria Oliveira" %}
                             <div>
                                 <p class="font-medium">Maria Oliveira</p>
                                 <p class="text-sm text-muted-foreground">maria@exemplo.com</p>
                             </div>
                         </div>
                         <div class="flex items-center gap-3">
-                            {% include "components/avatar.html" with fallback="PS" alt="Pedro Santos" %}
+                            {% include "components/ui/avatar.html" with fallback="PS" alt="Pedro Santos" %}
                             <div>
                                 <p class="font-medium">Pedro Santos</p>
                                 <p class="text-sm text-muted-foreground">pedro@exemplo.com</p>
@@ -143,6 +143,6 @@
     <!-- Parâmetros -->
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Parâmetros</h2>
-        {% include "components/table.html" with headers=avatar_params.headers data=avatar_params.data caption="Parâmetros disponíveis para o componente Avatar" %}
+        {% include "components/ui/table.html" with headers=avatar_params.headers data=avatar_params.data caption="Parâmetros disponíveis para o componente Avatar" %}
     </div>
 </div> 

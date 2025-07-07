@@ -8,7 +8,7 @@
                 <h1 class="text-3xl font-bold">Toggle</h1>
                 <p class="text-muted-foreground mt-1">Botão que alterna entre dois estados</p>
             </div>
-            <a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+            <a href="/components/ui/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
                 Voltar
             </a>
         </div>
@@ -18,11 +18,11 @@
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Instalação</h2>
         <div class="relative">
-            <pre class="bg-muted p-4 rounded-radius-md overflow-x-auto text-sm"><code>{% verbatim %}{% include 'components/toggle.html' with text="Italico" %}{% endverbatim %}</code></pre>
+            <pre class="bg-muted p-4 rounded-radius-md overflow-x-auto text-sm"><code>{% verbatim %}{% include 'components/ui/toggle.html' with text="Italico" %}{% endverbatim %}</code></pre>
             <button 
                 class="absolute top-2 right-2 p-2 bg-background rounded-radius-md shadow-sm hover:bg-accent border border-border"
                 x-data 
-                @click="navigator.clipboard.writeText('{% verbatim %}{% include \'components/toggle.html\' with text=\'Italico\' %}{% endverbatim %}')"
+                @click="navigator.clipboard.writeText('{% verbatim %}{% include \'components/ui/toggle.html\' with text=\'Italico\' %}{% endverbatim %}')"
                 title="Copiar código"
             >
                 {% svg_icon "copy" "size-4" %}
@@ -36,7 +36,7 @@
         <div class="border border-border rounded-radius-lg p-6">
             <div class="flex items-center justify-center gap-4">
                 {% for example in toggle_examples %}
-                    {% include "components/toggle.html" with text=example.text pressed=example.pressed variant=example.variant %}
+                    {% include "components/ui/toggle.html" with text=example.text pressed=example.pressed variant=example.variant %}
                 {% endfor %}
             </div>
         </div>
@@ -75,9 +75,9 @@
         <h2 class="text-2xl font-semibold">Tamanhos</h2>
         <div class="border border-border rounded-radius-lg p-6">
             <div class="flex items-center justify-center gap-4">
-                {% include "components/toggle.html" with text="Pequeno" size="sm" %}
-                {% include "components/toggle.html" with text="Médio" size="default" %}
-                {% include "components/toggle.html" with text="Grande" size="lg" %}
+                {% include "components/ui/toggle.html" with text="Pequeno" size="sm" %}
+                {% include "components/ui/toggle.html" with text="Médio" size="default" %}
+                {% include "components/ui/toggle.html" with text="Grande" size="lg" %}
             </div>
         </div>
     </div>
@@ -87,8 +87,8 @@
         <h2 class="text-2xl font-semibold">Variantes</h2>
         <div class="border border-border rounded-radius-lg p-6">
             <div class="flex items-center justify-center gap-4">
-                {% include "components/toggle.html" with text="Padrão" variant="default" %}
-                {% include "components/toggle.html" with text="Outline" variant="outline" %}
+                {% include "components/ui/toggle.html" with text="Padrão" variant="default" %}
+                {% include "components/ui/toggle.html" with text="Outline" variant="outline" %}
             </div>
         </div>
     </div>
@@ -99,10 +99,10 @@
         <div class="border border-border rounded-radius-lg p-6">
             <div class="space-y-4">
                 <div class="flex items-center justify-center gap-4">
-                    {% include "components/toggle.html" with text="Normal" %}
-                    {% include "components/toggle.html" with text="Pressionado" pressed=True %}
-                    {% include "components/toggle.html" with text="Desabilitado" disabled=True %}
-                    {% include "components/toggle.html" with text="Pressed + Disabled" disabled=True pressed=True %}
+                    {% include "components/ui/toggle.html" with text="Normal" %}
+                    {% include "components/ui/toggle.html" with text="Pressionado" pressed=True %}
+                    {% include "components/ui/toggle.html" with text="Desabilitado" disabled=True %}
+                    {% include "components/ui/toggle.html" with text="Pressed + Disabled" disabled=True pressed=True %}
                 </div>
             </div>
         </div>
@@ -213,6 +213,6 @@
     <!-- Parâmetros -->
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Parâmetros</h2>
-        {% include "components/table.html" with headers=toggle_params.headers data=toggle_params.data caption="Parâmetros disponíveis para o componente Toggle" %}
+        {% include "components/ui/table.html" with headers=toggle_params.headers data=toggle_params.data caption="Parâmetros disponíveis para o componente Toggle" %}
     </div>
 </div> 

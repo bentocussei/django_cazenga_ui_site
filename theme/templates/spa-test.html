@@ -26,14 +26,14 @@
         
         <div class="links">
             <h3>🔗 Links de Teste (com SPA):</h3>
-            <a href="/components/button/" data-spa-link>Button Component</a>
-            <a href="/components/card/" data-spa-link>Card Component</a>
-            <a href="/components/" data-spa-link>Components List</a>
+            <a href="/components/ui/button/" data-spa-link>Button Component</a>
+            <a href="/components/ui/card/" data-spa-link>Card Component</a>
+            <a href="/components/ui/" data-spa-link>Components List</a>
         </div>
         
         <div class="links">
             <h3>🔗 Link Normal (sem SPA):</h3>
-            <a href="/components/button/">Button Component (navegação normal)</a>
+            <a href="/components/ui/button/">Button Component (navegação normal)</a>
         </div>
         
         <div id="content">
@@ -160,7 +160,7 @@
             log('🧪 Testando backend...');
             
             try {
-                const response = await fetch('/components/button/?partial=true', {
+                const response = await fetch('/components/ui/button/?partial=true', {
                     headers: {
                         'X-Requested-With': 'XMLHttpRequest'
                     }

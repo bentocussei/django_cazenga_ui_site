@@ -8,7 +8,7 @@
                 <h1 class="text-3xl font-bold">Scroll Area</h1>
                 <p class="text-muted-foreground mt-1">Área de rolagem personalizada para conteúdo extenso</p>
             </div>
-            <a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+            <a href="/components/ui/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
                 Voltar
             </a>
         </div>
@@ -23,7 +23,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code class="text-sm" x-ref="code">{% verbatim %}{% include "components/scroll-area.html" with height="h-64" content=scroll_content %}{% endverbatim %}</code>
+            <code class="text-sm" x-ref="code">{% verbatim %}{% include "components/ui/scroll-area.html" with height="h-64" content=scroll_content %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -31,7 +31,7 @@
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Scroll Area Básico</h2>
         <div class="border rounded-lg p-2">
-            {% include "components/scroll-area.html" with height=scroll_area_basic.height content=scroll_area_basic.content %}
+            {% include "components/ui/scroll-area.html" with height=scroll_area_basic.height content=scroll_area_basic.content %}
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
             <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
@@ -39,7 +39,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/scroll-area.html" with height="h-64" content=basic_content %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/scroll-area.html" with height="h-64" content=basic_content %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -47,7 +47,7 @@
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Scroll Area Horizontal</h2>
         <div class="border rounded-lg p-2">
-            {% include "components/scroll-area.html" with width=scroll_area_horizontal.width direction=scroll_area_horizontal.direction content=scroll_area_horizontal.content %}
+            {% include "components/ui/scroll-area.html" with width=scroll_area_horizontal.width direction=scroll_area_horizontal.direction content=scroll_area_horizontal.content %}
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
             <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
@@ -55,7 +55,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/scroll-area.html" with direction="horizontal" content=horizontal_content %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/scroll-area.html" with direction="horizontal" content=horizontal_content %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -63,7 +63,7 @@
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Conteúdo Misto (Mensagens)</h2>
         <div class="border rounded-lg p-2">
-            {% include "components/scroll-area.html" with height=scroll_area_mixed.height content=scroll_area_mixed.content %}
+            {% include "components/ui/scroll-area.html" with height=scroll_area_mixed.height content=scroll_area_mixed.content %}
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
             <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
@@ -71,7 +71,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/scroll-area.html" with height="h-80" content=mixed_content %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/scroll-area.html" with height="h-80" content=mixed_content %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -79,7 +79,7 @@
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Scrollbar Personalizada</h2>
         <div class="border rounded-lg p-2">
-            {% include "components/scroll-area.html" with height=scroll_area_custom.height custom_scrollbar=scroll_area_custom.custom_scrollbar content=scroll_area_custom.content %}
+            {% include "components/ui/scroll-area.html" with height=scroll_area_custom.height custom_scrollbar=scroll_area_custom.custom_scrollbar content=scroll_area_custom.content %}
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
             <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
@@ -87,7 +87,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/scroll-area.html" with custom_scrollbar=true content=code_content %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/scroll-area.html" with custom_scrollbar=true content=code_content %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -95,7 +95,7 @@
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Tabela com Scroll</h2>
         <div class="border rounded-lg p-2">
-            {% include "components/scroll-area.html" with height=scroll_area_table.height content=scroll_area_table.content %}
+            {% include "components/ui/scroll-area.html" with height=scroll_area_table.height content=scroll_area_table.content %}
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
             <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
@@ -103,7 +103,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/scroll-area.html" with height="h-80" content=table_content %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/scroll-area.html" with height="h-80" content=table_content %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -111,7 +111,7 @@
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Scroll Infinito</h2>
         <div class="border rounded-lg p-2">
-            {% include "components/scroll-area.html" with height=scroll_area_infinite.height infinite=scroll_area_infinite.infinite content=scroll_area_infinite.content %}
+            {% include "components/ui/scroll-area.html" with height=scroll_area_infinite.height infinite=scroll_area_infinite.infinite content=scroll_area_infinite.content %}
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
             <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
@@ -119,14 +119,14 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/scroll-area.html" with infinite=true content=infinite_content %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/scroll-area.html" with infinite=true content=infinite_content %}{% endverbatim %}</code>
         </div>
     </div>
 
     <!-- Parâmetros -->
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Parâmetros</h2>
-        {% include "components/table.html" with headers=scroll_area_params.headers data=scroll_area_params.data caption="Parâmetros disponíveis para o componente Scroll Area" %}
+        {% include "components/ui/table.html" with headers=scroll_area_params.headers data=scroll_area_params.data caption="Parâmetros disponíveis para o componente Scroll Area" %}
     </div>
 </div>
 

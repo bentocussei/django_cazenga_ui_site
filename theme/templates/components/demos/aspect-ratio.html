@@ -8,7 +8,7 @@
                 <h1 class="text-3xl font-bold">Aspect Ratio</h1>
                 <p class="text-muted-foreground mt-1">Componente para manter proporção de largura/altura consistente</p>
             </div>
-            <a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+            <a href="/components/ui/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
                 Voltar
             </a>
         </div>
@@ -18,11 +18,11 @@
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Instalação</h2>
         <div class="relative">
-            <pre class="bg-muted p-4 rounded-radius-md overflow-x-auto text-sm"><code>{% verbatim %}{% include 'components/aspect-ratio.html' with ratio="16:9" %}{% endverbatim %}</code></pre>
+            <pre class="bg-muted p-4 rounded-radius-md overflow-x-auto text-sm"><code>{% verbatim %}{% include 'components/ui/aspect-ratio.html' with ratio="16:9" %}{% endverbatim %}</code></pre>
             <button 
                 class="absolute top-2 right-2 p-2 bg-background rounded-radius-md shadow-sm hover:bg-accent border border-border"
                 x-data 
-                @click="navigator.clipboard.writeText('{% verbatim %}{% include \'components/aspect-ratio.html\' with ratio=\'16:9\' content=\'<img src=\\\'...\\' alt=\\\'...\\'>\'  %}{% endverbatim %}')"
+                @click="navigator.clipboard.writeText('{% verbatim %}{% include \'components/ui/aspect-ratio.html\' with ratio=\'16:9\' content=\'<img src=\\\'...\\' alt=\\\'...\\'>\'  %}{% endverbatim %}')"
                 title="Copiar código"
             >
                 {% svg_icon "copy" "size-4" %}
@@ -34,7 +34,7 @@
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Exemplo Básico</h2>
         <div class="border border-border rounded-radius-lg p-6">
-            {% include "components/aspect-ratio.html" with ratio="16:9" content='<div class="w-full h-full bg-gradient-to-br from-blue-400 to-purple-600 rounded flex items-center justify-center text-white font-medium text-lg">Exemplo Básico 16:9</div>' %}
+            {% include "components/ui/aspect-ratio.html" with ratio="16:9" content='<div class="w-full h-full bg-gradient-to-br from-blue-400 to-purple-600 rounded flex items-center justify-center text-white font-medium text-lg">Exemplo Básico 16:9</div>' %}
         </div>
     </div>
 
@@ -45,19 +45,19 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="space-y-2">
                     <h3 class="font-medium">16:9 (Widescreen)</h3>
-                    {% include "components/aspect-ratio.html" with ratio="16:9" content='<div class="w-full h-full bg-gradient-to-br from-blue-400 to-blue-600 rounded flex items-center justify-center text-white font-medium">16:9</div>' %}
+                    {% include "components/ui/aspect-ratio.html" with ratio="16:9" content='<div class="w-full h-full bg-gradient-to-br from-blue-400 to-blue-600 rounded flex items-center justify-center text-white font-medium">16:9</div>' %}
                 </div>
                 <div class="space-y-2">
                     <h3 class="font-medium">4:3 (Tradicional)</h3>
-                    {% include "components/aspect-ratio.html" with ratio="4:3" content='<div class="w-full h-full bg-gradient-to-br from-green-400 to-green-600 rounded flex items-center justify-center text-white font-medium">4:3</div>' %}
+                    {% include "components/ui/aspect-ratio.html" with ratio="4:3" content='<div class="w-full h-full bg-gradient-to-br from-green-400 to-green-600 rounded flex items-center justify-center text-white font-medium">4:3</div>' %}
                 </div>
                 <div class="space-y-2">
                     <h3 class="font-medium">1:1 (Quadrado)</h3>
-                    {% include "components/aspect-ratio.html" with ratio="1:1" content='<div class="w-full h-full bg-gradient-to-br from-purple-400 to-purple-600 rounded flex items-center justify-center text-white font-medium">1:1</div>' %}
+                    {% include "components/ui/aspect-ratio.html" with ratio="1:1" content='<div class="w-full h-full bg-gradient-to-br from-purple-400 to-purple-600 rounded flex items-center justify-center text-white font-medium">1:1</div>' %}
                 </div>
                 <div class="space-y-2">
                     <h3 class="font-medium">9:16 (Vertical)</h3>
-                    {% include "components/aspect-ratio.html" with ratio="9:16" content='<div class="w-full h-full bg-gradient-to-br from-orange-400 to-orange-600 rounded flex items-center justify-center text-white font-medium">9:16</div>' %}
+                    {% include "components/ui/aspect-ratio.html" with ratio="9:16" content='<div class="w-full h-full bg-gradient-to-br from-orange-400 to-orange-600 rounded flex items-center justify-center text-white font-medium">9:16</div>' %}
                 </div>
             </div>
         </div>
@@ -70,19 +70,19 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="space-y-2">
                     <h3 class="font-medium">Imagem 1</h3>
-                    {% include "components/aspect-ratio.html" with ratio="3:2" content='<div class="w-full h-full bg-gradient-to-br from-pink-400 to-rose-600 rounded flex items-center justify-center text-white font-medium"><div class="text-center"><div class="text-2xl mb-2">🏔️</div><div>Paisagem</div></div></div>' %}
+                    {% include "components/ui/aspect-ratio.html" with ratio="3:2" content='<div class="w-full h-full bg-gradient-to-br from-pink-400 to-rose-600 rounded flex items-center justify-center text-white font-medium"><div class="text-center"><div class="text-2xl mb-2">🏔️</div><div>Paisagem</div></div></div>' %}
                 </div>
                 <div class="space-y-2">
                     <h3 class="font-medium">Imagem 2</h3>
-                    {% include "components/aspect-ratio.html" with ratio="3:2" content='<div class="w-full h-full bg-gradient-to-br from-teal-400 to-cyan-600 rounded flex items-center justify-center text-white font-medium"><div class="text-center"><div class="text-2xl mb-2">🌊</div><div>Oceano</div></div></div>' %}
+                    {% include "components/ui/aspect-ratio.html" with ratio="3:2" content='<div class="w-full h-full bg-gradient-to-br from-teal-400 to-cyan-600 rounded flex items-center justify-center text-white font-medium"><div class="text-center"><div class="text-2xl mb-2">🌊</div><div>Oceano</div></div></div>' %}
                 </div>
                 <div class="space-y-2">
                     <h3 class="font-medium">Imagem 3</h3>
-                    {% include "components/aspect-ratio.html" with ratio="3:2" content='<div class="w-full h-full bg-gradient-to-br from-yellow-400 to-orange-600 rounded flex items-center justify-center text-white font-medium"><div class="text-center"><div class="text-2xl mb-2">🌅</div><div>Pôr do Sol</div></div></div>' %}
+                    {% include "components/ui/aspect-ratio.html" with ratio="3:2" content='<div class="w-full h-full bg-gradient-to-br from-yellow-400 to-orange-600 rounded flex items-center justify-center text-white font-medium"><div class="text-center"><div class="text-2xl mb-2">🌅</div><div>Pôr do Sol</div></div></div>' %}
                 </div>
                 <div class="space-y-2">
                     <h3 class="font-medium">Imagem 4</h3>
-                    {% include "components/aspect-ratio.html" with ratio="3:2" content='<div class="w-full h-full bg-gradient-to-br from-indigo-400 to-purple-600 rounded flex items-center justify-center text-white font-medium"><div class="text-center"><div class="text-2xl mb-2">🌲</div><div>Floresta</div></div></div>' %}
+                    {% include "components/ui/aspect-ratio.html" with ratio="3:2" content='<div class="w-full h-full bg-gradient-to-br from-indigo-400 to-purple-600 rounded flex items-center justify-center text-white font-medium"><div class="text-center"><div class="text-2xl mb-2">🌲</div><div>Floresta</div></div></div>' %}
                 </div>
             </div>
         </div>
@@ -95,19 +95,19 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="space-y-2">
                     <h3 class="font-medium">Apresentação do Produto</h3>
-                    {% include "components/aspect-ratio.html" with ratio="16:9" content='<div class="w-full h-full bg-gradient-to-br from-gray-800 to-gray-900 rounded flex items-center justify-center text-white"><div class="text-center"><div class="text-4xl mb-3">▶️</div><div class="font-medium">Apresentação do Produto</div><div class="text-sm opacity-75 mt-1">5:32</div></div></div>' %}
+                    {% include "components/ui/aspect-ratio.html" with ratio="16:9" content='<div class="w-full h-full bg-gradient-to-br from-gray-800 to-gray-900 rounded flex items-center justify-center text-white"><div class="text-center"><div class="text-4xl mb-3">▶️</div><div class="font-medium">Apresentação do Produto</div><div class="text-sm opacity-75 mt-1">5:32</div></div></div>' %}
                 </div>
                 <div class="space-y-2">
                     <h3 class="font-medium">Tutorial de Uso</h3>
-                    {% include "components/aspect-ratio.html" with ratio="16:9" content='<div class="w-full h-full bg-gradient-to-br from-blue-800 to-blue-900 rounded flex items-center justify-center text-white"><div class="text-center"><div class="text-4xl mb-3">▶️</div><div class="font-medium">Tutorial de Uso</div><div class="text-sm opacity-75 mt-1">12:45</div></div></div>' %}
+                    {% include "components/ui/aspect-ratio.html" with ratio="16:9" content='<div class="w-full h-full bg-gradient-to-br from-blue-800 to-blue-900 rounded flex items-center justify-center text-white"><div class="text-center"><div class="text-4xl mb-3">▶️</div><div class="font-medium">Tutorial de Uso</div><div class="text-sm opacity-75 mt-1">12:45</div></div></div>' %}
                 </div>
                 <div class="space-y-2">
                     <h3 class="font-medium">Depoimentos</h3>
-                    {% include "components/aspect-ratio.html" with ratio="16:9" content='<div class="w-full h-full bg-gradient-to-br from-green-800 to-green-900 rounded flex items-center justify-center text-white"><div class="text-center"><div class="text-4xl mb-3">▶️</div><div class="font-medium">Depoimentos</div><div class="text-sm opacity-75 mt-1">8:21</div></div></div>' %}
+                    {% include "components/ui/aspect-ratio.html" with ratio="16:9" content='<div class="w-full h-full bg-gradient-to-br from-green-800 to-green-900 rounded flex items-center justify-center text-white"><div class="text-center"><div class="text-4xl mb-3">▶️</div><div class="font-medium">Depoimentos</div><div class="text-sm opacity-75 mt-1">8:21</div></div></div>' %}
                 </div>
                 <div class="space-y-2">
                     <h3 class="font-medium">Demo Interativa</h3>
-                    {% include "components/aspect-ratio.html" with ratio="16:9" content='<div class="w-full h-full bg-gradient-to-br from-purple-800 to-purple-900 rounded flex items-center justify-center text-white"><div class="text-center"><div class="text-4xl mb-3">▶️</div><div class="font-medium">Demo Interativa</div><div class="text-sm opacity-75 mt-1">15:30</div></div></div>' %}
+                    {% include "components/ui/aspect-ratio.html" with ratio="16:9" content='<div class="w-full h-full bg-gradient-to-br from-purple-800 to-purple-900 rounded flex items-center justify-center text-white"><div class="text-center"><div class="text-4xl mb-3">▶️</div><div class="font-medium">Demo Interativa</div><div class="text-sm opacity-75 mt-1">15:30</div></div></div>' %}
                 </div>
             </div>
         </div>
@@ -122,26 +122,26 @@
                 
                 <div class="space-y-3">
                     <h3 class="font-medium">21:9 Ultrawide</h3>
-                    {% include "components/aspect-ratio.html" with ratio="21:9" content='<div class="w-full h-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded flex items-center justify-center text-white font-medium text-lg">🖥️ 21:9 Ultrawide Monitor</div>' %}
+                    {% include "components/ui/aspect-ratio.html" with ratio="21:9" content='<div class="w-full h-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded flex items-center justify-center text-white font-medium text-lg">🖥️ 21:9 Ultrawide Monitor</div>' %}
                 </div>
                 
                 <div class="space-y-3">
                     <h3 class="font-medium">3:2 Fotografia</h3>
-                    {% include "components/aspect-ratio.html" with ratio="3:2" content='<div class="w-full h-full bg-gradient-to-br from-amber-400 to-orange-600 rounded flex items-center justify-center text-white font-medium text-lg">📸 3:2 Fotografia Clássica</div>' %}
+                    {% include "components/ui/aspect-ratio.html" with ratio="3:2" content='<div class="w-full h-full bg-gradient-to-br from-amber-400 to-orange-600 rounded flex items-center justify-center text-white font-medium text-lg">📸 3:2 Fotografia Clássica</div>' %}
                 </div>
                 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div class="space-y-2">
                         <h4 class="text-sm font-medium">Mobile Stories</h4>
-                        {% include "components/aspect-ratio.html" with ratio="9:16" content='<div class="w-full h-full bg-gradient-to-b from-pink-500 to-purple-600 rounded flex items-center justify-center text-white font-medium text-sm">📱 9:16</div>' %}
+                        {% include "components/ui/aspect-ratio.html" with ratio="9:16" content='<div class="w-full h-full bg-gradient-to-b from-pink-500 to-purple-600 rounded flex items-center justify-center text-white font-medium text-sm">📱 9:16</div>' %}
                     </div>
                     <div class="space-y-2">
                         <h4 class="text-sm font-medium">Instagram Post</h4>
-                        {% include "components/aspect-ratio.html" with ratio="1:1" content='<div class="w-full h-full bg-gradient-to-br from-indigo-500 to-purple-600 rounded flex items-center justify-center text-white font-medium text-sm">📷 1:1</div>' %}
+                        {% include "components/ui/aspect-ratio.html" with ratio="1:1" content='<div class="w-full h-full bg-gradient-to-br from-indigo-500 to-purple-600 rounded flex items-center justify-center text-white font-medium text-sm">📷 1:1</div>' %}
                     </div>
                     <div class="space-y-2">
                         <h4 class="text-sm font-medium">YouTube Video</h4>
-                        {% include "components/aspect-ratio.html" with ratio="16:9" content='<div class="w-full h-full bg-gradient-to-br from-red-500 to-pink-600 rounded flex items-center justify-center text-white font-medium text-sm">🎥 16:9</div>' %}
+                        {% include "components/ui/aspect-ratio.html" with ratio="16:9" content='<div class="w-full h-full bg-gradient-to-br from-red-500 to-pink-600 rounded flex items-center justify-center text-white font-medium text-sm">🎥 16:9</div>' %}
                     </div>
                 </div>
             </div>
@@ -151,6 +151,6 @@
     <!-- Parâmetros -->
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Parâmetros</h2>
-        {% include "components/table.html" with headers=aspect_ratio_params.headers data=aspect_ratio_params.data caption="Parâmetros disponíveis para o componente Aspect Ratio" %}
+        {% include "components/ui/table.html" with headers=aspect_ratio_params.headers data=aspect_ratio_params.data caption="Parâmetros disponíveis para o componente Aspect Ratio" %}
     </div>
 </div> 

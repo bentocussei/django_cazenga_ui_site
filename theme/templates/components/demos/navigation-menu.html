@@ -9,7 +9,7 @@
                 <h1 class="text-3xl font-bold">Navigation Menu</h1>
                 <p class="text-muted-foreground mt-1">Menu de navegação com submenus e organização hierárquica</p>
             </div>
-            <a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+            <a href="/components/ui/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
                 Voltar
             </a>
         </div>
@@ -24,7 +24,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code class="text-sm" x-ref="code">{% verbatim %}{% include "components/navigation-menu.html" with items=nav_items %}{% endverbatim %}</code>
+            <code class="text-sm" x-ref="code">{% verbatim %}{% include "components/ui/navigation-menu.html" with items=nav_items %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -32,7 +32,7 @@
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Navigation Menu Básico</h2>
         <div class="border rounded-lg p-4">
-            {% include "components/navigation-menu.html" with items=navigation_menu_basic.items orientation=navigation_menu_basic.orientation %}
+            {% include "components/ui/navigation-menu.html" with items=navigation_menu_basic.items orientation=navigation_menu_basic.orientation %}
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
             <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
@@ -40,7 +40,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/navigation-menu.html" with items=site_nav_items %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/navigation-menu.html" with items=site_nav_items %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -48,7 +48,7 @@
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Navigation Menu com Ícones</h2>
         <div class="border rounded-lg p-4">
-            {% include "components/navigation-menu.html" with items=navigation_menu_with_icons.items orientation=navigation_menu_with_icons.orientation %}
+            {% include "components/ui/navigation-menu.html" with items=navigation_menu_with_icons.items orientation=navigation_menu_with_icons.orientation %}
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
             <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
@@ -56,7 +56,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/navigation-menu.html" with items=app_nav_items %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/navigation-menu.html" with items=app_nav_items %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -65,7 +65,7 @@
         <h2 class="text-2xl font-semibold">Navigation Menu Vertical</h2>
         <div class="border rounded-lg p-4">
             <div class="max-w-xs">
-                {% include "components/navigation-menu.html" with items=navigation_menu_vertical.items orientation=navigation_menu_vertical.orientation %}
+                {% include "components/ui/navigation-menu.html" with items=navigation_menu_vertical.items orientation=navigation_menu_vertical.orientation %}
             </div>
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
@@ -74,7 +74,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/navigation-menu.html" with items=vertical_nav_items orientation="vertical" %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/navigation-menu.html" with items=vertical_nav_items orientation="vertical" %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -82,7 +82,7 @@
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Navigation Menu Compacto</h2>
         <div class="border rounded-lg p-4">
-            {% include "components/navigation-menu.html" with items=navigation_menu_compact.items orientation=navigation_menu_compact.orientation compact=navigation_menu_compact.compact %}
+            {% include "components/ui/navigation-menu.html" with items=navigation_menu_compact.items orientation=navigation_menu_compact.orientation compact=navigation_menu_compact.compact %}
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
             <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
@@ -90,7 +90,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/navigation-menu.html" with items=compact_nav_items compact=true %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/navigation-menu.html" with items=compact_nav_items compact=true %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -99,7 +99,7 @@
         <h2 class="text-2xl font-semibold">Navigation Menu Mobile</h2>
         <div class="border rounded-lg p-4">
             <div class="max-w-xs">
-                {% include "components/navigation-menu.html" with items=navigation_menu_mobile.items orientation=navigation_menu_mobile.orientation mobile=navigation_menu_mobile.mobile %}
+                {% include "components/ui/navigation-menu.html" with items=navigation_menu_mobile.items orientation=navigation_menu_mobile.orientation mobile=navigation_menu_mobile.mobile %}
             </div>
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
@@ -108,13 +108,13 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/navigation-menu.html" with items=mobile_nav_items mobile=true %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/navigation-menu.html" with items=mobile_nav_items mobile=true %}{% endverbatim %}</code>
         </div>
     </div>
 
     <!-- Parâmetros -->
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Parâmetros</h2>
-        {% include "components/table.html" with headers=navigation_menu_params.headers data=navigation_menu_params.data caption="Parâmetros disponíveis para o componente Navigation Menu" %}
+        {% include "components/ui/table.html" with headers=navigation_menu_params.headers data=navigation_menu_params.data caption="Parâmetros disponíveis para o componente Navigation Menu" %}
     </div>
 </div> 

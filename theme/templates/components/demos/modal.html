@@ -9,7 +9,7 @@
                 <h1 class="text-3xl font-bold">Modal</h1>
                 <p class="text-muted-foreground mt-1">Janela modal para exibir conteúdo sobreposto</p>
             </div>
-            <a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+            <a href="/components/ui/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
                 Voltar
             </a>
         </div>
@@ -24,7 +24,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code class="text-sm" x-ref="code">{% verbatim %}{% include "components/modal.html" with trigger_text="Abrir Modal" title="Título do Modal" %}{% endverbatim %}</code>
+            <code class="text-sm" x-ref="code">{% verbatim %}{% include "components/ui/modal.html" with trigger_text="Abrir Modal" title="Título do Modal" %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -33,7 +33,7 @@
         <h2 class="text-2xl font-semibold">Modal Básico</h2>
         <div class="border rounded-lg p-6">
             <div class="text-center">
-                {% include "components/modal.html" with trigger_text=modal_basic.trigger_text title=modal_basic.title content=modal_basic.content footer=modal_basic.footer %}
+                {% include "components/ui/modal.html" with trigger_text=modal_basic.trigger_text title=modal_basic.title content=modal_basic.content footer=modal_basic.footer %}
             </div>
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
@@ -42,7 +42,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/modal.html" with trigger_text="Abrir Modal" title="Modal Básico" %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/modal.html" with trigger_text="Abrir Modal" title="Modal Básico" %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -51,7 +51,7 @@
         <h2 class="text-2xl font-semibold">Modal de Confirmação</h2>
         <div class="border rounded-lg p-6">
             <div class="text-center">
-                {% include "components/modal.html" with trigger_text=modal_confirmation.trigger_text trigger_variant=modal_confirmation.trigger_variant title=modal_confirmation.title icon=modal_confirmation.icon icon_color=modal_confirmation.icon_color content=modal_confirmation.content footer=modal_confirmation.footer %}
+                {% include "components/ui/modal.html" with trigger_text=modal_confirmation.trigger_text trigger_variant=modal_confirmation.trigger_variant title=modal_confirmation.title icon=modal_confirmation.icon icon_color=modal_confirmation.icon_color content=modal_confirmation.content footer=modal_confirmation.footer %}
             </div>
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
@@ -60,7 +60,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/modal.html" with trigger_text="Excluir" trigger_variant="destructive" title="Confirmar Exclusão" %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/modal.html" with trigger_text="Excluir" trigger_variant="destructive" title="Confirmar Exclusão" %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -69,7 +69,7 @@
         <h2 class="text-2xl font-semibold">Modal com Formulário</h2>
         <div class="border rounded-lg p-6">
             <div class="text-center">
-                {% include "components/modal.html" with trigger_text=modal_form.trigger_text title=modal_form.title size=modal_form.size content=modal_form.content footer=modal_form.footer %}
+                {% include "components/ui/modal.html" with trigger_text=modal_form.trigger_text title=modal_form.title size=modal_form.size content=modal_form.content footer=modal_form.footer %}
             </div>
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
@@ -78,7 +78,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/modal.html" with trigger_text="Novo Usuário" title="Adicionar Usuário" size="lg" %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/modal.html" with trigger_text="Novo Usuário" title="Adicionar Usuário" size="lg" %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -87,7 +87,7 @@
         <h2 class="text-2xl font-semibold">Modal de Informação</h2>
         <div class="border rounded-lg p-6">
             <div class="text-center">
-                {% include "components/modal.html" with trigger_text=modal_info.trigger_text trigger_variant=modal_info.trigger_variant title=modal_info.title icon=modal_info.icon icon_color=modal_info.icon_color content=modal_info.content footer=modal_info.footer %}
+                {% include "components/ui/modal.html" with trigger_text=modal_info.trigger_text trigger_variant=modal_info.trigger_variant title=modal_info.title icon=modal_info.icon icon_color=modal_info.icon_color content=modal_info.content footer=modal_info.footer %}
             </div>
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
@@ -96,7 +96,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/modal.html" with trigger_text="Ver Detalhes" title="Informações do Produto" %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/modal.html" with trigger_text="Ver Detalhes" title="Informações do Produto" %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -105,7 +105,7 @@
         <h2 class="text-2xl font-semibold">Modal Fullscreen</h2>
         <div class="border rounded-lg p-6">
             <div class="text-center">
-                {% include "components/modal.html" with trigger_text=modal_fullscreen.trigger_text title=modal_fullscreen.title size=modal_fullscreen.size content=modal_fullscreen.content footer=modal_fullscreen.footer %}
+                {% include "components/ui/modal.html" with trigger_text=modal_fullscreen.trigger_text title=modal_fullscreen.title size=modal_fullscreen.size content=modal_fullscreen.content footer=modal_fullscreen.footer %}
             </div>
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
@@ -114,13 +114,13 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/modal.html" with trigger_text="Modo Fullscreen" size="fullscreen" %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/modal.html" with trigger_text="Modo Fullscreen" size="fullscreen" %}{% endverbatim %}</code>
         </div>
     </div>
 
     <!-- Parâmetros -->
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Parâmetros</h2>
-        {% include "components/table.html" with headers=modal_params.headers data=modal_params.data caption="Parâmetros disponíveis para o componente Modal" %}
+        {% include "components/ui/table.html" with headers=modal_params.headers data=modal_params.data caption="Parâmetros disponíveis para o componente Modal" %}
     </div>
 </div> 

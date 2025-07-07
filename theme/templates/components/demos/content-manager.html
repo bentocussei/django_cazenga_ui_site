@@ -9,7 +9,7 @@
                 <h1 class="text-4xl font-bold">Content Manager</h1>
                 <p class="text-muted-foreground mt-2">Sistema completo de gestão de conteúdo para blogs, notícias e produtos</p>
             </div>
-            <a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+            <a href="/components/ui/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
                 Voltar
             </a>
         </div>
@@ -24,7 +24,7 @@
                 <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                 <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code class="text-sm font-mono" x-ref="code">{% verbatim %}{% include "components/content-manager.html" %}{% endverbatim %}</code>
+            <code class="text-sm font-mono" x-ref="code">{% verbatim %}{% include "components/ui/content-manager.html" %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -113,7 +113,7 @@
                         <!-- Editor de Texto Rico -->
                         <div class="space-y-2">
                             <label class="text-sm font-medium text-foreground">Conteúdo Principal</label>
-                            {% include "components/text-editor.html" with content="<h2>Título do Artigo</h2><p>Este é um exemplo de conteúdo criado com o Content Manager. Você pode usar <strong>formatação rica</strong> para criar artigos <em>envolventes</em>.</p><ul><li>Listas organizadas</li><li>Imagens integradas</li><li>Links e referências</li></ul>" word_count=true auto_save=true %}
+                            {% include "components/ui/text-editor.html" with content="<h2>Título do Artigo</h2><p>Este é um exemplo de conteúdo criado com o Content Manager. Você pode usar <strong>formatação rica</strong> para criar artigos <em>envolventes</em>.</p><ul><li>Listas organizadas</li><li>Imagens integradas</li><li>Links e referências</li></ul>" word_count=true auto_save=true %}
                         </div>
 
                         <!-- Upload de Imagem -->
@@ -252,7 +252,7 @@
         <p class="text-muted-foreground">Interface completa para criar e gerenciar artigos de blog</p>
         
         <div class="border border-border rounded-lg overflow-hidden bg-card">
-            {% include "components/content-manager.html" with title="Nova Postagem do Blog" content_type="blog" %}
+            {% include "components/ui/content-manager.html" with title="Nova Postagem do Blog" content_type="blog" %}
         </div>
         
         <div class="bg-muted rounded-lg p-4 relative" x-data="{ copied: false }">
@@ -261,7 +261,7 @@
                 <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                 <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code class="text-sm font-mono" x-ref="code1">{% verbatim %}{% include "components/content-manager.html" with content_type="blog" %}{% endverbatim %}</code>
+            <code class="text-sm font-mono" x-ref="code1">{% verbatim %}{% include "components/ui/content-manager.html" with content_type="blog" %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -271,7 +271,7 @@
         <p class="text-muted-foreground">Sistema otimizado para portal de notícias com campos específicos</p>
         
         <div class="border border-border rounded-lg overflow-hidden bg-card">
-            {% include "components/content-manager.html" with title="Nova Notícia" content_type="news" %}
+            {% include "components/ui/content-manager.html" with title="Nova Notícia" content_type="news" %}
         </div>
         
         <div class="bg-muted rounded-lg p-4 relative" x-data="{ copied: false }">
@@ -280,7 +280,7 @@
                 <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                 <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code class="text-sm font-mono" x-ref="code2">{% verbatim %}{% include "components/content-manager.html" with content_type="news" %}{% endverbatim %}</code>
+            <code class="text-sm font-mono" x-ref="code2">{% verbatim %}{% include "components/ui/content-manager.html" with content_type="news" %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -290,7 +290,7 @@
         <p class="text-muted-foreground">Perfeito para e-commerce e catálogos de produtos</p>
         
         <div class="border border-border rounded-lg overflow-hidden bg-card">
-            {% include "components/content-manager.html" with title="Novo Produto" content_type="product" %}
+            {% include "components/ui/content-manager.html" with title="Novo Produto" content_type="product" %}
         </div>
         
         <div class="bg-muted rounded-lg p-4 relative" x-data="{ copied: false }">
@@ -299,7 +299,7 @@
                 <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                 <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code class="text-sm font-mono" x-ref="code3">{% verbatim %}{% include "components/content-manager.html" with content_type="product" %}{% endverbatim %}</code>
+            <code class="text-sm font-mono" x-ref="code3">{% verbatim %}{% include "components/ui/content-manager.html" with content_type="product" %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -494,7 +494,7 @@
     <!-- Parâmetros -->
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Parâmetros</h2>
-        {% include "components/table.html" with headers=content_manager_params.headers data=content_manager_params.data caption="Parâmetros disponíveis para o componente Content Manager" %}
+        {% include "components/ui/table.html" with headers=content_manager_params.headers data=content_manager_params.data caption="Parâmetros disponíveis para o componente Content Manager" %}
     </div>
 </div>
 

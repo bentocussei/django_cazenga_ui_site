@@ -9,7 +9,7 @@
                 <h1 class="text-3xl font-bold">Menubar</h1>
                 <p class="text-muted-foreground mt-1">Barra de menu horizontal para navegação e ações</p>
             </div>
-            <a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+            <a href="/components/ui/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
                 Voltar
             </a>
         </div>
@@ -24,7 +24,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code class="text-sm" x-ref="code">{% verbatim %}{% include "components/menubar.html" with items=menu_items %}{% endverbatim %}</code>
+            <code class="text-sm" x-ref="code">{% verbatim %}{% include "components/ui/menubar.html" with items=menu_items %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -32,7 +32,7 @@
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Menubar de Aplicação</h2>
         <div class="border rounded-lg p-2">
-            {% include "components/menubar.html" with items=menubar_basic.items %}
+            {% include "components/ui/menubar.html" with items=menubar_basic.items %}
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
             <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
@@ -40,7 +40,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/menubar.html" with items=app_menu_items %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/menubar.html" with items=app_menu_items %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -48,7 +48,7 @@
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Menubar de Site</h2>
         <div class="border rounded-lg p-2">
-            {% include "components/menubar.html" with items=menubar_simple.items %}
+            {% include "components/ui/menubar.html" with items=menubar_simple.items %}
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
             <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
@@ -56,7 +56,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/menubar.html" with items=site_menu_items %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/menubar.html" with items=site_menu_items %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -64,7 +64,7 @@
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Menubar com Ícones</h2>
         <div class="border rounded-lg p-2">
-            {% include "components/menubar.html" with items=menubar_with_icons.items %}
+            {% include "components/ui/menubar.html" with items=menubar_with_icons.items %}
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
             <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
@@ -72,7 +72,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/menubar.html" with items=admin_menu_items %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/menubar.html" with items=admin_menu_items %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -80,7 +80,7 @@
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Menubar de Editor</h2>
         <div class="border rounded-lg p-2">
-            {% include "components/menubar.html" with items=menubar_editor.items %}
+            {% include "components/ui/menubar.html" with items=menubar_editor.items %}
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
             <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
@@ -88,13 +88,13 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/menubar.html" with items=editor_menu_items %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/menubar.html" with items=editor_menu_items %}{% endverbatim %}</code>
         </div>
     </div>
 
     <!-- Parâmetros -->
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Parâmetros</h2>
-        {% include "components/table.html" with headers=menubar_params.headers data=menubar_params.data caption="Parâmetros disponíveis para o componente Menubar" %}
+        {% include "components/ui/table.html" with headers=menubar_params.headers data=menubar_params.data caption="Parâmetros disponíveis para o componente Menubar" %}
     </div>
 </div> 

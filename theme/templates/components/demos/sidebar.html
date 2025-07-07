@@ -9,7 +9,7 @@
                 <h1 class="text-3xl font-bold">Sidebar</h1>
                 <p class="text-muted-foreground mt-1">Barra lateral de navegação para aplicações</p>
             </div>
-            <a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+            <a href="/components/ui/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
                 Voltar
             </a>
         </div>
@@ -24,7 +24,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code class="text-sm" x-ref="code">{% verbatim %}{% include "components/sidebar.html" with items=sidebar_items %}{% endverbatim %}</code>
+            <code class="text-sm" x-ref="code">{% verbatim %}{% include "components/ui/sidebar.html" with items=sidebar_items %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -33,7 +33,7 @@
         <h2 class="text-2xl font-semibold">Sidebar Básico</h2>
         <div class="border rounded-lg p-2">
             <div class="h-96 overflow-hidden">
-                {% include "components/sidebar.html" with items=sidebar_basic.items collapsible=sidebar_basic.collapsible collapsed=sidebar_basic.collapsed footer=sidebar_basic.footer %}
+                {% include "components/ui/sidebar.html" with items=sidebar_basic.items collapsible=sidebar_basic.collapsible collapsed=sidebar_basic.collapsed footer=sidebar_basic.footer %}
             </div>
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
@@ -42,7 +42,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/sidebar.html" with items=nav_items %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/sidebar.html" with items=nav_items %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -51,7 +51,7 @@
         <h2 class="text-2xl font-semibold">Sidebar com Submenus</h2>
         <div class="border rounded-lg p-2">
             <div class="h-96 overflow-hidden">
-                {% include "components/sidebar.html" with items=sidebar_submenu.items collapsible=sidebar_submenu.collapsible collapsed=sidebar_submenu.collapsed %}
+                {% include "components/ui/sidebar.html" with items=sidebar_submenu.items collapsible=sidebar_submenu.collapsible collapsed=sidebar_submenu.collapsed %}
             </div>
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
@@ -60,7 +60,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/sidebar.html" with items=submenu_items %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/sidebar.html" with items=submenu_items %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -69,7 +69,7 @@
         <h2 class="text-2xl font-semibold">Sidebar Minimalista</h2>
         <div class="border rounded-lg p-2">
             <div class="h-96 overflow-hidden">
-                {% include "components/sidebar.html" with items=sidebar_minimal.items collapsible=sidebar_minimal.collapsible variant=sidebar_minimal.variant %}
+                {% include "components/ui/sidebar.html" with items=sidebar_minimal.items collapsible=sidebar_minimal.collapsible variant=sidebar_minimal.variant %}
             </div>
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
@@ -78,7 +78,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/sidebar.html" with items=minimal_items variant="minimal" %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/sidebar.html" with items=minimal_items variant="minimal" %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -87,7 +87,7 @@
         <h2 class="text-2xl font-semibold">Sidebar com Badges</h2>
         <div class="border rounded-lg p-2">
             <div class="h-96 overflow-hidden">
-                {% include "components/sidebar.html" with items=sidebar_with_badges.items collapsible=sidebar_with_badges.collapsible collapsed=sidebar_with_badges.collapsed %}
+                {% include "components/ui/sidebar.html" with items=sidebar_with_badges.items collapsible=sidebar_with_badges.collapsible collapsed=sidebar_with_badges.collapsed %}
             </div>
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
@@ -96,7 +96,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/sidebar.html" with items=badge_items %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/sidebar.html" with items=badge_items %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -105,7 +105,7 @@
         <h2 class="text-2xl font-semibold">Sidebar Colapsado</h2>
         <div class="border rounded-lg p-2">
             <div class="h-96 overflow-hidden">
-                {% include "components/sidebar.html" with items=sidebar_collapsed.items collapsible=sidebar_collapsed.collapsible collapsed=sidebar_collapsed.collapsed %}
+                {% include "components/ui/sidebar.html" with items=sidebar_collapsed.items collapsible=sidebar_collapsed.collapsible collapsed=sidebar_collapsed.collapsed %}
             </div>
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
@@ -114,13 +114,13 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/sidebar.html" with items=nav_items collapsed=true %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/sidebar.html" with items=nav_items collapsed=true %}{% endverbatim %}</code>
         </div>
     </div>
 
     <!-- Parâmetros -->
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Parâmetros</h2>
-        {% include "components/table.html" with headers=sidebar_params.headers data=sidebar_params.data caption="Parâmetros disponíveis para o componente Sidebar" %}
+        {% include "components/ui/table.html" with headers=sidebar_params.headers data=sidebar_params.data caption="Parâmetros disponíveis para o componente Sidebar" %}
     </div>
 </div> 

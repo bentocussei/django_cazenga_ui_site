@@ -8,7 +8,7 @@
                 <h1 class="text-3xl font-bold">Select</h1>
                 <p class="text-muted-foreground mt-1">Componente para seleção única ou múltipla em lista suspensa com busca opcional</p>
             </div>
-            <a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+            <a href="/components/ui/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
                 Voltar
             </a>
         </div>
@@ -23,7 +23,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code class="text-sm" x-ref="code">{% verbatim %}{% include "components/select.html" with name="country" options=countries %}{% endverbatim %}</code>
+            <code class="text-sm" x-ref="code">{% verbatim %}{% include "components/ui/select.html" with name="country" options=countries %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -32,7 +32,7 @@
         <h2 class="text-2xl font-semibold">Exemplo Básico</h2>
         <div class="border rounded-lg p-6">
             <div class="max-w-sm">
-                {% include "components/select.html" with name="basic_select" options=select_basic_options placeholder="Selecione uma opção" %}
+                {% include "components/ui/select.html" with name="basic_select" options=select_basic_options placeholder="Selecione uma opção" %}
             </div>
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
@@ -41,7 +41,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/select.html" with name="basic_select" options=select_basic_options placeholder="Selecione uma opção" %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/select.html" with name="basic_select" options=select_basic_options placeholder="Selecione uma opção" %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -50,7 +50,7 @@
         <h2 class="text-2xl font-semibold">Valor Pré-selecionado</h2>
         <div class="border rounded-lg p-6">
             <div class="max-w-sm">
-                {% include "components/select.html" with name="preselected" options=select_countries value="br" %}
+                {% include "components/ui/select.html" with name="preselected" options=select_countries value="br" %}
             </div>
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
@@ -59,7 +59,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/select.html" with name="preselected" options=select_countries value="br" %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/select.html" with name="preselected" options=select_countries value="br" %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -68,8 +68,8 @@
         <h2 class="text-2xl font-semibold">Tamanhos</h2>
         <div class="border rounded-lg p-6">
             <div class="space-y-4 max-w-sm">
-                {% include "components/select.html" with name="small" options=select_basic_options size="sm" placeholder="Small" %}
-                {% include "components/select.html" with name="medium" options=select_basic_options placeholder="Default" %}
+                {% include "components/ui/select.html" with name="small" options=select_basic_options size="sm" placeholder="Small" %}
+                {% include "components/ui/select.html" with name="medium" options=select_basic_options placeholder="Default" %}
             </div>
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
@@ -78,8 +78,8 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/select.html" with name="small" options=select_basic_options size="sm" placeholder="Small" %}
-{% include "components/select.html" with name="medium" options=select_basic_options placeholder="Default" %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/select.html" with name="small" options=select_basic_options size="sm" placeholder="Small" %}
+{% include "components/ui/select.html" with name="medium" options=select_basic_options placeholder="Default" %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -88,8 +88,8 @@
         <h2 class="text-2xl font-semibold">Estados</h2>
         <div class="border rounded-lg p-6">
             <div class="space-y-4 max-w-sm">
-                {% include "components/select.html" with name="disabled" options=select_priority disabled=True value="medium" %}
-                {% include "components/select.html" with name="searchable" options=select_countries placeholder="Select com busca" searchable=True %}
+                {% include "components/ui/select.html" with name="disabled" options=select_priority disabled=True value="medium" %}
+                {% include "components/ui/select.html" with name="searchable" options=select_countries placeholder="Select com busca" searchable=True %}
             </div>
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
@@ -98,8 +98,8 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/select.html" with name="disabled" options=select_priority disabled=True value="medium" %}
-{% include "components/select.html" with name="searchable" options=select_countries placeholder="Select com busca" searchable=True %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/select.html" with name="disabled" options=select_priority disabled=True value="medium" %}
+{% include "components/ui/select.html" with name="searchable" options=select_countries placeholder="Select com busca" searchable=True %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -119,15 +119,15 @@
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div class="space-y-2">
                             <label class="text-sm font-medium">País</label>
-                            {% include "components/select.html" with name="form_country" options=select_countries placeholder="Selecione um país" x_model="country" %}
+                            {% include "components/ui/select.html" with name="form_country" options=select_countries placeholder="Selecione um país" x_model="country" %}
                         </div>
                         <div class="space-y-2">
                             <label class="text-sm font-medium">Prioridade</label>
-                            {% include "components/select.html" with name="form_priority" options=select_priority value="medium" x_model="priority" %}
+                            {% include "components/ui/select.html" with name="form_priority" options=select_priority value="medium" x_model="priority" %}
                         </div>
                         <div class="space-y-2">
                             <label class="text-sm font-medium">Status</label>
-                            {% include "components/select.html" with name="form_status" options=select_status placeholder="Selecione status" x_model="status" %}
+                            {% include "components/ui/select.html" with name="form_status" options=select_status placeholder="Selecione status" x_model="status" %}
                         </div>
                     </div>
                     
@@ -154,6 +154,6 @@
     <!-- Parâmetros -->
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Parâmetros</h2>
-        {% include "components/table.html" with headers=select_params.headers data=select_params.data caption="Parâmetros disponíveis para o componente Select" %}
+        {% include "components/ui/table.html" with headers=select_params.headers data=select_params.data caption="Parâmetros disponíveis para o componente Select" %}
     </div>
 </div> 

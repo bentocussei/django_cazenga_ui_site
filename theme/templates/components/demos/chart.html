@@ -8,7 +8,7 @@
                 <h1 class="text-3xl font-bold">Chart</h1>
                 <p class="text-muted-foreground mt-1">Componentes para visualização de dados com gráficos e estatísticas</p>
             </div>
-            <a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+            <a href="/components/ui/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
                 Voltar
             </a>
         </div>
@@ -23,7 +23,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code class="text-sm" x-ref="code">{% verbatim %}{% include "components/chart.html" with type="bar" data=chart_data title="Vendas por Mês" %}{% endverbatim %}</code>
+            <code class="text-sm" x-ref="code">{% verbatim %}{% include "components/ui/chart.html" with type="bar" data=chart_data title="Vendas por Mês" %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -31,7 +31,7 @@
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Gráfico de Barras</h2>
         <div class="border rounded-lg p-6">
-            {% include "components/chart.html" with type="bar" data=chart_bar.data title=chart_bar.title subtitle=chart_bar.subtitle %}
+            {% include "components/ui/chart.html" with type="bar" data=chart_bar.data title=chart_bar.title subtitle=chart_bar.subtitle %}
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
             <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
@@ -39,7 +39,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/chart.html" with type="bar" data=chart_data title="Vendas Mensais" %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/chart.html" with type="bar" data=chart_data title="Vendas Mensais" %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -47,7 +47,7 @@
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Gráfico de Pizza</h2>
         <div class="border rounded-lg p-6">
-            {% include "components/chart.html" with type="pie" data=chart_pie.segments title=chart_pie.title subtitle=chart_pie.subtitle %}
+            {% include "components/ui/chart.html" with type="pie" data=chart_pie.segments title=chart_pie.title subtitle=chart_pie.subtitle %}
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
             <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
@@ -55,7 +55,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/chart.html" with type="pie" data=pie_segments title="Distribuição de Vendas" %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/chart.html" with type="pie" data=pie_segments title="Distribuição de Vendas" %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -63,7 +63,7 @@
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Gráfico de Linha</h2>
         <div class="border rounded-lg p-6">
-            {% include "components/chart.html" with type="line" data=chart_line.points title=chart_line.title subtitle=chart_line.subtitle %}
+            {% include "components/ui/chart.html" with type="line" data=chart_line.points title=chart_line.title subtitle=chart_line.subtitle %}
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
             <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
@@ -71,7 +71,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/chart.html" with type="line" data=line_points title="Crescimento de Usuários" %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/chart.html" with type="line" data=line_points title="Crescimento de Usuários" %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -81,7 +81,7 @@
         <div class="border rounded-lg p-6">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 {% for metric in chart_metrics %}
-                    {% include "components/chart.html" with type="metric" data=metric %}
+                    {% include "components/ui/chart.html" with type="metric" data=metric %}
                 {% endfor %}
             </div>
         </div>
@@ -92,7 +92,7 @@
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
             <code x-ref="code">{% verbatim %}{% for metric in metrics %}
-    {% include "components/chart.html" with type="metric" data=metric %}
+    {% include "components/ui/chart.html" with type="metric" data=metric %}
 {% endfor %}{% endverbatim %}</code>
         </div>
     </div>
@@ -100,6 +100,6 @@
     <!-- Parâmetros -->
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Parâmetros</h2>
-        {% include "components/table.html" with headers=chart_params.headers data=chart_params.data caption="Parâmetros disponíveis para o componente Chart" %}
+        {% include "components/ui/table.html" with headers=chart_params.headers data=chart_params.data caption="Parâmetros disponíveis para o componente Chart" %}
     </div>
 </div> 

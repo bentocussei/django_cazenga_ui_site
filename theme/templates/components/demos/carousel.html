@@ -9,7 +9,7 @@
                 <h1 class="text-3xl font-bold">Carousel</h1>
                 <p class="text-muted-foreground mt-1">Carrosséis interativos para exibição de conteúdo em slides</p>
             </div>
-            <a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+            <a href="/components/ui/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
                 Voltar
             </a>
         </div>
@@ -24,7 +24,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code class="text-sm" x-ref="code">{% verbatim %}{% include "components/carousel.html" with items=carousel_items autoplay=true controls=true %}{% endverbatim %}</code>
+            <code class="text-sm" x-ref="code">{% verbatim %}{% include "components/ui/carousel.html" with items=carousel_items autoplay=true controls=true %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -32,7 +32,7 @@
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Carousel Básico</h2>
         <div class="border rounded-lg p-6">
-            {% include "components/carousel.html" with items=carousel_basic.items autoplay=false controls=true indicators=true %}
+            {% include "components/ui/carousel.html" with items=carousel_basic.items autoplay=false controls=true indicators=true %}
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
             <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
@@ -40,7 +40,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/carousel.html" with items=carousel_items autoplay=false controls=true %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/carousel.html" with items=carousel_items autoplay=false controls=true %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -48,7 +48,7 @@
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Carousel com Autoplay</h2>
         <div class="border rounded-lg p-6">
-            {% include "components/carousel.html" with items=carousel_autoplay.items autoplay=true controls=true indicators=true interval=3000 %}
+            {% include "components/ui/carousel.html" with items=carousel_autoplay.items autoplay=true controls=true indicators=true interval=3000 %}
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
             <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
@@ -56,7 +56,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/carousel.html" with items=carousel_items autoplay=true interval=3000 %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/carousel.html" with items=carousel_items autoplay=true interval=3000 %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -64,7 +64,7 @@
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Carousel sem Controles</h2>
         <div class="border rounded-lg p-6">
-            {% include "components/carousel.html" with items=carousel_simple.items autoplay=true controls=false indicators=false %}
+            {% include "components/ui/carousel.html" with items=carousel_simple.items autoplay=true controls=false indicators=false %}
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
             <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
@@ -72,13 +72,13 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/carousel.html" with items=carousel_items autoplay=true controls=false indicators=false %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/carousel.html" with items=carousel_items autoplay=true controls=false indicators=false %}{% endverbatim %}</code>
         </div>
     </div>
 
     <!-- Parâmetros -->
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Parâmetros</h2>
-        {% include "components/table.html" with headers=carousel_params.headers data=carousel_params.data caption="Parâmetros disponíveis para o componente Carousel" %}
+        {% include "components/ui/table.html" with headers=carousel_params.headers data=carousel_params.data caption="Parâmetros disponíveis para o componente Carousel" %}
     </div>
 </div> 

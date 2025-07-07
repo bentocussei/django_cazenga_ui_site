@@ -8,7 +8,7 @@
                 <h1 class="text-3xl font-bold">Toggle Group</h1>
                 <p class="text-muted-foreground mt-1">Conjunto de botões toggle para seleção única ou múltipla com suporte a ícones e variantes</p>
             </div>
-            <a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+            <a href="/components/ui/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
                 Voltar
             </a>
         </div>
@@ -23,7 +23,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code class="text-sm" x-ref="code">{% verbatim %}{% include "components/toggle-group.html" with items=toggle_items name="alignment" %}{% endverbatim %}</code>
+            <code class="text-sm" x-ref="code">{% verbatim %}{% include "components/ui/toggle-group.html" with items=toggle_items name="alignment" %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -31,7 +31,7 @@
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Alinhamento (Seleção Única)</h2>
         <div class="border border-border rounded-radius-lg p-6">
-            {% include "components/toggle-group.html" with items=toggle_group_alignment.items labels=toggle_group_alignment.labels icons=toggle_group_alignment.icons value=toggle_group_alignment.value type=toggle_group_alignment.type name=toggle_group_alignment.name %}
+            {% include "components/ui/toggle-group.html" with items=toggle_group_alignment.items labels=toggle_group_alignment.labels icons=toggle_group_alignment.icons value=toggle_group_alignment.value type=toggle_group_alignment.type name=toggle_group_alignment.name %}
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
             <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
@@ -39,7 +39,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/toggle-group.html" with 
+            <code x-ref="code">{% verbatim %}{% include "components/ui/toggle-group.html" with 
     items=alignment_items 
     labels=alignment_labels 
     icons=alignment_icons 
@@ -53,7 +53,7 @@
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Formatação (Seleção Múltipla)</h2>
         <div class="border border-border rounded-radius-lg p-6">
-            {% include "components/toggle-group.html" with items=toggle_group_format.items labels=toggle_group_format.labels icons=toggle_group_format.icons value=toggle_group_format.value type=toggle_group_format.type name=toggle_group_format.name %}
+            {% include "components/ui/toggle-group.html" with items=toggle_group_format.items labels=toggle_group_format.labels icons=toggle_group_format.icons value=toggle_group_format.value type=toggle_group_format.type name=toggle_group_format.name %}
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
             <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
@@ -61,7 +61,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/toggle-group.html" with 
+            <code x-ref="code">{% verbatim %}{% include "components/ui/toggle-group.html" with 
     items=format_items 
     labels=format_labels 
     icons=format_icons 
@@ -80,7 +80,7 @@
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Default</h3>
                 <div class="border border-border rounded-radius-lg p-4">
-                    {% include "components/toggle-group.html" with items=toggle_group_view.items labels=toggle_group_view.labels icons=toggle_group_view.icons value=toggle_group_view.value type=toggle_group_view.type name=toggle_group_view.name %}
+                    {% include "components/ui/toggle-group.html" with items=toggle_group_view.items labels=toggle_group_view.labels icons=toggle_group_view.icons value=toggle_group_view.value type=toggle_group_view.type name=toggle_group_view.name %}
                 </div>
                 <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
                     <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
@@ -88,7 +88,7 @@
                             <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                             <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
                     </button>
-                    <code x-ref="code">{% verbatim %}{% include "components/toggle-group.html" with items=view_items labels=view_labels icons=view_icons value="list" type="single" name="view" %}{% endverbatim %}</code>
+                    <code x-ref="code">{% verbatim %}{% include "components/ui/toggle-group.html" with items=view_items labels=view_labels icons=view_icons value="list" type="single" name="view" %}{% endverbatim %}</code>
                 </div>
             </div>
 
@@ -96,7 +96,7 @@
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Outline</h3>
                 <div class="border border-border rounded-radius-lg p-4">
-                    {% include "components/toggle-group.html" with items=toggle_group_size.items labels=toggle_group_size.labels value=toggle_group_size.value type=toggle_group_size.type name=toggle_group_size.name variant=toggle_group_size.variant %}
+                    {% include "components/ui/toggle-group.html" with items=toggle_group_size.items labels=toggle_group_size.labels value=toggle_group_size.value type=toggle_group_size.type name=toggle_group_size.name variant=toggle_group_size.variant %}
                 </div>
                 <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
                     <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
@@ -104,7 +104,7 @@
                             <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                             <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
                     </button>
-                    <code x-ref="code">{% verbatim %}{% include "components/toggle-group.html" with items=size_items labels=size_labels value="md" type="single" name="size" variant="outline" %}{% endverbatim %}</code>
+                    <code x-ref="code">{% verbatim %}{% include "components/ui/toggle-group.html" with items=size_items labels=size_labels value="md" type="single" name="size" variant="outline" %}{% endverbatim %}</code>
                 </div>
             </div>
 
@@ -120,7 +120,7 @@
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Small</h3>
                 <div class="border border-border rounded-radius-lg p-4">
-                    {% include "components/toggle-group.html" with items=toggle_group_priority.items labels=toggle_group_priority.labels value=toggle_group_priority.value type=toggle_group_priority.type name=toggle_group_priority.name size=toggle_group_priority.size %}
+                    {% include "components/ui/toggle-group.html" with items=toggle_group_priority.items labels=toggle_group_priority.labels value=toggle_group_priority.value type=toggle_group_priority.type name=toggle_group_priority.name size=toggle_group_priority.size %}
                 </div>
                 <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
                     <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
@@ -128,7 +128,7 @@
                             <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                             <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
                     </button>
-                    <code x-ref="code">{% verbatim %}{% include "components/toggle-group.html" with items=priority_items labels=priority_labels value="medium" type="single" name="priority" size="sm" %}{% endverbatim %}</code>
+                    <code x-ref="code">{% verbatim %}{% include "components/ui/toggle-group.html" with items=priority_items labels=priority_labels value="medium" type="single" name="priority" size="sm" %}{% endverbatim %}</code>
                 </div>
             </div>
 
@@ -136,7 +136,7 @@
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Default</h3>
                 <div class="border border-border rounded-radius-lg p-4">
-                    {% include "components/toggle-group.html" with items=toggle_group_alignment.items labels=toggle_group_alignment.labels icons=toggle_group_alignment.icons value=toggle_group_alignment.value type=toggle_group_alignment.type name="alignment_default" %}
+                    {% include "components/ui/toggle-group.html" with items=toggle_group_alignment.items labels=toggle_group_alignment.labels icons=toggle_group_alignment.icons value=toggle_group_alignment.value type=toggle_group_alignment.type name="alignment_default" %}
                 </div>
                 <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
                     <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
@@ -144,7 +144,7 @@
                             <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                             <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
                     </button>
-                    <code x-ref="code">{% verbatim %}{% include "components/toggle-group.html" with items=alignment_items labels=alignment_labels icons=alignment_icons value="center" type="single" name="alignment" %}{% endverbatim %}</code>
+                    <code x-ref="code">{% verbatim %}{% include "components/ui/toggle-group.html" with items=alignment_items labels=alignment_labels icons=alignment_icons value="center" type="single" name="alignment" %}{% endverbatim %}</code>
                 </div>
             </div>
 
@@ -152,7 +152,7 @@
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Large</h3>
                 <div class="border border-border rounded-radius-lg p-4">
-                    {% include "components/toggle-group.html" with items=toggle_group_view.items labels=toggle_group_view.labels icons=toggle_group_view.icons value=toggle_group_view.value type=toggle_group_view.type name="view_large" size="lg" %}
+                    {% include "components/ui/toggle-group.html" with items=toggle_group_view.items labels=toggle_group_view.labels icons=toggle_group_view.icons value=toggle_group_view.value type=toggle_group_view.type name="view_large" size="lg" %}
                 </div>
                 <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
                     <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
@@ -160,7 +160,7 @@
                             <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                             <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
                     </button>
-                    <code x-ref="code">{% verbatim %}{% include "components/toggle-group.html" with items=view_items labels=view_labels icons=view_icons value="list" type="single" name="view" size="lg" %}{% endverbatim %}</code>
+                    <code x-ref="code">{% verbatim %}{% include "components/ui/toggle-group.html" with items=view_items labels=view_labels icons=view_icons value="list" type="single" name="view" size="lg" %}{% endverbatim %}</code>
                 </div>
             </div>
 
@@ -176,7 +176,7 @@
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Habilitado</h3>
                 <div class="border border-border rounded-radius-lg p-4">
-                    {% include "components/toggle-group.html" with items=toggle_group_alignment.items labels=toggle_group_alignment.labels value=toggle_group_alignment.value type=toggle_group_alignment.type name="alignment_enabled" %}
+                    {% include "components/ui/toggle-group.html" with items=toggle_group_alignment.items labels=toggle_group_alignment.labels value=toggle_group_alignment.value type=toggle_group_alignment.type name="alignment_enabled" %}
                 </div>
                 <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
                     <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
@@ -184,7 +184,7 @@
                             <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                             <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
                     </button>
-                    <code x-ref="code">{% verbatim %}{% include "components/toggle-group.html" with items=alignment_items labels=alignment_labels value="center" type="single" name="alignment" %}{% endverbatim %}</code>
+                    <code x-ref="code">{% verbatim %}{% include "components/ui/toggle-group.html" with items=alignment_items labels=alignment_labels value="center" type="single" name="alignment" %}{% endverbatim %}</code>
                 </div>
             </div>
 
@@ -192,7 +192,7 @@
             <div class="space-y-3">
                 <h3 class="text-lg font-medium">Desabilitado</h3>
                 <div class="border border-border rounded-radius-lg p-4">
-                    {% include "components/toggle-group.html" with items=toggle_group_disabled.items labels=toggle_group_disabled.labels value=toggle_group_disabled.value type=toggle_group_disabled.type name=toggle_group_disabled.name disabled=toggle_group_disabled.disabled %}
+                    {% include "components/ui/toggle-group.html" with items=toggle_group_disabled.items labels=toggle_group_disabled.labels value=toggle_group_disabled.value type=toggle_group_disabled.type name=toggle_group_disabled.name disabled=toggle_group_disabled.disabled %}
                 </div>
                 <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
                     <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
@@ -200,7 +200,7 @@
                             <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                             <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
                     </button>
-                    <code x-ref="code">{% verbatim %}{% include "components/toggle-group.html" with items=options_items labels=options_labels value="option2" type="single" name="disabled_toggle" disabled=True %}{% endverbatim %}</code>
+                    <code x-ref="code">{% verbatim %}{% include "components/ui/toggle-group.html" with items=options_items labels=options_labels value="option2" type="single" name="disabled_toggle" disabled=True %}{% endverbatim %}</code>
                 </div>
             </div>
 
@@ -223,17 +223,17 @@
                     <div class="space-y-4">
                         <div class="space-y-2">
                             <label class="text-sm font-medium">Alinhamento do Texto</label>
-                            {% include "components/toggle-group.html" with items=toggle_group_alignment.items labels=toggle_group_alignment.labels icons=toggle_group_alignment.icons value="center" type="single" name="form_alignment" %}
+                            {% include "components/ui/toggle-group.html" with items=toggle_group_alignment.items labels=toggle_group_alignment.labels icons=toggle_group_alignment.icons value="center" type="single" name="form_alignment" %}
                         </div>
                         
                         <div class="space-y-2">
                             <label class="text-sm font-medium">Formatação (múltipla seleção)</label>
-                            {% include "components/toggle-group.html" with items=toggle_group_format.items labels=toggle_group_format.labels icons=toggle_group_format.icons value=toggle_group_format.value type="multiple" name="form_format" %}
+                            {% include "components/ui/toggle-group.html" with items=toggle_group_format.items labels=toggle_group_format.labels icons=toggle_group_format.icons value=toggle_group_format.value type="multiple" name="form_format" %}
                         </div>
                         
                         <div class="space-y-2">
                             <label class="text-sm font-medium">Tipo de Visualização</label>
-                            {% include "components/toggle-group.html" with items=toggle_group_view.items labels=toggle_group_view.labels icons=toggle_group_view.icons value="grid" type="single" name="form_view" variant="outline" %}
+                            {% include "components/ui/toggle-group.html" with items=toggle_group_view.items labels=toggle_group_view.labels icons=toggle_group_view.icons value="grid" type="single" name="form_view" variant="outline" %}
                         </div>
                     </div>
                     
@@ -253,6 +253,6 @@
     <!-- Parâmetros -->
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Parâmetros</h2>
-        {% include "components/table.html" with headers=toggle_group_params.headers data=toggle_group_params.data caption="Parâmetros disponíveis para o componente Toggle Group" %}
+        {% include "components/ui/table.html" with headers=toggle_group_params.headers data=toggle_group_params.data caption="Parâmetros disponíveis para o componente Toggle Group" %}
     </div>
 </div> 

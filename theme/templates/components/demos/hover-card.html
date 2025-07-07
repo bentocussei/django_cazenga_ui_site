@@ -8,7 +8,7 @@
                 <h1 class="text-3xl font-bold">Hover Card</h1>
                 <p class="text-muted-foreground mt-1">Card que aparece ao passar o mouse sobre um elemento</p>
             </div>
-            <a href="/components/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+            <a href="/components/ui/" data-spa-link class="inline-flex items-center justify-center rounded-radius-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
                 Voltar
             </a>
         </div>
@@ -23,7 +23,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code class="text-sm" x-ref="code">{% verbatim %}{% include "components/hover-card.html" with trigger_text="Hover aqui" %}{% endverbatim %}</code>
+            <code class="text-sm" x-ref="code">{% verbatim %}{% include "components/ui/hover-card.html" with trigger_text="Hover aqui" %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -32,7 +32,7 @@
         <h2 class="text-2xl font-semibold">Hover Card Básico</h2>
         <div class="border rounded-lg p-6">
             <div class="text-center">
-                {% include "components/hover-card.html" with trigger_text=hover_card_basic.trigger_text title=hover_card_basic.title subtitle=hover_card_basic.subtitle description=hover_card_basic.description avatar=hover_card_basic.avatar stats=hover_card_basic.stats %}
+                {% include "components/ui/hover-card.html" with trigger_text=hover_card_basic.trigger_text title=hover_card_basic.title subtitle=hover_card_basic.subtitle description=hover_card_basic.description avatar=hover_card_basic.avatar stats=hover_card_basic.stats %}
             </div>
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
@@ -41,7 +41,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/hover-card.html" with trigger_text="Hover aqui" title="Card Título" %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/hover-card.html" with trigger_text="Hover aqui" title="Card Título" %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -51,7 +51,7 @@
         <div class="border rounded-lg p-6">
             <div class="text-center">
                 <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">Passe o mouse sobre o nome do usuário:</p>
-                {% include "components/hover-card.html" with trigger_text=hover_card_user.trigger_text trigger_link=hover_card_user.trigger_link title=hover_card_user.title subtitle=hover_card_user.subtitle description=hover_card_user.description avatar=hover_card_user.avatar verified=hover_card_user.verified stats=hover_card_user.stats actions=hover_card_user.actions %}
+                {% include "components/ui/hover-card.html" with trigger_text=hover_card_user.trigger_text trigger_link=hover_card_user.trigger_link title=hover_card_user.title subtitle=hover_card_user.subtitle description=hover_card_user.description avatar=hover_card_user.avatar verified=hover_card_user.verified stats=hover_card_user.stats actions=hover_card_user.actions %}
             </div>
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
@@ -60,7 +60,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/hover-card.html" with trigger_text="Ana Silva" title="Ana Silva" subtitle="@ana.silva" %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/hover-card.html" with trigger_text="Ana Silva" title="Ana Silva" subtitle="@ana.silva" %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -70,7 +70,7 @@
         <div class="border rounded-lg p-6">
             <div class="text-center">
                 <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">Passe o mouse sobre o produto:</p>
-                {% include "components/hover-card.html" with trigger_text=hover_card_product.trigger_text trigger_link=hover_card_product.trigger_link title=hover_card_product.title subtitle=hover_card_product.subtitle description=hover_card_product.description image=hover_card_product.image price=hover_card_product.price rating=hover_card_product.rating reviews_count=hover_card_product.reviews_count features=hover_card_product.features %}
+                {% include "components/ui/hover-card.html" with trigger_text=hover_card_product.trigger_text trigger_link=hover_card_product.trigger_link title=hover_card_product.title subtitle=hover_card_product.subtitle description=hover_card_product.description image=hover_card_product.image price=hover_card_product.price rating=hover_card_product.rating reviews_count=hover_card_product.reviews_count features=hover_card_product.features %}
             </div>
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
@@ -79,7 +79,7 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/hover-card.html" with trigger_text="MacBook Pro" title="MacBook Pro 14\"" price="R$ 18.999,00" %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/hover-card.html" with trigger_text="MacBook Pro" title="MacBook Pro 14\"" price="R$ 18.999,00" %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -89,7 +89,7 @@
         <div class="border rounded-lg p-6">
             <div class="text-center">
                 <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">Passe o mouse sobre a localização:</p>
-                {% include "components/hover-card.html" with trigger_text=hover_card_location.trigger_text trigger_link=hover_card_location.trigger_link title=hover_card_location.title subtitle=hover_card_location.subtitle description=hover_card_location.description image=hover_card_location.image stats=hover_card_location.stats %}
+                {% include "components/ui/hover-card.html" with trigger_text=hover_card_location.trigger_text trigger_link=hover_card_location.trigger_link title=hover_card_location.title subtitle=hover_card_location.subtitle description=hover_card_location.description image=hover_card_location.image stats=hover_card_location.stats %}
             </div>
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
@@ -98,13 +98,13 @@
                     <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                     <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code x-ref="code">{% verbatim %}{% include "components/hover-card.html" with trigger_text="São Paulo, Brasil" title="São Paulo" subtitle="Brasil" %}{% endverbatim %}</code>
+            <code x-ref="code">{% verbatim %}{% include "components/ui/hover-card.html" with trigger_text="São Paulo, Brasil" title="São Paulo" subtitle="Brasil" %}{% endverbatim %}</code>
         </div>
     </div>
 
     <!-- Parâmetros -->
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Parâmetros</h2>
-        {% include "components/table.html" with headers=hover_card_params.headers data=hover_card_params.data caption="Parâmetros disponíveis para o componente Hover Card" %}
+        {% include "components/ui/table.html" with headers=hover_card_params.headers data=hover_card_params.data caption="Parâmetros disponíveis para o componente Hover Card" %}
     </div>
 </div> 

@@ -19,7 +19,7 @@ const PAGE_STRUCTURES = {
     // Páginas que usam components_base.html (com sidebar)
     components: {
         template: 'components_base.html', 
-        routes: ['/components/', '/components/*'],
+        routes: ['/components/ui/', '/components/ui/*'],
         hasHeader: true,
         hasSidebar: true,
         headerType: 'components'
@@ -209,7 +209,7 @@ document.addEventListener('alpine:init', () => {
             const headerLinks = document.querySelectorAll('nav a[data-spa-link]');
             headerLinks.forEach(link => {
                 const linkPath = new URL(link.href).pathname;
-                if (linkPath === currentPath || (currentPath.startsWith('/components') && linkPath === '/components/')) {
+                if (linkPath === currentPath || (currentPath.startsWith('/components') && linkPath === '/components/ui/')) {
                     link.classList.add('text-primary');
                 } else {
                     link.classList.remove('text-primary');

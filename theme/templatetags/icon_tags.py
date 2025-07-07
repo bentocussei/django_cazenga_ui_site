@@ -8,7 +8,7 @@ register = template.Library()
 @register.simple_tag
 def svg_icon(name, size="size-6", css_class=""):
     """
-    Carrega um ícone SVG da pasta radix-icons e retorna o conteúdo inline.
+    Carrega um ícone SVG da pasta icons e retorna o conteúdo inline.
     
     Args:
         name: Nome do ícone (sem extensão .svg)
@@ -27,7 +27,7 @@ def svg_icon(name, size="size-6", css_class=""):
         ''')
     
     # Caminho para o arquivo SVG
-    icon_path = os.path.join(settings.BASE_DIR, 'theme', 'static', 'radix-icons', f'{name}.svg')
+    icon_path = os.path.join(settings.BASE_DIR, 'theme', 'static', 'icons', f'{name}.svg')
     
     try:
         # Ler o conteúdo do arquivo SVG
@@ -96,7 +96,7 @@ def icon(name, size="size-6", **kwargs):
 @register.simple_tag
 def icon_exists(name):
     """
-    Verifica se um ícone existe na pasta radix-icons.
+    Verifica se um ícone existe na pasta icons.
     
     Args:
         name: Nome do ícone (sem extensão .svg)
@@ -107,5 +107,5 @@ def icon_exists(name):
     if not name:
         return False
     
-    icon_path = os.path.join(settings.BASE_DIR, 'theme', 'static', 'radix-icons', f'{name}.svg')
+    icon_path = os.path.join(settings.BASE_DIR, 'theme', 'static', 'icons', f'{name}.svg')
     return os.path.exists(icon_path) 

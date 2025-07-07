@@ -9,21 +9,21 @@
                 <h1 class="text-4xl font-bold">Text Editor</h1>
                 <p class="text-muted-foreground mt-2">Editor de texto rico com formatação avançada</p>
             </div>
-            {% include "components/button.html" with variant="outline" href="/components/" text="Voltar" %}
+            {% include "components/ui/button.html" with variant="outline" href="/components/ui/" text="Voltar" %}
         </div>
     </div>
 
     <!-- Instalação -->
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Instalação</h2>
-        {% include "components/card.html" with class="p-6" %}
+        {% include "components/ui/card.html" with class="p-6" %}
         <div class="p-6 bg-muted rounded-lg relative" x-data="{ copied: false }">
             <button @click="navigator.clipboard.writeText($refs.code.textContent.trim()); copied = true; setTimeout(() => copied = false, 2000)"
                     class="absolute top-4 right-4 p-2 rounded-md bg-background/80 hover:bg-background border border-border/50 transition-colors">
                 <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                 <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code class="text-sm font-mono" x-ref="code">{% verbatim %}{% include "components/text-editor.html" %}{% endverbatim %}</code>
+            <code class="text-sm font-mono" x-ref="code">{% verbatim %}{% include "components/ui/text-editor.html" %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -33,7 +33,7 @@
         <p class="text-muted-foreground">Editor simples com formatação essencial</p>
         
         <div class="border rounded-lg p-6 bg-card">
-            {% include "components/text-editor.html" with content="<p>Este é um exemplo de <strong>texto formatado</strong> com <em>itálico</em> e <u>sublinhado</u>.</p>" %}
+            {% include "components/ui/text-editor.html" with content="<p>Este é um exemplo de <strong>texto formatado</strong> com <em>itálico</em> e <u>sublinhado</u>.</p>" %}
         </div>
         
         <div class="bg-muted rounded-lg p-4 relative" x-data="{ copied: false }">
@@ -42,7 +42,7 @@
                 <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                 <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code class="text-sm font-mono" x-ref="code1">{% verbatim %}{% include "components/text-editor.html" %}{% endverbatim %}</code>
+            <code class="text-sm font-mono" x-ref="code1">{% verbatim %}{% include "components/ui/text-editor.html" %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -52,7 +52,7 @@
         <p class="text-muted-foreground">Editor com todas as funcionalidades habilitadas</p>
         
         <div class="border rounded-lg p-6 bg-card">
-            {% include "components/text-editor.html" with content="<h2>Título de Exemplo</h2><p>Este é um editor mais completo com <strong>formatação</strong>, listas e outras funcionalidades.</p><ul><li>Item 1</li><li>Item 2</li></ul>" word_count=true auto_save=true %}
+            {% include "components/ui/text-editor.html" with content="<h2>Título de Exemplo</h2><p>Este é um editor mais completo com <strong>formatação</strong>, listas e outras funcionalidades.</p><ul><li>Item 1</li><li>Item 2</li></ul>" word_count=true auto_save=true %}
         </div>
         
         <div class="bg-muted rounded-lg p-4 relative" x-data="{ copied: false }">
@@ -61,7 +61,7 @@
                 <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                 <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code class="text-sm font-mono" x-ref="code2">{% verbatim %}{% include "components/text-editor.html" with word_count=true auto_save=true %}{% endverbatim %}</code>
+            <code class="text-sm font-mono" x-ref="code2">{% verbatim %}{% include "components/ui/text-editor.html" with word_count=true auto_save=true %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -71,7 +71,7 @@
         <p class="text-muted-foreground">Perfeito para exibir conteúdo formatado</p>
         
         <div class="border rounded-lg p-6 bg-card">
-            {% include "components/text-editor.html" with content="<h1>Artigo Publicado</h1><p class='text-muted-foreground text-sm'>Publicado em 15 de Janeiro, 2024 • 5 min de leitura</p><p>Este é um exemplo de conteúdo em <strong>modo somente leitura</strong>. Todo o texto mantém sua formatação original.</p><blockquote><p>\"A escrita é a pintura da voz.\" - Voltaire</p></blockquote>" editable=false word_count=true %}
+            {% include "components/ui/text-editor.html" with content="<h1>Artigo Publicado</h1><p class='text-muted-foreground text-sm'>Publicado em 15 de Janeiro, 2024 • 5 min de leitura</p><p>Este é um exemplo de conteúdo em <strong>modo somente leitura</strong>. Todo o texto mantém sua formatação original.</p><blockquote><p>\"A escrita é a pintura da voz.\" - Voltaire</p></blockquote>" editable=false word_count=true %}
         </div>
         
         <div class="bg-muted rounded-lg p-4 relative" x-data="{ copied: false }">
@@ -80,7 +80,7 @@
                 <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                 <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code class="text-sm font-mono" x-ref="code3">{% verbatim %}{% include "components/text-editor.html" with editable=false %}{% endverbatim %}</code>
+            <code class="text-sm font-mono" x-ref="code3">{% verbatim %}{% include "components/ui/text-editor.html" with editable=false %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -90,7 +90,7 @@
         <p class="text-muted-foreground">Otimizado para markdown e código</p>
         
         <div class="border rounded-lg p-6 bg-card">
-            {% include "components/text-editor.html" with mode="markdown" content="# Título em Markdown\n\nEste é um editor otimizado para **código** e *markdown*.\n\n## Exemplo:\n\n```python\ndef hello_world():\n    print('Hello, World!')\n```\n\n- Item 1\n- Item 2" %}
+            {% include "components/ui/text-editor.html" with mode="markdown" content="# Título em Markdown\n\nEste é um editor otimizado para **código** e *markdown*.\n\n## Exemplo:\n\n```python\ndef hello_world():\n    print('Hello, World!')\n```\n\n- Item 1\n- Item 2" %}
         </div>
         
         <div class="bg-muted rounded-lg p-4 relative" x-data="{ copied: false }">
@@ -99,7 +99,7 @@
                 <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                 <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code class="text-sm font-mono" x-ref="code4">{% verbatim %}{% include "components/text-editor.html" with mode="markdown" %}{% endverbatim %}</code>
+            <code class="text-sm font-mono" x-ref="code4">{% verbatim %}{% include "components/ui/text-editor.html" with mode="markdown" %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -109,7 +109,7 @@
         <p class="text-muted-foreground">Com comentários e feedback em tempo real</p>
         
         <div class="border rounded-lg p-6 bg-card">
-            {% include "components/text-editor.html" with content="<h2>Documento Colaborativo</h2><p>Este documento pode ser editado por múltiplos usuários. As alterações são sincronizadas em tempo real.</p>" collaborative=true word_count=true %}
+            {% include "components/ui/text-editor.html" with content="<h2>Documento Colaborativo</h2><p>Este documento pode ser editado por múltiplos usuários. As alterações são sincronizadas em tempo real.</p>" collaborative=true word_count=true %}
         </div>
         
         <div class="bg-muted rounded-lg p-4 relative" x-data="{ copied: false }">
@@ -118,7 +118,7 @@
                 <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                 <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code class="text-sm font-mono" x-ref="code5">{% verbatim %}{% include "components/text-editor.html" with collaborative=true %}{% endverbatim %}</code>
+            <code class="text-sm font-mono" x-ref="code5">{% verbatim %}{% include "components/ui/text-editor.html" with collaborative=true %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -128,7 +128,7 @@
         <p class="text-muted-foreground">Interface minimalista para escrita focada</p>
         
         <div class="border rounded-lg p-6 bg-card">
-            {% include "components/text-editor.html" with content="<p>Clique aqui para ativar o modo foco...</p>" focus_mode=true placeholder="Conte sua história..." %}
+            {% include "components/ui/text-editor.html" with content="<p>Clique aqui para ativar o modo foco...</p>" focus_mode=true placeholder="Conte sua história..." %}
         </div>
         
         <div class="bg-muted rounded-lg p-4 relative" x-data="{ copied: false }">
@@ -137,7 +137,7 @@
                 <span x-show="!copied">{% svg_icon "copy" "size-4" %}</span>
                 <span x-show="copied" class="text-green-600">{% svg_icon "check" "size-4" %}</span>
             </button>
-            <code class="text-sm font-mono" x-ref="code6">{% verbatim %}{% include "components/text-editor.html" with focus_mode=true %}{% endverbatim %}</code>
+            <code class="text-sm font-mono" x-ref="code6">{% verbatim %}{% include "components/ui/text-editor.html" with focus_mode=true %}{% endverbatim %}</code>
         </div>
     </div>
 
@@ -186,6 +186,6 @@
     <!-- Parâmetros -->
     <div class="space-y-4">
         <h2 class="text-2xl font-semibold">Parâmetros</h2>
-        {% include "components/table.html" with headers=text_editor_params.headers data=text_editor_params.data caption="Parâmetros disponíveis para o componente Text Editor" %}
+        {% include "components/ui/table.html" with headers=text_editor_params.headers data=text_editor_params.data caption="Parâmetros disponíveis para o componente Text Editor" %}
     </div>
 </div> 
