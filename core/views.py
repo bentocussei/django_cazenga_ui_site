@@ -934,4 +934,22 @@ def icons_page(request):
         'total_icons': len(icons)
     }
     
-    return spa_response(request, "icons.html", context) 
+    # Verificar se é requisição SPA
+    if is_spa_request(request):
+        print("🚀 SPA Request para página de ícones")
+        
+        # Para SPA, renderizar apenas o conteúdo principal
+        main_content = render_to_string("icons.html", context, request=request)
+        
+        response_data = {
+            'content': main_content,
+            'title': 'Ícones - Biblioteca UI',
+            'path': request.path,
+            'success': True
+        }
+        
+        print("✅ SPA Response enviada para página de ícones")
+        return JsonResponse(response_data)
+    
+    # Requisição normal, retornar HTML completo
+    return render(request, "icons.html", context) 
