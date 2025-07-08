@@ -195,7 +195,7 @@ def index(request):
         
         response_data = {
             'content': main_content,
-            'title': 'Django Tailwind Alpine - Biblioteca de Componentes UI',
+            'title': 'Cazenga-UI - Biblioteca de Componentes UI',
             'path': request.path,
             'success': True
         }
@@ -205,7 +205,7 @@ def index(request):
     
     # Se não for SPA, continuar com o fluxo normal
     context = {
-        'page_title': 'Django Tailwind Alpine - Biblioteca de Componentes UI'
+        'page_title': 'Cazenga-UI - Biblioteca de Componentes UI'
     }
     return render(request, "index.html", context)
 

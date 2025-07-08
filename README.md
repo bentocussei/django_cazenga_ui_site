@@ -70,7 +70,7 @@ pip install django-cazenga-ui[tailwind]
 ```bash
 # Clone este repositório (projeto demo)
 git clone <url-do-repo>
-cd django-tailwind-alpine
+cd cazenga-ui-website
 
 # Instale as dependências Python
 pip install django django-tailwind django-browser-reload
@@ -288,7 +288,7 @@ python manage.py ui icons --install
 ## 📁 Estrutura deste Projeto Demo
 
 ```
-django-tailwind-alpine/          # 🌐 Projeto de demonstração
+cazenga-ui-website/          # 🌐 Projeto de demonstração
 ├── core/                        # App Django principal
 ├── theme/                       # App Tailwind (criada pelo django-tailwind)
 │   ├── templates/
@@ -299,7 +299,7 @@ django-tailwind-alpine/          # 🌐 Projeto de demonstração
 │       └── src/
 │           ├── styles.css      # Tema aplicado
 │           └── components.css  # Classes da biblioteca
-└── django_tailwind_alpine/     # Configurações Django
+└── django_cazenga_ui_site/     # Configurações Django
 
 django-cazenga-ui/               # 📦 Biblioteca (repositório separado)
 ├── cazenga_ui/                  # Código da biblioteca
@@ -314,7 +314,7 @@ django-cazenga-ui/               # 📦 Biblioteca (repositório separado)
 ### 🔗 Relação entre os projetos:
 
 - **django-cazenga-ui** = Biblioteca pip com 53 componentes
-- **django-tailwind-alpine** = Website demo que usa a biblioteca
+- **cazenga-ui-website** = Website demo que usa a biblioteca
 
 ## 🤝 Contribuindo
 
@@ -359,6 +359,6 @@ MIT License - veja o arquivo LICENSE para detalhes.
 
 ### 🌐 Este Projeto Demo:
 - **[Site Demo](https://seu-site-demo.com)** - Demonstração online
-- **[Repositório](https://github.com/seu-usuario/django-tailwind-alpine)** - Código do website
+- **[Repositório](https://github.com/seu-usuario/cazenga-ui-website)** - Código do website
 
 **Django Cazenga UI** - Componentes shadcn/ui para Django. Controle total, desenvolvimento rápido. 🚀 

@@ -1,5 +1,5 @@
 /**
- * Sistema SPA para Django Tailwind Alpine
+ * Sistema SPA para Cazenga-UI
  * Gerencia navegação sem recarregar a página inteira
  */
 
