@@ -624,6 +624,8 @@ def component_detail(request, component_name):
             context['scroll_area_table'] = component_data_context.get('table')
             context['scroll_area_infinite'] = component_data_context.get('infinite')
             context['scroll_area_params'] = component_data_context.get('params')
+        elif component_name == 'text-editor':
+            # Dados do text-editor
             context['text_editor_basic'] = component_data_context.get('basic')
             context['text_editor_complete'] = component_data_context.get('complete')
             context['text_editor_minimal'] = component_data_context.get('minimal')
@@ -632,6 +634,8 @@ def component_detail(request, component_name):
             context['text_editor_collaborative'] = component_data_context.get('collaborative')
             context['text_editor_toolbar_options'] = component_data_context.get('toolbar_options')
             context['text_editor_params'] = component_data_context.get('params')
+        elif component_name == 'content-manager':
+            # Dados do content-manager
             context['content_manager_blog'] = component_data_context.get('blog')
             context['content_manager_news'] = component_data_context.get('news')
             context['content_manager_product'] = component_data_context.get('product')

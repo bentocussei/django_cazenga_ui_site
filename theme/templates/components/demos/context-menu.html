@@ -33,7 +33,7 @@
         <h2 class="text-2xl font-semibold">Context Menu Básico</h2>
         <div class="border rounded-lg p-6">
             <div class="text-center">
-                {% include "components/ui/context-menu.html" with items=context_menu_basic.items trigger_text="Clique com o botão direito aqui" %}
+                {% include "components/ui/context-menu.html" with menu_items=context_menu_basic.items content="Clique com o botão direito aqui" %}
             </div>
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
@@ -51,7 +51,7 @@
         <h2 class="text-2xl font-semibold">Context Menu com Submenus</h2>
         <div class="border rounded-lg p-6">
             <div class="text-center">
-                {% include "components/ui/context-menu.html" with items=context_menu_submenu.items trigger_text="Área com submenu - Clique direito" %}
+                {% include "components/ui/context-menu.html" with menu_items=context_menu_submenu.items content="Área com submenu - Clique direito" %}
             </div>
         </div>
         <div class="bg-muted rounded p-3 text-sm relative" x-data="{ copied: false }">
@@ -72,13 +72,13 @@
                 <h3 class="font-medium">Arquivos Recentes</h3>
                 <div class="divide-y">
                     <div class="py-2">
-                        {% include "components/ui/context-menu.html" with items=context_menu_files.items trigger_text="documento.pdf - Clique direito" inline=true %}
+                        {% include "components/ui/context-menu.html" with menu_items=context_menu_files.items content="documento.pdf - Clique direito" inline=true %}
                     </div>
                     <div class="py-2">
-                        {% include "components/ui/context-menu.html" with items=context_menu_files.items trigger_text="imagem.jpg - Clique direito" inline=true %}
+                        {% include "components/ui/context-menu.html" with menu_items=context_menu_files.items content="imagem.jpg - Clique direito" inline=true %}
                     </div>
                     <div class="py-2">
-                        {% include "components/ui/context-menu.html" with items=context_menu_files.items trigger_text="script.py - Clique direito" inline=true %}
+                        {% include "components/ui/context-menu.html" with menu_items=context_menu_files.items content="script.py - Clique direito" inline=true %}
                     </div>
                 </div>
             </div>
